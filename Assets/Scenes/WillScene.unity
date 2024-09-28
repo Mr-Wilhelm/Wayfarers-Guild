@@ -275,6 +275,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0271df749728104eac22c3d897fd8ce, type: 3}
+--- !u!114 &753736998 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7280266199716594559, guid: a35ebe38d517f714fa81b6c038a23637,
+    type: 3}
+  m_PrefabInstance: {fileID: 7574056244974891722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c809d79824df24dbf6b99b0db01819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &874605735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,6 +1451,44 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: spawnTimer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: enemyToSpawn
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: enemiesArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: 'enemiesArray.Array.data[0]'
+      value: 
+      objectReference: {fileID: 753736998}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: 'enemiesArray.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7280266199716594559, guid: 794911388ea061c4b8f0f8f4ef84f7f6,
+        type: 3}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: 'enemiesArray.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7280266199716594559, guid: 00177166cdd2f7a4f8d7d2abb91591f8,
+        type: 3}
+    - target: {fileID: 4730390306619217832, guid: a566ad9732226bd4d84379ed982eb079,
+        type: 3}
+      propertyPath: 'enemiesArray.Array.data[3]'
+      value: 
+      objectReference: {fileID: 7280266199716594559, guid: c3234ab615c74814ca9b08bbda4d92fe,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
