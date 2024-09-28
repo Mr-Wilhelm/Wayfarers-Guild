@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     private float spawnTimer;
 
     [SerializeField]
-    private float spawnPoint;
+    private Vector3 spawnPoint;
 
     private void Start()
     {
@@ -32,6 +32,8 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.Log("Timer at zero");
             ResetSpawnTimer();
+            RandomiseSpawnPoint();
+            SpawnEnemy(GetEnemyToSpawn());
         }
     }
 
@@ -42,7 +44,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void RandomiseSpawnPoint()
     {
-
+        spawnPoint.x = (transform.position.x + Random.Range(-2.0f, 2.0f));
+        spawnPoint.y = (transform.position.y + Random.Range(-2.0f, 2.0f));
+        spawnPoint.z = (transform.position.z + Random.Range(-2.0f, 2.0f));
     }
 
     private Enemy GetEnemyToSpawn()
@@ -51,10 +55,8 @@ public class EnemySpawner : MonoBehaviour
         return enemyToSpawn;
     }
 
-    private void SpawnEnemy()
+    private void SpawnEnemy(Enemy spawnEnemy)
     {
-
+        Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
     }
-
-
 }
