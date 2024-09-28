@@ -30,9 +30,10 @@ public class EnemySpawner : MonoBehaviour
 
         if (spawnCountdown <= 0)
         {
-            Debug.Log("Timer at zero");
             ResetSpawnTimer();
             RandomiseSpawnPoint();
+
+            //Spawns an enemy using the value returned from the GetEnemyToSpawn() function
             SpawnEnemy(GetEnemyToSpawn());
         }
     }
@@ -49,12 +50,23 @@ public class EnemySpawner : MonoBehaviour
         spawnPoint.z = (transform.position.z + Random.Range(-2.0f, 2.0f));
     }
 
+    /// <summary>
+    /// Gets a random enemy from the array
+    /// sets it as the enemy to spawn
+    /// returns that value
+    /// </summary>
+    /// <returns></returns>
     private Enemy GetEnemyToSpawn()
     {
         enemyToSpawn = enemiesArray[Random.Range(0, enemiesArray.Length)];
         return enemyToSpawn;
     }
 
+    /// <summary>
+    /// Gets the spawnEnemy value from the GetEnemyToSpawn() function
+    /// Spawns it at a random position around the spawner
+    /// </summary>
+    /// <param name="spawnEnemy"></param>
     private void SpawnEnemy(Enemy spawnEnemy)
     {
         Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
