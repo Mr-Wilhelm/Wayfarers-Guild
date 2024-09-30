@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShipHealth : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class ShipHealth : MonoBehaviour
     {
         if(currentHealth <= 0)
         {
-            Debug.Log("YOU LOSE LOL");
+            SceneManager.LoadScene(1);
         }
     }
 }
