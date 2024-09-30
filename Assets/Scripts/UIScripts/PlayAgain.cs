@@ -13,4 +13,5 @@ public class PlayAgain : MonoBehaviour
         SceneManager.LoadScene(0);
         Destroy(canvas);
     }
+
 }
