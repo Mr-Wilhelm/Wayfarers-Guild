@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class ShipHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float currentHealth;
+
+    [SerializeField]
+    private float maxHealth;
+
+    private void Start()
     {
-        
+        currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        if(collision.gameObject.tag == "Enemy")
+        {
+            Destroy(collision.gameObject);
+            currentHealth -= 1;
+        }
+    }
+
+    private void Update()
+    {
+        if(currentHealth <= 0)
+        {
+            Debug.Log("YOU LOSE LOL");
+        }
     }
 }
