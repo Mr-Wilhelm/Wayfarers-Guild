@@ -17,22 +17,14 @@ public class PlayerSettings : NetworkBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private TextMeshPro playerName;
-    [SerializeField] private TextMeshPro playerNameBelow;
+    [SerializeField] private TextMeshProUGUI playerNameBelow;
     private GameObject Canvas;
 
     //Network variables are able to synch data between clients network string is a custom struct that can store player name, can set default which is unknown and read and write perms
     NetworkVariable<NetworkString> networkPlayerName = new NetworkVariable<NetworkString>("Unknown", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    private void Start()
-    {
-        //playerNameBelow = GameObject.Find("/Canvas/PlayerName").GetComponent<TextMeshPro>();
-    }
-
     public override void OnNetworkSpawn()
     {
-        Canvas = GameObject.Find("Canvas");
-        playerNameBelow = Canvas.GetComponentInChildren<TextMeshPro>();
-        Debug.Log(Canvas.name);
         Debug.Log("Player connecting");
         if (IsOwner)
         {
@@ -41,7 +33,7 @@ public class PlayerSettings : NetworkBehaviour
         }
         //Sets player name to string in case there were any numbers that mess it up
         playerName.text = networkPlayerName.Value.ToString();
-        playerNameBelow.text = "jeff";
+        playerNameBelow.text = networkPlayerName.Value.ToString();
         //when player name is changed update the text to display it
         networkPlayerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
     }
