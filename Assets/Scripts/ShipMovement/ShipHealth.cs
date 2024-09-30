@@ -21,7 +21,7 @@ public class ShipHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        sceneManager = 
+        sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
     }
 
     private void OnCollisionEnter(Collision collision)
