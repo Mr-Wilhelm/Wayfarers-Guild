@@ -16,12 +16,12 @@ public class PlatformMovement : MonoBehaviour
     {
         if (RandomMovement)
         {
-            StartCoroutine(moveObject(RandomClsoeLocation()));
+            StartCoroutine(moveObject(GetRandomLocation()));
 
         }
         if (RandomRotation)
         {
-
+            StartCoroutine(RotateObject(GetRandomRotation()));
         }
     }
 
@@ -31,7 +31,7 @@ public class PlatformMovement : MonoBehaviour
         
     }
 
-    private Vector3 RandomClsoeLocation()
+    private Vector3 GetRandomLocation()
     {
         Vector3 CurrentPosition = this.transform.position;
         
@@ -46,10 +46,12 @@ public class PlatformMovement : MonoBehaviour
     {
         Vector3 CurrentRotation = this.transform.rotation.eulerAngles;
 
-        //Vector3 NewRot = new Vector3(CurrentRotation.x + (Random.Range(-RotationDistance, +RotationDistance)));
+        Vector3 NewRot = new Vector3
+            (CurrentRotation.x + (Random.Range(-RotationDistance, +RotationDistance)),
+            CurrentRotation.y + (Random.Range(-RotationDistance, +RotationDistance)),
+            CurrentRotation.z + (Random.Range(-RotationDistance, +RotationDistance)));
            
-
-        return CurrentRotation;
+        return NewRot;
     }
 
     public IEnumerator moveObject(Vector3 Destination)
@@ -63,11 +65,11 @@ public class PlatformMovement : MonoBehaviour
             transform.localPosition = Vector3.Lerp(Origin, Destination, currentMovementTime / totalMovementTime);
             yield return null;
         }
-        StartCoroutine(moveObject(RandomClsoeLocation()));
+        StartCoroutine(moveObject(GetRandomLocation()));
     }
     public IEnumerator RotateObject(Vector3 Destination)
     {
-        Vector3 Origin = this.transform.position;
+        Vector3 Origin = this.transform.rotation.eulerAngles;
         float totalRotationTime = 5f; //the amount of time you want the movement to take
         float currentRotationTime = 0f;//The amount of time that has passed
         while (Vector3.Distance(transform.localPosition, Destination) > 0)
@@ -76,6 +78,6 @@ public class PlatformMovement : MonoBehaviour
             transform.localPosition = Vector3.Lerp(Origin, Destination, currentRotationTime / totalRotationTime);
             yield return null;
         }
-        StartCoroutine(RotateObject(RandomClsoeLocation()));
+        StartCoroutine(RotateObject(GetRandomRotation()));
     }
 }
