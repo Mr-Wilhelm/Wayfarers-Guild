@@ -1,35 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
 public class PlatformMovement : MonoBehaviour
 {
-    [SerializeField] bool RandomMovement = false;
-    [SerializeField] bool RandomRotation = false;
+    [SerializeField] bool randomMovement = false;
+    [SerializeField] bool randomRotation = false;
 
-    private float wanderDistance = 10f;
-    private float rotationAmount = 180f;
+    [SerializeField] float wanderDistance = 10f;
+    [SerializeField] float rotationAmount = 180f;
+
+    private bool randomIsMovementActive = false;
+    private bool randomRotationIsActive = false;
+
+    [SerializeField] List<GameObject> playersOnShip = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
-        if (RandomMovement)
-        {
-            StartCoroutine(MoveObject(GetRandomLocation()));
 
-        }
-        if (RandomRotation)
-        {
-            StartCoroutine(RotateObject(GetRandomRotation()));
-        }
+        if (randomMovement) {StartCoroutine(MoveObject(GetRandomLocation()));}
+
+        if (randomRotation){StartCoroutine(RotateObject(GetRandomRotation()));}
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!randomIsMovementActive && randomMovement)
+        {StartCoroutine(MoveObject(GetRandomLocation())); randomIsMovementActive=true;}
+
+        if (!randomRotationIsActive && randomRotation)
+        { StartCoroutine (RotateObject(GetRandomRotation())); randomRotationIsActive=true;}
+
+    }
+    private void FixedUpdate()
+    {
+        CorrectPlayerGravity();
+    }
+
+    private void CorrectPlayerGravity()
+    {
+        Physics.gravity = this.transform.up * -1;
+
+        //depedning on player controller for network will have to change
+        foreach (GameObject go in playersOnShip) 
+        {
+            go.transform.up = this.transform.up;
+            //go.transform.forward = this.transform.forward;
+        }
+
+
     }
     private Vector3 GetRandomLocation()
     {
@@ -39,7 +63,7 @@ public class PlatformMovement : MonoBehaviour
             (CurrentPosition.x+Random.Range(-wanderDistance,wanderDistance), 
             CurrentPosition.y + Random.Range(-wanderDistance, wanderDistance), 
             CurrentPosition.z + Random.Range(-wanderDistance, wanderDistance));
-
+        if(NewPos.y < 0) { NewPos.y = 0; }
         return NewPos;
     }
     private Vector3 GetRandomRotation()
@@ -82,5 +106,35 @@ public class PlatformMovement : MonoBehaviour
         StartCoroutine(RotateObject(GetRandomRotation()));
         
     }
-    
+
+
+    //change off ontriggerenter and sett the players to automatically be in the ship
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other + "entered trigger");
+        if (other.name == "Player")
+        {
+            playersOnShip.Add(other.transform.gameObject);
+            other.transform.parent = this.transform;
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.name == "Player")
+        {
+            try
+            {   playersOnShip.Remove(other.gameObject);
+                other.transform.parent=null;}
+            catch 
+            {
+                Debug.Log("ERRORRE");
+            }
+
+        }
+    }
+
 }
+
+
