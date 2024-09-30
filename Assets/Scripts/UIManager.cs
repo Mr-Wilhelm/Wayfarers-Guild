@@ -5,13 +5,13 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class UIManager : MonoBehaviour
+public class UIManager : NetworkBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
     [SerializeField] public TMP_InputField nameInputField;
-    private bool hostPressed;
+    NetworkVariable<bool> hostPressed = new NetworkVariable<bool>(true);
 
     private void Start()
     {
@@ -24,12 +24,12 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Hosting");
         NetworkManager.Singleton.StartHost();
-        hostPressed = true;
+        hostPressed.Value = true;
     }
 
     private void OnJoin()
     {
-        if (hostPressed)
+        if (hostPressed.Value)
         {
             Debug.Log("Client connecting");
             NetworkManager.Singleton.StartClient();
