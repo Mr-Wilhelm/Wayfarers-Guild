@@ -29,6 +29,8 @@ public class ShipHealth : MonoBehaviour
     {
         if(currentHealth <= 0)
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             SceneManager.LoadScene(1);
         }
     }
