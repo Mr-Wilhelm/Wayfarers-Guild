@@ -9,15 +9,15 @@ public class PlatformMovement : MonoBehaviour
     [SerializeField] bool RandomMovement = false;
     [SerializeField] bool RandomRotation = false;
 
-    private float WanderDistance = 10f;
-    private float RotationDistance = 90;
+    private float wanderDistance = 10f;
+    private float rotationAmount = 180f;
 
     // Start is called before the first frame update
     void Start()
     {
         if (RandomMovement)
         {
-            StartCoroutine(moveObject(GetRandomLocation()));
+            StartCoroutine(MoveObject(GetRandomLocation()));
 
         }
         if (RandomRotation)
@@ -31,15 +31,14 @@ public class PlatformMovement : MonoBehaviour
     {
         
     }
-
     private Vector3 GetRandomLocation()
     {
         Vector3 CurrentPosition = this.transform.position;
         
         Vector3 NewPos = new Vector3 
-            (CurrentPosition.x+Random.Range(-WanderDistance,WanderDistance), 
-            CurrentPosition.y + Random.Range(-WanderDistance, WanderDistance), 
-            CurrentPosition.z + Random.Range(-WanderDistance, WanderDistance));
+            (CurrentPosition.x+Random.Range(-wanderDistance,wanderDistance), 
+            CurrentPosition.y + Random.Range(-wanderDistance, wanderDistance), 
+            CurrentPosition.z + Random.Range(-wanderDistance, wanderDistance));
 
         return NewPos;
     }
@@ -48,14 +47,14 @@ public class PlatformMovement : MonoBehaviour
         Vector3 CurrentRotation = this.transform.rotation.eulerAngles;
 
         Vector3 NewRot = new Vector3
-            (CurrentRotation.x + (Random.Range(-RotationDistance, +RotationDistance)),
-            CurrentRotation.y + (Random.Range(-RotationDistance, +RotationDistance)),
-            CurrentRotation.z + (Random.Range(-RotationDistance, +RotationDistance)));
+            (CurrentRotation.x + (Random.Range(-rotationAmount, +rotationAmount)),
+            CurrentRotation.y + (Random.Range(-rotationAmount, +rotationAmount)),
+            CurrentRotation.z + (Random.Range(-rotationAmount, +rotationAmount)));
            
         return NewRot;
     }
 
-    public IEnumerator moveObject(Vector3 Destination)
+    public IEnumerator MoveObject(Vector3 Destination)
     {
         Vector3 Origin = this.transform.position;
         float totalMovementTime = 5f; //the amount of time you want the movement to take
@@ -66,31 +65,22 @@ public class PlatformMovement : MonoBehaviour
             transform.localPosition = Vector3.Lerp(Origin, Destination, currentMovementTime / totalMovementTime);
             yield return null;
         }
-        Debug.Log("moved");
-        StartCoroutine(moveObject(GetRandomLocation()));
+        StartCoroutine(MoveObject(GetRandomLocation()));
     }
     public IEnumerator RotateObject(Vector3 Destination)
     {
         Vector3 Origin = this.transform.rotation.eulerAngles;
         float totalRotationTime = 5f; //the amount of time you want the movement to take
         float currentRotationTime = 0f;//The amount of time that has passed
-
-
-
-        while (Vector3.Distance(this.transform.localEulerAngles, Destination)>0)
+        while (this.transform.rotation != Quaternion.Euler(Destination))
         {
-            //TODO HERE CHECK ROTATION 
-            Debug.Log(this.transform.localEulerAngles+"-"+ Destination);
             currentRotationTime += Time.deltaTime;
             transform.localEulerAngles = Vector3.Lerp(Origin, Destination, currentRotationTime / totalRotationTime);
             yield return null;
 
         }
-        Debug.Log ("Rotated");
         StartCoroutine(RotateObject(GetRandomRotation()));
         
-
-      
     }
     
 }
