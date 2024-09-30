@@ -15,9 +15,13 @@ public class ShipHealth : MonoBehaviour
     [SerializeField]
     private NetworkManager networkManager;
 
+    [SerializeField]
+    private SceneManagerScript sceneManager;
+
     private void Start()
     {
         currentHealth = maxHealth;
+        sceneManager = 
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,9 +38,7 @@ public class ShipHealth : MonoBehaviour
         //THIS NEEDS CHANGING TO WHEN THE SHIP DIES, NOT ONE PLAYER!!!
         if(currentHealth <= 0)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            SceneManager.LoadScene(1);
+            sceneManager.LoadDefeatScene();
 
             //this works because of the OnSceneUnloaded() function in the network manager
             //it makes sure that everything is cleanly stopped
