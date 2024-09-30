@@ -19,6 +19,7 @@ public class PlayerSettings : NetworkBehaviour
     [SerializeField] private TextMeshPro playerName;
     [SerializeField] private TextMeshProUGUI playerNameBelow;
     [SerializeField] private GameObject Canvas;
+    [SerializeField] private GameObject Camera;
 
     //Network variables are able to synch data between clients network string is a custom struct that can store player name, can set default which is unknown and read and write perms
     NetworkVariable<NetworkString> networkPlayerName = new NetworkVariable<NetworkString>("Unknown", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -31,6 +32,10 @@ public class PlayerSettings : NetworkBehaviour
             //Gets the input of the input name text box from the UI manager
             networkPlayerName.Value = GameObject.Find("UIManager").GetComponent<UIManager>().nameInputField.text;
             playerNameBelow.text = networkPlayerName.Value.ToString();
+        }
+        else
+        {
+            Camera.SetActive(false);
         }
         //Sets player name to string in case there were any numbers that mess it up
         playerName.text = networkPlayerName.Value.ToString();

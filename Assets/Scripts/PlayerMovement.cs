@@ -37,7 +37,7 @@ public class PlayerMovement : NetworkBehaviour
     private void Update()
     {
         GroundCheck();
-        if (!IsOwner) { return; }
+        if (!IsOwner) { enabled = false; }
         MyInput();
         SpeedControl();
     }
