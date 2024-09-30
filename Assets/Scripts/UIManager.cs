@@ -11,8 +11,7 @@ public class UIManager : NetworkBehaviour
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
     [SerializeField] public TMP_InputField nameInputField;
-    NetworkVariable<bool> hostPressed = new NetworkVariable<bool>(true);
-
+   
     private void Start()
     {
         //Lines for hosting and joining as a client
@@ -24,19 +23,17 @@ public class UIManager : NetworkBehaviour
     {
         Debug.Log("Hosting");
         NetworkManager.Singleton.StartHost();
-        hostPressed.Value = true;
     }
 
     private void OnJoin()
     {
-        if (hostPressed.Value)
+        try
         {
-            Debug.Log("Client connecting");
             NetworkManager.Singleton.StartClient();
         }
-        else
+        catch
         {
-            Debug.Log("Host must connect first");
+            Debug.Log("Balls");
         }
     }
 }
