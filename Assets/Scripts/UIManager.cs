@@ -11,11 +11,32 @@ public class UIManager : MonoBehaviour
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
     [SerializeField] public TMP_InputField nameInputField;
+    private bool hostPressed;
 
     private void Start()
     {
         //Lines for hosting and joining as a client
-        hostButton.onClick.AddListener(() => NetworkManager.Singleton.StartHost());
-        joinButton.onClick.AddListener(() => NetworkManager.Singleton.StartClient());
+        hostButton.onClick.AddListener(() => OnHost()); 
+        joinButton.onClick.AddListener(() => OnJoin());
+    }
+
+    private void OnHost()
+    {
+        Debug.Log("Hosting");
+        NetworkManager.Singleton.StartHost();
+        hostPressed = true;
+    }
+
+    private void OnJoin()
+    {
+        if (hostPressed)
+        {
+            Debug.Log("Client connecting");
+            NetworkManager.Singleton.StartClient();
+        }
+        else
+        {
+            Debug.Log("Host must connect first");
+        }
     }
 }
