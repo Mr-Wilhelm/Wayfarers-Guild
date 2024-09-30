@@ -18,7 +18,7 @@ public class PlayerSettings : NetworkBehaviour
     // Start is called before the first frame update
     [SerializeField] private TextMeshPro playerName;
     [SerializeField] private TextMeshProUGUI playerNameBelow;
-    private GameObject Canvas;
+    [SerializeField] private GameObject Canvas;
 
     //Network variables are able to synch data between clients network string is a custom struct that can store player name, can set default which is unknown and read and write perms
     NetworkVariable<NetworkString> networkPlayerName = new NetworkVariable<NetworkString>("Unknown", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -30,19 +30,19 @@ public class PlayerSettings : NetworkBehaviour
         {
             //Gets the input of the input name text box from the UI manager
             networkPlayerName.Value = GameObject.Find("UIManager").GetComponent<UIManager>().nameInputField.text;
+            playerNameBelow.text = networkPlayerName.Value.ToString();
         }
         //Sets player name to string in case there were any numbers that mess it up
         playerName.text = networkPlayerName.Value.ToString();
-        playerNameBelow.text = networkPlayerName.Value.ToString();
-        //when player name is changed update the text to display it
         networkPlayerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
+        if (!IsOwner) { Canvas.SetActive(false); }            
     }
 
     public void OnNetworkPlayerName_OnValueChange(NetworkString previousValue, NetworkString newValue)
     {
         
         playerName.text = newValue;
-        playerNameBelow.GetComponent<TextMeshPro>().SetText(newValue);
+        //playerNameBelow.GetComponent<TextMeshPro>().SetText(newValue);
     }
 }
 
