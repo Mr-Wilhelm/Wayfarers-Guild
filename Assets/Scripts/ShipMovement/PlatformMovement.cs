@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
@@ -65,6 +66,7 @@ public class PlatformMovement : MonoBehaviour
             transform.localPosition = Vector3.Lerp(Origin, Destination, currentMovementTime / totalMovementTime);
             yield return null;
         }
+        Debug.Log("moved");
         StartCoroutine(moveObject(GetRandomLocation()));
     }
     public IEnumerator RotateObject(Vector3 Destination)
@@ -72,12 +74,23 @@ public class PlatformMovement : MonoBehaviour
         Vector3 Origin = this.transform.rotation.eulerAngles;
         float totalRotationTime = 5f; //the amount of time you want the movement to take
         float currentRotationTime = 0f;//The amount of time that has passed
-        while (Vector3.Distance(transform.localPosition, Destination) > 0)
+
+
+
+        while (Vector3.Distance(this.transform.localEulerAngles, Destination)>0)
         {
+            //TODO HERE CHECK ROTATION 
+            Debug.Log(this.transform.localEulerAngles+"-"+ Destination);
             currentRotationTime += Time.deltaTime;
-            transform.localPosition = Vector3.Lerp(Origin, Destination, currentRotationTime / totalRotationTime);
+            transform.localEulerAngles = Vector3.Lerp(Origin, Destination, currentRotationTime / totalRotationTime);
             yield return null;
+
         }
+        Debug.Log ("Rotated");
         StartCoroutine(RotateObject(GetRandomRotation()));
+        
+
+      
     }
+    
 }
