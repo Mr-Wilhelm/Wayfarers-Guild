@@ -288,6 +288,7 @@ MonoBehaviour:
   CountdownTimer: {fileID: 0}
   timeLeft: 0
   timeForMission: 70
+  sceneManager: {fileID: 0}
 --- !u!1 &2204152202287225888
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 734024937
+  GlobalObjectIdHash: 4148768302
   InScenePlacedSourceGlobalObjectIdHash: 4148768302
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -450,6 +451,8 @@ MonoBehaviour:
   playerNameBelow: {fileID: 7990771169021472539}
   Canvas: {fileID: 7436137832004184781}
   Camera: {fileID: 6383447288622707672}
+  firstPlayerConnected:
+    m_InternalValue: 0
 --- !u!114 &639578147677526523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,8 +478,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
-  maxHealth: 5
+  healthBar: {fileID: 0}
+  maxHealth: 100
   networkManager: {fileID: 0}
+  sceneManager: {fileID: 0}
+  damageAmount: 5
 --- !u!1 &4984214857731991966
 GameObject:
   m_ObjectHideFlags: 0

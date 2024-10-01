@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ShipHealth : MonoBehaviour
 {
     [SerializeField]
     private float currentHealth;
+
+    [SerializeField]
+    public Image healthBar;
 
     [SerializeField]
     private float maxHealth;
@@ -18,19 +22,35 @@ public class ShipHealth : MonoBehaviour
     [SerializeField]
     private SceneManagerScript sceneManager;
 
+    [SerializeField]
+    private float damageAmount = 1f;
+
     private void Start()
     {
         currentHealth = maxHealth;
         sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
+        healthBar = GameObject.Find("Canvas/Health").GetComponent<Image>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             Destroy(collision.gameObject);
-            currentHealth -= 1;
+            TakeDamage(damageAmount);
         }
+    }
+
+    private void TakeDamage(float damageAmount)
+    {
+        currentHealth -= damageAmount;
+        healthBar.fillAmount = currentHealth / 100f;
+    }
+
+    private void Health(float healingAmount)
+    {
+        currentHealth += healingAmount;
+        healthBar.fillAmount = currentHealth / 100f;
     }
 
     private void Update()
