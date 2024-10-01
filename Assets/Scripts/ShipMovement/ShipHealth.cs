@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class ShipHealth : MonoBehaviour
+public class ShipHealth : NetworkBehaviour
 {
-    [SerializeField]
-    private float currentHealth;
+    private int currentHealth;
+
+    [SerializeField] Image healthBar;
+
 
     [SerializeField]
-    public Image healthBar;
-
-    [SerializeField]
-    private float maxHealth;
+    private int maxHealth;
 
     [SerializeField]
     private NetworkManager networkManager;
@@ -23,13 +27,15 @@ public class ShipHealth : MonoBehaviour
     private SceneManagerScript sceneManager;
 
     [SerializeField]
-    private float damageAmount = 1f;
+    private int damageAmount = 1;
+
 
     private void Start()
     {
         currentHealth = maxHealth;
         sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
         healthBar = GameObject.Find("Canvas/Health").GetComponent<Image>();
+        healthBar.fillAmount = currentHealth / 100f;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -41,13 +47,12 @@ public class ShipHealth : MonoBehaviour
         }
     }
 
-    private void TakeDamage(float damageAmount)
+    private void TakeDamage(int damageAmount)
     {
-        currentHealth -= damageAmount;
-        healthBar.fillAmount = currentHealth / 100f;
+        ChangeShipHealthRpc();
     }
 
-    private void Health(float healingAmount)
+    private void Health(int healingAmount)
     {
         currentHealth += healingAmount;
         healthBar.fillAmount = currentHealth / 100f;
@@ -67,5 +72,14 @@ public class ShipHealth : MonoBehaviour
                 Destroy(NetworkManager.Singleton.gameObject);
             }
         }
+    }
+
+    //Executes the same function across all versions of this script (aka across players)
+    [Rpc(SendTo.ClientsAndHost)]
+    void ChangeShipHealthRpc()
+    {
+        Debug.Log("Receiving message");
+        currentHealth -= damageAmount;
+        healthBar.fillAmount = currentHealth / 100f;
     }
 }
