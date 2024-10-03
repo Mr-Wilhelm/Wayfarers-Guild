@@ -39,6 +39,29 @@ public class PlayerSettings : NetworkBehaviour
                 }
             }
             playerNameBelow.text = networkPlayerName.Value.ToString();
+            //DO STARTING STUFF HERE WITH SHIPPLATFORM
+            Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
+            if (Airship != null)
+            {
+                if(NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), true))
+                {
+                    this.transform.position = new Vector3(0, 1.51f, 0f);
+
+                }
+                else
+                {
+                    Debug.Log("Didnt work");
+                }
+
+                //this.transform.parent = Airship;
+
+
+            }
+            else
+            {
+                Debug.Log("couldnt find airship or airship is null");
+            }
+            
         }
         else
         {
