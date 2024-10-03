@@ -25,6 +25,7 @@ public class PlatformMovement : MonoBehaviour
         if (randomMovement) {StartCoroutine(MoveObject(GetRandomLocation()));}
 
         if (randomRotation){StartCoroutine(RotateObject(GetRandomRotation()));}
+            
     }
 
     // Update is called once per frame
@@ -39,7 +40,7 @@ public class PlatformMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        CorrectPlayerGravity();
+        //CorrectPlayerGravity();
     }
 
     private void CorrectPlayerGravity()
@@ -109,31 +110,31 @@ public class PlatformMovement : MonoBehaviour
 
 
     //change off ontriggerenter and sett the players to automatically be in the ship
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other + "entered trigger");
-        if (other.name == "Player")
-        {
-            playersOnShip.Add(other.transform.gameObject);
-            other.transform.parent = this.transform;
-        }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Debug.Log(other + "entered trigger");
+    //    if (other.name == "Player")
+    //    {
+    //        playersOnShip.Add(other.transform.gameObject);
+    //        other.transform.parent = this.transform;
+    //    }
 
-    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.name == "Player")
-        {
-            try
-            {   playersOnShip.Remove(other.gameObject);
-                other.transform.parent=null;}
-            catch 
-            {
-                Debug.Log("ERRORRE");
-            }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.name == "Player")
+    //    {
+    //        try
+    //        {   playersOnShip.Remove(other.gameObject);
+    //            other.transform.parent=null;}
+    //        catch 
+    //        {
+    //            Debug.Log("ERRORRE");
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
 }
 
