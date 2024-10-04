@@ -20,6 +20,7 @@ public class PlayerSettings : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI playerNameBelow;
     [SerializeField] private GameObject Canvas;
     [SerializeField] private GameObject Camera;
+    [SerializeField] private GameObject networkManager;
 
     //Network variables are able to synch data between clients network string is a custom struct that can store player name, can set default which is unknown and read and write perms
     NetworkVariable<NetworkString> networkPlayerName = new NetworkVariable<NetworkString>("Unknown", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -37,21 +38,32 @@ public class PlayerSettings : NetworkBehaviour
                 {
                     networkPlayerName.Value = "Player 2";
                 }
+                else 
+                {
+                    networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
+                    networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
+                }
             }
             playerNameBelow.text = networkPlayerName.Value.ToString();
             //DO STARTING STUFF HERE WITH SHIPPLATFORM
             Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
             if (Airship != null)
             {
-                if(NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), true))
+                Debug.Log("Found Airship");
+                //this.transform.parent = Airship;
+
+                if (NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), false))
                 {
-                    this.transform.position = new Vector3(0, 1.51f, 0f);
+                    Debug.Log(transform.position);
+                    transform.localPosition = new Vector3(0,1.5f,0);
+                    Debug.Log(transform.position);
 
                 }
                 else
                 {
                     Debug.Log("Didnt work");
                 }
+
 
                 //this.transform.parent = Airship;
 
