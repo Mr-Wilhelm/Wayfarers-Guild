@@ -16,7 +16,7 @@ public class PlayerMovement : NetworkBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump = true;
+    bool readyToJump;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -64,22 +64,26 @@ public class PlayerMovement : NetworkBehaviour
     private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        //moveDirection = (verticalInput * orientation.right + horizontalInput * orientation.forward * -1);
         if (grounded)
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10, ForceMode.Force);
+            rb.AddRelativeForce(moveDirection.normalized * moveSpeed * 10, ForceMode.Force);
         }
         else
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10 * airMultiplier, ForceMode.Force);
+            rb.AddRelativeForce(moveDirection.normalized * moveSpeed * 10 * airMultiplier, ForceMode.Force);
         }
     }
 
     private void GroundCheck()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, isGround);
+        //Uncoment to add ground check
+        //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, isGround);
 
-        if (grounded) rb.drag = groundDrag;
-        else rb.drag = 0f;
+        //if (grounded) rb.drag = groundDrag;
+        //else rb.drag = 0f;
+
+        rb.drag = groundDrag;
     }
 
     private void SpeedControl()
@@ -102,5 +106,11 @@ public class PlayerMovement : NetworkBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(this.transform.position, ((orientation.forward * 2) + this.transform.position));
     }
 }

@@ -11,7 +11,7 @@ public class PlatformMovement : MonoBehaviour
     [SerializeField] bool randomRotation = false;
 
     [SerializeField] float wanderDistance = 10f;
-    [SerializeField] float rotationAmount = 180f;
+    [SerializeField] float rotationAmount = 45f;
 
     private bool randomIsMovementActive = false;
     private bool randomRotationIsActive = false;
@@ -47,12 +47,12 @@ public class PlatformMovement : MonoBehaviour
     {
         Physics.gravity = this.transform.up * -1;
 
-        //depedning on player controller for network will have to change
-        foreach (GameObject go in playersOnShip) 
-        {
-            go.transform.up = this.transform.up;
-            //go.transform.forward = this.transform.forward;
-        }
+        ////depedning on player controller for network will have to change
+        //foreach (GameObject go in playersOnShip) 
+        //{
+        //    go.transform.up = this.transform.up;
+        //    //go.transform.forward = this.transform.forward;
+        //}
 
 
     }
