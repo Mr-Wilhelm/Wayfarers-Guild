@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEditor.EditorTools;
 
 public class TimerCountdown : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class TimerCountdown : MonoBehaviour
 
     private void Start()
     {
-        CountdownTimer = gameObject.GetComponent<TextMeshProUGUI>(); 
+        CountdownTimer = gameObject.GetComponent<TextMeshProUGUI>();
+        sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
     }
 
     private void Update()
