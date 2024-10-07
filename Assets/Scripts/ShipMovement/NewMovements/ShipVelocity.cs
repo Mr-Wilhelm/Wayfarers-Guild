@@ -10,6 +10,8 @@ public class ShipVelocity : MonoBehaviour
     [SerializeField] bool playerControllingShip = false;
     [SerializeField] float currentVelocity;
 
+    [SerializeField] List<GameObject> playersList = new List<GameObject>();
+
     private float verticalInput;
     private float horizontalInput;
 
@@ -30,13 +32,23 @@ public class ShipVelocity : MonoBehaviour
             AddVelocityToShip();
             RotateShip();
         }
-        currentVelocity = rb.velocity.z;
+        //currentVelocity = rb.velocity.z;
     }
 
     private void AddVelocityToShip()
     {
-        rb.velocity = verticalInput * this.transform.forward*Time.deltaTime*speed + rb.velocity;
+        rb.velocity = verticalInput * this.transform.forward * Time.deltaTime * speed + rb.velocity;
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
+
+        //TODO Convert CURRENT velocity into the same amount of velocity however facing forwards over time.
+        //gather total magnitude of velocity 
+        //add percentage of that velocity to the ships forwards, same time remove same percentage from all other velcoity directions.
+        //might work maybe
+
+        //foreach(GameObject Player in  playersList)
+        //{
+        //    Player.transform.GetComponent<Rigidbody>().velocity = rb.velocity;
+        //}
     }
     private void RotateShip()
     {
@@ -44,9 +56,28 @@ public class ShipVelocity : MonoBehaviour
 
         //this.transform.rotation = Quaternion.Euler(0f,direction,0f);
 
-        this.transform.rotation = Quaternion.Euler(new Vector3(0f,direction * rotSpeed, 0f)+ this.transform.rotation.eulerAngles);
-
-        
+        this.transform.rotation = Quaternion.Euler(new Vector3(0f, direction * rotSpeed, 0f) + this.transform.rotation.eulerAngles);
 
     }
+
+
+    public bool AddPlayerToList(GameObject Player)
+    {
+        if (!playersList.Contains(Player))
+        {
+            playersList.Add(Player);
+            return true;
+        }
+        return false;
+    }
+    public bool RemovePlayerFromList(GameObject Player)
+    {
+        if (playersList.Contains(Player))
+        {
+            playersList.Remove(Player);
+            return true;
+        }
+        return false;
+    }
+
 }
