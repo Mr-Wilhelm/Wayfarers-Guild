@@ -8,11 +8,19 @@ public class PlayerInteract : MonoBehaviour
 
     public bool canDoSpeedMinigame;
 
+    [SerializeField]
+    private bool isInteracting;
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F) && canInteract && canDoSpeedMinigame)
+        if(Input.GetKeyDown(KeyCode.F) && canInteract && canDoSpeedMinigame && !isInteracting)
         {
-            Debug.Log("Do Speed Minigame");
+            isInteracting = true;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.F) && isInteracting)
+        {
+            isInteracting = false;
         }
     }
 }

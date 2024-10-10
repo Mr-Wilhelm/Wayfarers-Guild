@@ -20,7 +20,6 @@ public class InteractableScript : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             playerInteractScript.canInteract = true;
-            Debug.Log("Wabungus");
         }
     }
 
@@ -29,7 +28,6 @@ public class InteractableScript : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             playerInteractScript.canInteract = false;
-            Debug.Log("Goodbye sir");
         }
     }
 }

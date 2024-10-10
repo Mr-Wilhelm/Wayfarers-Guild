@@ -27,11 +27,18 @@ public class PlayerMovement : NetworkBehaviour
     public float playerHeight;
     public LayerMask isGround;
     bool grounded;
+
+    [Header("Interaction")]
+
+    [SerializeField]
+    private PlayerInteract playerInteractScript;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;   
+        rb.freezeRotation = true;
+
+        playerInteractScript = gameObject.GetComponent<PlayerInteract>();
     }
 
     private void Update()
