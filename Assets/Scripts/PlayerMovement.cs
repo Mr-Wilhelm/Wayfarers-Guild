@@ -5,7 +5,6 @@ using Unity.Netcode;
 
 public class PlayerMovement : NetworkBehaviour
 {
-    [Header("Movement")]
     public float moveSpeed;
     public Transform orientation;
     float horizontalInput;
@@ -19,7 +18,8 @@ public class PlayerMovement : NetworkBehaviour
     bool readyToJump;
 
     [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode jumpKey = KeyCode.Space;  [Header("Movement")]
+
 
     [Header("Ground Check")]
     public float groundDrag;
@@ -52,7 +52,10 @@ public class PlayerMovement : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        MovePlayer();
+        if (!playerInteractScript.isInteracting)
+        {
+            MovePlayer();
+        }
     }
 
     private void MyInput()

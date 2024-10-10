@@ -8,8 +8,7 @@ public class PlayerInteract : MonoBehaviour
 
     public bool canDoSpeedMinigame;
 
-    [SerializeField]
-    private bool isInteracting;
+    public bool isInteracting;
 
     private void Update()
     {
