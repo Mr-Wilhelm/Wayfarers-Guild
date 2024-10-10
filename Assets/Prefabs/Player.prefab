@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 1278008725300372959}
   - component: {fileID: 639578147677526523}
   - component: {fileID: 1959769469058657274}
-  - component: {fileID: 5658052945727775797}
+  - component: {fileID: 887176176429660423}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -623,7 +623,7 @@ MonoBehaviour:
   networkManager: {fileID: 0}
   sceneManager: {fileID: 0}
   damageAmount: 5
---- !u!114 &5658052945727775797
+--- !u!114 &887176176429660423
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -636,6 +636,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 0
+  interactableObjects: []
+  distanceToObject: {x: 0, y: 0, z: 0}
+  interactRadius: 5
+  sphereCast: 0
 --- !u!1 &4984214857731991966
 GameObject:
   m_ObjectHideFlags: 0
