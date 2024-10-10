@@ -19,6 +19,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private Vector3 spawnPoint;
 
+    public bool startSpawning;
+
     private void Start()
     {
         spawnCountdown = spawnTimer;
@@ -26,15 +28,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        spawnCountdown -= Time.deltaTime;
-
-        if (spawnCountdown <= 0)
+        if (startSpawning)
         {
-            ResetSpawnTimer();
-            RandomiseSpawnPoint();
+            spawnCountdown -= Time.deltaTime;
 
-            //Spawns an enemy using the value returned from the GetEnemyToSpawn() function
-            SpawnEnemy(GetEnemyToSpawn());
+            if (spawnCountdown <= 0)
+            {
+                ResetSpawnTimer();
+                RandomiseSpawnPoint();
+
+                //Spawns an enemy using the value returned from the GetEnemyToSpawn() function
+                SpawnEnemy(GetEnemyToSpawn());
+            }
         }
     }
 

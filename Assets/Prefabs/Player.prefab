@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 1278008725300372959}
   - component: {fileID: 639578147677526523}
   - component: {fileID: 1959769469058657274}
+  - component: {fileID: 3499218880277806170}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -622,6 +623,29 @@ MonoBehaviour:
   networkManager: {fileID: 0}
   sceneManager: {fileID: 0}
   damageAmount: 5
+--- !u!136 &3499218880277806170
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2204152202287225888}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.55
+  m_Height: 2.12
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4984214857731991966
 GameObject:
   m_ObjectHideFlags: 0

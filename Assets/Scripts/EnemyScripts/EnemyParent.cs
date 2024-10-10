@@ -27,6 +27,8 @@ public class EnemyParent : MonoBehaviour
     [SerializeField]
     protected bool isInRadius;
 
+    public bool gameStarted;
+
     private void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
@@ -43,12 +45,12 @@ public class EnemyParent : MonoBehaviour
     {
         navMesh.destination = GameObject.FindGameObjectWithTag("Player").transform.position;
 
-        if(!isInRadius)
+        if (!isInRadius)
         {
             destroyCountdown -= Time.deltaTime;
         }
 
-        if(destroyCountdown <= 0)
+        if (destroyCountdown <= 0)
         {
             Destroy(gameObject);
         }

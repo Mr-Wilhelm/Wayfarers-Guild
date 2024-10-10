@@ -34,6 +34,8 @@ public class PlayerSettings : NetworkBehaviour
             if (networkPlayerName.Value == "")
             {
                 networkPlayerName.Value = "Player 1";
+                GameObject enemySpawner = GameObject.Find("EnemySpawner");
+                enemySpawner.GetComponent<EnemySpawner>().startSpawning = true;
                 if (firstPlayerConnected.Value)
                 {
                     networkPlayerName.Value = "Player 2";

@@ -38,16 +38,7 @@ public class ShipHealth : NetworkBehaviour
         healthBar.fillAmount = currentHealth / 100f;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Enemy")
-        {
-            Destroy(collision.gameObject);
-            TakeDamage(damageAmount);
-        }
-    }
-
-    private void TakeDamage(int damageAmount)
+    public void TakeDamage()
     {
         ChangeShipHealthRpc();
     }
