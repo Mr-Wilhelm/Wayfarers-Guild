@@ -14,6 +14,8 @@ public class ShipHealth : NetworkBehaviour
 {
     private int currentHealth;
 
+    public NetworkVariable<int> currentHealhtNetworked = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     [SerializeField] Image healthBar;
 
 
@@ -32,7 +34,7 @@ public class ShipHealth : NetworkBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHealhtNetworked.Value = maxHealth;
         sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
         healthBar = GameObject.Find("Canvas/Health").GetComponent<Image>();
         healthBar.fillAmount = currentHealth / 100f;
@@ -40,7 +42,7 @@ public class ShipHealth : NetworkBehaviour
 
     public void TakeDamage()
     {
-        ChangeShipHealthRpc();
+        HostHealthUpdate();
     }
 
     private void Health(int healingAmount)
@@ -52,7 +54,7 @@ public class ShipHealth : NetworkBehaviour
     private void Update()
     {
         //THIS NEEDS CHANGING TO WHEN THE SHIP DIES, NOT ONE PLAYER!!!
-        if(currentHealth <= 0)
+        if(currentHealhtNetworked.Value <= 0)
         {
             sceneManager.LoadDefeatScene();
 
@@ -66,12 +68,32 @@ public class ShipHealth : NetworkBehaviour
     }
 
     //Executes the same function across all versions of this script (aka across players)
-    [Rpc(SendTo.ClientsAndHost)]
-    void ChangeShipHealthRpc()
+    
+    void HostHealthUpdate()
     {
-        Debug.Log("Receiving message");
-        currentHealth -= damageAmount;
-        healthBar.fillAmount = currentHealth / 100f;
+        if (NetworkManager.Singleton.IsHost)
+        {
+            //Host taking damage away and updating health bar
+            Debug.Log("Host taking damage: " + healthBar.fillAmount);
+            currentHealhtNetworked.Value -= damageAmount;
+            //healthBar.fillAmount = currentHealhtNetworked.Value / 100f;
+            StartCoroutine(DelayUpdateHealth());
+        }
+    }
+
+    private IEnumerator DelayUpdateHealth()
+    {
+        yield return new WaitForSeconds(0.1f);
+        ChangeShipHealthServerRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void ChangeShipHealthServerRpc()
+    {
+        
+        //Client updating health bar
+        Debug.Log("Updating health: " + healthBar.fillAmount);
+        healthBar.fillAmount = currentHealhtNetworked.Value / 100f;
     }
 
     public void SetHealthBarForSecondPlayer()

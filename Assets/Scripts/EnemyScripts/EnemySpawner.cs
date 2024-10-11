@@ -77,6 +77,6 @@ public class EnemySpawner : NetworkBehaviour
     {
         var Instance = Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
         var instanceNetworkObject = Instance.GetComponent<NetworkObject>();
-        instanceNetworkObject.Spawn();
+        instanceNetworkObject.Spawn(true);
     }
 }
