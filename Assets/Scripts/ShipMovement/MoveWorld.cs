@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class MoveWorld : MonoBehaviour
@@ -33,10 +34,15 @@ public class MoveWorld : MonoBehaviour
         if (!randomRotationIsActive && randomRotation)
         { StartCoroutine(RotateObject(GetRandomRotation())); randomRotationIsActive = true; }
 
+        if (!randomMovementIsActive && randomMovement)
+        {
+            StartCoroutine(MovePlatform(GetRandomPosition())); randomMovementIsActive = true;
+        }
+
     }
 
 
-    private Vector3 GetRandomMovement(float MaxDistance)
+    private Vector3 GetRandomPosition()
     {
         Vector3 currentPos = worldCentrePosition.transform.localPosition;
 
@@ -81,7 +87,20 @@ public class MoveWorld : MonoBehaviour
 
     }
 
-    public IEnumerator 
+    public IEnumerator MovePlatform(Vector3 Destination)
+    {
+        Vector3 Origin = worldCentrePosition.transform.localPosition;
+        float totalMoveTime = 5f; //the amount of time you want the movement to take
+        float currentMoveTime = 0f;//The amount of time that has passed
+        while (worldCentrePosition.transform.localPosition != Destination)
+        {
+            currentMoveTime += Time.deltaTime;
+            worldCentrePosition.transform.position = Vector3.Lerp(Origin, Destination, currentMoveTime / totalMoveTime);
+            yield return null;
+
+        }
+        StartCoroutine(MovePlatform(GetRandomPosition()));
+    }
 
 
 }
