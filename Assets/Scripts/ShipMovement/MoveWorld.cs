@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class MoveWorld : MonoBehaviour
 {
+
     [SerializeField] bool randomRotation = false;
+    [SerializeField] bool randomMovement = false;
     [SerializeField] float rotationAmount = 45f;
+    [SerializeField] float randomMovementAmount = 10.0f;
+
+    [SerializeField] GameObject worldCentrePosition;
 
     private bool randomRotationIsActive = false;
+    private bool randomMovementIsActive = false;
     // Start is called before the first frame update
     void Start()
     {
+        //get the gameobject that the world moves with.
+        if (worldCentrePosition == null)
+        {
+            worldCentrePosition=transform.GetChild(0).gameObject;
+        }
+        if (randomMovement) { }
         if (randomRotation){StartCoroutine(RotateObject(GetRandomRotation()));}
 
     }
@@ -22,6 +34,25 @@ public class MoveWorld : MonoBehaviour
         { StartCoroutine(RotateObject(GetRandomRotation())); randomRotationIsActive = true; }
 
     }
+
+
+    private Vector3 GetRandomMovement(float MaxDistance)
+    {
+        Vector3 currentPos = worldCentrePosition.transform.localPosition;
+
+
+        Vector3 newPos = new Vector3(
+            currentPos.x + (Random.Range(-randomMovementAmount, +randomMovementAmount)),
+            currentPos.y + (Random.Range(-randomMovementAmount, +randomMovementAmount)),
+            currentPos.z + (Random.Range(-randomMovementAmount, +randomMovementAmount)));
+
+        return newPos;
+    }
+
+
+
+
+
     private Vector3 GetRandomRotation()
     {
         Vector3 CurrentRotation = this.transform.rotation.eulerAngles;
@@ -49,6 +80,8 @@ public class MoveWorld : MonoBehaviour
         StartCoroutine(RotateObject(GetRandomRotation()));
 
     }
+
+    public IEnumerator 
 
 
 }
