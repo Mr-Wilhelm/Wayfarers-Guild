@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,10 +19,10 @@ public class PlayerInteract : MonoBehaviour
     private float lerpingBarValToReach;
 
     [SerializeField]
-    private float lerpBarSpeed;
+    private float pointInLerp;
 
     [SerializeField]
-    private float pointInLerp;
+    private float lerpRate;
 
     [SerializeField]
     private float barMoveCountdown;
@@ -32,7 +33,7 @@ public class PlayerInteract : MonoBehaviour
     private void Start()
     {
         barMoveCountdown = 2.0f;
-        lerpBarSpeed = 1.0f;
+        lerpRate = 0.01f;
         
     }
 
@@ -57,23 +58,24 @@ public class PlayerInteract : MonoBehaviour
     private void DoSpeedMinigame()
     {
         barMoveCountdown -= Time.deltaTime;
-        pointInLerp += 0.5f * Time.deltaTime;
 
-        //note to self, variable t in lerp is the point it is at between the two values, not the time it takes to get from one to the other
+        if(barMoveCountdown <= 0)
+        {
+            lerpingBarValToReach = Random.Range(0.0f, 1.0f);
+            barMoveCountdown = Random.Range(2.0f, 5.0f);
+        }
 
-        //if(pointInLerp >= 1.0f)
-        //{
-        //    pointInLerp = 0.0f;
-        //}
+        if (lerpingBarCurrentVal > lerpingBarValToReach)
+        {
+            pointInLerp -= lerpRate * Time.deltaTime;
+        }
 
-        //if (barMoveCountdown <= 0)
-        //{
-        //    lerpingBarValToReach = Random.Range(0.0f, 1.0f);
+        else if (lerpingBarCurrentVal < lerpingBarValToReach)
+        {
+            pointInLerp += lerpRate * Time.deltaTime;
+        }
 
-        //    lerpingBarCurrentVal = Mathf.Lerp(lerpingBarCurrentVal, lerpingBarValToReach, pointInLerp);
-
-        //    lerpingBarImage.fillAmount = lerpingBarCurrentVal;
-        //    barMoveCountdown = Random.Range(2.0f, 5.0f);
-        //}
+        lerpingBarCurrentVal = Mathf.Lerp(lerpingBarCurrentVal, lerpingBarValToReach, pointInLerp);
+        lerpingBarImage.fillAmount = lerpingBarCurrentVal;
     }
 }
