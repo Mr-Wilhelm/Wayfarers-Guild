@@ -49,7 +49,7 @@ public class PlayerInteract : MonoBehaviour
         lerpRate = 2f;
 
         playerBarVal = 0.5f;
-        playerBarMoveRate = 0.01f;
+        playerBarMoveRate = 0.5f;
     }
 
     private void Update()
@@ -125,14 +125,16 @@ public class PlayerInteract : MonoBehaviour
 
     private void MovePlayerBar()
     {
-        while(Input.GetKeyDown(KeyCode.D) && playerBarVal <= 1.0f)
+        if (Input.GetKey(KeyCode.D) && playerBarVal <= 1.0f)
         {
-            playerBarVal += playerBarMoveRate;
+            playerBarVal += playerBarMoveRate * Time.deltaTime;
         }
 
-        while(Input.GetKeyDown(KeyCode.A) && playerBarVal >= 0.0f)
+        if(Input.GetKey(KeyCode.A) && playerBarVal >= 0.0f)
         {
-            playerBarVal -= playerBarMoveRate;
+            playerBarVal -= playerBarMoveRate * Time.deltaTime;
         }
+
+        playerBarImage.fillAmount = playerBarVal;
     }
 }
