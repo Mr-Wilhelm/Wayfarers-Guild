@@ -18,10 +18,22 @@ public class PlayerInteract : MonoBehaviour
     private float lerpingBarValToReach;
 
     [SerializeField]
+    private float lerpBarSpeed;
+
+    [SerializeField]
     private float timeToLerp;
 
     [SerializeField]
+    private float barMoveCountdown;
+
+    [SerializeField]
     private Image lerpingBarImage;
+
+    private void Start()
+    {
+        barMoveCountdown = 5.0f;
+        lerpBarSpeed = 1.0f;
+    }
 
     private void Update()
     {
@@ -39,14 +51,14 @@ public class PlayerInteract : MonoBehaviour
     private void DoSpeedMinigame()
     {
         isInteracting = true;
+        barMoveCountdown -= Time.deltaTime;
 
-        if (isInteracting)
+        while (isInteracting && barMoveCountdown <= 0)
         {
             lerpingBarValToReach = Random.Range(0.0f, 1.0f);
-            timeToLerp = Random.Range(2.0f, 5.0f);
 
-            lerpingBarCurrentVal = Mathf.Lerp(lerpingBarCurrentVal, lerpingBarValToReach, timeToLerp * 10);
-            lerpingBarImage.fillAmount = lerpingBarCurrentVal;
+            lerpingBarCurrentVal = Mathf.SmoothDamp(lerpingBarCurrentVal, lerpingBarValToReach, ref lerpBarSpeed, timeToLerp);
+            barMoveCountdown = 5.0f;
         }
     }
 }
