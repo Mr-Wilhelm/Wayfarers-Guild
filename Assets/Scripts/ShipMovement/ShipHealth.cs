@@ -73,4 +73,10 @@ public class ShipHealth : NetworkBehaviour
         currentHealth -= damageAmount;
         healthBar.fillAmount = currentHealth / 100f;
     }
+
+    public void SetHealthBarForSecondPlayer()
+    {
+        healthBar.fillAmount = currentHealth / 100f;
+        Debug.Log("Setting health for second player");
+    }
 }

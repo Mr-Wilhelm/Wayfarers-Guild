@@ -34,11 +34,10 @@ public class PlayerSettings : NetworkBehaviour
             if (networkPlayerName.Value == "")
             {
                 networkPlayerName.Value = "Player 1";
-                GameObject enemySpawner = GameObject.Find("EnemySpawner");
-                enemySpawner.GetComponent<EnemySpawner>().startSpawning = true;
                 if (firstPlayerConnected.Value)
                 {
                     networkPlayerName.Value = "Player 2";
+                    playerNameBelow.text = networkPlayerName.Value.ToString();
                 }
                 else 
                 {
@@ -46,7 +45,17 @@ public class PlayerSettings : NetworkBehaviour
                     //networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
                 }
             }
-            playerNameBelow.text = networkPlayerName.Value.ToString();
+            if(firstPlayerConnected.Value == false)
+            {
+                GameObject enemySpawner = GameObject.Find("EnemySpawner");
+                enemySpawner.GetComponent<EnemySpawner>().startSpawning = true;
+            }
+            else
+            {
+                GameObject.Find("Ship").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
+            }
+            
+
             //DO STARTING STUFF HERE WITH SHIPPLATFORM
             //Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
             //if (Airship != null)
@@ -75,7 +84,7 @@ public class PlayerSettings : NetworkBehaviour
             //{
             //    Debug.Log("couldnt find airship or airship is null");
             //}
-            
+
         }
         else
         {

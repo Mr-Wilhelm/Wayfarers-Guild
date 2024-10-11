@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class enemyHit : MonoBehaviour
+public class enemyHit : NetworkBehaviour
 {
-    // Start is called before the first frame update
+    private GameObject networkManager;
+
+    private void Start()
+    {
+        networkManager = GameObject.Find("NetworkManager");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Ship"))
         {
             Debug.Log("Hitting ship");
             other.gameObject.transform.root.GetComponent<ShipHealth>().TakeDamage();
-            Destroy(gameObject.transform.parent.gameObject);
+            networkManager.GetComponent<EnemyDespawner>().DespawnEnemy(gameObject.transform.root.gameObject);
         }
     }
 }

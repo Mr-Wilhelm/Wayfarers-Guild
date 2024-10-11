@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : NetworkBehaviour
 {
     [SerializeField]
     private Enemy[] enemiesArray;
@@ -74,6 +75,8 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="spawnEnemy"></param>
     private void SpawnEnemy(Enemy spawnEnemy)
     {
-        Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
+        var Instance = Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
+        var instanceNetworkObject = Instance.GetComponent<NetworkObject>();
+        instanceNetworkObject.Spawn();
     }
 }
