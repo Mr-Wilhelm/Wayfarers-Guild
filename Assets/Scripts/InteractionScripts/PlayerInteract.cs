@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,6 +44,10 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField]
     private Image playerBarImage;
 
+    [Header("Bar Range Checks")]
+    [SerializeField]
+    private float barSuccessRange;
+
     private void Start()
     {
         barMoveCountdown = 2.0f;
@@ -50,6 +55,8 @@ public class PlayerInteract : MonoBehaviour
 
         playerBarVal = 0.5f;
         playerBarMoveRate = 0.5f;
+
+        barSuccessRange = 0.1f;
     }
 
     private void Update()
@@ -64,10 +71,11 @@ public class PlayerInteract : MonoBehaviour
             isInteracting = false;
         }
 
-        if(isInteracting)
+        if(isInteracting && canDoSpeedMinigame)
         {
             DoSpeedMinigame();
             MovePlayerBar();
+            CheckBarValues();
         }
     }
 
@@ -136,5 +144,14 @@ public class PlayerInteract : MonoBehaviour
         }
 
         playerBarImage.fillAmount = playerBarVal;
+    }
+
+    private void CheckBarValues()
+    {
+        //if it is greater than -0.1 and less than 0.1 (or whatever the barSuccessRange is
+        if(playerBarVal - lerpingBarCurrentVal >= -barSuccessRange && playerBarVal - lerpingBarValToReach <= barSuccessRange)
+        {
+            Debug.Log("Winning");
+        }
     }
 }
