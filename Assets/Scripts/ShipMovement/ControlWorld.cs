@@ -10,6 +10,8 @@ public class ControlWorld : MonoBehaviour
 
     private float horizontalInput;
     private float verticalInput;
+    private float AirshipRoll;
+    private float AirshipPitch;
 
     [SerializeField] float rotSpeed = 10f;
     [SerializeField] float moveSpeed = 5f;
@@ -33,13 +35,18 @@ public class ControlWorld : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        AirshipRoll = Input.GetAxisRaw("AirshipRoll");
+        AirshipPitch = Input.GetAxisRaw("AirshipPitch");
     }
 
     void RotateWorld()
     {
         //Rotates along the y axis the world *-1 for world rotation so it has to be reversed
         float direction = horizontalInput * Time.deltaTime *-1;
-        this.transform.rotation = Quaternion.Euler(new Vector3(0f, direction * rotSpeed, 0f) + this.transform.rotation.eulerAngles);
+        float rollDirection = AirshipRoll * Time.deltaTime;
+        float pitchDirection = AirshipPitch * Time.deltaTime;
+        this.transform.rotation = Quaternion.Euler(new Vector3(pitchDirection, direction, rollDirection) * rotSpeed + this.transform.rotation.eulerAngles);
 
     }
     void MoveWorld()
