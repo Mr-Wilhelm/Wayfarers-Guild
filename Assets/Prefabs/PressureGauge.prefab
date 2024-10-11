@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2604015964760450679}
   m_Layer: 0
-  m_Name: ShipSpeedMechanic
+  m_Name: PressureGauge
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2756160638292954328}
   - component: {fileID: 8558130153958586217}
-  - component: {fileID: 310045623164525705}
+  - component: {fileID: 8616833340385687517}
+  - component: {fileID: 2133850228003229370}
   m_Layer: 0
   m_Name: InteractTrigger
   m_TagString: Interactable
@@ -88,7 +89,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8608005, y: 1.9888172, z: 1.0882809}
   m_Center: {x: 0.04702899, y: 0.00083196163, z: -0.674371}
---- !u!114 &310045623164525705
+--- !u!114 &8616833340385687517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667538416234986430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e3d32696a26974aa6555b15bab5988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInteractScript: {fileID: 0}
+--- !u!114 &2133850228003229370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
