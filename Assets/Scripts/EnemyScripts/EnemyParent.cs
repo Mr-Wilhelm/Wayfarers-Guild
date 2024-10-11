@@ -43,7 +43,7 @@ public class EnemyParent : MonoBehaviour
 
     private void Update()
     {
-        navMesh.destination = GameObject.FindGameObjectWithTag("Player").transform.position;
+        navMesh.destination = GameObject.FindGameObjectWithTag("Ship").transform.position;
 
         if (!isInRadius)
         {

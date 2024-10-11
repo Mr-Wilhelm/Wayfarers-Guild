@@ -443,7 +443,6 @@ GameObject:
   - component: {fileID: 5968952383184582755}
   - component: {fileID: 1278008725300372959}
   - component: {fileID: 639578147677526523}
-  - component: {fileID: 1959769469058657274}
   - component: {fileID: 3499218880277806170}
   m_Layer: 0
   m_Name: Player
@@ -606,23 +605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1959769469058657274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2204152202287225888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3216595d80f01324c92d7b792585c206, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
-  maxHealth: 100
-  networkManager: {fileID: 0}
-  sceneManager: {fileID: 0}
-  damageAmount: 5
 --- !u!136 &3499218880277806170
 CapsuleCollider:
   m_ObjectHideFlags: 0
