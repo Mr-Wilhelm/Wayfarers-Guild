@@ -43,38 +43,38 @@ public class PlayerSettings : NetworkBehaviour
                 else 
                 {
                     networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
-                    networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
+                    //networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
                 }
             }
             playerNameBelow.text = networkPlayerName.Value.ToString();
             //DO STARTING STUFF HERE WITH SHIPPLATFORM
-            Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
-            if (Airship != null)
-            {
-                Debug.Log("Found Airship");
-                //this.transform.parent = Airship;
+            //Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
+            //if (Airship != null)
+            //{
+            //    Debug.Log("Found Airship");
+            //    //this.transform.parent = Airship;
 
-                if (NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), false))
-                {
-                    Debug.Log(transform.position);
-                    transform.localPosition = new Vector3(0,1.5f,0);
-                    Debug.Log(transform.position);
+            //    if (NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), false))
+            //    {
+            //        Debug.Log(transform.position);
+            //        transform.localPosition = new Vector3(0,1.5f,0);
+            //        Debug.Log(transform.position);
 
-                }
-                else
-                {
-                    Debug.Log("Didnt work");
-                }
-
-
-                //this.transform.parent = Airship;
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("Didnt work");
+            //    }
 
 
-            }
-            else
-            {
-                Debug.Log("couldnt find airship or airship is null");
-            }
+            //    //this.transform.parent = Airship;
+
+
+            //}
+            //else
+            //{
+            //    Debug.Log("couldnt find airship or airship is null");
+            //}
             
         }
         else
