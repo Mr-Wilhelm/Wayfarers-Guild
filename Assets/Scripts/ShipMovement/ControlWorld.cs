@@ -5,15 +5,12 @@ using UnityEngine;
 
 public class ControlWorld : MonoBehaviour
 {
-    [SerializeField] GameObject worldCentrePosition;
+    [SerializeField] Transform worldCentrePosition;
     [SerializeField] Transform PlatformDirection;
     [SerializeField] bool PlayerControllingShip;
 
     [SerializeField] bool IncludeRoll;
- 
-    [SerializeField] Transform WorldRotationX;
-    [SerializeField] Transform WorldRotationY;
-    [SerializeField] Transform WorldRotationZ;
+
 
     private float horizontalInput;
     private float verticalInput;
@@ -28,7 +25,7 @@ public class ControlWorld : MonoBehaviour
     {
         if (worldCentrePosition == null)
         {
-            worldCentrePosition = transform.GetChild(0).gameObject;
+            worldCentrePosition = transform.GetChild(0).gameObject.transform;
         }
     }
     private void Update()
@@ -60,28 +57,29 @@ public class ControlWorld : MonoBehaviour
         float rollDirection = AirshipRoll * Time.deltaTime;
         float pitchDirection = AirshipPitch * Time.deltaTime;
 
+
+
         Vector3 RotationTotal = new Vector3(pitchDirection, yawDirection, rollDirection);
-        Vector3 MultiplyingForce = this.transform.rotation.eulerAngles;
 
-        //matrrices need to be done here
         //this.transform.rotation = Quaternion.Euler(RotationTotal * rotSpeed + this.transform.rotation.eulerAngles);
-        WorldRotationX.localRotation = Quaternion.Euler(new Vector3 (pitchDirection * rotSpeed + WorldRotationX.localRotation.eulerAngles.x, 0,0));
-        WorldRotationY.localRotation = Quaternion.Euler(new Vector3 (0,yawDirection * rotSpeed + WorldRotationY.localRotation.eulerAngles.y, 0));
+        transform.RotateAround(worldCentrePosition.position, Vector3.up, yawDirection * rotSpeed);
+        transform.RotateAround(worldCentrePosition.position, Vector3.forward, rollDirection * rotSpeed);
+        transform.RotateAround(worldCentrePosition.position, Vector3.right, pitchDirection * rotSpeed);
 
 
 
-        if (IncludeRoll)
-        {
-            WorldRotationZ.localRotation = Quaternion.Euler(new Vector3(0, 0, rollDirection * rotSpeed + WorldRotationZ.localRotation.eulerAngles.z));
 
-        }
+
 
     }
+
     void MoveWorld()
     {
-        Vector3 InvertedTransform = new Vector3(worldCentrePosition.transform.forward.x, worldCentrePosition.transform.forward.y, worldCentrePosition.transform.forward.z * -1);
+        //Vector3 InvertedTransform = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z * -1);
         //moves the world along the z axis forward and backwards *-1 to reverse for world rotation
-        float direction = verticalInput * Time.deltaTime;
-        worldCentrePosition.transform.localPosition = (InvertedTransform*direction* moveSpeed)+worldCentrePosition.transform.localPosition;
+        float direction = verticalInput * Time.deltaTime *-1;
+        this.transform.position = new Vector3(0, 0, direction * moveSpeed+ this.transform.position.z);
+        //worldCentrePosition.transform.position = (direction * moveSpeed) + worldCentrePosition.transform.position;
+        //worldCentrePosition.transform.localPosition = (InvertedTransform * direction * moveSpeed) + worldCentrePosition.transform.localPosition;
     }
 }
