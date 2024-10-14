@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ControlWorld : MonoBehaviour
@@ -30,13 +29,9 @@ public class ControlWorld : MonoBehaviour
     }
     private void Update()
     {
-        if (PlayerControllingShip)
-        {
-            ShipInputs();
-            RotateWorld();
-            MoveWorld();
-        }
-        
+        ShipInputs();
+        RotateWorld();
+        MoveWorld();
     }
 
     void ShipInputs()
@@ -50,10 +45,8 @@ public class ControlWorld : MonoBehaviour
 
     void RotateWorld()
     {
-
-        //version with multiple gameobjects
         //Rotates along the y axis the world *-1 for world rotation so it has to be reversed
-        float yawDirection = horizontalInput * Time.deltaTime*-1;
+        float direction = horizontalInput * Time.deltaTime *-1;
         float rollDirection = AirshipRoll * Time.deltaTime;
         float pitchDirection = AirshipPitch * Time.deltaTime;
 

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyParent : MonoBehaviour
+public class EnemyParent : NetworkBehaviour
 {
     [SerializeField]
     protected float moveSpeed;
@@ -32,12 +33,16 @@ public class EnemyParent : MonoBehaviour
 
     public bool gameStarted;
 
+    private GameObject enemySpawner;
+
+
     private void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
         followSphere = GetComponent<SphereCollider>();
         destroyCountdown = destroyTimer;
         Ship = GameObject.Find("Ship");
+        enemySpawner = GameObject.Find("EnemySpawner");
 
         if(followSphere.isTrigger)
         {
@@ -56,7 +61,11 @@ public class EnemyParent : MonoBehaviour
 
         if (destroyCountdown <= 0)
         {
-            Destroy(gameObject);
+            if (NetworkManager.Singleton.IsHost)
+            {
+                Debug.Log("Calling despawn");
+                enemySpawner.GetComponent<EnemySpawner>().DespawnEnemy(gameObject.GetComponent<Enemy>());
+            }
         }
     }
 

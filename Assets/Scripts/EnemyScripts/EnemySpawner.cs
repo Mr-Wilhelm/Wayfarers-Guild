@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : NetworkBehaviour
@@ -78,5 +79,17 @@ public class EnemySpawner : NetworkBehaviour
         var Instance = Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
         var instanceNetworkObject = Instance.GetComponent<NetworkObject>();
         instanceNetworkObject.Spawn(true);
+    }
+
+    public void DespawnEnemy(Enemy despawnEnemy)
+    {
+        try
+        {
+            despawnEnemy.gameObject.GetComponent<NetworkObject>().Despawn();
+        }
+        catch
+        {
+            Debug.Log("Failed to despawn");
+        }
     }
 }
