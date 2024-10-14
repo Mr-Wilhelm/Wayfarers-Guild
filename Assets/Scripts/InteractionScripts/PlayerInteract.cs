@@ -74,7 +74,7 @@ public class PlayerInteract : MonoBehaviour
 
         //get the canvas of the pressure gauge
         //then get either the lerping bar (index 1) or the player bar (index 3) from that canvas
-        lerpingBarImage = speedMiniGameObj.transform.GetChild(3).transform.GetChild(1).GetComponent<Image>();
+        lerpingBarImage = speedMiniGameObj.transform.GetChild(3).transform.GetChild(1).GetComponent<Image>();   //(I hate that this is how you do this lol)
         playerBarImage = speedMiniGameObj.transform.GetChild(3).transform.GetChild(3).GetComponent<Image>();
     }
 
