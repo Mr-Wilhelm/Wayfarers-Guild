@@ -14,6 +14,9 @@ public class PlayerInteract : MonoBehaviour
 
     public bool isInteracting;
 
+    [SerializeField]
+    private GameObject speedMiniGameObj;
+
     [Header("AutoLerping Bar Settings")]
     [SerializeField]
     private float lerpingBarCurrentVal;
@@ -29,6 +32,12 @@ public class PlayerInteract : MonoBehaviour
 
     [SerializeField]
     private float barMoveCountdown;
+
+    [SerializeField]
+    private float barMoveCountdownMin;
+
+    [SerializeField]
+    private float barMoveCountdownMax;
 
     [SerializeField]
     private Image lerpingBarImage;
@@ -50,13 +59,23 @@ public class PlayerInteract : MonoBehaviour
 
     private void Start()
     {
-        barMoveCountdown = 2.0f;
+        barMoveCountdown = barMoveCountdownMin;
+
+        barMoveCountdownMin = 0.5f;
+        barMoveCountdownMax = 2.0f;
         lerpRate = 2f;
 
         playerBarVal = 0.5f;
         playerBarMoveRate = 0.5f;
 
         barSuccessRange = 0.1f;
+
+        speedMiniGameObj = GameObject.Find("PressureGauge");
+
+        //get the canvas of the pressure gauge
+        //then get either the lerping bar (index 1) or the player bar (index 3) from that canvas
+        lerpingBarImage = speedMiniGameObj.transform.GetChild(3).transform.GetChild(1).GetComponent<Image>();   //(I hate that this is how you do this lol)
+        playerBarImage = speedMiniGameObj.transform.GetChild(3).transform.GetChild(3).GetComponent<Image>();
     }
 
     private void Update()
@@ -97,7 +116,7 @@ public class PlayerInteract : MonoBehaviour
         if (barMoveCountdown <= 0)
         {
             lerpingBarValToReach = Random.Range(0.0f, 1.0f);
-            barMoveCountdown = Random.Range(2.0f, 5.0f);
+            barMoveCountdown = Random.Range(barMoveCountdownMin, barMoveCountdownMax);
         }
 
         //this code is probably overcomplicated, but it works so im not touching it anymore lol
@@ -131,6 +150,9 @@ public class PlayerInteract : MonoBehaviour
         lerpingBarImage.fillAmount = lerpingBarCurrentVal;
     }
 
+    /// <summary>
+    /// Moves the player bar up and down
+    /// </summary>
     private void MovePlayerBar()
     {
         if (Input.GetKey(KeyCode.D) && playerBarVal <= 1.0f)
