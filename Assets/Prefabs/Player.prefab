@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 734024937
+  GlobalObjectIdHash: 4148768302
   InScenePlacedSourceGlobalObjectIdHash: 4148768302
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -622,11 +622,14 @@ MonoBehaviour:
   canInteract: 0
   canDoSpeedMinigame: 0
   isInteracting: 0
+  speedMiniGameObj: {fileID: 0}
   lerpingBarCurrentVal: 0
   lerpingBarValToReach: 0
   pointInLerp: 0
   lerpRate: 0
   barMoveCountdown: 0
+  barMoveCountdownMin: 0
+  barMoveCountdownMax: 0
   lerpingBarImage: {fileID: 0}
   playerBarVal: 0
   playerBarMoveRate: 0
@@ -926,7 +929,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1354,7 +1357,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
