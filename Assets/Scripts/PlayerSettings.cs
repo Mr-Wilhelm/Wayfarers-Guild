@@ -45,14 +45,10 @@ public class PlayerSettings : NetworkBehaviour
                     //networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
                 }
             }
-            if(firstPlayerConnected.Value == false)
+            if (firstPlayerConnected.Value == false)
             {
                 GameObject enemySpawner = GameObject.Find("EnemySpawner");
                 enemySpawner.GetComponent<EnemySpawner>().startSpawning = true;
-            }
-            else
-            {
-                GameObject.Find("Ship").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
             }
             
 
