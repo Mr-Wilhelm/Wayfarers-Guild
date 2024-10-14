@@ -93,4 +93,9 @@ public class ShipHealth : NetworkBehaviour
         Debug.Log("Updating health: " + healthBar.fillAmount);
         healthBar.fillAmount = currentHealthNetworked.Value / 100f;
     }
+
+    public void SetHealthBarForSecondPlayer()
+    {
+        healthBar.fillAmount = currentHealthNetworked.Value / 100f;
+    }
 }
