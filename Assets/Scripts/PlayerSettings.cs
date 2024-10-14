@@ -31,7 +31,7 @@ public class PlayerSettings : NetworkBehaviour
         {
             //Gets the input of the input name text box from the UI manager
             networkPlayerName.Value = GameObject.Find("UIManager").GetComponent<UIManager>().nameInputField.text;
-            if (networkPlayerName.Value == "")
+            if (string.IsNullOrWhiteSpace(networkPlayerName.Value))
             {
                 networkPlayerName.Value = "Player 1";
                 if (firstPlayerConnected.Value)
@@ -45,7 +45,7 @@ public class PlayerSettings : NetworkBehaviour
                     //networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
                 }
             }
-            if(firstPlayerConnected.Value == false)
+            if (firstPlayerConnected.Value == false)
             {
                 GameObject enemySpawner = GameObject.Find("EnemySpawner");
                 enemySpawner.GetComponent<EnemySpawner>().startSpawning = true;
@@ -54,6 +54,7 @@ public class PlayerSettings : NetworkBehaviour
             {
                 GameObject.Find("Ship").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
             }
+            
             
 
             //DO STARTING STUFF HERE WITH SHIPPLATFORM
@@ -92,6 +93,7 @@ public class PlayerSettings : NetworkBehaviour
         }
         //Sets player name to string in case there were any numbers that mess it up
         playerName.text = networkPlayerName.Value.ToString();
+        playerNameBelow.text = networkPlayerName.Value.ToString();
         networkPlayerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
         if (!IsOwner) { Canvas.SetActive(false); }
         Debug.Log("Player connecting");
