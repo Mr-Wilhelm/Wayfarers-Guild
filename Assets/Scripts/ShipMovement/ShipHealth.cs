@@ -36,7 +36,7 @@ public class ShipHealth : NetworkBehaviour
     {
         currentHealhtNetworked.Value = maxHealth;
         sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
-        healthBar = GameObject.Find("Canvas/Health").GetComponent<Image>();
+        healthBar = GameObject.Find("Health").GetComponent<Image>();
         healthBar.fillAmount = currentHealth / 100f;
     }
 
