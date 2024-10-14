@@ -37,43 +37,54 @@ public class PlayerSettings : NetworkBehaviour
                 if (firstPlayerConnected.Value)
                 {
                     networkPlayerName.Value = "Player 2";
+                    playerNameBelow.text = networkPlayerName.Value.ToString();
                 }
                 else 
                 {
                     networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
-                    networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
+                    //networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
                 }
             }
-            playerNameBelow.text = networkPlayerName.Value.ToString();
-            //DO STARTING STUFF HERE WITH SHIPPLATFORM
-            Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
-            if (Airship != null)
+            if(firstPlayerConnected.Value == false)
             {
-                Debug.Log("Found Airship");
-                //this.transform.parent = Airship;
-
-                if (NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), false))
-                {
-                    Debug.Log(transform.position);
-                    transform.localPosition = new Vector3(0,1.5f,0);
-                    Debug.Log(transform.position);
-
-                }
-                else
-                {
-                    Debug.Log("Didnt work");
-                }
-
-
-                //this.transform.parent = Airship;
-
-
+                GameObject enemySpawner = GameObject.Find("EnemySpawner");
+                enemySpawner.GetComponent<EnemySpawner>().startSpawning = true;
             }
             else
             {
-                Debug.Log("couldnt find airship or airship is null");
+                GameObject.Find("Ship").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
             }
             
+
+            //DO STARTING STUFF HERE WITH SHIPPLATFORM
+            //Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
+            //if (Airship != null)
+            //{
+            //    Debug.Log("Found Airship");
+            //    //this.transform.parent = Airship;
+
+            //    if (NetworkObject.TrySetParent(Airship.GetComponent<NetworkObject>(), false))
+            //    {
+            //        Debug.Log(transform.position);
+            //        transform.localPosition = new Vector3(0,1.5f,0);
+            //        Debug.Log(transform.position);
+
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("Didnt work");
+            //    }
+
+
+            //    //this.transform.parent = Airship;
+
+
+            //}
+            //else
+            //{
+            //    Debug.Log("couldnt find airship or airship is null");
+            //}
+
         }
         else
         {

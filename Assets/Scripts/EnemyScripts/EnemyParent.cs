@@ -13,6 +13,9 @@ public class EnemyParent : MonoBehaviour
     protected float followRadius;
 
     [SerializeField]
+    private GameObject Ship;
+
+    [SerializeField]
     protected NavMeshAgent navMesh;
 
     [SerializeField]
@@ -27,11 +30,14 @@ public class EnemyParent : MonoBehaviour
     [SerializeField]
     protected bool isInRadius;
 
+    public bool gameStarted;
+
     private void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
         followSphere = GetComponent<SphereCollider>();
         destroyCountdown = destroyTimer;
+        Ship = GameObject.Find("Ship");
 
         if(followSphere.isTrigger)
         {
@@ -41,14 +47,14 @@ public class EnemyParent : MonoBehaviour
 
     private void Update()
     {
-        navMesh.destination = GameObject.FindGameObjectWithTag("Player").transform.position;
+        navMesh.destination = Ship.transform.position;
 
-        if(!isInRadius)
+        if (!isInRadius)
         {
             destroyCountdown -= Time.deltaTime;
         }
 
-        if(destroyCountdown <= 0)
+        if (destroyCountdown <= 0)
         {
             Destroy(gameObject);
         }
@@ -56,7 +62,7 @@ public class EnemyParent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             Debug.Log("Entered Radius");
             isInRadius = true;
@@ -66,7 +72,7 @@ public class EnemyParent : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             Debug.Log("Left radius");
             isInRadius = false;
