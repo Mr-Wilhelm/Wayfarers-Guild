@@ -14,6 +14,8 @@ public class PlayerInteract : MonoBehaviour
 
     public bool isInteracting;
 
+    public bool canSteerShip;
+
     [SerializeField]
     private GameObject speedMiniGameObj;
 
@@ -80,7 +82,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F) && canInteract && canDoSpeedMinigame && !isInteracting)
+        if(Input.GetKeyDown(KeyCode.F) && canInteract && !isInteracting)
         {
             isInteracting = true;
         }
@@ -95,6 +97,11 @@ public class PlayerInteract : MonoBehaviour
             DoSpeedMinigame();
             MovePlayerBar();
             CheckBarValues();
+        }
+
+        else if(isInteracting && canSteerShip)
+        {
+            //steering ship code here
         }
     }
 
