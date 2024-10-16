@@ -19,6 +19,9 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField]
     private GameObject speedMiniGameObj;
 
+    [SerializeField]
+    private ControlWorld shipLogic;
+
     [Header("AutoLerping Bar Settings")]
     [SerializeField]
     private float lerpingBarCurrentVal;
@@ -73,6 +76,7 @@ public class PlayerInteract : MonoBehaviour
         barSuccessRange = 0.1f;
 
         speedMiniGameObj = GameObject.Find("PressureGauge");
+        shipLogic = GameObject.Find("WorldCen").GetComponent<ControlWorld>();
 
         //get the canvas of the pressure gauge
         //then get either the lerping bar (index 1) or the player bar (index 3) from that canvas
@@ -90,6 +94,7 @@ public class PlayerInteract : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F) && isInteracting)
         {
             isInteracting = false;
+            shipLogic.playerControllingShip = false;
         }
 
         if(isInteracting && canDoSpeedMinigame)
@@ -101,7 +106,7 @@ public class PlayerInteract : MonoBehaviour
 
         else if(isInteracting && canSteerShip)
         {
-            //steering ship code here
+            shipLogic.playerControllingShip = true; // the amazing wonderfull contributions of Edward 'Danger' Hayden
         }
     }
 
@@ -181,6 +186,13 @@ public class PlayerInteract : MonoBehaviour
         if(playerBarVal - lerpingBarCurrentVal >= -barSuccessRange && playerBarVal - lerpingBarValToReach <= barSuccessRange)
         {
             Debug.Log("Winning");
+            shipLogic.moveSpeed = 10;
+            shipLogic.rotSpeed = 60;
+        }
+        else
+        {
+            shipLogic.moveSpeed = 5;
+            shipLogic.rotSpeed = 40;
         }
     }
 }

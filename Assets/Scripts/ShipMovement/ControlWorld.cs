@@ -8,7 +8,8 @@ public class ControlWorld : MonoBehaviour
     [SerializeField] Transform childPositionOBJ;
 
     //checks whether the player is controlling the ship
-    [SerializeField] bool playerControllingShip;
+    [SerializeField] 
+    public bool playerControllingShip;
 
 
     //floats for the player inputs
@@ -19,8 +20,8 @@ public class ControlWorld : MonoBehaviour
     private float AirshipAscend;
 
     //controls the rotation and movespeed of the airship
-    [SerializeField] float rotSpeed = 10f;
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] public float rotSpeed = 10f;
+    [SerializeField] public float moveSpeed = 5f;
 
 
     private void Start()
