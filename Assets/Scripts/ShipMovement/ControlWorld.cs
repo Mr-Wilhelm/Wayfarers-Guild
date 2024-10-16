@@ -5,8 +5,10 @@ using UnityEngine;
 public class ControlWorld : MonoBehaviour
 {
     [SerializeField] Transform worldCentrePosition;
-    [SerializeField] Transform PlatformDirection;
+    //[SerializeField] Transform PlatformDirection;
     [SerializeField] bool PlayerControllingShip;
+
+    [SerializeField] Vector3 OffsetPos;
 
     [SerializeField] bool IncludeRoll;
 
@@ -15,6 +17,7 @@ public class ControlWorld : MonoBehaviour
     private float verticalInput;
     private float AirshipRoll;
     private float AirshipPitch;
+    private float AirshipAscend;
 
     [SerializeField] float rotSpeed = 10f;
     [SerializeField] float moveSpeed = 5f;
@@ -41,25 +44,30 @@ public class ControlWorld : MonoBehaviour
 
         AirshipRoll = Input.GetAxisRaw("AirshipRoll");
         AirshipPitch = Input.GetAxisRaw("AirshipPitch");
+
+        AirshipAscend = Input.GetAxisRaw("AirshipAscend");
     }
 
     void RotateWorld()
     {
         //Rotates along the y axis the world *-1 for world rotation so it has to be reversed
-        float direction = horizontalInput * Time.deltaTime *-1;
-        float rollDirection = AirshipRoll * Time.deltaTime;
-        float pitchDirection = AirshipPitch * Time.deltaTime;
+        float yawDirection = horizontalInput * Time.deltaTime *-1;
+        float rollDirection = AirshipRoll * Time.deltaTime*-1;
+        float pitchDirection = AirshipPitch * Time.deltaTime*-1;
 
 
 
         Vector3 RotationTotal = new Vector3(pitchDirection, yawDirection, rollDirection);
 
+        Vector3 offsetPos = this.transform.position*-1;
+        OffsetPos = offsetPos;
         //this.transform.rotation = Quaternion.Euler(RotationTotal * rotSpeed + this.transform.rotation.eulerAngles);
-        transform.RotateAround(worldCentrePosition.position, Vector3.up, yawDirection * rotSpeed);
-        transform.RotateAround(worldCentrePosition.position, Vector3.forward, rollDirection * rotSpeed);
-        transform.RotateAround(worldCentrePosition.position, Vector3.right, pitchDirection * rotSpeed);
 
+        transform.RotateAround(Vector3.zero, Vector3.up, yawDirection * rotSpeed);
+        transform.RotateAround(Vector3.zero, Vector3.forward, rollDirection * rotSpeed);
+        transform.RotateAround(Vector3.zero, Vector3.right, pitchDirection * rotSpeed);
 
+        //transform.Translate(new Vector3(yawDirection, rollDirection, pitchDirection * rotSpeed)+this.transform.rotation.eulerAngles);
 
 
 
@@ -68,11 +76,21 @@ public class ControlWorld : MonoBehaviour
 
     void MoveWorld()
     {
-        //Vector3 InvertedTransform = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z * -1);
+        Vector3 InvertedTransform = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z * -1 );
         //moves the world along the z axis forward and backwards *-1 to reverse for world rotation
-        float direction = verticalInput * Time.deltaTime *-1;
-        this.transform.position = new Vector3(0, 0, direction * moveSpeed+ this.transform.position.z);
+
+
+        float forward = verticalInput * Time.deltaTime;
+        float Up = AirshipAscend * Time.deltaTime;
+        //this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, direction * moveSpeed+ this.transform.position.z);
+
+
         //worldCentrePosition.transform.position = (direction * moveSpeed) + worldCentrePosition.transform.position;
-        //worldCentrePosition.transform.localPosition = (InvertedTransform * direction * moveSpeed) + worldCentrePosition.transform.localPosition;
+        //worldCentrePosition.transform.position = (InvertedTransform * direction * moveSpeed) + worldCentrePosition.transform.position;
+        worldCentrePosition.transform.position = new Vector3(worldCentrePosition.transform.position.x, worldCentrePosition.transform.position.y+ (Up * moveSpeed), worldCentrePosition.transform.position.z + (forward * moveSpeed));
+
+
     }
+
+
 }
