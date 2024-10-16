@@ -4,43 +4,51 @@ using UnityEngine;
 
 public class ControlWorld : MonoBehaviour
 {
-    [SerializeField] Transform worldCentrePosition;
-    //[SerializeField] Transform PlatformDirection;
-    [SerializeField] bool PlayerControllingShip;
+    //child OBJ that handles the positon
+    [SerializeField] Transform childPositionOBJ;
 
-    [SerializeField] Vector3 OffsetPos;
-
-    [SerializeField] bool IncludeRoll;
+    //checks whether the player is controlling the ship
+    [SerializeField] bool playerControllingShip;
 
 
-    private float horizontalInput;
-    private float verticalInput;
+    //floats for the player inputs
+    private float AirshipYaw;
+    private float AirshipThrust;
     private float AirshipRoll;
     private float AirshipPitch;
     private float AirshipAscend;
 
+    //controls the rotation and movespeed of the airship
     [SerializeField] float rotSpeed = 10f;
     [SerializeField] float moveSpeed = 5f;
 
 
     private void Start()
     {
-        if (worldCentrePosition == null)
-        {
-            worldCentrePosition = transform.GetChild(0).gameObject.transform;
-        }
+        //checks to make sure that positioning isnt null if it is fills it
+        if (childPositionOBJ == null)
+        {childPositionOBJ = transform.GetChild(0).gameObject.transform;}
     }
     private void Update()
     {
-        ShipInputs();
-        RotateWorld();
-        MoveWorld();
+        //checks that the player is actively controlling the ship
+        //TODO might need tinkering depedning on how networking works
+        if (playerControllingShip)
+        {
+            ShipInputs();
+            RotateWorld();
+            MoveWorld();
+        }
+        
     }
 
+    /// <summary>
+    /// Gets all the input from the player and assigns them
+    /// </summary>
     void ShipInputs()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        AirshipYaw = Input.GetAxisRaw("Horizontal");
+        AirshipThrust = Input.GetAxisRaw("Vertical");
 
         AirshipRoll = Input.GetAxisRaw("AirshipRoll");
         AirshipPitch = Input.GetAxisRaw("AirshipPitch");
@@ -48,47 +56,35 @@ public class ControlWorld : MonoBehaviour
         AirshipAscend = Input.GetAxisRaw("AirshipAscend");
     }
 
+    /// <summary>
+    /// rotates the enviroment based on player inputs
+    /// </summary>
     void RotateWorld()
     {
-        //Rotates along the y axis the world *-1 for world rotation so it has to be reversed
-        float yawDirection = horizontalInput * Time.deltaTime *-1;
+        float yawDirection = AirshipYaw * Time.deltaTime *-1;
         float rollDirection = AirshipRoll * Time.deltaTime*-1;
         float pitchDirection = AirshipPitch * Time.deltaTime*-1;
 
 
 
-        Vector3 RotationTotal = new Vector3(pitchDirection, yawDirection, rollDirection);
-
-        Vector3 offsetPos = this.transform.position*-1;
-        OffsetPos = offsetPos;
-        //this.transform.rotation = Quaternion.Euler(RotationTotal * rotSpeed + this.transform.rotation.eulerAngles);
-
         transform.RotateAround(Vector3.zero, Vector3.up, yawDirection * rotSpeed);
         transform.RotateAround(Vector3.zero, Vector3.forward, rollDirection * rotSpeed);
         transform.RotateAround(Vector3.zero, Vector3.right, pitchDirection * rotSpeed);
 
-        //transform.Translate(new Vector3(yawDirection, rollDirection, pitchDirection * rotSpeed)+this.transform.rotation.eulerAngles);
-
-
-
 
     }
 
+    /// <summary>
+    /// Updates position of the childOBJ based on player inputs
+    /// </summary>
     void MoveWorld()
     {
-        Vector3 InvertedTransform = new Vector3(transform.forward.x, transform.forward.y, transform.forward.z * -1 );
-        //moves the world along the z axis forward and backwards *-1 to reverse for world rotation
+        //get the floats valeus for the player inputs for the w/s for forwardDirection and z/x for ascendDirection
+        float forwardDirection = AirshipThrust * Time.deltaTime;
+        float ascendDirection = AirshipAscend * Time.deltaTime *-1;
 
-
-        float forward = verticalInput * Time.deltaTime;
-        float Up = AirshipAscend * Time.deltaTime;
-        //this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, direction * moveSpeed+ this.transform.position.z);
-
-
-        //worldCentrePosition.transform.position = (direction * moveSpeed) + worldCentrePosition.transform.position;
-        //worldCentrePosition.transform.position = (InvertedTransform * direction * moveSpeed) + worldCentrePosition.transform.position;
-        worldCentrePosition.transform.position = new Vector3(worldCentrePosition.transform.position.x, worldCentrePosition.transform.position.y+ (Up * moveSpeed), worldCentrePosition.transform.position.z + (forward * moveSpeed));
-
+        //moves the postion parent which should contain the enviroment
+        childPositionOBJ.transform.position = new Vector3(childPositionOBJ.transform.position.x, childPositionOBJ.transform.position.y+ (ascendDirection * moveSpeed), childPositionOBJ.transform.position.z + (forwardDirection * moveSpeed));
 
     }
 
