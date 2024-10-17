@@ -50,12 +50,16 @@ public class UIManager : MonoBehaviour
             Debug.Log("Trying to host please wait...");
             return;
         }
-        NetworkManager.Singleton.StartHost();
+
 
         isOnMainMenuScreen = false; isOnTitleScreen = false;
         menuScreen.SetActive(false); titleScreen.SetActive(false);
 
+        NetworkManager.Singleton.StartHost();
+
         NetworkManager.Singleton.SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
+
+
     }
 
     private void OnJoin()
