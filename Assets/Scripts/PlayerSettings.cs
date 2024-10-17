@@ -30,7 +30,7 @@ public class PlayerSettings : NetworkBehaviour
         if (IsOwner)
         {
             //Gets the input of the input name text box from the UI manager
-            networkPlayerName.Value = GameObject.Find("UIManager").GetComponent<UIManager>().nameInputField.text;
+            networkPlayerName.Value = GameObject.Find("MainUICanvas").GetComponent<UIManager>().nameInputField.text;
             if (string.IsNullOrWhiteSpace(networkPlayerName.Value))
             {
                 networkPlayerName.Value = "Player 1";

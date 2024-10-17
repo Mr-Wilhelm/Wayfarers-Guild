@@ -86,6 +86,7 @@ public class EnemySpawner : NetworkBehaviour
         try
         {
             despawnEnemy.gameObject.GetComponent<NetworkObject>().Despawn();
+            Debug.Log("Done the despawn");
         }
         catch
         {

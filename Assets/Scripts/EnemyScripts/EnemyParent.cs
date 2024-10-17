@@ -14,7 +14,7 @@ public class EnemyParent : NetworkBehaviour
     protected float followRadius;
 
     [SerializeField]
-    private GameObject Ship;
+    public GameObject Ship;
 
     [SerializeField]
     protected NavMeshAgent navMesh;
@@ -33,16 +33,17 @@ public class EnemyParent : NetworkBehaviour
 
     public bool gameStarted;
 
-    private GameObject enemySpawner;
+    [SerializeField]
+    public GameObject enemySpawner;
 
 
-    private void Start()
+    private void Awake()
     {
         navMesh = GetComponent<NavMeshAgent>();
         followSphere = GetComponent<SphereCollider>();
         destroyCountdown = destroyTimer;
-        Ship = GameObject.Find("Ship");
-        enemySpawner = GameObject.Find("EnemySpawner");
+        //Ship = GameObject.Find("TEMPShip");
+        //enemySpawner = GameObject.Find("EnemySpawner");     <<doesnt work and to qoute joe "uhhhhh idk" 
 
         if(followSphere.isTrigger)
         {
