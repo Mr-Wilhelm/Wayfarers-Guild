@@ -48,6 +48,7 @@ public class ControlWorld : MonoBehaviour
     /// </summary>
     void ShipInputs()
     {
+        Debug.Log("cum cum beans");
         AirshipYaw = Input.GetAxisRaw("Horizontal");
         AirshipThrust = Input.GetAxisRaw("Vertical");
 
