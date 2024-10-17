@@ -108,6 +108,17 @@ public class PlayerInteract : MonoBehaviour
         {
             shipLogic.playerControllingShip = true; // the amazing wonderfull contributions of Edward 'Danger' Hayden
         }
+        if (shipLogic.playerControllingShip)
+        {
+            shipLogic.AirshipYaw = Input.GetAxisRaw("Horizontal");
+            shipLogic.AirshipThrust = Input.GetAxisRaw("Vertical");
+
+            shipLogic.AirshipRoll = Input.GetAxisRaw("AirshipRoll");
+            shipLogic.AirshipPitch = Input.GetAxisRaw("AirshipPitch");
+
+            shipLogic.AirshipAscend = Input.GetAxisRaw("AirshipAscend");
+
+        }
     }
 
     private void DoSpeedMinigame()
