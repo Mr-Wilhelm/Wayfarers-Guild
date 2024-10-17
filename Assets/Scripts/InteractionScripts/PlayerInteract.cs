@@ -107,9 +107,7 @@ public class PlayerInteract : MonoBehaviour
         else if(isInteracting && canSteerShip)
         {
             shipLogic.playerControllingShip = true; // the amazing wonderfull contributions of Edward 'Danger' Hayden
-        }
-        if (shipLogic.playerControllingShip)
-        {
+            Debug.Log("Joe smellz");
             shipLogic.AirshipYaw = Input.GetAxisRaw("Horizontal");
             shipLogic.AirshipThrust = Input.GetAxisRaw("Vertical");
 
@@ -117,7 +115,6 @@ public class PlayerInteract : MonoBehaviour
             shipLogic.AirshipPitch = Input.GetAxisRaw("AirshipPitch");
 
             shipLogic.AirshipAscend = Input.GetAxisRaw("AirshipAscend");
-
         }
     }
 
