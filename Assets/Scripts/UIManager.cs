@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
 public class UIManager : MonoBehaviour
@@ -31,6 +32,9 @@ public class UIManager : MonoBehaviour
         hostButton.onClick.AddListener(() => OnHost());
         joinButton.onClick.AddListener(() => OnJoin());
 
+        isOnTitleScreen = true;
+        isOnMainMenuScreen = false;
+
     }
 
     void clientDidThings()
@@ -47,6 +51,11 @@ public class UIManager : MonoBehaviour
             return;
         }
         NetworkManager.Singleton.StartHost();
+
+        isOnMainMenuScreen = false; isOnTitleScreen = false;
+        menuScreen.SetActive(false); titleScreen.SetActive(false);
+
+        NetworkManager.Singleton.SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
     }
 
     private void OnJoin()
@@ -62,9 +71,16 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        //switches screens depending on which bool values are set, done on one line because i like suffering
         if (isOnTitleScreen && !isOnMainMenuScreen)
         {
             titleScreen.SetActive(true); menuScreen.SetActive(false);
+
+            if(Input.anyKey)
+            {
+                isOnTitleScreen = false;
+                isOnMainMenuScreen = true;
+            }
 
         }
 
