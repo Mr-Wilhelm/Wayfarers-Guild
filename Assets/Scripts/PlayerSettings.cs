@@ -22,6 +22,10 @@ public class PlayerSettings : NetworkBehaviour
     [SerializeField] private GameObject Camera;
     [SerializeField] private GameObject networkManager;
 
+    public GameObject CraigBody;
+    public GameObject CraigClothes;
+    public LayerMask SelfPlayerMesh;
+
     //Network variables are able to synch data between clients network string is a custom struct that can store player name, can set default which is unknown and read and write perms
     NetworkVariable<NetworkString> networkPlayerName = new NetworkVariable<NetworkString>("Unknown", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> firstPlayerConnected = new NetworkVariable<bool>(false);
@@ -54,8 +58,10 @@ public class PlayerSettings : NetworkBehaviour
             {
                 GameObject.Find("TEMPShip").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
             }
-            
-            
+
+            CraigClothes.layer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigBody.layer = LayerMask.NameToLayer("SelfPlayerMesh");
+
 
             //DO STARTING STUFF HERE WITH SHIPPLATFORM
             //Transform Airship = GameObject.FindGameObjectWithTag("PlayerAirShip").transform;
