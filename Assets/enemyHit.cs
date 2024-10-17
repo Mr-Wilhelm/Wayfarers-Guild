@@ -14,7 +14,7 @@ public class enemyHit : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Ship"))
+        if (other.gameObject.tag == "Ship")
         {
             Debug.Log("Hitting ship");
             other.gameObject.transform.root.GetComponent<ShipHealth>().TakeDamage();
