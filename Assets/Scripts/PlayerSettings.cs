@@ -52,7 +52,7 @@ public class PlayerSettings : NetworkBehaviour
             }
             else
             {
-                GameObject.Find("Ship").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
+                GameObject.Find("TEMPShip").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
             }
             
             
