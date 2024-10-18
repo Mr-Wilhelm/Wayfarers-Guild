@@ -59,8 +59,8 @@ public class PlayerSettings : NetworkBehaviour
                 GameObject.Find("TEMPShip").GetComponent<ShipHealth>().SetHealthBarForSecondPlayer();
             }
 
-            CraigClothes.layer = LayerMask.NameToLayer("SelfPlayerMesh");
-            CraigBody.layer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigClothes.layer = SelfPlayerMesh;//LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigBody.layer = SelfPlayerMesh;//LayerMask.NameToLayer("SelfPlayerMesh");
 
 
             //DO STARTING STUFF HERE WITH SHIPPLATFORM

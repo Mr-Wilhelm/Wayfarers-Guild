@@ -77,7 +77,7 @@ public class PlayerInteract : NetworkBehaviour
         barSuccessRange = 0.1f;
 
         speedMiniGameObj = GameObject.Find("PressureGauge");
-        shipLogic = GameObject.Find("WorldCen").GetComponent<ControlWorld>();
+
 
         //get the canvas of the pressure gauge
         //then get either the lerping bar (index 1) or the player bar (index 3) from that canvas
@@ -87,6 +87,11 @@ public class PlayerInteract : NetworkBehaviour
 
     private void Update()
     {
+        if(shipLogic == null)
+        {
+            shipLogic = GameObject.Find("WorldCen").GetComponent<ControlWorld>();
+        }
+
         if(Input.GetKeyDown(KeyCode.F) && canInteract && !isInteracting)
         {
             isInteracting = true;
@@ -109,17 +114,17 @@ public class PlayerInteract : NetworkBehaviour
         {
             
             shipLogic.playerControllingShip = true; // the amazing wonderfull contributions of Edward 'Danger' Hayden
-            //shipLogic.AirshipYaw.Value = Input.GetAxisRaw("Horizontal");
-            setAirshipYawServerRpc(Input.GetAxisRaw("Horizontal"));
-            //shipLogic.AirshipThrust.Value = Input.GetAxisRaw("Vertical");
-            setAirshipThrustServerRpc(Input.GetAxisRaw("Vertical"));
+            shipLogic.AirshipYaw = Input.GetAxisRaw("Horizontal");
+            //setAirshipYawServerRpc(Input.GetAxisRaw("Horizontal"));
+            shipLogic.AirshipThrust = Input.GetAxisRaw("Vertical");
+            //setAirshipThrustServerRpc(Input.GetAxisRaw("Vertical"));
 
-            //shipLogic.AirshipRoll.Value = Input.GetAxisRaw("AirshipRoll");
-            setAirshipRollServerRpc(Input.GetAxisRaw("AirshipRoll"));
-            //shipLogic.AirshipPitch.Value = Input.GetAxisRaw("AirshipPitch");
-            setAirshipPitchServerRpc(Input.GetAxisRaw("AirshipPitch"));
-            //shipLogic.AirshipAscend.Value = Input.GetAxisRaw("AirshipAscend");
-            setAirshipAscendServerRpc(Input.GetAxisRaw("AirshipAscend"));
+            shipLogic.AirshipRoll = Input.GetAxisRaw("AirshipRoll");
+            //setAirshipRollServerRpc(Input.GetAxisRaw("AirshipRoll"));
+            shipLogic.AirshipPitch = Input.GetAxisRaw("AirshipPitch");
+            //setAirshipPitchServerRpc(Input.GetAxisRaw("AirshipPitch"));
+            shipLogic.AirshipAscend = Input.GetAxisRaw("AirshipAscend");
+            //setAirshipAscendServerRpc(Input.GetAxisRaw("AirshipAscend"));
         }
     }
 
