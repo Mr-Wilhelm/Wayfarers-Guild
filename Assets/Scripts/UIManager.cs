@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using UnityEngine.UIElements;
+using Unity.Netcode.Transports.UTP;
 
 public class UIManager : MonoBehaviour
 {
@@ -27,6 +27,16 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private bool isOnMainMenuScreen;
 
+    [SerializeField]
+    private TMP_InputField IPAddress;
+
+    [Header("Networking Stuff")]
+    [SerializeField]
+    private NetworkManager networkManager;
+
+    [SerializeField]
+    private UnityTransport unityTransport;
+
     private void Start()
     {
         //Lines for hosting and joining as a client
@@ -35,6 +45,10 @@ public class UIManager : MonoBehaviour
 
         isOnTitleScreen = true;
         isOnMainMenuScreen = false;
+
+        IPAddress = GameObject.Find("IPField").GetComponent<TMP_InputField>();
+        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
 
     }
 
@@ -93,6 +107,9 @@ public class UIManager : MonoBehaviour
         {
             titleScreen.SetActive(false); menuScreen.SetActive(true);
         }
+
+        unityTransport.ConnectionData.Address = IPAddress.text;
+
     }
 
 }
