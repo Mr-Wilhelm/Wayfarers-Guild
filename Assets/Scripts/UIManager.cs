@@ -95,7 +95,7 @@ public class UIManager : MonoBehaviour
         {
             titleScreen.SetActive(true); menuScreen.SetActive(false);
 
-            if(Input.anyKey)
+            if (Input.anyKey)
             {
                 isOnTitleScreen = false;
                 isOnMainMenuScreen = true;
@@ -103,13 +103,12 @@ public class UIManager : MonoBehaviour
 
         }
 
-        else if(!isOnTitleScreen && isOnMainMenuScreen)
+        else if (!isOnTitleScreen && isOnMainMenuScreen)
         {
             titleScreen.SetActive(false); menuScreen.SetActive(true);
         }
 
-        unityTransport.ConnectionData.Address = IPAddress.text;
-
+        //unityTransport.ConnectionData.Address = IPAddress.text;
     }
 
 }
