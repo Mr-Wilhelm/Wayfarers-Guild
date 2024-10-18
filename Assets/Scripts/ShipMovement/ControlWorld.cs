@@ -13,11 +13,11 @@ public class ControlWorld : MonoBehaviour
 
 
     //floats for the player inputs
-    private float AirshipYaw;
-    private float AirshipThrust;
-    private float AirshipRoll;
-    private float AirshipPitch;
-    private float AirshipAscend;
+    public float AirshipYaw;
+    public float AirshipThrust;
+    public float AirshipRoll;
+    public float AirshipPitch;
+    public float AirshipAscend;
 
     //controls the rotation and movespeed of the airship
     [SerializeField] public float rotSpeed = 10f;
@@ -48,13 +48,15 @@ public class ControlWorld : MonoBehaviour
     /// </summary>
     void ShipInputs()
     {
-        AirshipYaw = Input.GetAxisRaw("Horizontal");
-        AirshipThrust = Input.GetAxisRaw("Vertical");
+        Debug.Log(AirshipYaw);
+        //Debug.Log("cum cum beans");
+        //AirshipYaw = Input.GetAxisRaw("Horizontal");
+        //AirshipThrust = Input.GetAxisRaw("Vertical");
 
-        AirshipRoll = Input.GetAxisRaw("AirshipRoll");
-        AirshipPitch = Input.GetAxisRaw("AirshipPitch");
+        //AirshipRoll = Input.GetAxisRaw("AirshipRoll");
+        //AirshipPitch = Input.GetAxisRaw("AirshipPitch");
 
-        AirshipAscend = Input.GetAxisRaw("AirshipAscend");
+        //AirshipAscend = Input.GetAxisRaw("AirshipAscend");
     }
 
     /// <summary>
