@@ -9,7 +9,6 @@ public class ShipControlInteraction : InteractableScript
         if (other.gameObject.tag == "Player")
         {
             playerInteractScript.canSteerShip = true;
-            Debug.Log("beep");
         }
     }
 

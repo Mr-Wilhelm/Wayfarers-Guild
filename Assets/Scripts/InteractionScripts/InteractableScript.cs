@@ -11,8 +11,15 @@ public class InteractableScript : MonoBehaviour
     {
         if (playerInteractScript == null)
         {
-            playerInteractScript = Object.FindFirstObjectByType<PlayerInteract>();
+            StartCoroutine(JoeBalls());
+            
         }
+    }
+
+    private IEnumerator JoeBalls()
+    {
+        yield return 0;
+        playerInteractScript = Object.FindFirstObjectByType<PlayerInteract>();
     }
 
     private void OnTriggerStay(Collider other)
