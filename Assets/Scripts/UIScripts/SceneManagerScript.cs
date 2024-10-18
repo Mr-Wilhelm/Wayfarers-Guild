@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class SceneManagerScript : MonoBehaviour
 {
@@ -16,14 +17,16 @@ public class SceneManagerScript : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
+        NetworkManager.Singleton.SceneManager.LoadScene("DeathScene", LoadSceneMode.Single);
     }
 
     public void LoadWinScene()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.LoadScene(2);
+        //SceneManager.LoadScene(2);
+        NetworkManager.Singleton.SceneManager.LoadScene("WinScene", LoadSceneMode.Single);
     }
 
     public void ExitScene()
