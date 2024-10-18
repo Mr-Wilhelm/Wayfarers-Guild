@@ -25,7 +25,7 @@ public class TimerCountdown : MonoBehaviour
     private void Start()
     {
         CountdownTimer = gameObject.GetComponent<TextMeshProUGUI>();
-        sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
+
     }
 
     private void Update()
@@ -33,6 +33,11 @@ public class TimerCountdown : MonoBehaviour
         timeLeft += Time.deltaTime;
 
         ShowTimeAsTimer();
+
+        if(sceneManager == null)
+        {
+            sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
+        }
     }
 
     void ShowTimeAsTimer()
