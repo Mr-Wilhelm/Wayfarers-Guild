@@ -96,6 +96,8 @@ public class PlayerSettings : NetworkBehaviour
         else
         {
             Camera.SetActive(false);
+            this.tag = "Untagged";
+            Destroy(this.gameObject.GetComponent<PlayerInteract>());
         }
         //Sets player name to string in case there were any numbers that mess it up
         playerName.text = networkPlayerName.Value.ToString();

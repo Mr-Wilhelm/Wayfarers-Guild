@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInteract : MonoBehaviour
+public class PlayerInteract : NetworkBehaviour
 {
     [Header("Interaction Settings")]
     public bool canInteract;
@@ -106,16 +107,51 @@ public class PlayerInteract : MonoBehaviour
 
         else if(isInteracting && canSteerShip)
         {
+            
             shipLogic.playerControllingShip = true; // the amazing wonderfull contributions of Edward 'Danger' Hayden
-            Debug.Log("Joe smellz");
-            shipLogic.AirshipYaw = Input.GetAxisRaw("Horizontal");
-            shipLogic.AirshipThrust = Input.GetAxisRaw("Vertical");
+            //shipLogic.AirshipYaw.Value = Input.GetAxisRaw("Horizontal");
+            setAirshipYawServerRpc(Input.GetAxisRaw("Horizontal"));
+            //shipLogic.AirshipThrust.Value = Input.GetAxisRaw("Vertical");
+            setAirshipThrustServerRpc(Input.GetAxisRaw("Vertical"));
 
-            shipLogic.AirshipRoll = Input.GetAxisRaw("AirshipRoll");
-            shipLogic.AirshipPitch = Input.GetAxisRaw("AirshipPitch");
-
-            shipLogic.AirshipAscend = Input.GetAxisRaw("AirshipAscend");
+            //shipLogic.AirshipRoll.Value = Input.GetAxisRaw("AirshipRoll");
+            setAirshipRollServerRpc(Input.GetAxisRaw("AirshipRoll"));
+            //shipLogic.AirshipPitch.Value = Input.GetAxisRaw("AirshipPitch");
+            setAirshipPitchServerRpc(Input.GetAxisRaw("AirshipPitch"));
+            //shipLogic.AirshipAscend.Value = Input.GetAxisRaw("AirshipAscend");
+            setAirshipAscendServerRpc(Input.GetAxisRaw("AirshipAscend"));
         }
+    }
+
+    //[ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.ClientsAndHost)]
+    public void setAirshipYawServerRpc(float yaw)
+    {
+        
+        Debug.Log(yaw);
+        shipLogic.AirshipYaw = yaw;
+        
+        
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void setAirshipThrustServerRpc(float thurst)
+    {
+        shipLogic.AirshipThrust = thurst;
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void setAirshipRollServerRpc(float roll)
+    {
+        shipLogic.AirshipRoll = roll;
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void setAirshipPitchServerRpc(float pitch)
+    {
+        shipLogic.AirshipPitch = pitch;
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void setAirshipAscendServerRpc(float ascend)
+    {
+        shipLogic.AirshipAscend = ascend;
     }
 
     private void DoSpeedMinigame()

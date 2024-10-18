@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ControlWorld : MonoBehaviour
+public class ControlWorld : NetworkBehaviour
 {
     //child OBJ that handles the positon
     [SerializeField] Transform childPositionOBJ;
@@ -18,6 +19,12 @@ public class ControlWorld : MonoBehaviour
     public float AirshipRoll;
     public float AirshipPitch;
     public float AirshipAscend;
+
+    //public NetworkVariable<float> AirshipYaw = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    //public NetworkVariable<float> AirshipThrust = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    //public NetworkVariable<float> AirshipRoll = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    //public NetworkVariable<float> AirshipPitch = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    //public NetworkVariable<float> AirshipAscend = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     //controls the rotation and movespeed of the airship
     [SerializeField] public float rotSpeed = 10f;
@@ -69,7 +76,7 @@ public class ControlWorld : MonoBehaviour
         float pitchDirection = AirshipPitch * Time.deltaTime*-1;
 
 
-
+        Debug.Log(yawDirection);
         transform.RotateAround(Vector3.zero, Vector3.up, yawDirection * rotSpeed);
         transform.RotateAround(Vector3.zero, Vector3.forward, rollDirection * rotSpeed);
         transform.RotateAround(Vector3.zero, Vector3.right, pitchDirection * rotSpeed);
