@@ -74,7 +74,6 @@ public class UIManager : MonoBehaviour
 
         NetworkManager.Singleton.SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
 
-
     }
 
     private void OnJoin()

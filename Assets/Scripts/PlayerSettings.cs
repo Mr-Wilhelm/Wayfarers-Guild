@@ -134,4 +134,3 @@ public struct NetworkString : INetworkSerializeByMemcpy
     //Assigns regular strings into network strings for sending across network
     public static implicit operator NetworkString(string s) => new NetworkString() { _info = new FixedString32Bytes(s) };
 }
-
