@@ -31,6 +31,7 @@ public class PlayerSettings : NetworkBehaviour
     public NetworkVariable<bool> firstPlayerConnected = new NetworkVariable<bool>(false);
     public override void OnNetworkSpawn()
     {
+        networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
         if (IsOwner)
         {
             //Gets the input of the input name text box from the UI manager
@@ -41,12 +42,6 @@ public class PlayerSettings : NetworkBehaviour
                 if (firstPlayerConnected.Value)
                 {
                     networkPlayerName.Value = "Player 2";
-                    playerNameBelow.text = networkPlayerName.Value.ToString();
-                }
-                else 
-                {
-                    networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
-                    //networkManager.GetComponent<SpawningPlatform>().SpawnPlatform();
                 }
             }
             if (firstPlayerConnected.Value == false)
