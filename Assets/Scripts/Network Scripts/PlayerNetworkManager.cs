@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerNetworkManager : NetworkBehaviour
 {
-    [SerializeField] private GameObject networkManager;
+    [SerializeField] private GameObject networkLogicObject;
 
     [SerializeField] private NetworkLogic networkLogic;
 
@@ -16,10 +16,10 @@ public class PlayerNetworkManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         //Get network manager
-        networkManager = GameObject.Find("NetworkManager");
+        networkLogicObject = GameObject.Find("NetworkLogicObj");
 
         //get network logic script
-        networkLogic = NetworkManager.GetComponent<NetworkLogic>();
+        networkLogic = networkLogicObject.GetComponent<NetworkLogic>();
         //Checks if script is attached to the player that is the owner
         if (IsOwner)
         {

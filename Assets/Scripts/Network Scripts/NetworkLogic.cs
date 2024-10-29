@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 //TODO: Make a new singleton called something, and add this script to that
 
-
 /// <summary>
 /// Other networking happening in:
-///     -PlayerNetworkManager.cs
+///     -PlayerNetworkManager.csc
 /// </summary>
 public class NetworkLogic : NetworkBehaviour
 {
+    //make a singleton
+    //public static NetworkLogic networkLogicSingleton { get; private set; }
+
     //im not sorry for setting up my variables like this :P
     public NetworkVariable<GameObject> playerOne = new NetworkVariable<GameObject>
         (null,  //new network variable type
@@ -35,6 +38,11 @@ public class NetworkLogic : NetworkBehaviour
     /// Disabling all necessary components for the non owner
     /// Based on the owner variable
     /// </summary>
+
+    public void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
 
     [Rpc(SendTo.Everyone)]
     public void DisableNonOwnerRpc()
