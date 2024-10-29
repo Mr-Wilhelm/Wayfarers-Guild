@@ -5,39 +5,46 @@ using UnityEngine;
 
 public class PlayerNetworkManager : NetworkBehaviour
 {
-    private GameObject networkManager;
-    private GameObject playerOne;
-    private GameObject playerTwo;
+    [SerializeField] private GameObject networkManager;
+
+    [SerializeField] private NetworkLogic networkLogic;
 
     /// <summary>
     /// On network spawn of players, fills player objects with each player
     /// </summary>
+    /// 
     public override void OnNetworkSpawn()
     {
         //Get network manager
         networkManager = GameObject.Find("NetworkManager");
+
+        //get network logic script
+        networkLogic = NetworkManager.GetComponent<NetworkLogic>();
         //Checks if script is attached to the player that is the owner
         if (IsOwner)
         {
-            //Gets the player variables from the network logic script
-            playerOne = networkManager.GetComponent<NetworkLogic>().playerOne;
-            playerTwo = networkManager.GetComponent<NetworkLogic>().playerTwo;
             //If the player one slot has not been filled
-            if (playerOne == null)
+            if (networkLogic.playerOne.Value == null)
             {
                 //Fill it with yourself (what I do to amanda)
-                networkManager.GetComponent<NetworkLogic>().playerOne = this.gameObject;
+                networkLogic.playerOne.Value = this.gameObject;
                 Debug.Log("Filled player one");
+                networkLogic.owner = 1;
             }
             //If the player two slot has not been filled
-            else if (playerTwo == null)
+            else if (networkLogic.playerTwo.Value == null)
             {
                 //Fill it with yourself (what I do to amanda)
-                networkManager.GetComponent<NetworkLogic>().playerTwo = this.gameObject;
+                networkLogic.playerTwo.Value = this.gameObject;
                 Debug.Log("Filled player two");
+
+                networkLogic.owner = 2;
+
+                networkLogic.DisableNonOwnerRpc();
             }
             else
             {
+
                 //If both player slots have been filled
                 Debug.Log("Both players full");
             }

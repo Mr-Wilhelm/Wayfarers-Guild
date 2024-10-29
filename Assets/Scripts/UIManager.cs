@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
         isOnTitleScreen = true;
         isOnMainMenuScreen = false;
 
-        IPAddress = GameObject.Find("IPField").GetComponent<TMP_InputField>();
+        //IPAddress = GameObject.Find("IPField").GetComponent<TMP_InputField>();
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
 

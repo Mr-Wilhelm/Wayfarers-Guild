@@ -3,20 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
+//TODO: Make a new singleton called something, and add this script to that
+
+
 /// <summary>
 /// Other networking happening in:
 ///     -PlayerNetworkManager.cs
 /// </summary>
 public class NetworkLogic : NetworkBehaviour
 {
-    [SerializeField]
-    public GameObject playerOne;
+    //im not sorry for setting up my variables like this :P
+    public NetworkVariable<GameObject> playerOne = new NetworkVariable<GameObject>
+        (null,  //new network variable type
+        NetworkVariableReadPermission.Everyone, //read permission
+        NetworkVariableWritePermission.Owner    //write permission
+        );
 
-    [SerializeField]
-    public GameObject playerTwo;
+    public NetworkVariable<GameObject> playerTwo = new NetworkVariable<GameObject>
+        (null, 
+        NetworkVariableReadPermission.Everyone, 
+        NetworkVariableWritePermission.Owner
+        );
 
-    private void DisableNonOwner()
+    [SerializeField] private GameObject Camera;
+
+
+    //clientside int to check which player is owner
+    public int owner;
+
+    /// <summary>
+    /// Disabling all necessary components for the non owner
+    /// Based on the owner variable
+    /// </summary>
+
+    [Rpc(SendTo.Everyone)]
+    public void DisableNonOwnerRpc()
     {
+        if (owner == 1)
+        {
+            playerTwo.Value.transform.Find("CameraHolder/Camera").gameObject.SetActive(false);
+            playerTwo.Value.GetComponent<PlayerMovement>().enabled = false;
+            Debug.Log("Disabled player 2");
+        }
 
+
+        else if (owner == 2)
+        {
+            playerOne.Value.transform.Find("CameraHolder/Camera").gameObject.SetActive(false);
+            playerOne.Value.GetComponent<PlayerMovement>().enabled = false;
+            Debug.Log("Disabled player 1");
+        }
     }
 }

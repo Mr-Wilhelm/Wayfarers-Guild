@@ -302,10 +302,10 @@ GameObject:
   - component: {fileID: 2765970319619441279}
   - component: {fileID: 1274324058357094221}
   - component: {fileID: 5968952383184582755}
-  - component: {fileID: 1278008725300372959}
   - component: {fileID: 639578147677526523}
   - component: {fileID: 887176176429660423}
   - component: {fileID: 3499218880277806170}
+  - component: {fileID: 2129420251610104096}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -437,30 +437,6 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &1278008725300372959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2204152202287225888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df1b890b56ae86242920ec605c302fad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: {fileID: 2885328194128143352}
-  playerNameBelow: {fileID: 7990771169021472539}
-  Canvas: {fileID: 7436137832004184781}
-  Camera: {fileID: 6383447288622707672}
-  networkManager: {fileID: 0}
-  CraigBody: {fileID: 6072602042997840510}
-  CraigClothes: {fileID: 3563338579658001974}
-  SelfPlayerMesh:
-    serializedVersion: 2
-    m_Bits: 256
-  firstPlayerConnected:
-    m_InternalValue: 0
 --- !u!114 &639578147677526523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +502,20 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2129420251610104096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2204152202287225888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3a5c4cc7dbfbf54186b2669e887f615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkManager: {fileID: 0}
+  networkLogic: {fileID: 0}
 --- !u!1 &3563338579658001974
 GameObject:
   m_ObjectHideFlags: 0
