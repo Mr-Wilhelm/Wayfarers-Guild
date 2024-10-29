@@ -17,15 +17,17 @@ public class PlayerNetworkManager : NetworkBehaviour
     /// 
     public override void OnNetworkSpawn()
     {
-        if(GameObject.Find("NetworkLogicObj") == null)
+        if(GameObject.Find("NetworkLogicObj(Clone)") == null)
         {
             var networkLogicVar = Instantiate(networkLogicPrefab);
             DontDestroyOnLoad(networkLogicVar);
             var instanceNetworkObject = networkLogicVar.GetComponent<NetworkObject>();
             instanceNetworkObject.Spawn(true);
+
+            networkLogicObject = networkLogicVar;
         }
         //Get network manager
-        networkLogicObject = GameObject.FindGameObjectWithTag("NetworkLogicObject");
+
 
         //get network logic script
         networkLogic = networkLogicObject.GetComponent<NetworkLogic>();
@@ -55,7 +57,6 @@ public class PlayerNetworkManager : NetworkBehaviour
             }
             else
             {
-
                 //If both player slots have been filled
                 Debug.Log("Both players full");
             }
