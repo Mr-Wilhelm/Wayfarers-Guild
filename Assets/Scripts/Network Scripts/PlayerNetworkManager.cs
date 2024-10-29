@@ -19,15 +19,15 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         if(GameObject.Find("NetworkLogicObj(Clone)") == null)
         {
+            Debug.Log("piss cum");
             var networkLogicVar = Instantiate(networkLogicPrefab);
-            DontDestroyOnLoad(networkLogicVar);
             var instanceNetworkObject = networkLogicVar.GetComponent<NetworkObject>();
             instanceNetworkObject.Spawn(true);
+            DontDestroyOnLoad(instanceNetworkObject);
 
-            networkLogicObject = networkLogicVar;
         }
         //Get network manager
-
+        networkLogicObject = GameObject.Find("NetworkLogicObj(Clone)");
 
         //get network logic script
         networkLogic = networkLogicObject.GetComponent<NetworkLogic>();
