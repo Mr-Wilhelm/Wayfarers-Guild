@@ -31,6 +31,13 @@ public class EnemySpawner : NetworkBehaviour
 
     private void Update()
     {
+        if(!IsServer)
+        {
+            //if you're not the network server, dont spawn things
+            return;
+        }
+
+
         if (startSpawning)
         {
             spawnCountdown -= Time.deltaTime;
