@@ -89,7 +89,7 @@ public class UIManager : MonoBehaviour
         if (IPAddress.text == "")
         {
             //set as localhost. If on a host with IPV4, then 127.0.0.1 wont work
-            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = "localhost";
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = "127.0.0.1";
         }
 
         else
