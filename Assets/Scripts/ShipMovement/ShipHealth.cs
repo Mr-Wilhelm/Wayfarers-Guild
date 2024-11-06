@@ -36,6 +36,13 @@ public class ShipHealth : NetworkBehaviour
         currentHealthNetworked = new NetworkVariable<int>(maxHealth);
         sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
         healthBar = GameObject.Find("Health").GetComponent<Image>();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        //just leave this here ig
+        base.OnNetworkSpawn();
+
         ChangeShipHealthServerRpc();
     }
 

@@ -14,11 +14,17 @@ public class enemyHit : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!IsServer)
+        {   
+            //dont do stuff if you're the client, stops stuff from happening twice
+            return;
+        }
+
         if (other.gameObject.tag == "Ship")
         {
             Debug.Log("Hitting ship");
             other.gameObject.transform.root.GetComponent<ShipHealth>().TakeDamage();
-            networkManager.GetComponent<EnemyDespawner>().DespawnEnemy(gameObject.transform.root.gameObject);
+            transform.root.GetComponent<NetworkObject>().Despawn();
         }
     }
 }

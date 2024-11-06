@@ -7,8 +7,6 @@ public class PlayerNetworkManager : NetworkBehaviour
 {
     [SerializeField] private GameObject networkLogicObject;
 
-    [SerializeField] private NetworkLogic networkLogic;
-
     [SerializeField] private GameObject networkLogicPrefab;
 
     [SerializeField] private Camera playerCamera;
@@ -19,57 +17,12 @@ public class PlayerNetworkManager : NetworkBehaviour
     /// 
     public override void OnNetworkSpawn()
     {
-        if(GameObject.Find("NetworkLogicObj(Clone)") == null)
-        {
-            Debug.Log("sunshine and rainbows");
-            var networkLogicVar = Instantiate(networkLogicPrefab);
-            var instanceNetworkObject = networkLogicVar.GetComponent<NetworkObject>();
-            instanceNetworkObject.Spawn(true);
-            DontDestroyOnLoad(instanceNetworkObject);
-
-        }
 
         if (IsOwner)
         {
             //enable camera for owner
             playerCamera = gameObject.GetComponentInChildren<Camera>();
             playerCamera.enabled = true;
-        }
-        //Get network manager
-        networkLogicObject = GameObject.Find("NetworkLogicObj(Clone)");
-
-        //get network logic script
-        networkLogic = networkLogicObject.GetComponent<NetworkLogic>();
-        //Checks if script is attached to the player that is the owner
-        if (IsOwner)
-        {
-            //If the player one slot has not been filled
-            if (networkLogic.playerOneGameObj == null)
-            {
-                //Fill it with yourself (what I do to amanda)
-                //networkLogic.playerOne.Value = this.gameObject;
-                networkLogic.SendPlayerOneObjectRpc(this.gameObject);
-                Debug.Log("Filled player one");
-                networkLogic.owner = 1;
-            }
-            //If the player two slot has not been filled
-            else if (networkLogic.playerTwoGameObj == null)
-            {
-                //Fill with this object
-                //networkLogic.playerTwo.Value = this.gameObject;
-                networkLogic.SendPlayerTwoObjectRpc(this.gameObject);
-                Debug.Log("Filled player two");
-
-                networkLogic.owner = 2;
-
-                networkLogic.DisableNonOwnerRpc();
-            }
-            else
-            {
-                //If both player slots have been filled
-                Debug.Log("Both players full");
-            }
-
         }
     }
 }
