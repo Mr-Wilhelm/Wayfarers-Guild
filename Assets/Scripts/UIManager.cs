@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
         isOnTitleScreen = true;
         isOnMainMenuScreen = false;
 
-        //IPAddress = GameObject.Find("IPField").GetComponent<TMP_InputField>();
+
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
 
@@ -70,10 +70,12 @@ public class UIManager : MonoBehaviour
         isOnMainMenuScreen = false; isOnTitleScreen = false;
         menuScreen.SetActive(false); titleScreen.SetActive(false);
 
+        //host set to 0.0.0.0, an open call.
+        NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = "0.0.0.0";
+
         NetworkManager.Singleton.StartHost();
 
         NetworkManager.Singleton.SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
-
     }
 
     private void OnJoin()
@@ -82,6 +84,18 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("Trying to connect please wait...");
             return;
+        }
+
+        if (IPAddress.text == "")
+        {
+            //set as localhost. If on a host with IPV4, then 127.0.0.1 wont work
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = "localhost";
+        }
+
+        else
+        {
+            //set address to IP Address variable
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = IPAddress.text;
         }
 
         NetworkManager.Singleton.StartClient();
@@ -98,6 +112,7 @@ public class UIManager : MonoBehaviour
             {
                 isOnTitleScreen = false;
                 isOnMainMenuScreen = true;
+
             }
 
         }
