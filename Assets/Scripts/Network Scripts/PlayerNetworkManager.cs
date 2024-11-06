@@ -11,6 +11,8 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] private GameObject networkLogicPrefab;
 
+    [SerializeField] private Camera playerCamera;
+
     /// <summary>
     /// On network spawn of players, fills player objects with each player
     /// </summary>
@@ -19,12 +21,19 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         if(GameObject.Find("NetworkLogicObj(Clone)") == null)
         {
-            Debug.Log("piss cum");
+            Debug.Log("sunshine and rainbows");
             var networkLogicVar = Instantiate(networkLogicPrefab);
             var instanceNetworkObject = networkLogicVar.GetComponent<NetworkObject>();
             instanceNetworkObject.Spawn(true);
             DontDestroyOnLoad(instanceNetworkObject);
 
+        }
+
+        if (IsOwner)
+        {
+            //enable camera for owner
+            playerCamera = gameObject.GetComponentInChildren<Camera>();
+            playerCamera.enabled = true;
         }
         //Get network manager
         networkLogicObject = GameObject.Find("NetworkLogicObj(Clone)");
@@ -46,7 +55,7 @@ public class PlayerNetworkManager : NetworkBehaviour
             //If the player two slot has not been filled
             else if (networkLogic.playerTwoGameObj == null)
             {
-                //Fill it with yourself (what I do to amanda)
+                //Fill with this object
                 //networkLogic.playerTwo.Value = this.gameObject;
                 networkLogic.SendPlayerTwoObjectRpc(this.gameObject);
                 Debug.Log("Filled player two");
