@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class UIManager : MonoBehaviour
 {
@@ -30,15 +31,14 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField IPAddress;
 
-    [SerializeField]
-    private TMP_InputField PortField;
-
     [Header("Networking Stuff")]
     [SerializeField]
     private NetworkManager networkManager;
 
     [SerializeField]
     private UnityTransport unityTransport;
+
+    private PlayerDataHandler handler;
 
     private void Start()
     {
@@ -53,6 +53,7 @@ public class UIManager : MonoBehaviour
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
 
+        handler = GameObject.Find("PlayerDataHandler").gameObject.GetComponent<PlayerDataHandler>();
     }
 
     void clientDidThings()
@@ -69,7 +70,6 @@ public class UIManager : MonoBehaviour
             return;
         }
 
-
         isOnMainMenuScreen = false; isOnTitleScreen = false;
         menuScreen.SetActive(false); titleScreen.SetActive(false);
 
@@ -77,6 +77,13 @@ public class UIManager : MonoBehaviour
         NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = "0.0.0.0";
 
         NetworkManager.Singleton.StartHost();
+
+        if (nameInputField.text == "")
+        {
+            nameInputField.text = "Player 1";
+        }
+
+        handler.player1Name.Value = nameInputField.text;
 
         NetworkManager.Singleton.SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
     }
@@ -87,17 +94,6 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("Trying to connect please wait...");
             return;
-        }
-
-        if (PortField.text == "")
-        {
-            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Port = 7777;
-        }
-
-        else
-        {
-            ushort portUshort = ushort.Parse(PortField.text);
-            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Port = portUshort;
         }
 
         if (IPAddress.text == "")
@@ -114,6 +110,14 @@ public class UIManager : MonoBehaviour
         }
 
         NetworkManager.Singleton.StartClient();
+
+        if (nameInputField.text == "")
+        {
+            //set as localhost. If on a host with IPV4, then 127.0.0.1 wont work
+            nameInputField.text = "Player 2";
+        }
+
+        handler.player2Name.Value = nameInputField.text;
     }
 
     private void Update()
