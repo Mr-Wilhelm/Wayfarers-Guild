@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TMP_InputField IPAddress;
 
+    [SerializeField]
+    private TMP_InputField PortField;
+
     [Header("Networking Stuff")]
     [SerializeField]
     private NetworkManager networkManager;
@@ -86,6 +89,17 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        if (PortField.text == "")
+        {
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Port = 7777;
+        }
+
+        else
+        {
+            ushort portUshort = ushort.Parse(PortField.text);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Port = portUshort;
+        }
+
         if (IPAddress.text == "")
         {
             //set as localhost. If on a host with IPV4, then 127.0.0.1 wont work
@@ -96,6 +110,7 @@ public class UIManager : MonoBehaviour
         {
             //set address to IP Address variable
             NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = IPAddress.text;
+
         }
 
         NetworkManager.Singleton.StartClient();
