@@ -1,11 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject cityUI;
+
+    [SerializeField]
+    private GameObject portThamesUI;
+
 
     private bool readyPressed = false;
+
+    private void Start()
+    {
+        cityUI = GameObject.Find("CityElements");
+        cityUI.SetActive(true);
+
+        portThamesUI = GameObject.Find("PortThames");   //finds the parent object with all the UI elements childed
+        portThamesUI.SetActive(false);
+    }
 
     public void QuestButtonPress()
     {
@@ -17,10 +33,7 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Back button pressed");
     }
 
-    public void PortThamesButton()
-    {
-        Debug.Log("Port Thames button pressed");
-    }
+
 
     public void SpoonsButton()
     {
@@ -60,6 +73,27 @@ public class MenuManager : MonoBehaviour
             Debug.Log("Player ready");
             readyPressed = true;
         }
+    }
+
+    //-----------PORT THAMES UI STUFF------------
+
+    public void PortThamesButton()
+    {
+        Debug.Log("Port Thames button pressed");
+        portThamesUI.SetActive(true);
+        cityUI.SetActive(false);
+    }
+
+    public void ReturnFromThames()
+    {
+        Debug.Log("Returning from port Thames");
+        portThamesUI.SetActive(false);
+        cityUI.SetActive(true);
+    }
+
+    public void ThamesRepair()
+    {
+        Debug.Log("Repair Ship");
     }
 
 }
