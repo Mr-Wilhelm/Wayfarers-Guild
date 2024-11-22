@@ -16,6 +16,20 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject upgradesUI;
 
+    [Header("Port Thames UI Elements")]
+
+    [SerializeField]
+    private GameObject cargoButton;
+
+    [SerializeField]
+    private GameObject upgradesButton;
+
+    [SerializeField]
+    private GameObject repairButton;
+
+    [SerializeField]
+    private GameObject portBackButton;
+
     [Header("Constant UI Elements")]
 
     [SerializeField]
@@ -31,17 +45,9 @@ public class MenuManager : MonoBehaviour
 
     private bool readyPressed = false;
 
-    private void Start()
+    private void Awake()
     {
-        cityUI = GameObject.Find("CityElements");
-        cityUI.SetActive(true);
-
-        portThamesUI = GameObject.Find("PortThames");   //finds the parent object with all the UI elements childed
-        portThamesUI.SetActive(false);
-
-        upgradesUI = GameObject.Find("Upgrades");
-        upgradesUI.SetActive(false);
-
+        //----------Constant UI Elements----------
         moneyCounter = GameObject.Find("Money Counter");
         moneyCounter.SetActive(true);
 
@@ -50,6 +56,30 @@ public class MenuManager : MonoBehaviour
 
         questButton = GameObject.Find("QuestButton");
         questButton.SetActive(true);
+        //----------Constant UI Elements----------
+
+
+        //----------Port Thames UI Elements----------
+        cargoButton = GameObject.Find("CargoButton");
+
+        upgradesButton = GameObject.Find("UpgradesButton");
+
+        repairButton = GameObject.Find("RepairButton");
+
+        portBackButton = GameObject.Find("ThamesBackButton");
+        //----------Port Thames UI Elements----------
+
+
+        //----------UI Screens---------- call this last in the Awake function, otherwise no variables are assigned
+        cityUI = GameObject.Find("CityElements");
+        cityUI.SetActive(true);
+
+        portThamesUI = GameObject.Find("PortThames");   //finds the parent object with all the UI elements childed
+        portThamesUI.SetActive(false);
+
+        upgradesUI = GameObject.Find("Upgrades");
+        upgradesUI.SetActive(false);
+        //----------UI Screens----------
     }
 
     public void QuestButtonPress()
@@ -61,7 +91,6 @@ public class MenuManager : MonoBehaviour
     {
         Debug.Log("Back button pressed");
     }
-
 
 
     public void SpoonsButton()
@@ -104,7 +133,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    //-----------PORT THAMES UI STUFF------------
+    //-----------Port Thames Functions------------
 
     public void PortThamesButton()
     {
@@ -113,16 +142,38 @@ public class MenuManager : MonoBehaviour
         cityUI.SetActive(false);
     }
 
-    public void ReturnFromThames()
-    {
-        Debug.Log("Returning from port Thames");
-        portThamesUI.SetActive(false);
-        cityUI.SetActive(true);
-    }
-
     public void ThamesRepair()
     {
         Debug.Log("Repair Ship");
     }
 
+    public void UpgradesButton()
+    {
+        upgradesUI.SetActive(true);
+        portThamesUI.SetActive(false);
+    }
+
+    public void ThamesBackButton()
+    {
+        portThamesUI.SetActive(false);
+        cityUI.SetActive(true);
+    }
+
+    public void CargoButton()
+    {
+        Debug.Log("Cargo Button Pressed");
+    }
+
+    //-----------Port Thames Functions------------
+
+    //----------Upgrades UI Functions----------
+
+    public void ReturnFromUpgrades()
+    {
+        Debug.Log("Returning from port Thames");
+        upgradesUI.SetActive(false);
+        portThamesUI.SetActive(true);
+    }
+
+    //----------Upgrades UI Functions----------
 }
