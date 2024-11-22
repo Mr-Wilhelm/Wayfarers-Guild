@@ -5,11 +5,28 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    [Header("Ui Screens")]
+
     [SerializeField]
     private GameObject cityUI;
 
     [SerializeField]
     private GameObject portThamesUI;
+
+    [SerializeField]
+    private GameObject upgradesUI;
+
+    [Header("Constant UI Elements")]
+
+    [SerializeField]
+    private GameObject moneyCounter;
+
+    [SerializeField]
+    private GameObject readyButton;
+
+    [SerializeField]
+    private GameObject questButton;
+    
 
 
     private bool readyPressed = false;
@@ -21,6 +38,18 @@ public class MenuManager : MonoBehaviour
 
         portThamesUI = GameObject.Find("PortThames");   //finds the parent object with all the UI elements childed
         portThamesUI.SetActive(false);
+
+        upgradesUI = GameObject.Find("Upgrades");
+        upgradesUI.SetActive(false);
+
+        moneyCounter = GameObject.Find("Money Counter");
+        moneyCounter.SetActive(true);
+
+        readyButton = GameObject.Find("ReadyButton");
+        readyButton.SetActive(true);
+
+        questButton = GameObject.Find("QuestButton");
+        questButton.SetActive(true);
     }
 
     public void QuestButtonPress()
