@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
+    [Header("Ship Info")]
+    ShipInfo shipInfo;
+
     [Header("Ui Screens")]
 
     [SerializeField]
