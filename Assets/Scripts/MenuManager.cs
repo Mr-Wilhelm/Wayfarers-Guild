@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +11,12 @@ public class MenuManager : MonoBehaviour
     #region ship info
     [Header("Ship Info")]
     ShipInfo shipInfo;
+
+    [SerializeField]
+    private ShipStatManager shipStatManager;
+
+    [SerializeField]
+    private float maxShipHealth;
     #endregion
 
     #region UI Parent Screens
@@ -36,6 +43,11 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject repairButton;
+
+
+
+    [SerializeField]
+    private float repairCost;
 
     [SerializeField]
     private GameObject portBackButton;
@@ -77,6 +89,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject moneyCounter;
+
+    [SerializeField]
+    private float moneyAmount;
 
     [SerializeField]
     private GameObject readyButton;
@@ -135,6 +150,8 @@ public class MenuManager : MonoBehaviour
         upgradesUI = GameObject.Find("Upgrades");
         upgradesUI.SetActive(false);
         //----------UI Screens----------
+
+        repairCost = 10.0f;
     }
 
     #region City UI Elements
@@ -203,7 +220,8 @@ public class MenuManager : MonoBehaviour
 
     public void ThamesRepair()
     {
-        Debug.Log("Repair Ship");
+        //absolute value gets rid of negative values
+        moneyAmount -= Mathf.Abs(maxShipHealth - shipStatManager.shipHealth);
     }
 
     public void UpgradesButton()
@@ -263,4 +281,9 @@ public class MenuManager : MonoBehaviour
     }
     //----------Upgrades UI Functions----------
     #endregion
+
+    private void Update()
+    {
+        moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
+    }
 }

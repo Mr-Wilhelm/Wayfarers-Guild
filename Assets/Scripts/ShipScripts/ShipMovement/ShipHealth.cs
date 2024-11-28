@@ -12,6 +12,9 @@ using UnityEngine.UI;
 
 public class ShipHealth : NetworkBehaviour
 {
+    [SerializeField]
+    private ShipStatManager shipStatManager;
+
     private int currentHealth;
 
     public NetworkVariable<int> currentHealthNetworked = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -19,7 +22,7 @@ public class ShipHealth : NetworkBehaviour
     [SerializeField] Image healthBar;
 
     [SerializeField]
-    private int maxHealth = 100;
+    public int maxHealth = 100;
 
     [SerializeField]
     private NetworkManager networkManager;
@@ -30,12 +33,19 @@ public class ShipHealth : NetworkBehaviour
     [SerializeField]
     private int damageAmount = 1;
 
+    [SerializeField]
+    private float shipRepairCostMultiplier;
+
+    public static float shipRepairCost;
+
 
     private void Awake()
     {
         currentHealthNetworked = new NetworkVariable<int>(maxHealth);
         sceneManager = Object.FindFirstObjectByType<SceneManagerScript>();
         healthBar = GameObject.Find("Health").GetComponent<Image>();
+
+        shipRepairCostMultiplier = 2.0f;
     }
 
     public override void OnNetworkSpawn()
