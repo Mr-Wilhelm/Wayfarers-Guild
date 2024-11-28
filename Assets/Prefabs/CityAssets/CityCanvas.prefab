@@ -589,7 +589,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3934607921540499541}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3024810402644711554}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: EquipItem2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &968293715707082374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,7 +1029,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7813455558245762020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2567,7 +2579,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1059726883857715351}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3024810402644711554}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: EquipItem1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2859128688035827092
 GameObject:
   m_ObjectHideFlags: 0
@@ -4439,7 +4463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6256132815612330356
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5933,6 +5957,15 @@ MonoBehaviour:
   upgradesButton: {fileID: 0}
   repairButton: {fileID: 0}
   portBackButton: {fileID: 0}
+  equip1Button: {fileID: 0}
+  equip2Button: {fileID: 0}
+  equip3Button: {fileID: 0}
+  owned1Button: {fileID: 0}
+  owned2Button: {fileID: 0}
+  owned3Button: {fileID: 0}
+  upgrades1Button: {fileID: 0}
+  upgrades2Button: {fileID: 0}
+  upgrades3Button: {fileID: 0}
   moneyCounter: {fileID: 0}
   readyButton: {fileID: 0}
   questButton: {fileID: 0}
