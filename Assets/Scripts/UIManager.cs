@@ -23,6 +23,9 @@ public class UIManager : MonoBehaviour
     private GameObject menuScreen;
 
     [SerializeField]
+    private string sceneToLoad;
+
+    [SerializeField]
     private bool isOnTitleScreen;
 
     [SerializeField]
@@ -54,6 +57,11 @@ public class UIManager : MonoBehaviour
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
 
         handler = GameObject.Find("PlayerDataHandler").gameObject.GetComponent<PlayerDataHandler>();
+
+        if(sceneToLoad == "")
+        {
+            sceneToLoad = "DemoScene";
+        }
     }
 
     void clientDidThings()
@@ -85,7 +93,7 @@ public class UIManager : MonoBehaviour
 
         handler.player1Name.Value = nameInputField.text;
 
-        NetworkManager.Singleton.SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
     }
 
     private void OnJoin()
