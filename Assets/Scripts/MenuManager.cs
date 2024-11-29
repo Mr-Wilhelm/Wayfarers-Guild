@@ -30,6 +30,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject upgradesUI;
+
+    [SerializeField]
+    private GameObject spoonsUI;
     #endregion
 
     #region Port Thames UI Elements
@@ -138,7 +141,7 @@ public class MenuManager : MonoBehaviour
         //----------Upgrades UI----------
 
         //----------City UI-----------
-
+        
         //----------City UI-----------
 
         //----------UI Screens---------- call this last in the Awake function, otherwise no variables are assigned
@@ -150,6 +153,9 @@ public class MenuManager : MonoBehaviour
 
         upgradesUI = GameObject.Find("Upgrades");
         upgradesUI.SetActive(false);
+
+        spoonsUI = GameObject.Find("Spoons");
+        spoonsUI.SetActive(false);
         //----------UI Screens----------
 
         repairCost = 10.0f;
@@ -173,10 +179,6 @@ public class MenuManager : MonoBehaviour
     }
 
 
-    public void SpoonsButton()
-    {
-        Debug.Log("Spoons button pressed");
-    }
 
     public void FawkesRepairsButton()
     {
@@ -286,6 +288,39 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Item 3 Upgraded");
     }
     //----------Upgrades UI Functions----------
+    #endregion
+
+    #region Spoons Functions
+    //----------Spoons Functions----------
+    public void SpoonsButton()
+    {
+        spoonsUI.SetActive(true);
+        cityUI.SetActive(false);
+    }
+
+    public void ReturnFromSpoons()
+    {
+        spoonsUI.SetActive(false);
+        cityUI.SetActive(true);
+    }
+
+    public void NPCDialogue1()
+    {
+        Debug.Log("NPC 1");
+    }
+    public void NPCDialogue2()
+    {
+        Debug.Log("NPC 2");
+    }
+    public void NPCDialogue3()
+    {
+        Debug.Log("NPC 3");
+    }
+    public void NPCDialogue4()
+    {
+        Debug.Log("NPC 4");
+    }
+    //----------Spoons Functions----------
     #endregion
 
     private void Update()
