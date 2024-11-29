@@ -72,7 +72,7 @@ public class ShipHealth : NetworkBehaviour
         //THIS NEEDS CHANGING TO WHEN THE SHIP DIES, NOT ONE PLAYER!!!
         if(currentHealthNetworked.Value <= 0)
         {
-            sceneManager.LoadDefeatScene();
+            sceneManager.LoadCityScene();
 
             //this works because of the OnSceneUnloaded() function in the network manager
             //it makes sure that everything is cleanly stopped

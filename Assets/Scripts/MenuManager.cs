@@ -122,6 +122,7 @@ public class MenuManager : MonoBehaviour
         upgradesButton = GameObject.Find("UpgradesButton");
         repairButton = GameObject.Find("RepairButton");
         portBackButton = GameObject.Find("ThamesBackButton");
+        
         //----------Port Thames UI Elements----------
 
         //----------Upgrades UI----------
@@ -152,6 +153,11 @@ public class MenuManager : MonoBehaviour
         //----------UI Screens----------
 
         repairCost = 10.0f;
+    }
+
+    private void OnEnable()
+    {
+        shipStatManager = GameObject.Find("ShipStats").GetComponent<ShipStatManager>();
     }
 
     #region City UI Elements
@@ -221,7 +227,7 @@ public class MenuManager : MonoBehaviour
     public void ThamesRepair()
     {
         //absolute value gets rid of negative values
-        moneyAmount -= Mathf.Abs(maxShipHealth - shipStatManager.shipHealth);
+        moneyAmount -= shipStatManager.shipRepairCost;
     }
 
     public void UpgradesButton()

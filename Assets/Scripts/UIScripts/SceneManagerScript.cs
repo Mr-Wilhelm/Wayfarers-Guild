@@ -29,6 +29,14 @@ public class SceneManagerScript : MonoBehaviour
         NetworkManager.Singleton.SceneManager.LoadScene("WinScene", LoadSceneMode.Single);
     }
 
+    public void LoadCityScene()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        NetworkManager.Singleton.SceneManager.LoadScene("CityMenu", LoadSceneMode.Single);
+    }
+
     public void ExitScene()
     {
         Application.Quit();
