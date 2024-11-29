@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
 
-        handler = GameObject.Find("PlayerDataHandler").gameObject.GetComponent<PlayerDataHandler>();
+        //handler = GameObject.Find("PlayerDataHandler").gameObject.GetComponent<PlayerDataHandler>();
 
         if(sceneToLoad == "")
         {
@@ -91,7 +91,7 @@ public class UIManager : MonoBehaviour
             nameInputField.text = "Player 1";
         }
 
-        handler.player1Name.Value = nameInputField.text;
+        //handler.player1Name.Value = nameInputField.text;
 
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
     }
@@ -125,7 +125,7 @@ public class UIManager : MonoBehaviour
             nameInputField.text = "Player 2";
         }
 
-        handler.player2Name.Value = nameInputField.text;
+        //handler.player2Name.Value = nameInputField.text;
     }
 
     private void Update()
