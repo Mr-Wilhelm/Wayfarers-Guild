@@ -48,10 +48,9 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        Ship = GameObject.FindWithTag("Ship");
-        NetworkObject.TrySetParent(Ship, false);
+        
     }
-
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -66,19 +65,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         
     }
-    public void SetParent(Transform parent)
-    {
-        Debug.Log("calling");
-
-        try
-        {
-            NetworkObject.TrySetParent(parent, false);
-        }
-        catch
-        {
-            Debug.Log("not wokring");
-        }
-    }
+    
 
 
     private void MyInput()
