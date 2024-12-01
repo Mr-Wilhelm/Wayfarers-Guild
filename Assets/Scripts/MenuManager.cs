@@ -5,9 +5,13 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField]
+    private SceneManagerScript sceneManager;
+
     #region ship info
     [Header("Ship Info")]
     ShipInfo shipInfo;
@@ -46,8 +50,6 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject repairButton;
-
-
 
     [SerializeField]
     private float repairCost;
@@ -103,11 +105,11 @@ public class MenuManager : MonoBehaviour
     private GameObject questButton;
     #endregion
 
-
     private bool readyPressed = false;
 
     private void Awake()
     {
+
         //----------Constant UI Elements----------
         moneyCounter = GameObject.Find("Money Counter");
         moneyCounter.SetActive(true);
@@ -158,6 +160,11 @@ public class MenuManager : MonoBehaviour
         spoonsUI.SetActive(false);
         //----------UI Screens----------
 
+        //----------Other Variables----------
+
+
+
+        //----------Other Variables----------
         repairCost = 10.0f;
     }
 
@@ -212,6 +219,7 @@ public class MenuManager : MonoBehaviour
         {
             Debug.Log("Player ready");
             readyPressed = true;
+            sceneManager.LoadMainScene();
         }
     }
     //----------City UI------------

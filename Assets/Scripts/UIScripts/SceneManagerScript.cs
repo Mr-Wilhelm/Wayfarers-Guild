@@ -10,7 +10,7 @@ public class SceneManagerScript : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.LoadScene(0);
+        NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
     public void LoadDefeatScene()
@@ -52,6 +52,11 @@ public class SceneManagerScript : MonoBehaviour
         if(Input.GetKey(KeyCode.L))
         {
             LoadCityScene();
+        }
+
+        if(Input.GetKey(KeyCode.R))
+        {
+            LoadMainScene();
         }
     }
 
