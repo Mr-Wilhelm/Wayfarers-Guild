@@ -26,7 +26,7 @@ public class EnemySpawner : NetworkBehaviour
     private void Start()
     {
         spawnCountdown = spawnTimer;
-        startSpawning = true;
+        startSpawning = false;
     }
 
     private void Update()

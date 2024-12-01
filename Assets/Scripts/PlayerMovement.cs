@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerMovement : NetworkBehaviour
     public float airMultiplier;
     bool readyToJump;
 
+    [SerializeField] GameObject Ship = null;
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;  [Header("Movement")]
 
@@ -30,6 +33,7 @@ public class PlayerMovement : NetworkBehaviour
 
     [Header("Interaction")]
 
+
     [SerializeField]
     private PlayerInteract playerInteractScript;
     // Start is called before the first frame update
@@ -39,24 +43,30 @@ public class PlayerMovement : NetworkBehaviour
         rb.freezeRotation = true;
 
         playerInteractScript = gameObject.GetComponent<PlayerInteract>();
+        
     }
 
     private void Update()
+    {
+        
+    }
+    
+    // Update is called once per frame
+    void FixedUpdate()
     {
         GroundCheck();
         if (!IsOwner) { enabled = false; }
         MyInput();
         SpeedControl();
-    }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
         if (!playerInteractScript.isInteracting)
         {
             MovePlayer();
         }
+        
     }
+    
+
 
     private void MyInput()
     {

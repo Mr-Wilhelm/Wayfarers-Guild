@@ -26,11 +26,14 @@ public class PlayerSettings : NetworkBehaviour
     public GameObject CraigClothes;
     public LayerMask SelfPlayerMesh;
 
+    //gameobject for the ship to try parenting player to
+
     //Network variables are able to synch data between clients network string is a custom struct that can store player name, can set default which is unknown and read and write perms
     NetworkVariable<NetworkString> networkPlayerName = new NetworkVariable<NetworkString>("Unknown", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> firstPlayerConnected = new NetworkVariable<bool>(false);
     public override void OnNetworkSpawn()
     {
+        
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager");
         if (IsOwner)
         {
@@ -86,7 +89,6 @@ public class PlayerSettings : NetworkBehaviour
             //{
             //    Debug.Log("couldnt find airship or airship is null");
             //}
-
         }
         else
         {
@@ -109,6 +111,8 @@ public class PlayerSettings : NetworkBehaviour
         playerName.text = newValue;
         //playerNameBelow.GetComponent<TextMeshPro>().SetText(newValue);
     }
+
+    
 }
 
 public struct NetworkString : INetworkSerializeByMemcpy
@@ -133,4 +137,13 @@ public struct NetworkString : INetworkSerializeByMemcpy
 
     //Assigns regular strings into network strings for sending across network
     public static implicit operator NetworkString(string s) => new NetworkString() { _info = new FixedString32Bytes(s) };
+
+
+
+
+
+    
 }
+
+
+
