@@ -48,6 +48,11 @@ public class SceneManagerScript : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if(Input.GetKey(KeyCode.L))
+        {
+            LoadCityScene();
+        }
     }
 
 }
