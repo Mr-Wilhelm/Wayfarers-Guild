@@ -237,7 +237,9 @@ public class MenuManager : MonoBehaviour
     public void ThamesRepair()
     {
         //absolute value gets rid of negative values
-        moneyAmount -= shipStatManager.shipRepairCost;
+        //moneyAmount -= shipStatManager.shipRepairCost;
+
+        moneyAmount -= 100;
     }
 
     public void UpgradesButton()
