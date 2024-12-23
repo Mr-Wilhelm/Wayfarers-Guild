@@ -6,11 +6,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Ink.Runtime;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]
     private SceneManagerScript sceneManager;
+
+
 
     #region ship info
     [Header("Ship Info")]
@@ -108,8 +111,19 @@ public class MenuManager : MonoBehaviour
     #region Spoons UI Elements
 
     [Header("Spoons UI Elements")]
+
+    private Story currentDialogue;
+
+    private bool dialogueIsPlaying;
+
     [SerializeField]
-    private TextAsset NPC1Json;
+    private TextAsset npc1Json;
+
+    [SerializeField]
+    private GameObject dialogueBox;
+
+    [SerializeField]
+    private TextMeshProUGUI dialogueText;
 
     #endregion
 
@@ -150,7 +164,10 @@ public class MenuManager : MonoBehaviour
         //----------Upgrades UI----------
 
         //----------Spoons UI----------
-        NPC1Json = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
+        npc1Json = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
+        dialogueIsPlaying = false;
+        dialogueBox.SetActive(false);
+        dialogueText.enabled = false;
         //----------Spoons UI----------
 
         //----------City UI-----------
@@ -327,7 +344,7 @@ public class MenuManager : MonoBehaviour
 
     public void NPCDialogue1()
     {
-        Debug.Log(NPC1Json.text);
+        LoadInkDialogue(npc1Json);
     }
     public void NPCDialogue2()
     {
@@ -347,5 +364,24 @@ public class MenuManager : MonoBehaviour
     private void Update()
     {
         moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
+
+        //checks if the current dialogue has more dialogue, and if any button is pressed
+        if(currentDialogue.canContinue && Input.anyKey)
+        {
+            currentDialogue.Continue();
+        }
+    }
+
+    /// <summary>
+    /// Gets the dialogue input from the parameter
+    /// Sets the dialogue box to active
+    /// </summary>
+    /// <param name="inkJSON"></param>
+    private void LoadInkDialogue(TextAsset inkJSON)
+    {
+        currentDialogue = new Story(inkJSON.text);
+        dialogueIsPlaying = true;
+        dialogueBox.SetActive(true);
+        dialogueText.text = inkJSON.text;
     }
 }
