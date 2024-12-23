@@ -165,6 +165,8 @@ public class MenuManager : MonoBehaviour
 
         //----------Spoons UI----------
         npc1Json = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
+        dialogueBox = GameObject.Find("Dialogue Box");
+        dialogueText = GameObject.Find("Dialogue Text").GetComponent<TextMeshProUGUI>();
         dialogueIsPlaying = false;
         dialogueBox.SetActive(false);
         dialogueText.enabled = false;
@@ -369,6 +371,7 @@ public class MenuManager : MonoBehaviour
         if(currentDialogue.canContinue && Input.anyKey)
         {
             currentDialogue.Continue();
+            Debug.Log("Continuing Dialogue");
         }
     }
 
@@ -379,9 +382,10 @@ public class MenuManager : MonoBehaviour
     /// <param name="inkJSON"></param>
     private void LoadInkDialogue(TextAsset inkJSON)
     {
-        currentDialogue = new Story(inkJSON.text);
+        currentDialogue = new Story(inkJSON.text);  //gets the text from the json file
         dialogueIsPlaying = true;
-        dialogueBox.SetActive(true);
-        dialogueText.text = inkJSON.text;
+        dialogueBox.SetActive(true);    //activate the text box
+        dialogueText.enabled = true;
+        dialogueText.text = inkJSON.text;   //set the dialogue text
     }
 }
