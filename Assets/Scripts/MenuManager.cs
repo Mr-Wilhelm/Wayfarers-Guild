@@ -105,6 +105,14 @@ public class MenuManager : MonoBehaviour
     private GameObject questButton;
     #endregion
 
+    #region Spoons UI Elements
+
+    [Header("Spoons UI Elements")]
+    [SerializeField]
+    private TextAsset NPC1Json;
+
+    #endregion
+
     private bool readyPressed = false;
 
     private void Awake()
@@ -127,7 +135,6 @@ public class MenuManager : MonoBehaviour
         upgradesButton = GameObject.Find("UpgradesButton");
         repairButton = GameObject.Find("RepairButton");
         portBackButton = GameObject.Find("ThamesBackButton");
-        
         //----------Port Thames UI Elements----------
 
         //----------Upgrades UI----------
@@ -142,8 +149,12 @@ public class MenuManager : MonoBehaviour
         upgrades3Button = GameObject.Find("Upgrades3Button");
         //----------Upgrades UI----------
 
+        //----------Spoons UI----------
+        NPC1Json = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
+        //----------Spoons UI----------
+
         //----------City UI-----------
-        
+
         //----------City UI-----------
 
         //----------UI Screens---------- call this last in the Awake function, otherwise no variables are assigned
@@ -316,7 +327,7 @@ public class MenuManager : MonoBehaviour
 
     public void NPCDialogue1()
     {
-        Debug.Log("NPC 1");
+        Debug.Log(NPC1Json.text);
     }
     public void NPCDialogue2()
     {
