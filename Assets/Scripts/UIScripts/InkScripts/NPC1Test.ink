@@ -1,6 +1,6 @@
 VAR playerName = ""
-This is some random ass dialogue stuff
-Stop! Who would cross the bridge of death must answer me these questions three, ere the other side he see.
+Stop!
+Who would cross the bridge of death must answer me these questions three, ere the other side he see.
 ->Choices
 
 ==Choices==
