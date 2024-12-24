@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Ink.Runtime;
+using Unity.VisualScripting;
 
 public class MenuManager : MonoBehaviour
 {
@@ -90,6 +91,33 @@ public class MenuManager : MonoBehaviour
     private GameObject upgrades3Button;
     #endregion
 
+    #region Spoons UI Elements
+    [Header("Spoons UI Elements")]
+
+    [SerializeField]
+    private bool dialogueIsPlaying;
+
+    private Story currentDialogue;
+
+    [SerializeField]
+    private TextAsset npc1Json;
+
+    [SerializeField]
+    private GameObject dialogueBox;
+
+    [SerializeField]
+    private TextMeshProUGUI dialogueText;
+
+    [SerializeField]
+    private GameObject[] dialogueChoices;
+
+    [SerializeField]
+    private TextMeshProUGUI[] choicesText;
+
+    [SerializeField]
+    private Button choice0, choice1, choice2;
+    #endregion
+
     #region Constant UI Elements
     [Header("Constant UI Elements")]
 
@@ -106,23 +134,7 @@ public class MenuManager : MonoBehaviour
     private GameObject questButton;
     #endregion
 
-    #region Spoons UI Elements
-    [Header("Spoons UI Elements")]
 
-    private Story currentDialogue;
-
-    [SerializeField]
-    private bool dialogueIsPlaying;
-
-    [SerializeField]
-    private TextAsset npc1Json;
-
-    [SerializeField]
-    private GameObject dialogueBox;
-
-    [SerializeField]
-    private TextMeshProUGUI dialogueText;
-    #endregion
 
     private bool readyPressed = false;
 
@@ -167,6 +179,12 @@ public class MenuManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialogueBox.SetActive(false);
         dialogueText.enabled = false;
+        choice0 = GameObject.Find("Choice0").GetComponent<Button>();
+        //dialogueChoices[0] = choice0.gameObject;
+        choice1 = GameObject.Find("Choice1").GetComponent<Button>();
+        //dialogueChoices[1] = choice1.gameObject;
+        choice2 = GameObject.Find("Choice2").GetComponent<Button>();
+        //dialogueChoices[2] = choice2.gameObject;
         //----------Spoons UI----------
 
         //----------City UI-----------
@@ -195,6 +213,16 @@ public class MenuManager : MonoBehaviour
         repairCost = 10.0f;
     }
 
+    private void Start()
+    {
+        choicesText = new TextMeshProUGUI[dialogueChoices.Length];
+        int index = 0;
+        foreach (GameObject choice in dialogueChoices)
+        {
+            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            index++;
+        }
+    }
     private void OnEnable()
     {
         shipStatManager = GameObject.Find("ShipStats").GetComponent<ShipStatManager>();
@@ -383,5 +411,17 @@ public class MenuManager : MonoBehaviour
         dialogueBox.SetActive(true);    //activate the text box
         dialogueText.enabled = true;
         dialogueText.text = currentDialogue.Continue();   //set the dialogue text
+
+        List<Choice> currentChoices = currentDialogue.currentChoices;
+        for(int i = 0; i < currentChoices.Count; i++)
+        {
+            Choice choice = currentChoices[i];
+            choicesText[i].text = choice.text;
+        }
+
+        for(int i = 0; i < dialogueChoices.Length; i++)
+        {
+            dialogueChoices[i].SetActive(false);
+        }
     }
 }
