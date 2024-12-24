@@ -13,8 +13,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private SceneManagerScript sceneManager;
 
-
-
     #region ship info
     [Header("Ship Info")]
     ShipInfo shipInfo;
@@ -109,11 +107,11 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Spoons UI Elements
-
     [Header("Spoons UI Elements")]
 
     private Story currentDialogue;
 
+    [SerializeField]
     private bool dialogueIsPlaying;
 
     [SerializeField]
@@ -124,7 +122,6 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI dialogueText;
-
     #endregion
 
     private bool readyPressed = false;
@@ -365,14 +362,13 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
-
-        //checks if the current dialogue has more dialogue, and if any button is pressed
-        if(currentDialogue.canContinue && Input.anyKey)
+        if(dialogueIsPlaying && Input.GetKeyDown(KeyCode.Mouse0) && currentDialogue.canContinue)
         {
-            currentDialogue.Continue();
-            Debug.Log("Continuing Dialogue");
+            dialogueText.text = currentDialogue.Continue();
+            Debug.Log("Continue");
         }
+
+        moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
     }
 
     /// <summary>
@@ -386,6 +382,6 @@ public class MenuManager : MonoBehaviour
         dialogueIsPlaying = true;
         dialogueBox.SetActive(true);    //activate the text box
         dialogueText.enabled = true;
-        dialogueText.text = inkJSON.text;   //set the dialogue text
+        dialogueText.text = currentDialogue.Continue();   //set the dialogue text
     }
 }
