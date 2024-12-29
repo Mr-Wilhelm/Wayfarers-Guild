@@ -5983,7 +5983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6256132815612330356
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6004,6 +6004,7 @@ RectTransform:
   - {fileID: 7935596069858445156}
   - {fileID: 8183896082709724948}
   - {fileID: 7130226423250236630}
+  - {fileID: 8646303796513779913}
   m_Father: {fileID: 7196621148933574308}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7882,7 +7883,6 @@ RectTransform:
   - {fileID: 8815318713259604864}
   - {fileID: 6256132815612330356}
   - {fileID: 1778823907794506359}
-  - {fileID: 8646303796513779913}
   - {fileID: 1012254049696866847}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7987,16 +7987,19 @@ MonoBehaviour:
   upgrades1Button: {fileID: 0}
   upgrades2Button: {fileID: 0}
   upgrades3Button: {fileID: 0}
-  moneyCounter: {fileID: 0}
-  moneyAmount: 0
-  readyButton: {fileID: 0}
-  questButton: {fileID: 0}
   dialogueIsPlaying: 0
   npc1Json: {fileID: 0}
   dialogueBox: {fileID: 0}
   dialogueText: {fileID: 0}
+  dialogueChoices: []
+  choicesText: []
   choice0: {fileID: 0}
   choice1: {fileID: 0}
+  choice2: {fileID: 0}
+  moneyCounter: {fileID: 0}
+  moneyAmount: 0
+  readyButton: {fileID: 0}
+  questButton: {fileID: 0}
 --- !u!1 &7283902561942195175
 GameObject:
   m_ObjectHideFlags: 0
@@ -10163,11 +10166,11 @@ RectTransform:
   m_GameObject: {fileID: 8789672561295556324}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.69819057, y: 1.9824808, z: 0.73482996}
+  m_LocalScale: {x: 0.6981905, y: 1.9824806, z: 0.7348299}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5833299085364753158}
-  m_Father: {fileID: 7196621148933574308}
+  m_Father: {fileID: 6256132815612330356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

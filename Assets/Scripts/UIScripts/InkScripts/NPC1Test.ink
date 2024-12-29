@@ -10,19 +10,22 @@ Who would cross the bridge of death must answer me these questions three, ere th
 What, is your name?
 * [Sir Lancelot of Camelot]
 ~ playerName = "Lancelot"   //tilde ~ sets variable values
-->Quest
+->Lancelot
 * [Sir Robin of Camelot]
 ~ playerName = "Robin"
--> Quest
-* [Sir Galahad of Camelot]
-~ playerName = "Galahad"
--> Quest
+-> Robin
 * [It is Arthur, King of the Britons]
 ~ playerName = "Arthur, King of the Britons"
--> Quest
+-> Arthur
 
+==Lancelot==
+You are Sir Lancelot
+-> END
 
-==Quest==
-What is your quest?
-* [To seek the holy grail]
+==Robin==
+You are Sir Robin
+-> END
+
+==Arthur==
+My Leige!
 -> END

@@ -176,14 +176,18 @@ public class MenuManager : MonoBehaviour
         npc1Json = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
         dialogueBox = GameObject.Find("Dialogue Box");
         dialogueText = GameObject.Find("Dialogue Text").GetComponent<TextMeshProUGUI>();
+        choice0 = GameObject.Find("Choice0").GetComponent<Button>();
+        Debug.Log("Assigned choice 0");
+        //dialogueChoices[0] = choice0.gameObject;
+        choice1 = GameObject.Find("Choice1").GetComponent<Button>();
+        Debug.Log("Assigned choice 1");
+        //dialogueChoices[1] = choice1.gameObject;
+        choice2 = GameObject.Find("Choice2").GetComponent<Button>();
+        Debug.Log("Assigned choice 2");
+
         dialogueIsPlaying = false;
         dialogueBox.SetActive(false);
         dialogueText.enabled = false;
-        choice0 = GameObject.Find("Choice0").GetComponent<Button>();
-        //dialogueChoices[0] = choice0.gameObject;
-        choice1 = GameObject.Find("Choice1").GetComponent<Button>();
-        //dialogueChoices[1] = choice1.gameObject;
-        choice2 = GameObject.Find("Choice2").GetComponent<Button>();
         //dialogueChoices[2] = choice2.gameObject;
         //----------Spoons UI----------
 
