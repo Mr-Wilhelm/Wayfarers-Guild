@@ -11,10 +11,21 @@ using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 using System.Linq;
 
+/// <summary>
+/// To Anyone Other than myself (Will) trying to use this script
+/// I apologise for the ENTIRE 2D section of the game being in this single script, and the horrors you are about to witness as a result
+/// However with Networking stuff, i wasn't sure how practical it would be to have multiple scripts and networked game objects as a result
+/// I thought that syncing stuff miiiiight be easier if its all in one script (this was written before attempting any networking, so i might be wrong)
+/// Anyways, CTRL + F exists for a reason, and i've tried to make it as easy to read as possible, so have fun! ^_^
+/// 
+/// "You will witness true horror" - Malenia, Blade of Miquella
+/// </summary>
+
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]
     private SceneManagerScript sceneManager;
+    private bool readyPressed = false;
 
     #region ship info
     [Header("Ship Info")]
@@ -133,10 +144,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject questButton;
     #endregion
-
-
-
-    private bool readyPressed = false;
 
     private void Awake()
     {
@@ -405,6 +412,8 @@ public class MenuManager : MonoBehaviour
         moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
     }
 
+    //https://youtu.be/vY0Sk93YUhA
+    #region Ink Dialogue Stuff - Tutorial used found in link above ^
     public void EnterDialogueMode(TextAsset inkJSON)
     {
         currentStory = new Story(inkJSON.text);
@@ -469,4 +478,6 @@ public class MenuManager : MonoBehaviour
         //in the section where you assign functions to buttons
         currentStory.ChooseChoiceIndex(choiceIndex);
     }
+
+    #endregion
 }
