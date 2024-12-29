@@ -6,8 +6,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Ink.Runtime;
+using Ink.Runtime;  //ink stuff
 using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
 
 public class MenuManager : MonoBehaviour
 {
@@ -95,27 +96,19 @@ public class MenuManager : MonoBehaviour
     [Header("Spoons UI Elements")]
 
     [SerializeField]
-    private bool dialogueIsPlaying;
-
-    private Story currentDialogue;
+    private TextAsset NPC1Dialogue;
 
     [SerializeField]
-    private TextAsset npc1Json;
-
-    [SerializeField]
-    private GameObject dialogueBox;
+    private GameObject dialoguePanel;
 
     [SerializeField]
     private TextMeshProUGUI dialogueText;
 
     [SerializeField]
-    private GameObject[] dialogueChoices;
+    private Story currentStory;
 
     [SerializeField]
-    private TextMeshProUGUI[] choicesText;
-
-    [SerializeField]
-    private Button choice0, choice1, choice2;
+    private bool dialogueIsPlaying = false;
     #endregion
 
     #region Constant UI Elements
@@ -173,22 +166,16 @@ public class MenuManager : MonoBehaviour
         //----------Upgrades UI----------
 
         //----------Spoons UI----------
-        npc1Json = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
-        dialogueBox = GameObject.Find("Dialogue Box");
-        dialogueText = GameObject.Find("Dialogue Text").GetComponent<TextMeshProUGUI>();
-        choice0 = GameObject.Find("Choice0").GetComponent<Button>();
-        Debug.Log("Assigned choice 0");
-        //dialogueChoices[0] = choice0.gameObject;
-        choice1 = GameObject.Find("Choice1").GetComponent<Button>();
-        Debug.Log("Assigned choice 1");
-        //dialogueChoices[1] = choice1.gameObject;
-        choice2 = GameObject.Find("Choice2").GetComponent<Button>();
-        Debug.Log("Assigned choice 2");
+        NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
 
-        dialogueIsPlaying = false;
-        dialogueBox.SetActive(false);
-        dialogueText.enabled = false;
-        //dialogueChoices[2] = choice2.gameObject;
+        dialoguePanel = GameObject.Find("Dialogue Box");
+        dialoguePanel.SetActive(false);
+
+        //dialogueText = GameObject.Find("Dialogue Text").GetComponent<TextMeshProUGUI>();
+        //Debug.Log("Assigned");
+        //dialogueText.enabled = false;
+        //Debug.Log("Hidden");
+
         //----------Spoons UI----------
 
         //----------City UI-----------
@@ -219,13 +206,7 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        choicesText = new TextMeshProUGUI[dialogueChoices.Length];
-        int index = 0;
-        foreach (GameObject choice in dialogueChoices)
-        {
-            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
-            index++;
-        }
+        
     }
     private void OnEnable()
     {
@@ -375,7 +356,7 @@ public class MenuManager : MonoBehaviour
 
     public void NPCDialogue1()
     {
-        LoadInkDialogue(npc1Json);
+        EnterDialogueMode(NPC1Dialogue);
     }
     public void NPCDialogue2()
     {
@@ -394,38 +375,46 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if(dialogueIsPlaying && Input.GetKeyDown(KeyCode.Mouse0) && currentDialogue.canContinue)
+        Debug.Log(dialogueText.text);
+        if (!dialogueIsPlaying)
         {
-            dialogueText.text = currentDialogue.Continue();
-            Debug.Log("Continue");
+            return;
         }
+        
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            ContinueStory();
+        }
+
 
         moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
     }
 
-    /// <summary>
-    /// Gets the dialogue input from the parameter
-    /// Sets the dialogue box to active
-    /// </summary>
-    /// <param name="inkJSON"></param>
-    private void LoadInkDialogue(TextAsset inkJSON)
+    public void EnterDialogueMode(TextAsset inkJSON)
     {
-        currentDialogue = new Story(inkJSON.text);  //gets the text from the json file
+        currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
-        dialogueBox.SetActive(true);    //activate the text box
-        dialogueText.enabled = true;
-        dialogueText.text = currentDialogue.Continue();   //set the dialogue text
+        dialoguePanel.SetActive(true);
 
-        List<Choice> currentChoices = currentDialogue.currentChoices;
-        for(int i = 0; i < currentChoices.Count; i++)
+        ContinueStory();
+    }
+
+    private void ExitDialogueMode()
+    {
+        dialogueIsPlaying = false;
+        dialoguePanel.SetActive(false);
+        dialogueText.text = "";
+    }
+
+    private void ContinueStory()
+    {
+        if(currentStory.canContinue)
         {
-            Choice choice = currentChoices[i];
-            choicesText[i].text = choice.text;
+            dialogueText.text = currentStory.Continue();
         }
-
-        for(int i = 0; i < dialogueChoices.Length; i++)
+        else
         {
-            dialogueChoices[i].SetActive(false);
+            ExitDialogueMode();
         }
     }
 }
