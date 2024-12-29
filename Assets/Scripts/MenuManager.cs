@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using Ink.Runtime;  //ink stuff
 using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
@@ -109,6 +110,12 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private bool dialogueIsPlaying = false;
+
+    [SerializeField]
+    private GameObject[] choices;
+
+    [SerializeField]
+    private TextMeshProUGUI[] choicesText;
     #endregion
 
     #region Constant UI Elements
@@ -171,6 +178,8 @@ public class MenuManager : MonoBehaviour
         dialoguePanel = GameObject.Find("Dialogue Box");
         dialoguePanel.SetActive(false);
 
+        //TODO: Fix this Code to auto assign the text.
+
         //dialogueText = GameObject.Find("Dialogue Text").GetComponent<TextMeshProUGUI>();
         //Debug.Log("Assigned");
         //dialogueText.enabled = false;
@@ -206,7 +215,14 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        
+        //gets the choice texts
+        choicesText = new TextMeshProUGUI[choices.Length];
+        int index = 0;
+        foreach(GameObject choice in choices)
+        {
+            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            index++;
+        }
     }
     private void OnEnable()
     {
@@ -375,13 +391,12 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(dialogueText.text);
         if (!dialogueIsPlaying)
         {
             return;
         }
         
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse1))
         {
             ContinueStory();
         }
@@ -410,11 +425,48 @@ public class MenuManager : MonoBehaviour
     {
         if(currentStory.canContinue)
         {
+            //set text for the current line
             dialogueText.text = currentStory.Continue();
+
+            //display dialogue choices
+            DisplayChoices();
         }
         else
         {
             ExitDialogueMode();
         }
+    }
+
+    private void DisplayChoices()
+    {
+        List<Choice> currentChoices = currentStory.currentChoices;
+
+        if(currentChoices.Count > choices.Length)
+        {
+            Debug.LogError("More choies were given than the Ui can support, Will made this, so ask him for help if necessary. Number of choices given:" + currentChoices.Count);
+        }
+
+        int index = 0;
+        //enable the choice buttons for the amount of current choices from the ink story
+        foreach(Choice choice in currentChoices)
+        {
+            choices[index].gameObject.SetActive(true);
+            choicesText[index].text = choice.text;
+            index++;
+        }
+
+        //go through the remaining choices the UI supports and make sure they're hidden.
+
+        for(int i = index; i < choices.Length; i++)
+        {
+            choices[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void MakeChoice(int choiceIndex)
+    {
+        //the parameter is passed on the button press in the unity editor,
+        //in the section where you assign functions to buttons
+        currentStory.ChooseChoiceIndex(choiceIndex);
     }
 }
