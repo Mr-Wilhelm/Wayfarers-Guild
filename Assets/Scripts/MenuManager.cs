@@ -403,9 +403,9 @@ public class MenuManager : MonoBehaviour
             return;
         }
         
-        if(Input.GetKeyDown(KeyCode.Mouse1))
+        if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            ContinueStory();
+            Invoke("ContinueStory", 0.1f);
         }
 
 

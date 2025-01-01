@@ -4,28 +4,28 @@ Who would cross the bridge of death must answer me these questions three, ere th
 ->Choices
 
 ==Choices==
-* [Ask me the questions bridge keeper, im not afraid!] -> Name
+* [Ok] -> Name
 
 ==Name==
 What, is your name?
-* [Sir Lancelot of Camelot]
+* [A]
 ~ playerName = "Lancelot"   //tilde ~ sets variable values
-->Lancelot
-* [Sir Robin of Camelot]
+->A
+* [B]
 ~ playerName = "Robin"
--> Robin
-* [It is Arthur, King of the Britons]
+-> B
+* [C]
 ~ playerName = "Arthur, King of the Britons"
--> Arthur
+-> C
 
-==Lancelot==
-You are Sir Lancelot
+==A==
+Your Name is A
 -> END
 
-==Robin==
-You are Sir Robin
+==B==
+Your Name is B
 -> END
 
-==Arthur==
-My Leige!
+==C==
+Your Name is C
 -> END
