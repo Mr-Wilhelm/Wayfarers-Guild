@@ -445,7 +445,6 @@ public class MenuManager : MonoBehaviour
 
             //set text for the current line
             typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue()));
-
             //display dialogue choices
             DisplayChoices();
         }
