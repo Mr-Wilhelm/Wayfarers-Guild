@@ -127,6 +127,8 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI[] choicesText;
+
+    private Coroutine typeTextCoroutine;
     #endregion
 
     #region Constant UI Elements
@@ -434,8 +436,15 @@ public class MenuManager : MonoBehaviour
     {
         if(currentStory.canContinue)
         {
+            //Stops the current text typing from playing.
+            //This fixes a bug where text overlaps from different dialogues
+            if(typeTextCoroutine != null)
+            {
+                StopCoroutine(typeTextCoroutine);
+            }
+
             //set text for the current line
-            dialogueText.text = currentStory.Continue();
+            typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue()));
 
             //display dialogue choices
             DisplayChoices();
@@ -443,6 +452,23 @@ public class MenuManager : MonoBehaviour
         else
         {
             ExitDialogueMode();
+        }
+    }
+
+    /// <summary>
+    /// Takes the string, in this case the text of the current story
+    /// Convert it to an array of Chars
+    /// Iterate throug the array, adding to it
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    private IEnumerator TypeText(string text)
+    {
+        dialogueText.text = "";
+        foreach (char letter in text.ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(10.0f * Time.deltaTime);
         }
     }
 
