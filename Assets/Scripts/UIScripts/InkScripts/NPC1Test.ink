@@ -1,31 +1,28 @@
 VAR playerName = ""
-Stop!
-Who would cross the bridge of death must answer me these questions three, ere the other side he see.
+Oi!
+If y'want a drink, you'd better pay, mate!
 ->Choices
 
 ==Choices==
-* [Ok] -> Name
+* [Buy Drink] -> Menu
+* [Jobs] -> Jobs
+* [3rd Choice] -> Other
 
-==Name==
-What, is your name?
-* [A]
-~ playerName = "Lancelot"   //tilde ~ sets variable values
-->A
-* [B]
-~ playerName = "Robin"
--> B
-* [C]
-~ playerName = "Arthur, King of the Britons"
--> C
+==Menu==
+Choose a drink
+*[Rum] -> Drink
+*[Whiskey] -> Drink
 
-==A==
-Your Name is A
+==Drink==
+No going overboard with that a'right?
+It'll be you cleaning up the mess if y' do!
 -> END
 
-==B==
-Your Name is B
+==Jobs==
+Lookin' for jobs? Check the board, not me - I just do the drinks.
 -> END
 
-==C==
-Your Name is C
--> END
+==Other==
+This dialogue might not be added
+It's just here to show that three choices exist
+->END
