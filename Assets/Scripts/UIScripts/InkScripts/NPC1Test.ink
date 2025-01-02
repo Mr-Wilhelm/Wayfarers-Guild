@@ -1,4 +1,3 @@
-VAR playerName = ""
 Oi!
 If y'want a drink, you'd better pay, mate!
 ->Choices
@@ -19,7 +18,7 @@ It'll be you cleaning up the mess if y' do!
 -> END
 
 ==Jobs==
-Lookin' for jobs? Check the board, not me - I just do the drinks. #annoyed
+Lookin' for jobs? Check the board, not me - I just do the drinks. #annoyed #anotherTag
 -> END
 
 ==Other==

@@ -405,29 +405,30 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (!dialogueIsPlaying)
+        if (!dialogueIsPlaying) //stops other dialogue from playing if there is dialogue currently playing
         {
             return;
         }
         
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Invoke("ContinueStory", 0.1f);
+            Invoke("ContinueStory", 0.1f);  //continues the story after a brief delay, this gets the button clicked first
         }
 
 
         moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
     }
 
+
+    #region Ink Dialogue Stuff - Tutorial used found in link Below
     //https://youtu.be/vY0Sk93YUhA
-    #region Ink Dialogue Stuff - Tutorial used found in link above ^
     public void EnterDialogueMode(TextAsset inkJSON)
     {
-        currentStory = new Story(inkJSON.text);
+        currentStory = new Story(inkJSON.text); //sets the current story to the variable
         dialogueIsPlaying = true;
-        dialoguePanel.SetActive(true);
+        dialoguePanel.SetActive(true);  //activates the dialogue panel
 
-        ContinueStory();
+        ContinueStory();    //Loads the next line of the story
     }
 
     private void ExitDialogueMode()
@@ -439,11 +440,8 @@ public class MenuManager : MonoBehaviour
 
     private void ContinueStory()
     {
-        List<string> tags = currentStory.currentTags;
-        for(int i = 0; i < tags.Count; i++)
-        {
-            Debug.Log(tags[i]);
-        }
+        List<string> tags = currentStory.currentTags;   //gets tags from the current story
+        Debug.Log(tags.Count);
 
         if(currentStory.canContinue)
         {
@@ -454,10 +452,9 @@ public class MenuManager : MonoBehaviour
                 StopCoroutine(typeTextCoroutine);
             }
 
-            //set text for the current line
-            typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue()));
+            typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue())); //set text for the current line
             //display dialogue choices
-            DisplayChoices();
+            DisplayChoices();   //shows button choices
         }
         else
         {
@@ -484,27 +481,29 @@ public class MenuManager : MonoBehaviour
 
     private void DisplayChoices()
     {
-        List<Choice> currentChoices = currentStory.currentChoices;
+        List<Choice> currentChoices = currentStory.currentChoices;  //gets current choices from the ink file
 
         if(currentChoices.Count > choices.Length)
         {
+            //unity is set up to support up to three choices so far, lemme know if you want more
             Debug.LogError("More choies were given than the Ui can support, Will made this, so ask him for help if necessary. Number of choices given:" + currentChoices.Count);
         }
 
         int index = 0;
+
         //enable the choice buttons for the amount of current choices from the ink story
-        foreach(Choice choice in currentChoices)
+        foreach (Choice choice in currentChoices)
         {
             choices[index].gameObject.SetActive(true);
             choicesText[index].text = choice.text;
             index++;
         }
 
-        //go through the remaining choices the UI supports and make sure they're hidden.
+
 
         for(int i = index; i < choices.Length; i++)
         {
-            choices[i].gameObject.SetActive(false);
+            choices[i].gameObject.SetActive(false); //go through the remaining choices the UI supports and make sure they're hidden.
         }
     }
 
