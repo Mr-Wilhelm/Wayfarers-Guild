@@ -105,30 +105,9 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Spoons UI Elements
-    [Header("Spoons UI Elements")]
+    
 
-    [SerializeField]
-    private TextAsset NPC1Dialogue;
 
-    [SerializeField]
-    private GameObject dialoguePanel;
-
-    [SerializeField]
-    private TextMeshProUGUI dialogueText;
-
-    [SerializeField]
-    private Story currentStory;
-
-    [SerializeField]
-    private bool dialogueIsPlaying = false;
-
-    [SerializeField]
-    private GameObject[] choices;
-
-    [SerializeField]
-    private TextMeshProUGUI[] choicesText;
-
-    private Coroutine typeTextCoroutine;
     #endregion
 
     #region Constant UI Elements
@@ -398,6 +377,32 @@ public class MenuManager : MonoBehaviour
     //----------Spoons Functions----------
     #endregion
 
+    [Header("Spoons UI Elements")]
+    [SerializeField]
+    private TextAsset NPC1Dialogue;
+
+    [SerializeField]
+    private GameObject dialoguePanel;
+
+    [SerializeField]
+    private TextMeshProUGUI dialogueText;
+
+    [SerializeField]
+    private Story currentStory;
+
+    [SerializeField]
+    private bool dialogueIsPlaying = false;
+
+    [SerializeField]
+    private GameObject[] choices;
+
+    [SerializeField]
+    private TextMeshProUGUI[] choicesText;
+
+    private Coroutine typeTextCoroutine;
+
+
+
     private void Update()
     {
         if (!dialogueIsPlaying)
@@ -434,6 +439,12 @@ public class MenuManager : MonoBehaviour
 
     private void ContinueStory()
     {
+        List<string> tags = currentStory.currentTags;
+        for(int i = 0; i < tags.Count; i++)
+        {
+            Debug.Log(tags[i]);
+        }
+
         if(currentStory.canContinue)
         {
             //Stops the current text typing from playing.

@@ -14,15 +14,15 @@ Choose a drink
 *[Whiskey] -> Drink
 
 ==Drink==
-No going overboard with that a'right?
+No going overboard with that a'right? #concerned
 It'll be you cleaning up the mess if y' do!
 -> END
 
 ==Jobs==
-Lookin' for jobs? Check the board, not me - I just do the drinks.
+Lookin' for jobs? Check the board, not me - I just do the drinks. #annoyed
 -> END
 
 ==Other==
-This dialogue might not be added
+This dialogue might not be added #third tag
 It's just here to show that three choices exist
 ->END
