@@ -13,12 +13,12 @@ Choose a drink
 *[Whiskey] -> Drink
 
 ==Drink==
-No going overboard with that a'right? #concerned
+No going overboard with that a'right?
 It'll be you cleaning up the mess if y' do!
 -> END
 
 ==Jobs==
-Lookin' for jobs? Check the board, not me - I just do the drinks. #annoyed #anotherTag
+Lookin' for jobs? Check the board, not me - I just do the drinks.
 -> END
 
 ==Other==

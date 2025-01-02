@@ -195,7 +195,7 @@ public class MenuManager : MonoBehaviour
 
         //----------Other Variables----------
 
-
+        audioSource = GetComponent<AudioSource>();
 
         //----------Other Variables----------
         repairCost = 10.0f;
@@ -401,7 +401,11 @@ public class MenuManager : MonoBehaviour
 
     private Coroutine typeTextCoroutine;
 
+    [SerializeField]
+    private AudioSource audioSource;
 
+    [SerializeField]
+    private AudioClip textSound;
 
     private void Update()
     {
@@ -412,7 +416,7 @@ public class MenuManager : MonoBehaviour
         
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Invoke("ContinueStory", 0.1f);  //continues the story after a brief delay, this gets the button clicked first
+            Invoke("ContinueStory", 0.2f);  //continues the story after a brief delay, this gets the button clicked first
         }
 
 
@@ -475,6 +479,8 @@ public class MenuManager : MonoBehaviour
         foreach (char letter in text.ToCharArray())
         {
             dialogueText.text += letter;
+            audioSource.clip = textSound;
+            audioSource.Play();
             yield return new WaitForSeconds(10.0f * Time.deltaTime);
         }
     }
