@@ -162,9 +162,14 @@ public class MenuManager : MonoBehaviour
 
         //----------Spoons UI----------
         NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
+        NPC2Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC2.json", typeof(TextAsset));
 
         dialoguePanel = GameObject.Find("Dialogue Box");
         dialoguePanel.SetActive(false);
+
+        characterPortrait = dialogueText.transform.GetChild(0).GetComponent<Image>();
+
+        
 
         //TODO: Fix this Code to auto assign the text.
 
@@ -196,6 +201,7 @@ public class MenuManager : MonoBehaviour
         //----------Other Variables----------
 
         audioSource = GetComponent<AudioSource>();
+        audioSource.enabled = false;
 
         //----------Other Variables----------
         repairCost = 10.0f;
@@ -361,18 +367,22 @@ public class MenuManager : MonoBehaviour
     public void NPCDialogue1()
     {
         EnterDialogueMode(NPC1Dialogue);
+        characterPortrait.enabled = true;
     }
     public void NPCDialogue2()
     {
-        Debug.Log("NPC 2");
+        EnterDialogueMode(NPC2Dialogue);
+        characterPortrait.enabled = false;
     }
     public void NPCDialogue3()
     {
         Debug.Log("NPC 3");
+        characterPortrait.enabled = false;
     }
     public void NPCDialogue4()
     {
         Debug.Log("NPC 4");
+        characterPortrait.enabled = false;
     }
     //----------Spoons Functions----------
     #endregion
@@ -382,10 +392,16 @@ public class MenuManager : MonoBehaviour
     private TextAsset NPC1Dialogue;
 
     [SerializeField]
+    private TextAsset NPC2Dialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
     private TextMeshProUGUI dialogueText;
+
+    [SerializeField]
+    private Image characterPortrait;
 
     [SerializeField]
     private Story currentStory;
@@ -431,6 +447,7 @@ public class MenuManager : MonoBehaviour
         currentStory = new Story(inkJSON.text); //sets the current story to the variable
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);  //activates the dialogue panel
+        audioSource.enabled = true;
 
         ContinueStory();    //Loads the next line of the story
     }
@@ -440,6 +457,7 @@ public class MenuManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+        audioSource.enabled = false;
     }
 
     private void ContinueStory()
@@ -480,7 +498,11 @@ public class MenuManager : MonoBehaviour
         {
             dialogueText.text += letter;
             audioSource.clip = textSound;
-            audioSource.Play();
+            if(!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+
             yield return new WaitForSeconds(10.0f * Time.deltaTime);
         }
     }
