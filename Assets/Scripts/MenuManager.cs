@@ -124,6 +124,11 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject questButton;
+
+    [SerializeField]
+    private GameObject questButtonPivot;
+
+    private bool questDroppedDown;
     #endregion
 
     private void Awake()
@@ -138,6 +143,9 @@ public class MenuManager : MonoBehaviour
 
         questButton = GameObject.Find("QuestButton");
         questButton.SetActive(true);
+
+        questButtonPivot = GameObject.Find("QuestButtonPivot");
+        questButtonPivot.SetActive(true);
         //----------Constant UI Elements----------
 
 
@@ -230,7 +238,15 @@ public class MenuManager : MonoBehaviour
     //----------City UI------------
     public void QuestButtonPress()
     {
-        Debug.Log("Quest button pressed");
+        if(!questDroppedDown)
+        {
+            questButtonPivot.transform.localScale = new Vector3
+                (questButtonPivot.transform.localScale.x,
+                questButtonPivot.transform.localScale.y + 3.0f,
+                questButtonPivot.transform.localScale.z);
+
+            questDroppedDown = true;
+        }
     }
 
     public void BackButton()
@@ -390,6 +406,25 @@ public class MenuManager : MonoBehaviour
     //----------Spoons Functions----------
     #endregion
 
+
+
+    private void Update()
+    {
+        if (!dialogueIsPlaying) //stops other dialogue from playing if there is dialogue currently playing
+        {
+            return;
+        }
+        
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Invoke("ContinueStory", 0.2f);  //continues the story after a brief delay, this gets the button clicked first
+        }
+
+
+        moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
+    }
+
+    #region Dialogue System Variables
     [Header("Spoons UI Elements")]
     [SerializeField]
     private TextAsset NPC1Dialogue;
@@ -431,23 +466,7 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private AudioClip textSound;
-
-    private void Update()
-    {
-        if (!dialogueIsPlaying) //stops other dialogue from playing if there is dialogue currently playing
-        {
-            return;
-        }
-        
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Invoke("ContinueStory", 0.2f);  //continues the story after a brief delay, this gets the button clicked first
-        }
-
-
-        moneyCounter.GetComponent<TextMeshProUGUI>().text = "You have $" + moneyAmount.ToString();
-    }
-
+    #endregion
 
     #region Ink Dialogue Stuff - Tutorial used found in link Below
     //https://youtu.be/vY0Sk93YUhA
