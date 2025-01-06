@@ -161,8 +161,11 @@ public class MenuManager : MonoBehaviour
         //----------Upgrades UI----------
 
         //----------Spoons UI----------
+        //assigning the dialogue variables by accessing them in the folder
         NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
         NPC2Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC2.json", typeof(TextAsset));
+        NPC3Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC3.json", typeof(TextAsset));
+        NPC4Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC4.json", typeof(TextAsset));
 
         dialoguePanel = GameObject.Find("Dialogue Box");
         dialoguePanel.SetActive(false);
@@ -376,12 +379,12 @@ public class MenuManager : MonoBehaviour
     }
     public void NPCDialogue3()
     {
-        Debug.Log("NPC 3");
+        EnterDialogueMode(NPC3Dialogue);
         characterPortrait.enabled = false;
     }
     public void NPCDialogue4()
     {
-        Debug.Log("NPC 4");
+        EnterDialogueMode(NPC4Dialogue);
         characterPortrait.enabled = false;
     }
     //----------Spoons Functions----------
@@ -393,6 +396,12 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private TextAsset NPC2Dialogue;
+
+    [SerializeField]
+    private TextAsset NPC3Dialogue;
+
+    [SerializeField]
+    private TextAsset NPC4Dialogue;
 
     [SerializeField]
     private GameObject dialoguePanel;

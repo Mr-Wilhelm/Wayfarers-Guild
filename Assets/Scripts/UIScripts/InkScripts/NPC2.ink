@@ -1,3 +1,2 @@
-A Disheveled drunk sits slumped unconscious, his glass half empty.
-You think about swiping the drink, but are deterred by the bar tenders sharp gaze.
-Best not to cause trouble where it isn't necessary!
+A drunk guy sits asleep at his chair.
+He's clearly had too much to drink.
