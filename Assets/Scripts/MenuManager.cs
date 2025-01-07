@@ -128,6 +128,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject questButtonPivot;
 
+    [SerializeField]
+    private GameObject questCollapseArrow;
+
     private bool questDroppedDown;
     #endregion
 
@@ -146,6 +149,9 @@ public class MenuManager : MonoBehaviour
 
         questButtonPivot = GameObject.Find("QuestButtonPivot");
         questButtonPivot.SetActive(true);
+
+        questCollapseArrow = GameObject.Find("QuestCollapseArrow");
+        questCollapseArrow.SetActive(false);
         //----------Constant UI Elements----------
 
 
@@ -246,6 +252,21 @@ public class MenuManager : MonoBehaviour
                 questButtonPivot.transform.localScale.z);
 
             questDroppedDown = true;
+            questCollapseArrow.SetActive(true);
+        }
+    }
+
+    public void CollapseQuestMenu()
+    {
+        if(questDroppedDown)
+        {
+            questButtonPivot.transform.localScale = new Vector3
+                (questButtonPivot.transform.localScale.x,
+                questButtonPivot.transform.localScale.y - 3.0f,
+                questButtonPivot.transform.localScale.z);
+
+            questDroppedDown = false;
+            questCollapseArrow.SetActive(false);
         }
     }
 
