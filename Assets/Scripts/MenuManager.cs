@@ -107,6 +107,9 @@ public class MenuManager : MonoBehaviour
     #region Spoons UI Elements
     [Header("Spoons UI Elements")]
     [SerializeField]
+    private GameObject spoonsBackButton;
+
+    [SerializeField]
     private GameObject npc1Button;
 
     [SerializeField]
@@ -194,6 +197,8 @@ public class MenuManager : MonoBehaviour
 
         //----------Spoons UI----------
         //assigning the dialogue variables by accessing them in the folder
+        spoonsBackButton = GameObject.Find("SpoonsBackButton");
+
         npc1Button = GameObject.Find("NPC1");
         npc2Button = GameObject.Find("NPC2");
         npc3Button = GameObject.Find("NPC3");
@@ -460,6 +465,8 @@ public class MenuManager : MonoBehaviour
 
         questBoard.SetActive(true);
         questBoardButton.SetActive(false);
+
+        spoonsBackButton.SetActive(false);
     }
     //----------Spoons Functions----------
     #endregion
