@@ -105,8 +105,24 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Spoons UI Elements
-    
+    [Header("Spoons UI Elements")]
+    [SerializeField]
+    private GameObject npc1Button;
 
+    [SerializeField]
+    private GameObject npc2Button;
+
+    [SerializeField]
+    private GameObject npc3Button;
+
+    [SerializeField]
+    private GameObject npc4Button;
+
+    [SerializeField]
+    private GameObject questBoardButton;
+
+    [SerializeField]
+    private GameObject questBoard;
 
     #endregion
 
@@ -130,6 +146,8 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject questCollapseArrow;
+
+
 
     private bool questDroppedDown;
     #endregion
@@ -176,6 +194,11 @@ public class MenuManager : MonoBehaviour
 
         //----------Spoons UI----------
         //assigning the dialogue variables by accessing them in the folder
+        npc1Button = GameObject.Find("NPC1");
+        npc2Button = GameObject.Find("NPC2");
+        npc3Button = GameObject.Find("NPC3");
+        npc4Button = GameObject.Find("NPC4");
+
         NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC1Test.json", typeof(TextAsset));
         NPC2Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC2.json", typeof(TextAsset));
         NPC3Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/UIScripts/InkScripts/NPC3.json", typeof(TextAsset));
@@ -186,7 +209,9 @@ public class MenuManager : MonoBehaviour
 
         characterPortrait = dialogueText.transform.GetChild(0).GetComponent<Image>();
 
-        
+        questBoardButton = GameObject.Find("QuestBoard");        
+        questBoard = GameObject.Find("QuestBoardBackground");
+
 
         //TODO: Fix this Code to auto assign the text.
 
@@ -395,6 +420,7 @@ public class MenuManager : MonoBehaviour
     public void SpoonsButton()
     {
         spoonsUI.SetActive(true);
+        questBoard.SetActive(false);
         cityUI.SetActive(false);
     }
 
@@ -424,6 +450,17 @@ public class MenuManager : MonoBehaviour
         EnterDialogueMode(NPC4Dialogue);
         characterPortrait.enabled = false;
     }
+
+    public void QuestBoard()
+    {
+        npc1Button.SetActive(false);
+        npc2Button.SetActive(false);
+        npc3Button.SetActive(false);
+        npc4Button.SetActive(false);
+
+        questBoard.SetActive(true);
+        questBoardButton.SetActive(false);
+    }
     //----------Spoons Functions----------
     #endregion
 
@@ -446,7 +483,7 @@ public class MenuManager : MonoBehaviour
     }
 
     #region Dialogue System Variables
-    [Header("Spoons UI Elements")]
+    [Header("Dialogue System Variables")]
     [SerializeField]
     private TextAsset NPC1Dialogue;
 
