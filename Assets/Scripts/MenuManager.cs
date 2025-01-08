@@ -127,6 +127,33 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private GameObject questBoard;
 
+    [SerializeField]
+    private GameObject questBoardBackButton;
+
+    [SerializeField]
+    private GameObject questOne;
+
+    [SerializeField]
+    private GameObject questTwo;
+
+    [SerializeField]
+    private GameObject questThree;
+
+    [SerializeField]
+    private TextMeshProUGUI questOneText;
+
+    [SerializeField]
+    private TextMeshProUGUI questTwoText;
+
+    [SerializeField]
+    private TextMeshProUGUI questThreeText;
+
+    [SerializeField]
+    private int selectedQuest;
+
+    [SerializeField]
+    private TextMeshProUGUI currentQuestText;
+
     #endregion
 
     #region Constant UI Elements
@@ -149,8 +176,6 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private GameObject questCollapseArrow;
-
-
 
     private bool questDroppedDown;
     #endregion
@@ -217,6 +242,18 @@ public class MenuManager : MonoBehaviour
         questBoardButton = GameObject.Find("QuestBoard");        
         questBoard = GameObject.Find("QuestBoardBackground");
 
+        questBoardBackButton = GameObject.Find("QuestBoardBackButton");
+
+        questOne = GameObject.Find("Quest1Button");
+        questTwo = GameObject.Find("Quest2Button");
+        questThree = GameObject.Find("Quest3Button");
+
+        questOneText = GameObject.Find("Quest1Text").GetComponent<TextMeshProUGUI>();
+        questTwoText = GameObject.Find("Quest2Text").GetComponent<TextMeshProUGUI>();
+        questThreeText = GameObject.Find("Quest3Text").GetComponent<TextMeshProUGUI>();
+
+        currentQuestText = GameObject.Find("CurrentQuestInfo").GetComponent<TextMeshProUGUI>();
+        currentQuestText.enabled = false;
 
         //TODO: Fix this Code to auto assign the text.
 
@@ -283,6 +320,7 @@ public class MenuManager : MonoBehaviour
 
             questDroppedDown = true;
             questCollapseArrow.SetActive(true);
+            currentQuestText.enabled = true;
         }
     }
 
@@ -297,6 +335,7 @@ public class MenuManager : MonoBehaviour
 
             questDroppedDown = false;
             questCollapseArrow.SetActive(false);
+            currentQuestText.enabled = false;
         }
     }
 
@@ -467,11 +506,43 @@ public class MenuManager : MonoBehaviour
         questBoardButton.SetActive(false);
 
         spoonsBackButton.SetActive(false);
+        questBoardBackButton.SetActive(true);
     }
     //----------Spoons Functions----------
     #endregion
 
+    public void CloseQuestBoard()
+    {
+        npc1Button.SetActive(true);
+        npc2Button.SetActive(true);
+        npc3Button.SetActive(true);
+        npc4Button.SetActive(true);
 
+        questBoard.SetActive(false);
+        questBoardButton.SetActive(true);
+
+        spoonsBackButton.SetActive(true);
+        questBoardBackButton.SetActive(false);
+    }
+
+    public void SelectQuestOne()
+    {
+        selectedQuest = 1;
+        currentQuestText.text = questOneText.text;
+
+    }
+    public void SelectQuestTwo()
+    {
+        selectedQuest = 2;
+        currentQuestText.text = questTwoText.text;
+
+    }
+    public void SelectQuestThree()
+    {
+        selectedQuest = 3;
+        currentQuestText.text = questThreeText.text;
+
+    }
 
     private void Update()
     {
