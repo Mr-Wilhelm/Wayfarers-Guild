@@ -307,7 +307,7 @@ public class MenuManager : MonoBehaviour
         shipStatManager = GameObject.Find("ShipStats").GetComponent<ShipStatManager>();
     }
 
-    #region City UI Elements
+    #region City UI Functions
     //----------City UI------------
     public void QuestButtonPress()
     {
@@ -369,17 +369,7 @@ public class MenuManager : MonoBehaviour
     public void ReadyButtonPress()
     {
         Debug.Log("Ready button pressed");
-        if(readyPressed)
-        {
-            Debug.Log("Player unreadied");
-            readyPressed = false;
-        }
-        else
-        {
-            Debug.Log("Player ready");
-            readyPressed = true;
-            sceneManager.LoadMainScene();
-        }
+
     }
     //----------City UI------------
 #endregion
@@ -508,8 +498,6 @@ public class MenuManager : MonoBehaviour
         spoonsBackButton.SetActive(false);
         questBoardBackButton.SetActive(true);
     }
-    //----------Spoons Functions----------
-    #endregion
 
     public void CloseQuestBoard()
     {
@@ -543,6 +531,8 @@ public class MenuManager : MonoBehaviour
         currentQuestText.text = questThreeText.text;
 
     }
+    //----------Spoons Functions----------
+    #endregion
 
     private void Update()
     {
