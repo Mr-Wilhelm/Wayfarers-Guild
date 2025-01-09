@@ -24,6 +24,8 @@ public class SceneAdditive : MonoBehaviour
 
         mainSceneShipTransform = GameObject.FindWithTag("Ship").transform;
 
+        Physics.simulationMode = SimulationMode.Script;
+
     }
 
     // This method will be called when the additive scene is fully loaded
@@ -80,6 +82,8 @@ public class SceneAdditive : MonoBehaviour
 
             // Optional: Match position if needed
             //transform.position = mainSceneShipTransform.position;
+            Vector3 Gravy = mainSceneShipTransform.up * -9.8f;
+            Physics.gravity = Gravy;
         }
         else
         {
