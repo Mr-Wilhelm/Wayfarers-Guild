@@ -14,6 +14,11 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] GameObject Ship = null;
 
+    [SerializeField] public GameObject CraigBody;
+
+    [SerializeField] public GameObject CraigClothes;
+
+    [SerializeField] public LayerMask SelfPlayerMesh;
 
     /// <summary>
     /// On network spawn of players, fills player objects with each player
@@ -35,6 +40,13 @@ public class PlayerNetworkManager : NetworkBehaviour
             //{
             //    GameObject.Find("PlayerName").gameObject.GetComponent<TextMeshPro>().text = GameObject.Find("PlayerDataHandler").GetComponent<PlayerDataHandler>().player2Name.Value;
             //}
+
+            //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
+            Debug.Log("ACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigBody.layer = SelfPlayerMeshLayer;
+            CraigClothes.layer = SelfPlayerMeshLayer;
+
         }
         Debug.Log("NetworkSpawn");
         SetParentToShip(true);
