@@ -32,6 +32,15 @@ public class PlayerMovement : NetworkBehaviour
 
     [SerializeField]
     private PlayerInteract playerInteractScript;
+
+    [SerializeField]
+    private Camera cam1;
+
+    [SerializeField]
+    private Camera cam2;
+
+    [SerializeField]
+    private bool camsAreSwitched;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +48,9 @@ public class PlayerMovement : NetworkBehaviour
         rb.freezeRotation = true;
 
         playerInteractScript = gameObject.GetComponent<PlayerInteract>();
+        cam1 = GameObject.Find("Camera").GetComponent<Camera>();
+        cam2 = GameObject.Find("Camera2").GetComponent<Camera>();
+
     }
 
     private void Update()
@@ -47,6 +59,22 @@ public class PlayerMovement : NetworkBehaviour
         if (!IsOwner) { enabled = false; }
         MyInput();
         SpeedControl();
+
+        if(cam2 == null)
+        {
+            cam2 = GameObject.Find("Camera2").GetComponent<Camera>();
+        }
+
+        if(camsAreSwitched)
+        {
+            cam2.enabled = true;
+            cam1.enabled = false;
+        }
+        else
+        {
+            cam2.enabled = false;
+            cam1.enabled = true;
+        }
     }
 
     // Update is called once per frame
@@ -55,6 +83,16 @@ public class PlayerMovement : NetworkBehaviour
         if (!playerInteractScript.isInteracting)
         {
             MovePlayer();
+        }
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            camsAreSwitched = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            camsAreSwitched = false;
         }
     }
 
