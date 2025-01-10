@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(CharacterController))]
 public class NewPlayerMovement : NetworkBehaviour
@@ -28,18 +30,28 @@ public class NewPlayerMovement : NetworkBehaviour
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        characterController.enabled = false;
+        characterController.transform.position = transform.position;
+        characterController.enabled = true;
     }
+
 
     void Update()
     {
-        if (!IsOwner) { enabled = false; playerCamera.enabled = false; return; }
+        if (!IsOwner) {characterController.enabled = false;  enabled = false; playerCamera.enabled = false;  return; }
 
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
+
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        //if (curSpeedX != 0 || curSpeedY != 0)
+        //{
+        //    transform.position = new Vector3(transform.position.x, transform.position.y+0.2f, transform.position.z);
+        //}
+
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
@@ -71,7 +83,10 @@ public class NewPlayerMovement : NetworkBehaviour
             runSpeed = 12f;
         }
 
+        Debug.Log(transform.position.x);
+
         characterController.Move(moveDirection * Time.deltaTime);
+
 
         if (canMove)
         {
