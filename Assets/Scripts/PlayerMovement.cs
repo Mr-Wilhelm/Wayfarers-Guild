@@ -85,19 +85,18 @@ public class PlayerMovement : NetworkBehaviour
             cam2.enabled = false;
             cam1.enabled = true;
         }
-    }
 
         if (!playerInteractScript.isInteracting)
         {
             MovePlayer();
         }
 
-        if(Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             camsAreSwitched = true;
         }
 
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             camsAreSwitched = false;
         }
