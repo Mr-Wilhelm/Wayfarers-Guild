@@ -437,28 +437,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819718234}
   m_CullTransparentMesh: 1
---- !u!1 &1062099913 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2646428034892169763, guid: 43b435dda155bbb458e8d6c0aab9c047,
-    type: 3}
-  m_PrefabInstance: {fileID: 1795000912}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1062099914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1062099913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d44ca5b38e846be4db3d9caf782231ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shipInteriorSceneString: PhysicsScene
-  shipInteriorScene:
-    m_Handle: 0
-  mainSceneShipTransform: {fileID: 0}
 --- !u!1 &1168692231
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,14 +1021,15 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 1583942632
       objectReference: {fileID: 0}
+    - target: {fileID: 8244407509857485890, guid: 43b435dda155bbb458e8d6c0aab9c047,
+        type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1867575519
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2646428034892169763, guid: 43b435dda155bbb458e8d6c0aab9c047,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1062099914}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43b435dda155bbb458e8d6c0aab9c047, type: 3}
 --- !u!108 &414594793961885760
 Light:
