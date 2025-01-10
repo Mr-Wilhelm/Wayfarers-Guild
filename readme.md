@@ -5,11 +5,9 @@ Author : [awtdev](https://itch.io/profile/awtdev)
 URL : [https://awtdev.itch.io/gravitas-physics-system](https://awtdev.itch.io/gravitas-physics-system)  
 Lincense: CC0
 
----------------------------------------------------
-
 # Git Branch Naming Scheme #
-Branches should be named following this format: \n
-"branch type"-"prefix"-"Discipline"-"branch name"
+Branches should be named following this format: 
+"branch type"-"prefix"-"Discipline"-"branch_name"
 
 ## Branch Types ##
 - Dev - Developer branch, for adding new features. The game state in these branches should be incomplete and unpolished
@@ -44,31 +42,29 @@ Enemybranch. <- this is too vague... what is being done with the enemies in this
 - Dev-Asset-Art-Crane model added.
 - Master-Playest-Design-Core Gameplay Loop Testing.
 
----------------------------------------------------
-
 # File Naming Convention #
 In engine files should also follow a naming convention. This is most applicable to programmers, however should also be followed by ANYONE putting ANYTHING in engine.
-Files should be prefixed with the following, just to clarify what they are.
-The general structure of files should be as follows: \n
-"Discipline Tag" - "Specific Tag" - "Name"
+Files should be prefixed with a tag, followed by the name. Words in the name should be separated by underscores.
+The general structure of files should be as follows:
+"Tag" - "Name1_Name2"
 
 ## Animation Files (Probably will get changed as we get more into animation) ##
-- ANI_ANM - Animations
+- ANI - Animations
 
 ## Art Files ##
-- ART_MAT - Materials
-- ART_MOD - Models
-- ART_TEX - Textures
-- ART_SPR - Sprites
-- ART_BAC - Background Art
-- ART_UIN - User Interface Art (Things like buttons)
+- MAT - Materials
+- MOD - Models
+- TEX - Textures
+- SPR - Sprites
+- BAC - Background Art
+- UIN - User Interface Art (Things like buttons)
 
 ## Audio Files ##
-- AUD_MUS - Music
-- AUD_SFX - Sound Effects
+- MUS - Music
+- SFX - Sound Effects
 
 ## Code Files ##
-- COD_SCR - Script
+- SCR - Script
 
 ## Prefabs ##
 - PRE_AIR - Airship Prefabs
@@ -82,5 +78,10 @@ The general structure of files should be as follows: \n
 - PRE_UIN - User Interface Prefabs
 
 ## Scenes ##
-- SCN_2D - 2D Scenes
-- SCN_3D - 3D Scenes
+- SCN - 2D Scenes
+- SCN - 3D Scenes
+
+## Examples ##
+
+- ART_MAT-Airship_Material
+- PRE_CIT-City_Canvas
