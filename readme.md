@@ -1,3 +1,12 @@
+### Packages ###
+
+Title: Gravitas physics system  
+Author : [awtdev](https://itch.io/profile/awtdev)  
+URL : [https://awtdev.itch.io/gravitas-physics-system](https://awtdev.itch.io/gravitas-physics-system)  
+Lincense: No implied license going under assumption of "All rigths reserved"  
+
+
+
 ### Blank Unity Project ### 
 
 This repository has been pre-configured with a .gitignore and .gitattributes file specific to Unity projects using git-lfs. 
