@@ -3,7 +3,7 @@
 Title: Gravitas physics system  
 Author : [awtdev](https://itch.io/profile/awtdev)  
 URL : [https://awtdev.itch.io/gravitas-physics-system](https://awtdev.itch.io/gravitas-physics-system)  
-Lincense: No implied license going under assumption of "All rigths reserved"  
+Lincense: CC0
 
 
 
