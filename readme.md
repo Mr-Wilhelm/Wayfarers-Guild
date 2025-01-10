@@ -7,32 +7,32 @@ Lincense: CC0
 
 ---------------------------------------------------
 
-# Git Branch Naming Scheme#
-Branches should be named following this format:
+# Git Branch Naming Scheme #
+Branches should be named following this format: \n
 "branch type"-"prefix"-"Discipline"-"branch name"
 
-## Branch Types##
-Dev - Developer branch, for adding new features. The game state in these branches should be incomplete and unpolished
-Master - ONLY FOR POLISHED BUILDS FOR PEER ASSESSMENTS AND DEMO DAYS
+## Branch Types ##
+- Dev - Developer branch, for adding new features. The game state in these branches should be incomplete and unpolished
+- Master - ONLY FOR POLISHED BUILDS FOR PEER ASSESSMENTS AND DEMO DAYS
 
 ## Prefixes ##
-Asset - Asset branch, for when you're just adding assets into the game.
-Bugfix - For branches that are fixing bugs.
-Docs - For documentation themed updates.
-Feature - For new features.
-Hotfix - For quick fixes that happen on the fly.
-Release - For releasing polished builds.
-Playtest - For releasing semi-stable playtesting builds
+- Asset - Asset branch, for when you're just adding assets into the game.
+- Bugfix - For branches that are fixing bugs.
+- Docs - For documentation themed updates.
+- Feature - For new features.
+- Hotfix - For quick fixes that happen on the fly.
+- Release - For releasing polished builds.
+- Playtest - For releasing semi-stable playtesting builds
 
 ## Discipline (Fairly self explanatory.) ##
-For releases, there may not be a discipline, so you can just put "N/A"
-Animation - For Animation related work.
-Art - For art related work. (Can include the specific discipline if you'd like.)
-Audio - For audio related work.
-Design - For design, UX and QA related work.
-Production - For production related work.
-Programming - For programming related work.
-Writing - For writing related work.
+- For releases, there may not be a discipline, so you can just put "N/A"
+- Animation - For Animation related work.
+- Art - For art related work. (Can include the specific discipline if you'd like.)
+- Audio - For audio related work.
+- Design - For design, UX and QA related work.
+- Production - For production related work.
+- Programming - For programming related work.
+- Writing - For writing related work.
 
 ## Branch name ##
 Just for readability sake, make sure words are separated by underscores. Otherwise it can be whatever, just make sure it is clear and obvious as to what has been made. A good guide for this would be to include what is being edited, and what about it is being edited. For example:
@@ -41,46 +41,46 @@ And not:
 Enemybranch. <- this is too vague... what is being done with the enemies in this branch exactly?
 
 ## Examples ##
-Dev-Asset-Art-Crane model added.
-Master-Playest-Design-Core Gameplay Loop Testing.
+- Dev-Asset-Art-Crane model added.
+- Master-Playest-Design-Core Gameplay Loop Testing.
 
 ---------------------------------------------------
 
 # File Naming Convention #
 In engine files should also follow a naming convention. This is most applicable to programmers, however should also be followed by ANYONE putting ANYTHING in engine.
 Files should be prefixed with the following, just to clarify what they are.
-The general structure of files should be as follows:
+The general structure of files should be as follows: \n
 "Discipline Tag" - "Specific Tag" - "Name"
 
 ## Animation Files (Probably will get changed as we get more into animation) ##
-ANI_ANM - Animations
+- ANI_ANM - Animations
 
 ## Art Files ##
-ART_MAT - Materials
-ART_MOD - Models
-ART_TEX - Textures
-ART_SPR - Sprites
-ART_BAC - Background Art
-ART_UIN - User Interface Art (Things like buttons)
+- ART_MAT - Materials
+- ART_MOD - Models
+- ART_TEX - Textures
+- ART_SPR - Sprites
+- ART_BAC - Background Art
+- ART_UIN - User Interface Art (Things like buttons)
 
 ## Audio Files ##
-AUD_MUS - Music
-AUD_SFX - Sound Effects
+- AUD_MUS - Music
+- AUD_SFX - Sound Effects
 
 ## Code Files ##
-COD_SCR - Script
+- COD_SCR - Script
 
 ## Prefabs ##
-PRE_AIR - Airship Prefabs
-PRE_CIT - City Prefabs
-PRE_ENE - Enemy Prefabs
-PRE_NET - Network Object Prefabs
-PRE_PLA - Player Prefabs
-PRE_PPR - Post Processing Prefabs
-PRE_SHA - Ship Asset Prefabs (Things like the engine, wheel, pressure gauge etc.)
-PRE_TER - Terrain Prefabs
-PRE_UIN - User Interface Prefabs
+- PRE_AIR - Airship Prefabs
+- PRE_CIT - City Prefabs
+- PRE_ENE - Enemy Prefabs
+- PRE_NET - Network Object Prefabs
+- PRE_PLA - Player Prefabs
+- PRE_PPR - Post Processing Prefabs
+- PRE_SHA - Ship Asset Prefabs (Things like the engine, wheel, pressure gauge etc.)
+- PRE_TER - Terrain Prefabs
+- PRE_UIN - User Interface Prefabs
 
 ## Scenes ##
-SCN_2D - 2D Scenes
-SCN_3D - 3D Scenes
+- SCN_2D - 2D Scenes
+- SCN_3D - 3D Scenes
