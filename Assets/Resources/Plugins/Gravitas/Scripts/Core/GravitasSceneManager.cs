@@ -90,6 +90,10 @@ namespace Gravitas
             }
             else
             {
+                //SceneManager.LoadScene(3, LoadSceneMode.Additive);
+                //scene = SceneManager.GetSceneByBuildIndex(3);
+                Debug.Log(scene.name);
+
                 SceneManager.MoveGameObjectToScene(originObject, scene);
 
                 PhysicsScene physicsScene = scene.GetPhysicsScene();

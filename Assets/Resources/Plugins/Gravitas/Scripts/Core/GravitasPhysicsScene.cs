@@ -53,7 +53,6 @@ namespace Gravitas
             );
             gravitasPhysicsScene.originTransform = originGO.transform;
 
-            Debug.Log("Physics scene name is " + gravitasPhysicsScene.name);
             return gravitasPhysicsScene;
         }
 
