@@ -10,6 +10,9 @@ public class SCR_Pathfinding : MonoBehaviour
     /// Allows for functions to be called on each independent struct object in the matrix.
     /// 
     /// TODO: Write a function that gets the neighbours of the node.
+    /// Function takes in three ints, x, y and z, which are the coordinates of the object in the matrix.
+    /// Function returns a vector3, which is the position of the adjacent object.
+    /// 
     /// </summary>
     public gridNode[,,] navigationMatrix;
 
