@@ -5,19 +5,21 @@ using UnityEngine.UIElements;
 
 public class SCR_Pathfinding : MonoBehaviour
 {
-    public Vector3[,,] navigationMatrix;
+    /// <summary>
+    /// Makes a 3d array (matrix) of structs, with a vector3 of their position.
+    /// Allows for functions to be called on each independent struct object in the matrix.
+    /// 
+    /// TODO: Write a function that gets the neighbours of the node.
+    /// </summary>
+    public gridNode[,,] navigationMatrix;
 
-
-
-    private struct gridNode
+    public struct gridNode
     {
         public Vector3 position;
 
         public int forwardNeighbour, backNeighbour, rightNeighbour, leftNeighbour, upNeighbour, downNeighbour;
 
         public int traversalCost;
-
-
 
         public gridNode(Vector3 Position, int ForwardNeighbour, int BackNeighbour, int RightNeighbour, int LeftNeighbour, int UpNeighbour, int DownNeighbour, int TraversalCost)
         {
@@ -30,12 +32,26 @@ public class SCR_Pathfinding : MonoBehaviour
             this.downNeighbour = DownNeighbour;
             this.traversalCost = TraversalCost;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"> Gets the X position of the obejct in the matrix </param>
+        /// <param name="y"> Gets the Y position of the object in the matrix </param>
+        /// <param name="z"> Gets the Z position of the object in the matrix </param>
+        public Vector3 GetAdjacentNodes(int x, int y, int z)
+        {
+            upNeighbour = y + 1;
+            downNeighbour = y - 1;
+
+            return new Vector3(x, y, z);
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
         PopulateWorld(100, 100, 100, 10);
+        //navigationMatrix[navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).x, navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).y, navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).z]
     }
 
     // Update is called once per frame
@@ -54,7 +70,7 @@ public class SCR_Pathfinding : MonoBehaviour
     private void PopulateWorld(float x, float y, float z, float nodeSpacing)
     {
         Debug.Log("Populating World");
-        navigationMatrix = new Vector3
+        navigationMatrix = new gridNode
             [(int)Mathf.Floor(x / nodeSpacing),    //gets the number of nodes for the worlds width, x
             (int)Mathf.Floor(y / nodeSpacing),    //get the number of nodes for the worlds height, y
             (int)Mathf.Floor(z / nodeSpacing)];    //get the number of nodes for the worlds depth, z
@@ -71,8 +87,8 @@ public class SCR_Pathfinding : MonoBehaviour
                 for (int k = 0; k < navigationMatrix.GetLength(2); k++)
                 {
                     Debug.Log("Iterated Through z");
-                    navigationMatrix[i, j, k] = new Vector3(i * nodeSpacing, j * nodeSpacing, k * nodeSpacing);
-                    //return new Vector3(i * nodeSpacing, j * nodeSpacing, k * nodeSpacing);
+                    navigationMatrix[i, j, k].position = new Vector3(i * nodeSpacing, j * nodeSpacing, k * nodeSpacing);
+                    navigationMatrix[i, j, k].GetAdjacentNodes(i, j, k);    //calls the function with the current indexes as the parameters
                 }
             }
         }
@@ -81,9 +97,9 @@ public class SCR_Pathfinding : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        foreach (Vector3 pos in navigationMatrix)
+        foreach (gridNode pos in navigationMatrix)
         {
-            Gizmos.DrawSphere(pos, 0.25f);
+            Gizmos.DrawSphere(pos.position, 0.25f);
         }
         //Gizmos.DrawSphere(PopulateWorld(1000, 100, 2000, 10), 1.0f);
     }
