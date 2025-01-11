@@ -83,7 +83,7 @@ public class SCR_NewPlayerMovement : NetworkBehaviour
             runSpeed = 12f;
         }
 
-        Debug.Log(transform.position.x);
+        //Debug.Log(transform.position.x);
 
         characterController.Move(moveDirection * Time.deltaTime);
 
