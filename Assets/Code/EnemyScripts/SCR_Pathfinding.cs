@@ -19,10 +19,12 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public Vector3 startPos;
     public Vector3 endPos;
-    public float nodeSize = 1.0f;
+    public float nodeSize = 10f;
 
     private List<gridNode> openList = new List<gridNode>();
     private List<gridNode> closedList = new List<gridNode>();
+
+    public GameObject target;
     public struct gridNode
     {
         public Vector3 position;
@@ -30,15 +32,15 @@ public class SCR_Pathfinding : MonoBehaviour
         public int gCost, hCost;
         public int fCost => gCost + hCost;  //the => makes it read only?
 
-        public Vector3 previousNodeIndex;
+        public Vector3 previousNodePosition;
 
         //absolute chonker of a struct constructor
-        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 PreviousNodeIndex)
+        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 previousNodePosition)
         {
             this.position = Position;
             this.gCost = GCost;
             this.hCost = HCost;
-            this.previousNodeIndex = PreviousNodeIndex;
+            this.previousNodePosition = previousNodePosition;
         }
         /// <param name="x"> Gets the X position of the obejct in the matrix </param>
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
@@ -145,17 +147,13 @@ public class SCR_Pathfinding : MonoBehaviour
     {
         PopulateWorld(1000, 500, 1000);
 
-        foreach (Vector3 v in navigationMatrix[0, 0, 0].GetAdjacentNodes(0, 0, 0, 100, 50, 100))
-        {
-            Debug.Log(v);
-        }
-        
+        FindPath(new Vector3(0, 0, 0), new Vector3(57, 23, 78));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /// <summary>
@@ -180,8 +178,7 @@ public class SCR_Pathfinding : MonoBehaviour
             {
                 for (int k = 0; k < navigationMatrix.GetLength(2); k++)
                 {
-                    navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize;
-                    navigationMatrix[i, j, k].GetAdjacentNodes(i, j, k, 1000, 500, 1000);    //calls the function with the current indexes as the parameters
+                    navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize);
                 }
             }
         }
@@ -221,24 +218,58 @@ public class SCR_Pathfinding : MonoBehaviour
 
             if(currentNode.position == endNode.position)
             {
-                return RemakePath(currentNode);
+                return RemakePath(currentNode); //remake the path when you reach the next node
+            }
+
+            foreach (var neighbourPos in currentNode.GetAdjacentNodes   //iterates through all adjacent nodes
+                ((int)(currentNode.position.x / nodeSize),
+                (int)(currentNode.position.y / nodeSize),
+                (int)(currentNode.position.z / nodeSize),
+                navigationMatrix.GetLength(0), navigationMatrix.GetLength(1), navigationMatrix.GetLength(2)))
+            {
+                //gets the neighbour node
+                gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x / nodeSize), (int)(neighbourPos.y / nodeSize), (int)(neighbourPos.z / nodeSize)];
+
+                //Checks if the node is in the closedList, continuing if so.
+                if (closedList.Exists(n => n.position == neighbourNode.position))
+                    continue;
+
+                //otherwise get the estimated gCost to reach the neighbour node from the start node
+                int estimatedGCost = currentNode.gCost + (int)Vector3.Distance(currentNode.position, neighbourNode.position);
+
+                //if the neighbour is not already in the open list, or if the estimated cost is lower than the current gCost
+                if (!openList.Exists(n => n.position == neighbourNode.position) || estimatedGCost < neighbourNode.gCost)
+                {
+                    
+                    neighbourNode.gCost = estimatedGCost; //update the gCost of the neighbour
+                    neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);  //get the hcost of the new neighbour
+                    neighbourNode.previousNodePosition = currentNode.position; //update the previous node position to that of the current one
+
+                    if (!openList.Exists(n => n.position == neighbourNode.position))    //if the node isn't already in the list, add it
+                    {
+                        openList.Add(neighbourNode);    //add the neighbour node to the open list
+
+                    }
+                }
             }
         }
-
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    foreach (gridNode pos in navigationMatrix)
-    //    {
-    //        Gizmos.DrawSphere(pos.position, 0.25f);
-    //    }
-    //    //Gizmos.DrawSphere(PopulateWorld(1000, 100, 2000, 10), 1.0f);
-    //}
-}
+        return null;    //No Path found
+    }
 
     private List<Vector3> RemakePath(gridNode currentNode)
     {
-        throw new NotImplementedException();
+        List<Vector3> newPath = new List<Vector3>();    //make a new list for the new path
+
+        while (currentNode.previousNodePosition != Vector3.zero)    //iterate through the path from end to start (backwards)
+        {
+            newPath.Add(currentNode.position);  //add currentNode.position to the new path
+            currentNode = navigationMatrix[(int)(currentNode.previousNodePosition.x / nodeSize), (int)(currentNode.previousNodePosition.y / nodeSize), (int)(currentNode.previousNodePosition.z / nodeSize)];   //move to the previous node
+        }
+        
+        //revert the path so its now front to back again :)
+        newPath.Reverse();
+        //return the path
+        return newPath;
     }
 }
 
