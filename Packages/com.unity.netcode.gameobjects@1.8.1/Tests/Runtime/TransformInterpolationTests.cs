@@ -45,7 +45,7 @@ namespace Unity.Netcode.RuntimeTests
             SetMaxInterpolationBound(1.0f);
             base.OnInitialize(ref replicatedState);
         }
-
+        
         private int m_StartFrameCount;
 
         public void StartMoving()

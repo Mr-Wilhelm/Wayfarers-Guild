@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -22,6 +23,10 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     [SerializeField] public GameObject CraigClothes;
 
     [SerializeField] public LayerMask SelfPlayerMesh;
+
+    //Tracks the pos and rot of the player
+    public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
 
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>();
     public string playerNameString;
@@ -56,11 +61,28 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
-            Debug.Log(gameObject.name + " is not owner, disabling movement");
+            Debug.Log(playerNameString + " is not owner, disabling movement");
+            playerCamera.enabled = false;
         }
-
-        
     }
+
+    //Late update happpens at the end of a frame
+    private void LateUpdate()
+    {
+        //Update the network variables of pos and rot
+        if (IsOwner)
+        {
+            updatePosServerRPC(transform.position);
+            updateRotServerRPC(transform.rotation.eulerAngles);
+        }
+        //Else set the values of pos and rot using whatever the owner's are
+        else
+        {
+            //transform.position = playerPos.Value;
+            //transform.rotation = Quaternion.Euler(playerRot.Value.x, playerRot.Value.y, playerRot.Value.z);
+        }
+    }
+
 
     //Update the playername variable in the network
     [ServerRpc]
@@ -76,5 +98,17 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         gameObject.name = playerNameString;
     }
 
-    
+    //Updates the owner's pos and sends it to the network
+    [ServerRpc]
+    private void updatePosServerRPC(Vector3 newPos)
+    {
+        playerPos.Value = newPos;
+    }
+
+    //Updates the owner's rot and sends it to the network
+    [ServerRpc]
+    private void updateRotServerRPC(Vector3 newRot)
+    {
+        playerRot.Value = newRot;
+    }
 }
