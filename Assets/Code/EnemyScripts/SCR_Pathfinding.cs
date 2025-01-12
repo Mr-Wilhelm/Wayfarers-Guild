@@ -12,6 +12,7 @@ public class SCR_Pathfinding : MonoBehaviour
     /// USING THE LEFT HAND COORDINATE SYSTEM - positive Z is in front of the origin, Positive X is to the right.
     /// 
     /// </summary>
+    /// 
     public gridNode[,,] navigationMatrix;
 
     public struct gridNode
@@ -27,9 +28,6 @@ public class SCR_Pathfinding : MonoBehaviour
             this.traversalCost = traversalCost;
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="x"> Gets the X position of the obejct in the matrix </param>
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
         /// <param name="z"> Gets the Z position of the object in the matrix </param>
@@ -37,25 +35,15 @@ public class SCR_Pathfinding : MonoBehaviour
         public Vector3[,,] GetAdjacentNodes(int x, int y, int z, int x_length, int y_length, int z_length)
         {
             // Each section is a row along the x-axis. (left - middle -right)
-            Vector3[,,] neighbour = new Vector3[2, 2, 2];
+            Vector3[,,] neighbour = new Vector3[3, 3, 3];
 
             // y = 0 (bottom layer)
             // z = 0 (front layer)
             //bottom back left, middle, right
-            if (x - 1 >= 0 && y - 1 >= 0 && z - 1 >= 0)
-            {
-                neighbour[0, 0, 0] = new Vector3(x - 1, y - 1, z - 1);    // x = 0 (left)
-            }
-
-            if (y - 1 >= 0 && z - 1 >= 0)
-            {
-                neighbour[1, 0, 0] = new Vector3(x, y - 1, z - 1);            // x = 1 (middle)
-            }
-
-            if (x + 1 < x_length && y - 1 >= 0 && z - 1 >= 0)
-            {
-                neighbour[2, 0, 0] = new Vector3(x + 1, y - 1, z - 1);          // x = 2 (right)
-            }     
+            neighbour[0, 0, 0] = new Vector3(x - 1, y - 1, z - 1);    // x = 0 (left)         
+            neighbour[1, 0, 0] = new Vector3(x, y - 1, z - 1);            // x = 1 (middle)   
+            neighbour[2, 0, 0] = new Vector3(x + 1, y - 1, z - 1);          // x = 2 (right)
+                
 
             // y = 0 (bottom layer)
             // z = 1 (middle layer)
@@ -144,7 +132,12 @@ public class SCR_Pathfinding : MonoBehaviour
     void Start()
     {
         PopulateWorld(1000, 500, 1000, 10);
-        //navigationMatrix[navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).x, navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).y, navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).z]
+
+        foreach (Vector3 v in navigationMatrix[0, 0, 0].GetAdjacentNodes(0, 0, 0, 100, 50, 100))
+        {
+            Debug.Log(v);
+        }
+        
     }
 
     // Update is called once per frame
@@ -171,15 +164,10 @@ public class SCR_Pathfinding : MonoBehaviour
         //iterate through the three dimensional array, going through width, then height, then depth (x, y ,z)
         for(int i = 0; i < navigationMatrix.GetLength(0); i++)            
         {
-            Debug.Log("Iterated Through x");
-
             for (int j = 0; j < navigationMatrix.GetLength(1); j++)
             {
-                Debug.Log("Iterated Through y");
-
                 for (int k = 0; k < navigationMatrix.GetLength(2); k++)
                 {
-                    Debug.Log("Iterated Through z");
                     navigationMatrix[i, j, k].position = new Vector3(i * nodeSpacing, j * nodeSpacing, k * nodeSpacing);
                     navigationMatrix[i, j, k].GetAdjacentNodes(i, j, k, 1000, 500, 1000);    //calls the function with the current indexes as the parameters
                 }
