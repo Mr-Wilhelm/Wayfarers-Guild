@@ -303,7 +303,14 @@ namespace Gravitas
             for (int i = 0; i < length; i++)
             {
                 IGravitasSubject subject = subjects[i];
-                subject.GravitasBody?.UpdatePosition(transform);
+                if (subject != null)
+                {
+                   subject.GravitasBody?.UpdatePosition(transform);
+                }
+                else
+                {
+                    Debug.Log("Gravitas body deleted");
+                }
             }
         }
 
