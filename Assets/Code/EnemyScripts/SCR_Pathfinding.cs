@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,18 +17,28 @@ public class SCR_Pathfinding : MonoBehaviour
     /// 
     public gridNode[,,] navigationMatrix;
 
+    public Vector3 startPos;
+    public Vector3 endPos;
+    public float nodeSize = 1.0f;
+
+    private List<gridNode> openList = new List<gridNode>();
+    private List<gridNode> closedList = new List<gridNode>();
     public struct gridNode
     {
         public Vector3 position;
 
-        public int traversalCost;
+        public int gCost, hCost;
+        public int fCost => gCost + hCost;  //the => makes it read only?
+
+        public Vector3 previousNodeIndex;
 
         //absolute chonker of a struct constructor
-        public gridNode(Vector3 Position, int traversalCost)
+        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 PreviousNodeIndex)
         {
             this.position = Position;
-            this.traversalCost = traversalCost;
-
+            this.gCost = GCost;
+            this.hCost = HCost;
+            this.previousNodeIndex = PreviousNodeIndex;
         }
         /// <param name="x"> Gets the X position of the obejct in the matrix </param>
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
@@ -131,7 +143,7 @@ public class SCR_Pathfinding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PopulateWorld(1000, 500, 1000, 10);
+        PopulateWorld(1000, 500, 1000);
 
         foreach (Vector3 v in navigationMatrix[0, 0, 0].GetAdjacentNodes(0, 0, 0, 100, 50, 100))
         {
@@ -153,13 +165,13 @@ public class SCR_Pathfinding : MonoBehaviour
     /// <param name="y"> The Height of the world </param>
     /// <param name="z"> The Depth of the world </param>
     /// <param name="nodeSpacing"></param>
-    private void PopulateWorld(float x, float y, float z, float nodeSpacing)
+    private void PopulateWorld(float x, float y, float z)
     {
         Debug.Log("Populating World");
         navigationMatrix = new gridNode
-            [(int)Mathf.Floor(x / nodeSpacing),    //gets the number of nodes for the worlds width, x
-            (int)Mathf.Floor(y / nodeSpacing),    //get the number of nodes for the worlds height, y
-            (int)Mathf.Floor(z / nodeSpacing)];    //get the number of nodes for the worlds depth, z
+            [(int)Mathf.Floor(x / nodeSize),    //gets the number of nodes for the worlds width, x
+            (int)Mathf.Floor(y / nodeSize),    //get the number of nodes for the worlds height, y
+            (int)Mathf.Floor(z / nodeSize)];    //get the number of nodes for the worlds depth, z
 
         //iterate through the three dimensional array, going through width, then height, then depth (x, y ,z)
         for(int i = 0; i < navigationMatrix.GetLength(0); i++)            
@@ -168,12 +180,50 @@ public class SCR_Pathfinding : MonoBehaviour
             {
                 for (int k = 0; k < navigationMatrix.GetLength(2); k++)
                 {
-                    navigationMatrix[i, j, k].position = new Vector3(i * nodeSpacing, j * nodeSpacing, k * nodeSpacing);
+                    navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize;
                     navigationMatrix[i, j, k].GetAdjacentNodes(i, j, k, 1000, 500, 1000);    //calls the function with the current indexes as the parameters
                 }
             }
         }
     }
+
+    private List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
+    {
+        //get the start and end points via the parameters passed.
+        gridNode startNode = navigationMatrix[(int)(startPoint.x / nodeSize), (int)(startPoint.y / nodeSize), (int)(startPoint.z / nodeSize)];
+        gridNode endNode = navigationMatrix[(int)(endPoint.x / nodeSize), (int)(endPoint.y / nodeSize), (int)(endPoint.z / nodeSize)];
+
+        //cleaning lists
+        openList.Clear();
+        closedList.Clear();
+
+        //Setting the g and h cost of the start node by getting the distance between the positions of the start and end nodes.
+        startNode.gCost = 0;
+        startNode.hCost = (int)Vector3.Distance(startNode.position, endNode.position);
+
+        openList.Add(startNode);    //add the start node to the open list
+
+        while (openList.Count > 0)  //while there are nodes in the open list
+        {
+            gridNode currentNode = openList[0]; //current node is the first entry in the list (currently the only one, and the one it is at
+            foreach (var node in openList)  //iterate through the open list
+            {
+                //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
+                if (node.fCost < currentNode.fCost || node.fCost == currentNode.fCost && node.gCost < currentNode.gCost)
+                {
+                    currentNode = node;
+                }
+            }
+
+            //remove the current node from the open list and add it to the closed list, since it has now been visited
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
+
+            if(currentNode.position == endNode.position)
+            {
+                return RemakePath(currentNode);
+            }
+        }
 
     //void OnDrawGizmos()
     //{
@@ -185,3 +235,10 @@ public class SCR_Pathfinding : MonoBehaviour
     //    //Gizmos.DrawSphere(PopulateWorld(1000, 100, 2000, 10), 1.0f);
     //}
 }
+
+    private List<Vector3> RemakePath(gridNode currentNode)
+    {
+        throw new NotImplementedException();
+    }
+}
+
