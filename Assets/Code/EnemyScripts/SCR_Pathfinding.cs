@@ -20,20 +20,36 @@ public class SCR_Pathfinding : MonoBehaviour
     {
         public Vector3 position;
 
-        public int forwardNeighbour, backNeighbour, rightNeighbour, leftNeighbour, upNeighbour, downNeighbour;
+        public Vector3[,,] adjacentIndexes;
+
+        //Neighbouring node variables
+        public Vector3
+
+            frontTopLeft, frontTopMid, frontTopRight,
+            frontMidLeft, frontMidMid, frontMidRight,
+            frontBottomLeft, frontBottomMid, frontBottomRight,
+
+            midTopLeft, midTopMid, midTopRight,
+            miMidLeft, midMidMid, midMidRight,
+            midBottomLeft, midBottomMid, midBottomRight,
+
+            backTopLeft, backTopMid, backTopRight,
+            backMidLeft, backMidMid, backMidRight,
+            backBottomLeft, backBottomMid, backBottomRight;
 
         public int traversalCost;
 
-        public gridNode(Vector3 Position, int ForwardNeighbour, int BackNeighbour, int RightNeighbour, int LeftNeighbour, int UpNeighbour, int DownNeighbour, int TraversalCost)
+        public gridNode(Vector3 Position, Vector3[,,] AdjacentIndexes,
+            Vector3 FrontTopLeft, Vector3 FrontTopMid, Vector3 FrontTopRight,
+            Vector3 FrontMidLeft, Vector3 FrontMidMid, Vector3 FrontMidRight,
+            Vector3 FrontBottomLeft, Vector3 FrontBottomMid, Vector3 FrontBottomRight,
+            Vector3 MidTopLeft, Vector3 MidTopMid, Vector3 MidTopRight,
+            Vector3 MidMidLeft, Vector3 MidMidMid, Vector3 MidMidRight,
+            Vector3 MidBottomLeft, Vector3 MidBottomMid, Vector3 MidBottomRight,
+            )
         {
             this.position = Position;
-            this.forwardNeighbour = ForwardNeighbour;
-            this.backNeighbour = BackNeighbour;
-            this.rightNeighbour = RightNeighbour;
-            this.leftNeighbour = LeftNeighbour;
-            this.upNeighbour = UpNeighbour;
-            this.downNeighbour = DownNeighbour;
-            this.traversalCost = TraversalCost;
+            this.adjacentIndexes = AdjacentIndexes;
         }
         /// <summary>
         /// 
@@ -41,19 +57,19 @@ public class SCR_Pathfinding : MonoBehaviour
         /// <param name="x"> Gets the X position of the obejct in the matrix </param>
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
         /// <param name="z"> Gets the Z position of the object in the matrix </param>
-        public Vector3 GetAdjacentNodes(int x, int y, int z)
+        public Vector3[,,] GetAdjacentNodes(int x, int y, int z)
         {
             upNeighbour = y + 1;
             downNeighbour = y - 1;
 
-            return new Vector3(x, y, z);
+            return new Vector3[];
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        PopulateWorld(100, 100, 100, 10);
+        PopulateWorld(1000, 500, 1000, 10);
         //navigationMatrix[navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).x, navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).y, navigationMatrix[0, 0, 0].GetAdjacentNodes(i, j, k).z]
     }
 
@@ -97,13 +113,13 @@ public class SCR_Pathfinding : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        foreach (gridNode pos in navigationMatrix)
-        {
-            Gizmos.DrawSphere(pos.position, 0.25f);
-        }
-        //Gizmos.DrawSphere(PopulateWorld(1000, 100, 2000, 10), 1.0f);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    foreach (gridNode pos in navigationMatrix)
+    //    {
+    //        Gizmos.DrawSphere(pos.position, 0.25f);
+    //    }
+    //    //Gizmos.DrawSphere(PopulateWorld(1000, 100, 2000, 10), 1.0f);
+    //}
 }
