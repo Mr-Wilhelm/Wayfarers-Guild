@@ -11,7 +11,8 @@ public class SCR_Pathfinding : MonoBehaviour
     /// Makes a 3d array (matrix) of structs, with a vector3 of their position.
     /// Allows for functions to be called on each independent struct object in the matrix.
     /// 
-    /// USING THE LEFT HAND COORDINATE SYSTEM - positive Z is in front of the origin, Positive X is to the right.
+    /// USING THE LEFT HAND COORDINATE SYSTEM - positive Z is in front of the origin, Positive X is to the right.#
+    /// TODO: Change the GetAdjacentNodes() function so that instead of always returning 27 vector 3's, to only returning valid neighbours
     /// 
     /// </summary>
     /// 
@@ -24,23 +25,28 @@ public class SCR_Pathfinding : MonoBehaviour
     private List<gridNode> openList = new List<gridNode>();
     private List<gridNode> closedList = new List<gridNode>();
 
-    public GameObject target;
+    //public GameObject target;
     public struct gridNode
     {
         public Vector3 position;
 
         public int gCost, hCost;
-        public int fCost => gCost + hCost;  //the => makes it read only?
+        //public int fCost => gCost + hCost;  //the => makes it read only?
+
+        public int fCost;
 
         public Vector3 previousNodePosition;
+        public Vector3 index;
 
         //absolute chonker of a struct constructor
-        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 previousNodePosition)
+        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 previousNodePosition, Vector3 Index)
         {
             this.position = Position;
             this.gCost = GCost;
             this.hCost = HCost;
+            this.fCost = gCost + hCost;
             this.previousNodePosition = previousNodePosition;
+            this.index = Index;
         }
         /// <param name="x"> Gets the X position of the obejct in the matrix </param>
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
@@ -124,7 +130,7 @@ public class SCR_Pathfinding : MonoBehaviour
                     {
                         if (neighbour[i, j, k].x >= x_length || neighbour[i, j, k].x < 0)
                         {
-                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                            neighbour[i, j, k] = new Vector3(-1, -1 -1);
                         }
                         if (neighbour[i, j, k].y >= y_length || neighbour[i, j, k].y < 0)
                         {
@@ -142,18 +148,42 @@ public class SCR_Pathfinding : MonoBehaviour
         }
     }
 
+    public bool done = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        PopulateWorld(1000, 500, 1000);
 
-        FindPath(new Vector3(0, 0, 0), new Vector3(57, 23, 78));
     }
+
+    public void please()
+    {
+        if (!done)
+        {
+            Debug.Log("Start");
+            PopulateWorld(30, 30, 30);
+            if (FindPath(new Vector3(0, 0, 0), new Vector3(2, 2, 2)) == null)
+            {
+                Debug.Log("fuck");
+            }
+            else
+            {
+                foreach (Vector3 pos in FindPath(new Vector3(0, 0, 0), new Vector3(2, 2, 2)))
+                {
+                    Debug.Log(pos);
+                }
+            }
+            done = true;
+        }
+        
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-
+        please();
     }
 
     /// <summary>
@@ -179,6 +209,8 @@ public class SCR_Pathfinding : MonoBehaviour
                 for (int k = 0; k < navigationMatrix.GetLength(2); k++)
                 {
                     navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize);
+                    navigationMatrix[i, j, k].index = new Vector3(i, j, k);
+                    Debug.Log("Wabungus");
                 }
             }
         }
@@ -187,8 +219,8 @@ public class SCR_Pathfinding : MonoBehaviour
     private List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
     {
         //get the start and end points via the parameters passed.
-        gridNode startNode = navigationMatrix[(int)(startPoint.x / nodeSize), (int)(startPoint.y / nodeSize), (int)(startPoint.z / nodeSize)];
-        gridNode endNode = navigationMatrix[(int)(endPoint.x / nodeSize), (int)(endPoint.y / nodeSize), (int)(endPoint.z / nodeSize)];
+        gridNode startNode = navigationMatrix[(int)(startPoint.x), (int)(startPoint.y), (int)(startPoint.z)];
+        gridNode endNode = navigationMatrix[(int)(endPoint.x), (int)(endPoint.y), (int)(endPoint.z)];
 
         //cleaning lists
         openList.Clear();
@@ -202,51 +234,75 @@ public class SCR_Pathfinding : MonoBehaviour
 
         while (openList.Count > 0)  //while there are nodes in the open list
         {
+            Debug.Log("219");
             gridNode currentNode = openList[0]; //current node is the first entry in the list (currently the only one, and the one it is at
+            Debug.Log("221");
             foreach (var node in openList)  //iterate through the open list
             {
+                Debug.Log("224");
                 //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
                 if (node.fCost < currentNode.fCost || node.fCost == currentNode.fCost && node.gCost < currentNode.gCost)
                 {
+                    Debug.Log("228");
                     currentNode = node;
                 }
             }
 
             //remove the current node from the open list and add it to the closed list, since it has now been visited
+            Debug.Log("234");
             openList.Remove(currentNode);
+            Debug.Log("236");
             closedList.Add(currentNode);
+            Debug.Log("238");
 
             if(currentNode.position == endNode.position)
             {
-                return RemakePath(currentNode); //remake the path when you reach the next node
+                Debug.Log("242");
+                return RemakePath(currentNode, startPoint); //remake the path when you reach the next node
+                
             }
 
+            Debug.Log("247");
             foreach (var neighbourPos in currentNode.GetAdjacentNodes   //iterates through all adjacent nodes
-                ((int)(currentNode.position.x / nodeSize),
-                (int)(currentNode.position.y / nodeSize),
-                (int)(currentNode.position.z / nodeSize),
+                ((int)currentNode.index.x,
+                (int)currentNode.index.y,
+                (int)currentNode.index.z,
                 navigationMatrix.GetLength(0), navigationMatrix.GetLength(1), navigationMatrix.GetLength(2)))
             {
+                Debug.Log("254");
                 //gets the neighbour node
-                gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x / nodeSize), (int)(neighbourPos.y / nodeSize), (int)(neighbourPos.z / nodeSize)];
+                if (neighbourPos.x == -1)
+                {
+                    continue;
+                }
+                Debug.Log("260");
+                gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
+                Debug.Log("262");
 
                 //Checks if the node is in the closedList, continuing if so.
-                if (closedList.Exists(n => n.position == neighbourNode.position))
+                //if (closedList.Exists(n => n.position == neighbourNode.position))
+                if (closedList.Contains(neighbourNode))
                     continue;
 
+                Debug.Log("269");
                 //otherwise get the estimated gCost to reach the neighbour node from the start node
                 int estimatedGCost = currentNode.gCost + (int)Vector3.Distance(currentNode.position, neighbourNode.position);
+                Debug.Log("272");
 
                 //if the neighbour is not already in the open list, or if the estimated cost is lower than the current gCost
-                if (!openList.Exists(n => n.position == neighbourNode.position) || estimatedGCost < neighbourNode.gCost)
+                if (!openList.Contains(neighbourNode) || estimatedGCost < neighbourNode.gCost)
                 {
-                    
+                    Debug.Log("277");
                     neighbourNode.gCost = estimatedGCost; //update the gCost of the neighbour
-                    neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);  //get the hcost of the new neighbour
-                    neighbourNode.previousNodePosition = currentNode.position; //update the previous node position to that of the current one
+                    Debug.Log("279");
+                    neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);//get the hcost of the new neighbour
+                    Debug.Log("281");
+                    neighbourNode.previousNodePosition = currentNode.position;//update the previous node position to that of the current one
+                    Debug.Log("283");
 
-                    if (!openList.Exists(n => n.position == neighbourNode.position))    //if the node isn't already in the list, add it
+                    if (!openList.Contains(neighbourNode))    //if the node isn't already in the list, add it
                     {
+                        Debug.Log("287");
                         openList.Add(neighbourNode);    //add the neighbour node to the open list
 
                     }
@@ -256,18 +312,24 @@ public class SCR_Pathfinding : MonoBehaviour
         return null;    //No Path found
     }
 
-    private List<Vector3> RemakePath(gridNode currentNode)
+    private List<Vector3> RemakePath(gridNode currentNode, Vector3 originalNode)
     {
+        Debug.Log("299");
         List<Vector3> newPath = new List<Vector3>();    //make a new list for the new path
-
-        while (currentNode.previousNodePosition != Vector3.zero)    //iterate through the path from end to start (backwards)
+        Debug.Log("301");
+        while (currentNode.index != originalNode)    //iterate through the path from end to start (backwards)
         {
+            Debug.Log("304");
             newPath.Add(currentNode.position);  //add currentNode.position to the new path
-            currentNode = navigationMatrix[(int)(currentNode.previousNodePosition.x / nodeSize), (int)(currentNode.previousNodePosition.y / nodeSize), (int)(currentNode.previousNodePosition.z / nodeSize)];   //move to the previous node
+            Debug.Log("306");
+            currentNode = navigationMatrix[(int)(currentNode.previousNodePosition.x), (int)(currentNode.previousNodePosition.y), (int)(currentNode.previousNodePosition.z)];   //move to the previous node
+            Debug.Log("308");
         }
-        
+
+        Debug.Log("311");
         //revert the path so its now front to back again :)
         newPath.Reverse();
+        Debug.Log("314");
         //return the path
         return newPath;
     }
