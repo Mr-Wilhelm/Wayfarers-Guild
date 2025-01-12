@@ -9,9 +9,7 @@ public class SCR_Pathfinding : MonoBehaviour
     /// Makes a 3d array (matrix) of structs, with a vector3 of their position.
     /// Allows for functions to be called on each independent struct object in the matrix.
     /// 
-    /// TODO: Write a function that gets the neighbours of the node.
-    /// Function takes in three ints, x, y and z, which are the coordinates of the object in the matrix.
-    /// Function returns a vector3, which is the position of the adjacent object.
+    /// USING THE LEFT HAND COORDINATE SYSTEM - positive Z is in front of the origin, Positive X is to the right.
     /// 
     /// </summary>
     public gridNode[,,] navigationMatrix;
@@ -30,7 +28,7 @@ public class SCR_Pathfinding : MonoBehaviour
             frontBottomLeft, frontBottomMid, frontBottomRight,
 
             midTopLeft, midTopMid, midTopRight,
-            miMidLeft, midMidMid, midMidRight,
+            midMidLeft, midMidMid, midMidRight,
             midBottomLeft, midBottomMid, midBottomRight,
 
             backTopLeft, backTopMid, backTopRight,
@@ -39,17 +37,39 @@ public class SCR_Pathfinding : MonoBehaviour
 
         public int traversalCost;
 
-        public gridNode(Vector3 Position, Vector3[,,] AdjacentIndexes,
+        //absolute chonker of a struct constructor
+        public gridNode(Vector3 Position, Vector3[,,] AdjacentIndexes, int traversalCost,
             Vector3 FrontTopLeft, Vector3 FrontTopMid, Vector3 FrontTopRight,
             Vector3 FrontMidLeft, Vector3 FrontMidMid, Vector3 FrontMidRight,
             Vector3 FrontBottomLeft, Vector3 FrontBottomMid, Vector3 FrontBottomRight,
+
             Vector3 MidTopLeft, Vector3 MidTopMid, Vector3 MidTopRight,
             Vector3 MidMidLeft, Vector3 MidMidMid, Vector3 MidMidRight,
             Vector3 MidBottomLeft, Vector3 MidBottomMid, Vector3 MidBottomRight,
+
+            Vector3 BackTopLeft, Vector3 BackTopMid, Vector3 BackTopRight,
+            Vector3 BackMidLeft, Vector3 BackMidMid, Vector3 BackMidRight,
+            Vector3 BackBottomLeft, Vector3 BackBottomMid, Vector3 BackBottomRight
             )
         {
             this.position = Position;
             this.adjacentIndexes = AdjacentIndexes;
+            this.traversalCost = traversalCost;
+
+
+
+            this.frontTopLeft = FrontTopLeft; this.frontTopMid = FrontTopMid; this.frontTopRight = FrontTopRight;
+            this.frontMidLeft = FrontMidLeft; this.frontMidMid = FrontMidMid; this.frontMidRight = FrontMidRight;
+            this.frontBottomLeft = FrontBottomLeft; this.frontBottomMid = FrontBottomMid; this.frontBottomRight = FrontBottomRight;
+
+            this.midTopLeft = MidTopLeft; this.midTopMid = MidTopMid; this.midTopRight = MidTopRight;
+            this.midMidLeft = MidMidLeft; this.midMidMid = MidMidMid; this.midMidRight = MidMidRight;
+            this.midBottomLeft = MidBottomLeft; this.midBottomMid = MidBottomMid; this.midBottomRight = MidBottomRight;
+
+            this.backTopLeft = BackTopLeft; this.backTopMid = BackTopMid; this.backTopRight = BackTopRight;
+            this.backMidLeft = BackMidLeft; this.backMidMid = BackMidMid; this.backMidRight = BackMidRight;
+            this.backBottomLeft = BackBottomLeft; this.backBottomMid = BackBottomMid; this.backBottomRight = BackBottomRight;
+
         }
         /// <summary>
         /// 
@@ -59,10 +79,20 @@ public class SCR_Pathfinding : MonoBehaviour
         /// <param name="z"> Gets the Z position of the object in the matrix </param>
         public Vector3[,,] GetAdjacentNodes(int x, int y, int z)
         {
-            upNeighbour = y + 1;
-            downNeighbour = y - 1;
+            frontTopLeft = new Vector3(x - 1, y + 1, z + 1); frontTopMid = new Vector3(x, y + 1, z + 1); frontTopRight = new Vector3(x + 1, y + 1, z + 1);
+            frontMidLeft = new Vector3(x - 1, y, z + 1); frontMidMid = new Vector3(x, y, z + 1); frontMidRight = new Vector3(x + 1, y, z + 1);
+            frontBottomLeft = new Vector3(x - 1, y - 1, z + 1); frontBottomMid = new Vector3(x, y - 1, z + 1); frontBottomRight = new Vector3(x + 1, y - 1, z + 1);
 
-            return new Vector3[];
+            midTopLeft = new Vector3(x - 1, y + 1, z); midTopMid = new Vector3(x, y + 1, z); midTopRight = new Vector3(x + 1, y + 1, z);
+            midMidLeft = new Vector3(x - 1, y, z); midMidMid = new Vector3(x, y, z); midMidRight = new Vector3(x + 1, y, z);
+            midBottomLeft = new Vector3(x - 1, y - 1, z); midBottomMid = new Vector3(x, y - 1, z); new Vector3(x + 1, y - 1, z);
+
+            backTopLeft = new Vector3(x - 1, y + 1, z - 1); backTopMid = new Vector3(x, y + 1, z - 1); backTopRight = new Vector3(x + 1, y + 1, z - 1);
+            backMidLeft = new Vector3(x - 1, y, z - 1); backMidMid = new Vector3(x, y, z - 1); backMidRight = new Vector3(x + 1, y, z - 1);
+            backBottomLeft = new Vector3(x - 1, y - 1, z - 1); backBottomMid = new Vector3(x, y - 1, z - 1); backBottomRight = new Vector3(x + 1, y - 1, z - 1);
+
+            return adjacentIndexes[,,];
+
         }
     }
 
