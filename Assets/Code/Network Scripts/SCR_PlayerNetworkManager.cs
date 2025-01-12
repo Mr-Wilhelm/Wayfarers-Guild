@@ -63,6 +63,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
+            int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
+            gameObject.layer = NonOwnerLayer;
         }
     }
 
@@ -78,8 +80,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         //Else set the values of pos and rot using whatever the owner's are
         else
         {
-            //transform.position = playerPos.Value;
-            //transform.rotation = Quaternion.Euler(playerRot.Value.x, playerRot.Value.y, playerRot.Value.z);
+            transform.position = playerPos.Value;
+            transform.rotation = Quaternion.Euler(playerRot.Value.x, playerRot.Value.y, playerRot.Value.z);
         }
     }
 
