@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Netcode;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -69,19 +70,20 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     }
 
     //Late update happpens at the end of a frame
-    private void LateUpdate()
+    private void Update()
     {
         //Update the network variables of pos and rot
         if (IsOwner)
         {
-            updatePosServerRPC(transform.position);
-            updateRotServerRPC(transform.rotation.eulerAngles);
+
+            //updatePosServerRPC(transform.position);
+            //updateRotServerRPC(transform.rotation.eulerAngles);
         }
         //Else set the values of pos and rot using whatever the owner's are
         else
         {
-            transform.position = playerPos.Value;
-            transform.rotation = Quaternion.Euler(playerRot.Value.x, playerRot.Value.y, playerRot.Value.z);
+            //transform.position = playerPos.Value;
+            //transform.rotation = Quaternion.Euler(playerRot.Value.x, playerRot.Value.y, playerRot.Value.z);
         }
     }
 
@@ -113,4 +115,5 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     {
         playerRot.Value = newRot;
     }
+
 }
