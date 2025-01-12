@@ -18,57 +18,13 @@ public class SCR_Pathfinding : MonoBehaviour
     {
         public Vector3 position;
 
-        public Vector3[,,] adjacentIndexes;
-
-        //Neighbouring node variables
-        public Vector3
-
-            frontTopLeft, frontTopMid, frontTopRight,
-            frontMidLeft, frontMidMid, frontMidRight,
-            frontBottomLeft, frontBottomMid, frontBottomRight,
-
-            midTopLeft, midTopMid, midTopRight,
-            midMidLeft, midMidMid, midMidRight,
-            midBottomLeft, midBottomMid, midBottomRight,
-
-            backTopLeft, backTopMid, backTopRight,
-            backMidLeft, backMidMid, backMidRight,
-            backBottomLeft, backBottomMid, backBottomRight;
-
         public int traversalCost;
 
         //absolute chonker of a struct constructor
-        public gridNode(Vector3 Position, Vector3[,,] AdjacentIndexes, int traversalCost,
-            Vector3 FrontTopLeft, Vector3 FrontTopMid, Vector3 FrontTopRight,
-            Vector3 FrontMidLeft, Vector3 FrontMidMid, Vector3 FrontMidRight,
-            Vector3 FrontBottomLeft, Vector3 FrontBottomMid, Vector3 FrontBottomRight,
-
-            Vector3 MidTopLeft, Vector3 MidTopMid, Vector3 MidTopRight,
-            Vector3 MidMidLeft, Vector3 MidMidMid, Vector3 MidMidRight,
-            Vector3 MidBottomLeft, Vector3 MidBottomMid, Vector3 MidBottomRight,
-
-            Vector3 BackTopLeft, Vector3 BackTopMid, Vector3 BackTopRight,
-            Vector3 BackMidLeft, Vector3 BackMidMid, Vector3 BackMidRight,
-            Vector3 BackBottomLeft, Vector3 BackBottomMid, Vector3 BackBottomRight
-            )
+        public gridNode(Vector3 Position, int traversalCost)
         {
             this.position = Position;
-            this.adjacentIndexes = AdjacentIndexes;
             this.traversalCost = traversalCost;
-
-
-
-            this.frontTopLeft = FrontTopLeft; this.frontTopMid = FrontTopMid; this.frontTopRight = FrontTopRight;
-            this.frontMidLeft = FrontMidLeft; this.frontMidMid = FrontMidMid; this.frontMidRight = FrontMidRight;
-            this.frontBottomLeft = FrontBottomLeft; this.frontBottomMid = FrontBottomMid; this.frontBottomRight = FrontBottomRight;
-
-            this.midTopLeft = MidTopLeft; this.midTopMid = MidTopMid; this.midTopRight = MidTopRight;
-            this.midMidLeft = MidMidLeft; this.midMidMid = MidMidMid; this.midMidRight = MidMidRight;
-            this.midBottomLeft = MidBottomLeft; this.midBottomMid = MidBottomMid; this.midBottomRight = MidBottomRight;
-
-            this.backTopLeft = BackTopLeft; this.backTopMid = BackTopMid; this.backTopRight = BackTopRight;
-            this.backMidLeft = BackMidLeft; this.backMidMid = BackMidMid; this.backMidRight = BackMidRight;
-            this.backBottomLeft = BackBottomLeft; this.backBottomMid = BackBottomMid; this.backBottomRight = BackBottomRight;
 
         }
         /// <summary>
@@ -77,22 +33,110 @@ public class SCR_Pathfinding : MonoBehaviour
         /// <param name="x"> Gets the X position of the obejct in the matrix </param>
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
         /// <param name="z"> Gets the Z position of the object in the matrix </param>
-        public Vector3[,,] GetAdjacentNodes(int x, int y, int z)
+        /// 
+        public Vector3[,,] GetAdjacentNodes(int x, int y, int z, int x_length, int y_length, int z_length)
         {
-            frontTopLeft = new Vector3(x - 1, y + 1, z + 1); frontTopMid = new Vector3(x, y + 1, z + 1); frontTopRight = new Vector3(x + 1, y + 1, z + 1);
-            frontMidLeft = new Vector3(x - 1, y, z + 1); frontMidMid = new Vector3(x, y, z + 1); frontMidRight = new Vector3(x + 1, y, z + 1);
-            frontBottomLeft = new Vector3(x - 1, y - 1, z + 1); frontBottomMid = new Vector3(x, y - 1, z + 1); frontBottomRight = new Vector3(x + 1, y - 1, z + 1);
+            // Each section is a row along the x-axis. (left - middle -right)
+            Vector3[,,] neighbour = new Vector3[2, 2, 2];
 
-            midTopLeft = new Vector3(x - 1, y + 1, z); midTopMid = new Vector3(x, y + 1, z); midTopRight = new Vector3(x + 1, y + 1, z);
-            midMidLeft = new Vector3(x - 1, y, z); midMidMid = new Vector3(x, y, z); midMidRight = new Vector3(x + 1, y, z);
-            midBottomLeft = new Vector3(x - 1, y - 1, z); midBottomMid = new Vector3(x, y - 1, z); new Vector3(x + 1, y - 1, z);
+            // y = 0 (bottom layer)
+            // z = 0 (front layer)
+            //bottom back left, middle, right
+            if (x - 1 >= 0 && y - 1 >= 0 && z - 1 >= 0)
+            {
+                neighbour[0, 0, 0] = new Vector3(x - 1, y - 1, z - 1);    // x = 0 (left)
+            }
 
-            backTopLeft = new Vector3(x - 1, y + 1, z - 1); backTopMid = new Vector3(x, y + 1, z - 1); backTopRight = new Vector3(x + 1, y + 1, z - 1);
-            backMidLeft = new Vector3(x - 1, y, z - 1); backMidMid = new Vector3(x, y, z - 1); backMidRight = new Vector3(x + 1, y, z - 1);
-            backBottomLeft = new Vector3(x - 1, y - 1, z - 1); backBottomMid = new Vector3(x, y - 1, z - 1); backBottomRight = new Vector3(x + 1, y - 1, z - 1);
+            if (y - 1 >= 0 && z - 1 >= 0)
+            {
+                neighbour[1, 0, 0] = new Vector3(x, y - 1, z - 1);            // x = 1 (middle)
+            }
 
-            return adjacentIndexes[,,];
+            if (x + 1 < x_length && y - 1 >= 0 && z - 1 >= 0)
+            {
+                neighbour[2, 0, 0] = new Vector3(x + 1, y - 1, z - 1);          // x = 2 (right)
+            }     
 
+            // y = 0 (bottom layer)
+            // z = 1 (middle layer)
+            //bottom middle left, middle, right
+            neighbour[0, 0, 1] = new Vector3(x - 1, y - 1, z);    // x = 0 (left)
+            neighbour[1, 0, 1] = new Vector3(x, y - 1, z);        // x = 1 (middle)
+            neighbour[2, 0, 1] = new Vector3(x + 1, y - 1, z);    // x = 2 (right)
+
+            // y = 0 (bottom layer)
+            // z = 2 (back layer)
+            //bottom front left, middle, right
+            neighbour[0, 0, 2] = new Vector3(x - 1, y - 1, z + 1);    // x = 0 (left)
+            neighbour[1, 0, 2] = new Vector3(x, y - 1, z + 1);        // x = 1 (middle)
+            neighbour[2, 0, 2] = new Vector3(x + 1, y - 1, z + 1);    // x = 2 (right)
+
+            // y = 1 (middle layer)
+            // z = 0 (front layer)
+            //middle back left, middle, right
+            neighbour[0, 1, 0] = new Vector3(x - 1, y, z - 1);    // x = 0 (left)
+            neighbour[1, 1, 0] = new Vector3(x, y, z - 1);        // x = 1 (middle)
+            neighbour[2, 1, 0] = new Vector3(x + 1, y, z - 1);    // x = 2 (right)
+
+            // y = 1 (middle layer)
+            // z = 1 (middle layer)
+            //middle middle left, middle, right
+            neighbour[0, 1, 1] = new Vector3(x - 1, y, z);    // x = 0 (left)
+            neighbour[1, 1, 1] = new Vector3(x, y, z);        // x = 1 (middle)
+            neighbour[2, 1, 1] = new Vector3(x + 1, y, z);    // x = 2 (right)
+
+            // y = 1 (middle layer)
+            // z = 2 (back layer)
+            //middle front left, middle, right
+            neighbour[0, 1, 2] = new Vector3(x - 1, y, z + 1);    // x = 0 (left)
+            neighbour[1, 1, 2] = new Vector3(x, y, z + 1);        // x = 1 (middle)
+            neighbour[2, 1, 2] = new Vector3(x + 1, y, z + 1);    // x = 2 (right)
+
+            // y = 2 (top layer)
+            // z = 0 (front layer)
+            //top back left, middle, right
+            neighbour[0, 2, 0] = new Vector3(x - 1, y + 1, z - 1);    // x = 0 (left)
+            neighbour[1, 2, 0] = new Vector3(x, y + 1, z - 1);        // x = 1 (middle)
+            neighbour[2, 2, 0] = new Vector3(x + 1, y + 1, z - 1);    // x = 2 (right)
+
+            // y = 2 (top layer)
+            // z = 1 (middle layer)
+            //top middle left, middle, right
+            neighbour[0, 2, 1] = new Vector3(x - 1, y + 1, z);    // x = 0 (left)
+            neighbour[1, 2, 1] = new Vector3(x, y + 1, z);        // x = 1 (middle)
+            neighbour[2, 2, 1] = new Vector3(x + 1, y + 1, z);    // x = 2 (right)
+
+            // y = 2 (top layer)
+            // z = 2 (back layer)
+            //top front left, middle, right
+            neighbour[0, 2, 2] = new Vector3(x - 1, y + 1, z + 1);    // x = 0 (left)
+            neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
+            neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
+
+            //Boundary check for the neighbour nodes
+            for (int i = 0; i < neighbour.GetLength(0); i++)
+            {
+                for (int j = 0; j < neighbour.GetLength(1); j++)
+                {
+                    for (int k = 0; k < neighbour.GetLength(2); k++)
+                    {
+                        if (neighbour[i, j, k].x >= x_length || neighbour[i, j, k].x < 0)
+                        {
+                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                        }
+                        if (neighbour[i, j, k].y >= y_length || neighbour[i, j, k].y < 0)
+                        {
+                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                        }
+                        if (neighbour[i, j, k].z >= z_length || neighbour[i, j, k].z < 0)
+                        {
+                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                        }
+                    }
+                }
+            }
+
+            return neighbour;
         }
     }
 
@@ -137,7 +181,7 @@ public class SCR_Pathfinding : MonoBehaviour
                 {
                     Debug.Log("Iterated Through z");
                     navigationMatrix[i, j, k].position = new Vector3(i * nodeSpacing, j * nodeSpacing, k * nodeSpacing);
-                    navigationMatrix[i, j, k].GetAdjacentNodes(i, j, k);    //calls the function with the current indexes as the parameters
+                    navigationMatrix[i, j, k].GetAdjacentNodes(i, j, k, 1000, 500, 1000);    //calls the function with the current indexes as the parameters
                 }
             }
         }
