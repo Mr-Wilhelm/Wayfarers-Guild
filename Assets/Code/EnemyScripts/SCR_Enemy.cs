@@ -109,4 +109,12 @@ public class SCR_Enemy : MonoBehaviour
             enemyPath.Enqueue(nodePos); //instantiate a new queue for a new path
         }
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Ship")
+        {
+            Debug.Log("Colliding With Ship");
+        }
+    }
 }
