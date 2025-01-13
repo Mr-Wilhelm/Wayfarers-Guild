@@ -189,10 +189,13 @@ namespace Gravitas.Demo
                             OnInteractionTargetEvent?.Invoke("Reset Button");
                         }
                     }
-                    //else if (hitInfo.collider.gameObject.layer."Wheel")
-                    //{
-
-                    //}
+                    else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel"))
+                    {
+                        if (interact)
+                        {
+                            Debug.Log("Interacting with ship wheel");
+                        }
+                    }
                 }
                 else
                 {
