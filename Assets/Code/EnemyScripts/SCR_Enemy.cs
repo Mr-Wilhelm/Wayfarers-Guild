@@ -27,6 +27,12 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10.0f;
 
+    [SerializeField]
+    private Vector3 currentDestination;
+
+    [SerializeField]
+    private Vector3 currentPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,27 +45,30 @@ public class SCR_Enemy : MonoBehaviour
         foreach (var nodePos in enemyPathFinder.FindPath(gameObject.transform.position, moveTarget.transform.position))
         {
             enemyPath.Enqueue(nodePos);
-            Debug.Log(nodePos);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        
 
-        if (enemyPath.Count != 0)    //if the queue is not finished
+        if (enemyPath.Count != 0)   //if there are locations to move to
         {
-            if (Vector3.Distance(gameObject.transform.position, enemyPath.Peek()) > navTolerance)
+            if (Vector3.Distance(gameObject.transform.position, enemyPath.Peek()) > navTolerance) //if the object is not at the current object
             {
-                //rb.AddForce((gameObject.transform.position - enemyPath.Peek()).normalized * moveSpeed);
-                rb.AddForce((enemyPath.Peek() - gameObject.transform.position).normalized * moveSpeed, ForceMode.Force);
-                //Debug.Log((enemyPath.Peek() - gameObject.transform.position).normalized);
+                Debug.Log(Vector3.Distance(gameObject.transform.position, currentDestination));
+                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, enemyPath.Peek(), moveSpeed);
             }
             else
             {
+                Debug.Log("Dequeuing");
                 enemyPath.Dequeue();
-                Debug.Log("DEqueud");
             }
+        }
+        else
+        {
+            Debug.Log("List Empty");
         }
 
     }
