@@ -10,7 +10,7 @@ public class SCR_NewInteract : NetworkBehaviour
     private bool interacting = false;
 
     [SerializeField] private float interactionRange;
-    [SerializeField] NetworkVariable<bool> canInteract;
+    [SerializeField] public NetworkVariable<bool> canInteract;
 
     public Camera playerCam;
 
@@ -24,6 +24,14 @@ public class SCR_NewInteract : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            bool otherPlayerCanInteract = false;
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (!player.GetComponent<SCR_PlayerNetworkManager>().IsOwner)
+                {
+                    otherPlayerCanInteract = player.GetComponent<SCR_NewInteract>().canInteract.Value;
+                }
+            }
             Debug.Log("Interacting");
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
             {
@@ -34,7 +42,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
                 }
-                else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && canInteract.Value)
+                else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && otherPlayerCanInteract)
                 {
                     Debug.Log("Taking ship wheel");
                     gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
@@ -53,7 +61,7 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void UpdateCanInteractBoolServerRpc(bool newValue)
     {
         canInteract.Value = newValue;
