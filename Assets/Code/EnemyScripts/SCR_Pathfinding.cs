@@ -159,7 +159,7 @@ public class SCR_Pathfinding : MonoBehaviour
 
     private void Awake()
     {
-        PopulateWorld(100, 100, 100);
+        PopulateWorld(500, 100, 500);
     }
 
     // Start is called before the first frame update

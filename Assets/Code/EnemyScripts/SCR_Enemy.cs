@@ -50,25 +50,20 @@ public class SCR_Enemy : MonoBehaviour
 
         UpdatePath();
     }
-
     // Update is called once per frame
     void Update()
     {
+        gameObject.transform.LookAt(moveTarget.transform.position);
         frames++;
 
         if(frames % frameOffset == 0)
         {
             UpdatePath();
         }
-        
-
         if (enemyPath.Count > 0)   //if there are locations to move to
         {
             currentPos = gameObject.transform.position; //gets the current pos of the object
             currentDestination = enemyPath.Peek();  //sets the current destination to the first element in the Queue
-
-
-
             if (Vector3.Distance(currentPos, currentDestination) > navTolerance) //if the object is not at the current object
             {
                 gameObject.transform.position = Vector3.MoveTowards(currentPos, currentDestination, moveSpeed * Time.deltaTime);    //Move towards the first element in the list
