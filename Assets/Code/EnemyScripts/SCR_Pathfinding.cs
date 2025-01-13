@@ -131,7 +131,7 @@ public class SCR_Pathfinding : MonoBehaviour
             neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
             neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
 
-            int terrainLayer = 1 << 10;
+            int terrainLayer = 10;
 
             //Boundary check for the neighbour nodes
             for (int i = 0; i < neighbour.GetLength(0); i++)
@@ -154,6 +154,7 @@ public class SCR_Pathfinding : MonoBehaviour
                         }
                         if (Physics.CheckSphere(neighbour[i, j, k], NodeSize, terrainLayer))
                         {
+                            //Debug.Log("Node colliding with the terrain");
                             neighbour[i, j, k] = new Vector3(-1, -1, -1);
                         }
                     }

@@ -98,6 +98,11 @@ public class SCR_Enemy : MonoBehaviour
                 enemyPath.Dequeue();    //dequeue the first element
             }
         }
+
+        if (Physics.CheckSphere(gameObject.transform.position, 100, 10))
+        {
+            Debug.Log("Is touching the terrain");
+        }
     }
     private void UpdatePath()
     {
@@ -115,6 +120,11 @@ public class SCR_Enemy : MonoBehaviour
         if(other.gameObject.tag == "Ship")
         {
             Destroy(gameObject);
+        }
+
+        if(other.gameObject.layer == 10)
+        {
+            Debug.Log("Terrain has been hit but badly");
         }
     }
 }
