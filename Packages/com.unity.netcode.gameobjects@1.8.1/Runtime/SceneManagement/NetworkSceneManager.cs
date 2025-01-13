@@ -1826,7 +1826,7 @@ namespace Unity.Netcode
                 {
                     continue;
                 }
-                if (scene.name != "SHIP Physics Scene")
+                if (scene.name != "PRE-Airship Physics Scene")
                 {
                     sceneEventData.AddSceneToSynchronize(SceneHashFromNameOrPath(scene.path), scene.handle);
                 }
