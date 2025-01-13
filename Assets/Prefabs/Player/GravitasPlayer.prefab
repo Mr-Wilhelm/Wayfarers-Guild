@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: -7635383097292173331}
   - component: {fileID: 8938185879831433393}
   - component: {fileID: 6677807439807493320}
+  - component: {fileID: 6395319205621110177}
   m_Layer: 2
   m_Name: GravitasPlayer
   m_TagString: Player
@@ -431,8 +432,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRange: 1.2
   canInteract:
-    m_InternalValue: 0
+    m_InternalValue: 1
   playerCam: {fileID: 5932428688813479342}
+--- !u!114 &6395319205621110177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2250eadcf5da284f85ae3e04697eeef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onWheel: 0
+  shipAcceleration: 5
+  shipMaxSpeed: 40
 --- !u!1 &4691975859331995007
 GameObject:
   m_ObjectHideFlags: 0
