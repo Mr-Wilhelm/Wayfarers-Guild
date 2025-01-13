@@ -23,8 +23,8 @@ public class SCR_Pathfinding : MonoBehaviour
     public Vector3 endPos;
     public float nodeSize = 10f;
 
-    private List<gridNode> openList = new List<gridNode>();
-    private List<gridNode> closedList = new List<gridNode>();
+    public List<gridNode> openList = new List<gridNode>();
+    public List<gridNode> closedList = new List<gridNode>();
 
     public int iterator, iterator2;
 
@@ -157,20 +157,6 @@ public class SCR_Pathfinding : MonoBehaviour
         }
     }
 
-
-    private void OnDrawGizmos()
-    {
-        //if (navigationMatrix != null)
-        //{
-        //    foreach (gridNode node in navigationMatrix)
-        //    {
-        //        Gizmos.color = new Color(1, 1, 1, 0.05f);
-        //        Gizmos.DrawWireCube(node.position, new Vector3(nodeSize, nodeSize, nodeSize));
-        //    }
-        //}
-        
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -180,6 +166,9 @@ public class SCR_Pathfinding : MonoBehaviour
 
         Vector3 A = new Vector3(3, 15, 24);
         Vector3 B = new Vector3(90, 28, 64);
+
+        Vector3 C = new Vector3(3, 20, 24);
+        Vector3 D = new Vector3(90, 33, 64);
 
         if (FindPath(A, B) == null)
         {
@@ -193,6 +182,22 @@ public class SCR_Pathfinding : MonoBehaviour
             {
                 Debug.Log(pos);
                 Debug.DrawLine(prevPos, pos, Color.red, 1000f);
+                prevPos = pos;
+            }
+        }
+
+        if (FindPath(C, D) == null)
+        {
+            Debug.Log("fuck");
+        }
+        else
+        {
+            Vector3 prevPos = C;
+            Debug.DrawLine(C, D, Color.green, 1000f);
+            foreach (Vector3 pos in FindPath(C, D))
+            {
+                Debug.Log(pos);
+                //Debug.DrawLine(prevPos, pos, Color.yellow, 1000f);
                 prevPos = pos;
             }
         }
@@ -370,6 +375,18 @@ public class SCR_Pathfinding : MonoBehaviour
         newPath.Reverse();
         //return the path
         return newPath;
+    }
+
+    void OnDrawGizmos()
+    {
+        if(navigationMatrix != null)
+        {
+            Gizmos.color = Color.yellow;
+            foreach (gridNode pos in navigationMatrix)
+            {
+                Gizmos.DrawSphere(pos.position, nodeSize / 10);
+            }
+        }
     }
 }
 
