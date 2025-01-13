@@ -61,7 +61,7 @@ public class SCR_Pathfinding : MonoBehaviour
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
         /// <param name="z"> Gets the Z position of the object in the matrix </param>
         /// 
-        public Vector3[,,] GetAdjacentNodes(int x, int y, int z, int x_length, int y_length, int z_length, float NodeSize, gridNode[,,] NavigationMatrix)
+        public Vector3[,,] GetAdjacentNodes(int x, int y, int z, int x_length, int y_length, int z_length, float NodeSize)
         {
             // Each section is a row along the x-axis. (left - middle -right)
             Vector3[,,] neighbour = new Vector3[3, 3, 3];
@@ -131,6 +131,8 @@ public class SCR_Pathfinding : MonoBehaviour
             neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
             neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
 
+            int terrainLayer = 10;
+
             //Boundary check for the neighbour nodes
             for (int i = 0; i < neighbour.GetLength(0); i++)
             {
@@ -150,11 +152,11 @@ public class SCR_Pathfinding : MonoBehaviour
                         {
                             neighbour[i, j, k] = new Vector3(-1, -1, -1);
                         }
-                        if (Physics.CheckSphere(NavigationMatrix[(int)neighbour[i,j,k].x, (int)neighbour[i, j, k].y, (int)neighbour[i, j, k].z].position, NodeSize, 12))
+                        if (Physics.CheckSphere(neighbour[i, j, k], NodeSize, terrainLayer))
                         {
+                            //Debug.Log("Node colliding with the terrain");
                             neighbour[i, j, k] = new Vector3(-1, -1, -1);
                         }
-
                     }
                 }
             }
@@ -166,31 +168,31 @@ public class SCR_Pathfinding : MonoBehaviour
 
     private void Awake()
     {
-        PopulateWorld(500, 150, 500);
+        PopulateWorld(500, 100, 500);
     }
 
     // Start is called before the first frame update
     void Start()
     {
        
-        //Vector3 A = new Vector3(3, 15, 24);
-        //Vector3 B = new Vector3(90, 28, 64);
+        Vector3 A = new Vector3(3, 15, 24);
+        Vector3 B = new Vector3(90, 28, 64);
 
-        //if (FindPath(A, B) == null)
-        //{
-        //    Debug.Log("fuck");
-        //}
-        //else
-        //{
-        //    Vector3 prevPos = A;
-        //    Debug.DrawLine(A, B, Color.blue, 1000f);
-        //    foreach (Vector3 pos in FindPath(A, B))
-        //    {
-        //        //Debug.Log(pos);
-        //        Debug.DrawLine(prevPos, pos, Color.red, 1000f);
-        //        prevPos = pos;
-        //    }
-        //}
+        if (FindPath(A, B) == null)
+        {
+            Debug.Log("fuck");
+        }
+        else
+        {
+            Vector3 prevPos = A;
+            Debug.DrawLine(A, B, Color.blue, 1000f);
+            foreach (Vector3 pos in FindPath(A, B))
+            {
+                //Debug.Log(pos);
+                Debug.DrawLine(prevPos, pos, Color.red, 1000f);
+                prevPos = pos;
+            }
+        }
     }
 
     /// <summary>
@@ -223,12 +225,9 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
     {
-        Debug.Log(new Vector3((int)MathF.Floor(startPoint.x / nodeSize), (int)MathF.Floor(startPoint.y / nodeSize), (int)MathF.Floor(startPoint.z / nodeSize)));
-        Debug.Log(new Vector3((int)MathF.Floor(endPoint.x / nodeSize), (int)MathF.Floor(endPoint.y / nodeSize), (int)MathF.Floor(startPoint.z / nodeSize)));
-
         //get the start and end points via the parameters passed.
-        gridNode startNode = navigationMatrix[(int)MathF.Floor(startPoint.x / nodeSize), (int)MathF.Floor(startPoint.y / nodeSize), (int)MathF.Floor(startPoint.z / nodeSize)];
-        gridNode endNode = navigationMatrix[(int)MathF.Floor(endPoint.x / nodeSize), (int)MathF.Floor(endPoint.y / nodeSize), (int)MathF.Floor(endPoint.z / nodeSize)];
+        gridNode startNode = navigationMatrix[(int)MathF.Round(startPoint.x / nodeSize), (int)MathF.Round(startPoint.y / nodeSize), (int)MathF.Round(startPoint.z / nodeSize)];
+        gridNode endNode = navigationMatrix[(int)MathF.Round(endPoint.x / nodeSize), (int)MathF.Round(endPoint.y / nodeSize), (int)MathF.Round(endPoint.z / nodeSize)];
 
         //cleaning lists
         openList.Clear();
@@ -272,7 +271,7 @@ public class SCR_Pathfinding : MonoBehaviour
                 (int)currentNode.index.y,
                 (int)currentNode.index.z,
                 navigationMatrix.GetLength(0), navigationMatrix.GetLength(1), navigationMatrix.GetLength(2),
-                nodeSize, navigationMatrix))
+                nodeSize))
             {
                 //Debug.Log("neighbourPos : " +neighbourPos + " / - currentIndex : " + currentNode.index);
                 //gets the neighbour node
