@@ -36,7 +36,7 @@ public class SCR_Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        moveTarget = GameObject.Find("target");
+        //moveTarget = GameObject.Find("target");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
 
@@ -51,14 +51,17 @@ public class SCR_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
         if (enemyPath.Count != 0)   //if there are locations to move to
         {
-            if (Vector3.Distance(gameObject.transform.position, enemyPath.Peek()) > navTolerance) //if the object is not at the current object
+            currentPos = gameObject.transform.position;
+            currentDestination = enemyPath.Peek();
+
+            if (Vector3.Distance(currentPos, currentDestination) > navTolerance) //if the object is not at the current object
             {
-                Debug.Log(Vector3.Distance(gameObject.transform.position, currentDestination));
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, enemyPath.Peek(), moveSpeed);
+                Debug.Log(Vector3.Distance(currentPos, currentDestination));
+                gameObject.transform.position = Vector3.MoveTowards(currentPos, currentDestination, moveSpeed * Time.deltaTime);
             }
             else
             {
@@ -70,6 +73,14 @@ public class SCR_Enemy : MonoBehaviour
         {
             Debug.Log("List Empty");
         }
+
+    }
+
+    void UpdatePath()
+    {
+        enemyPath.Clear();  //clears the current path
+
+        
 
     }
 }
