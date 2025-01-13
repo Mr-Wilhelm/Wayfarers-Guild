@@ -185,10 +185,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   playerParticleSystem: {fileID: 1193758425159005828}
-  jetpackForce: 20
+  jetpackForce: 0
   jumpForce: 10
   moveSpeed: 20
   turnSpeed: 4
+  playerOnWheel: 0
 --- !u!114 &-3273300779194110752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,6 +430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRange: 1.2
+  canInteract:
+    m_InternalValue: 0
   playerCam: {fileID: 5932428688813479342}
 --- !u!1 &4691975859331995007
 GameObject:

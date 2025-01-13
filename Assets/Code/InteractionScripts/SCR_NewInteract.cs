@@ -27,23 +27,28 @@ public class SCR_NewInteract : NetworkBehaviour
             Debug.Log("Interacting");
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
             {
-                if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && canInteract.Value)
-                {
-                    Debug.Log("Taking ship wheel");
-                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    interacting = true;
-                    UpdateCanInteractBoolServerRpc(false);
-                    gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
-                    //gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
-                }
-                else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && interacting && !canInteract.Value)
+                if (interacting)
                 {
                     Debug.Log("Getting off ship wheel");
-                    gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = true;
-                    //gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = true;
-                    interacting = false;
+                    gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                     UpdateCanInteractBoolServerRpc(true);
+                    interacting = false;
                 }
+                else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && canInteract.Value)
+                {
+                    Debug.Log("Taking ship wheel");
+                    gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
+                    interacting = true;
+                    UpdateCanInteractBoolServerRpc(false);
+                    gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = true;
+                }
+            }
+            else if (interacting)
+            {
+                Debug.Log("Getting off ship wheel");
+                gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                UpdateCanInteractBoolServerRpc(true);
+                interacting = false;
             }
         }
     }

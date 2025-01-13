@@ -25,7 +25,7 @@ namespace Gravitas.Demo
         [SerializeField] private float turnSpeed = 5f;
         private bool interact;
 
-        public bool playerOnWheel = true;
+        public bool playerOnWheel = false;
 
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
@@ -204,7 +204,7 @@ namespace Gravitas.Demo
             /// <returns>Vector3 The calculated velocity</returns>
             Vector3 GetInputVelocity()
             {
-                if(playerOnWheel)
+                if(!playerOnWheel)
                 {
                     Vector3 velocity = Vector3.zero;
 

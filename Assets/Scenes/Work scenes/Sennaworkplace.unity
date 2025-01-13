@@ -476,6 +476,52 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed5e7424a1fcde64cad475d08b43e3d0, type: 3}
+--- !u!1 &313300641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 313300643}
+  - component: {fileID: 313300642}
+  m_Layer: 0
+  m_Name: Gravitas Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &313300642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313300641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aed234d11eb1a28ea6425c54fd68f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physicsSceneTimescale: 1
+  fieldsLayer: 7
+--- !u!4 &313300643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313300641}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &361670355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3829,60 +3875,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 76532429830198537, guid: 00b41b74b038dae468603ed3702607b0,
+    - target: {fileID: 117376098355334954, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 72c8870693960db4a916725f7ae22d5c, type: 2}
-    - target: {fileID: 446121837952835424, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.6085057
+      propertyPath: GlobalObjectIdHash
+      value: 1398908301
       objectReference: {fileID: 0}
     - target: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
       value: airship empty
-      objectReference: {fileID: 0}
-    - target: {fileID: 2136422831279486647, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8ac7bdc6ecdef354fa397196a3c692c1, type: 2}
-    - target: {fileID: 2736928455439333063, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.355
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736928455439333063, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.122
-      objectReference: {fileID: 0}
-    - target: {fileID: 2736928455439333063, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 5262878906129957945, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.9199994
-      objectReference: {fileID: 0}
-    - target: {fileID: 5756533846493262508, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.9200022
-      objectReference: {fileID: 0}
-    - target: {fileID: 5845979960615816093, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 6888490921197353781, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.3308842
       objectReference: {fileID: 0}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -3994,3 +3995,4 @@ SceneRoots:
   - {fileID: 1059290406}
   - {fileID: 1392690419}
   - {fileID: 2217591295690478676}
+  - {fileID: 313300643}
