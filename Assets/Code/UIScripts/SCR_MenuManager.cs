@@ -229,6 +229,10 @@ public class SCR_MenuManager : MonoBehaviour
         npc3Button = GameObject.Find("NPC3");
         npc4Button = GameObject.Find("NPC4");
 
+        //adding these here for demo day
+        npc3Button.SetActive(false);
+        npc4Button.SetActive(false);
+
         NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC1.json", typeof(TextAsset));
         NPC2Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC2.json", typeof(TextAsset));
         NPC3Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC3.json", typeof(TextAsset));
@@ -503,8 +507,10 @@ public class SCR_MenuManager : MonoBehaviour
     {
         npc1Button.SetActive(true);
         npc2Button.SetActive(true);
-        npc3Button.SetActive(true);
-        npc4Button.SetActive(true);
+
+        //uncomment these after demoday
+        //npc3Button.SetActive(true);
+        //npc4Button.SetActive(true);
 
         questBoard.SetActive(false);
         questBoardButton.SetActive(true);
