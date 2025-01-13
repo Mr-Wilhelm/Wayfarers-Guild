@@ -59,7 +59,7 @@ public class SCR_UIManager : MonoBehaviour
 
         if(sceneToLoad == "")
         {
-            sceneToLoad = "DemoScene";
+            sceneToLoad = "SCN_WIP_3DPathfinding";
         }
     }
 

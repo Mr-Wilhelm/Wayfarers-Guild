@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class SCR_EnemySpawner : NetworkBehaviour
 {
-    [SerializeField]
-    private SCR_Enemy[] enemiesArray;
+    //[SerializeField]
+    //private SCR_Enemy[] enemiesArray;
 
-    [SerializeField]
-    private SCR_Enemy enemyToSpawn;
+    //[SerializeField]
+    //private SCR_Enemy enemyToSpawn;
 
     [SerializeField]
     private float spawnCountdown;
@@ -48,7 +48,7 @@ public class SCR_EnemySpawner : NetworkBehaviour
                 RandomiseSpawnPoint();
 
                 //Spawns an enemy using the value returned from the GetEnemyToSpawn() function
-                SpawnEnemy(GetEnemyToSpawn());
+                //SpawnEnemy(GetEnemyToSpawn());
             }
         }
     }
@@ -71,34 +71,34 @@ public class SCR_EnemySpawner : NetworkBehaviour
     /// returns that value
     /// </summary>
     /// <returns></returns>
-    private SCR_Enemy GetEnemyToSpawn()
-    {
-        enemyToSpawn = enemiesArray[Random.Range(0, enemiesArray.Length)];
-        return enemyToSpawn;
-    }
+    //private SCR_Enemy GetEnemyToSpawn()
+    //{
+    //    enemyToSpawn = enemiesArray[Random.Range(0, enemiesArray.Length)];
+    //    return enemyToSpawn;
+    //}
 
     /// <summary>
     /// Gets the spawnEnemy value from the GetEnemyToSpawn() function
     /// Spawns it at a random position around the spawner
     /// </summary>
     /// <param name="spawnEnemy"></param>
-    private void SpawnEnemy(SCR_Enemy spawnEnemy)
-    {
-        var Instance = Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
-        var instanceNetworkObject = Instance.GetComponent<NetworkObject>();
-        instanceNetworkObject.Spawn(true);
-    }
+    //private void SpawnEnemy(SCR_Enemy spawnEnemy)
+    //{
+    //    var Instance = Instantiate(spawnEnemy, spawnPoint, Quaternion.identity);
+    //    var instanceNetworkObject = Instance.GetComponent<NetworkObject>();
+    //    instanceNetworkObject.Spawn(true);
+    //}
 
-    public void DespawnEnemy(SCR_Enemy despawnEnemy)
-    {
-        try
-        {
-            despawnEnemy.gameObject.GetComponent<NetworkObject>().Despawn();
-            Debug.Log("Done the despawn");
-        }
-        catch
-        {
-            Debug.Log("Failed to despawn");
-        }
-    }
+    //public void DespawnEnemy(SCR_Enemy despawnEnemy)
+    //{
+    //    try
+    //    {
+    //        despawnEnemy.gameObject.GetComponent<NetworkObject>().Despawn();
+    //        Debug.Log("Done the despawn");
+    //    }
+    //    catch
+    //    {
+    //        Debug.Log("Failed to despawn");
+    //    }
+    //}
 }
