@@ -5,6 +5,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -33,10 +34,14 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     public string playerNameString;
 
 
+    [SerializeField] private GameObject myPrefab;
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        SceneManager.sceneLoaded -= test;
+    }
 
-
-    
 
     /// <summary>
     /// On network spawn of players, fills player objects with each player
@@ -89,9 +94,23 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            NetworkObject.Despawn(true);
+
+            //if (!myPrefab) { Debug.Log("Prefab Is Empty"); }
+            //else
+            //{
+            //    spawnWithOwnershipServerRpc(OwnerClientId);
+
+            //    Debug.Log("Empty Object");
+            //}
+
+
+
+
+            //NetworkObject.Despawn(true);
             //this.gameObject.SetActive(false);
-            //this.GetComponent<GravitasFirstPersonPlayerSubject>().enabled= false;
+            this.GetComponent<SCR_2D_Logic>().enabled = true;
+            this.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            this.enabled = false;
 
         }
     }
@@ -153,5 +172,14 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             transform.rotation = Quaternion.Euler(newRot);
         }
     }
-    
+
+
+    [ServerRpc]
+    private void spawnWithOwnershipServerRpc(ulong Id)
+    {
+        var instance = Instantiate(myPrefab);
+        var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+        instanceNetworkObject.SpawnWithOwnership(Id);
+    }
+
 }

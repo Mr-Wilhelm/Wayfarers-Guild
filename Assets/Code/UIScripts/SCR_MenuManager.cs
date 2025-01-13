@@ -188,6 +188,26 @@ public class SCR_MenuManager : NetworkBehaviour
 
     #endregion
 
+    #region UIListVariables
+    [SerializeField]
+    List<GameObject> AllGameobjects = new List<GameObject>();
+    List<GameObject> DeactivatedObjects = new List<GameObject>();
+    bool Ready = false;
+
+    NetworkVariable<bool> PreReadyStatus = new NetworkVariable<bool>(false);
+
+    private bool clientReady = false;
+
+    #endregion
+
+
+
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        questIndex.OnValueChanged -= UpdateQuestTextFromIndex;
+    }
     public override void OnNetworkSpawn()
     {
         questIndex.OnValueChanged += UpdateQuestTextFromIndex;
@@ -320,7 +340,6 @@ public class SCR_MenuManager : NetworkBehaviour
         }
 
         ChangeQuestIndexServerRpc(-1);
-
     }
     private void OnEnable()
     {
@@ -388,8 +407,8 @@ public class SCR_MenuManager : NetworkBehaviour
 
     public void ReadyButtonPress()
     {
+        ReadyButtonPressed();
         Debug.Log("Ready button pressed");
-
     }
     //----------City UI------------
     #endregion
@@ -537,23 +556,23 @@ public class SCR_MenuManager : NetworkBehaviour
 
     public void SelectQuestOne()
     {
+        if (questIndex.Value != -1) { return; }
         selectedQuest = 1;
         ChangeQuestIndexServerRpc(selectedQuest);
 
     }
     public void SelectQuestTwo()
     {
+        if (questIndex.Value != -1) { return; }
         selectedQuest = 2;
         ChangeQuestIndexServerRpc(selectedQuest);
-
-
 
     }
     public void SelectQuestThree()
     {
+        if (questIndex.Value != -1) { return; }
         selectedQuest = 3;
         ChangeQuestIndexServerRpc(selectedQuest);
-
 
     }
     //----------Spoons Functions----------
@@ -723,16 +742,16 @@ public class SCR_MenuManager : NetworkBehaviour
 
     #endregion
 
-    #region NEtworkFunctions
-    [ServerRpc]
+    #region NetworkFunctions
+    [ServerRpc(RequireOwnership = false)]
     public void ChangeQuestIndexServerRpc(int newValue)
     {
         questIndex.Value = newValue;
     }
 
-    
 
-    public void UpdateQuestTextFromIndex(int oldValue,int newValue)
+
+    public void UpdateQuestTextFromIndex(int oldValue, int newValue)
     {
         if (questIndex.Value == 1)
         {
@@ -742,12 +761,134 @@ public class SCR_MenuManager : NetworkBehaviour
         {
             currentQuestText.text = questTwoText.text;
         }
-        else if( questIndex.Value == 3 )
+        else if (questIndex.Value == 3)
         {
             currentQuestText.text = questThreeText.text;
         }
 
     }
+
+    /// <summary>
+    /// Returnns the quest index for the mission?
+    /// </summary>
+    /// <returns>Int - Quest index</returns>
+    public int GetQuestIndex()
+    {
+        Debug.Log("Grabbed Quest Index at " + questIndex.Value);
+        return questIndex.Value;
+    }
+
+    #endregion
+
+    #region ReadyOperationsFunctions
+
+
+    void ReadyButtonPressed()
+    {
+        GameObject Readytint = GameObjectCommon.FindChildwithTagStringLayer(this.gameObject, "ReadyTint", GameObjectCommon.NameTagLayer.Name);
+
+        bool readystatus = Readytint.activeInHierarchy;
+        Readytint.SetActive(!readystatus);
+
+        if (!clientReady)
+        {
+            clientReady = true;
+            if (!PreReadyStatus.Value)
+            {
+                ReadyedServerRpc(true);
+            }
+
+            else 
+            { 
+                Debug.Log("CUMCUMCBEANS");
+                NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
+                Debug.Log("weiner");
+            }
+        }
+        else
+        {
+            clientReady = false;
+            ReadyedServerRpc(false);
+        }
+        
+
+        //if (IsServer)
+        //{
+        //    GameObject OneButton = GameObjectCommon.FindChildwithTagStringLayer(readyButton, "ReadyPlayerOne", GameObjectCommon.NameTagLayer.Name);
+
+        //    if (readystatus) { OneButton.GetComponent<Image>().color = Color.green; }
+        //    else { OneButton.GetComponent<Image>().color = Color.red; }
+
+        //}
+
+        //if (IsClient)
+        //{
+        //    GameObject TwoButton = GameObjectCommon.FindChildwithTagStringLayer(readyButton, "ReadyPlayerTwo (1)", GameObjectCommon.NameTagLayer.Name);
+
+        //    if (readystatus) { TwoButton.GetComponent<Image>().material.color = Color.green; }
+        //    else if (readystatus) { TwoButton.GetComponent<Image>().color= Color.red; }
+
+        //    //playertwo actions
+        //}
+        // Send off Playerready status Here for ready status
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ReadyedServerRpc(bool newValue)
+    {
+        PreReadyStatus.Value = newValue;
+    }
+
+    //void ReadyButtonPressed()
+    //{
+    //    AllGameobjects = GameObjectCommon.GetAllChildren(this.gameObject);
+    //    if (!Ready)
+    //    {
+    //        foreach (GameObject GO in AllGameobjects)
+    //        {
+    //            //GO.GetComponent<Button>().enabled = false;
+    //            Debug.Log(GO.name);
+    //            if (GO.name == "CityElements")
+    //            {
+    //                List<GameObject> SmallerGO = GameObjectCommon.GetAllChildren(GO);
+    //                foreach (GameObject Sgu in SmallerGO)
+    //                {
+    //                    if (Sgu.name == "ReadyButton") { continue; }
+    //                    Sgu.SetActive(false);
+    //                }
+    //                continue;
+    //            }
+
+
+
+    //            if (GO.activeInHierarchy) { GO.SetActive(false); DeactivatedObjects.Add(GO); }
+
+    //        }
+    //        Debug.Log("SetUnactive");
+    //    }
+    //    else if (Ready)
+    //    {
+    //        foreach (GameObject GO in DeactivatedObjects)
+    //        {
+    //            GO.SetActive(true);
+    //            //if (GO.name == "CityElements")
+    //            //{
+    //            //    List<GameObject> SmallerGO = GameObjectCommon.GetAllChildren(GO);
+    //            //    foreach (GameObject Sgu in SmallerGO)
+    //            //    {
+    //            //        Sgu.SetActive(true);
+    //            //    }
+    //            //}
+    //        }
+
+    //        Debug.Log("HELP ME WHY");
+    //    }
+
+    //    Ready = !Ready;
+
+    //}
+
 
     #endregion
 

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1527291677001032635}
   - component: {fileID: -7635383097292173331}
   - component: {fileID: 8938185879831433393}
+  - component: {fileID: 1035089156990812247}
   m_Layer: 2
   m_Name: GravitasPlayer
   m_TagString: Untagged
@@ -273,6 +274,10 @@ MonoBehaviour:
   SelfPlayerMesh:
     serializedVersion: 2
     m_Bits: 256
+  playerPos:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  playerRot:
+    m_InternalValue: {x: 0, y: 0, z: 0}
   playerName:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -411,6 +416,20 @@ MonoBehaviour:
         byte0124: 0
         byte0125: 0
   playerNameString: 
+  myPrefab: {fileID: 6414536492828772107, guid: 6189b45b54867604282c138dad7653fc,
+    type: 3}
+--- !u!114 &1035089156990812247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4751e0721d09fe94cb7aab533129c850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4691975859331995007
 GameObject:
   m_ObjectHideFlags: 0

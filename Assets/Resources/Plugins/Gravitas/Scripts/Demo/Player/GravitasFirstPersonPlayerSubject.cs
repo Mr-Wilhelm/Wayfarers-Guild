@@ -46,7 +46,6 @@ namespace Gravitas.Demo
         {
             base.OnSubjectAwake();
 
-            Debug.Log("BAGONGING");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
