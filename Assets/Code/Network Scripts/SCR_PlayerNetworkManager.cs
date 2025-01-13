@@ -1,8 +1,12 @@
+using Gravitas.Demo;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SCR_PlayerNetworkManager : NetworkBehaviour
 {
@@ -20,73 +24,106 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] public LayerMask SelfPlayerMesh;
 
+    //Tracks the pos and rot of the player
+    public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
+
+    public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>();
+    public string playerNameString;
+
     /// <summary>
     /// On network spawn of players, fills player objects with each player
     /// </summary>
     /// 
     public override void OnNetworkSpawn()
     {
+        playerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
+        gameObject.name = playerName.Value.ToString();
 
+        Debug.Log("GRAVITAS PLAYER SPAWNED");
         if (IsOwner)
         {
+
+            FixedString128Bytes name = "Player_" + NetworkManager.Singleton.LocalClientId;
+            updateNameServerRPC(name);
+
+            Debug.Log("Owner detected");
             //enable camera for owner
             playerCamera = gameObject.GetComponentInChildren<Camera>();
             playerCamera.enabled = true;
-            //if (IsHost)
-            //{
-            //    GameObject.Find("PlayerName").GetComponent<TextMeshPro>().text = GameObject.Find("SCR_PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>().player1Name.Value;
-            //}
-            //else
-            //{
-            //    GameObject.Find("PlayerName").gameObject.GetComponent<TextMeshPro>().text = GameObject.Find("SCR_PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>().player2Name.Value;
-            //}
+            
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
-            Debug.Log("ACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
             CraigBody.layer = SelfPlayerMeshLayer;
             CraigClothes.layer = SelfPlayerMeshLayer;
-
         }
-        Debug.Log("NetworkSpawn");
-        SetParentToShip(true);
+        else
+        {
+            gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            Debug.Log(playerNameString + " is not owner, disabling movement");
+            playerCamera.enabled = false;
+            int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
+            gameObject.layer = NonOwnerLayer;
+        }
     }
+
+    //Late update happpens at the end of a frame
     private void Update()
     {
-        //need to find better place to put this
-        SetParentToShip(false);
-
+        //Update the network variables of pos and rot
+        if (IsOwner)
+        {
+            updatePosServerRPC(transform.position);
+            updateRotServerRPC(transform.rotation.eulerAngles);
+        }
     }
 
-    /// <summary>
-    /// Setparent to the ship variable
-    /// problem is when to call it ideally as soon as the network starts but calling it to early makes it not work
-    /// put in update and it works put in start and it doesn work onnetwrokspawndoesnt get called??
-    /// Debugs messages controlls whether to spam debug.log or not but also hides the not working error catch
-    /// </summary>
-    public void SetParentToShip(bool DebugsMessages)
+
+    //Update the playername variable in the network
+    [ServerRpc]
+    private void updateNameServerRPC(FixedString128Bytes newName)
     {
-        if (DebugsMessages)
-        {
-            Debug.Log("calling");
+        playerName.Value = newName;
+    }
 
-        }
-        if (Ship == null)
-        {
-            Ship = GameObject.FindWithTag("Ship");
+    //Change the player name variable and also update the game object name of each player to represent each of them
+    private void OnNetworkPlayerName_OnValueChange(FixedString128Bytes previousValue, FixedString128Bytes newValue)
+    {
+        playerNameString = playerName.Value.ToString();
+        gameObject.name = playerNameString;
+    }
 
-        }
-        try
+    //Updates the owner's pos and sends it to the network
+    [ServerRpc]
+    private void updatePosServerRPC(Vector3 newPos)
+    {
+        updatePosClientRPC(newPos);
+    }
+
+    //Updates the owner's rot and sends it to the network
+    [ServerRpc]
+    private void updateRotServerRPC(Vector3 newRot)
+    {
+        updateRotClientRPC(newRot);
+    }
+
+    [ClientRpc]
+    private void updatePosClientRPC(Vector3 newPos)
+    {
+        if(!IsOwner)
         {
-            NetworkObject.TrySetParent(Ship.transform, false);
-            //if transform doesnt work set to gameobject instead?
-        }
-        catch
-        {
-            if (DebugsMessages)
-            {
-                Debug.Log("not wokring");
-            }
+            transform.position = newPos;
         }
     }
+
+    [ClientRpc]
+    private void updateRotClientRPC(Vector3 newRot)
+    {
+        if (!IsOwner)
+        {
+            transform.rotation = Quaternion.Euler(newRot);
+        }
+    }
+    
 }
