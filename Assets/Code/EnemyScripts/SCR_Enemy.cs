@@ -33,6 +33,12 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private Vector3 currentPos;
 
+    [SerializeField]
+    private int frames;
+
+    [SerializeField]
+    private int frameOffset;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,45 +48,46 @@ public class SCR_Enemy : MonoBehaviour
 
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
 
-        foreach (var nodePos in enemyPathFinder.FindPath(gameObject.transform.position, moveTarget.transform.position))
-        {
-            enemyPath.Enqueue(nodePos);
-        }
+        UpdatePath();
     }
 
     // Update is called once per frame
     void Update()
     {
+        frames++;
 
-
-        if (enemyPath.Count != 0)   //if there are locations to move to
+        if(frames % frameOffset == 0)
         {
-            currentPos = gameObject.transform.position;
-            currentDestination = enemyPath.Peek();
+            UpdatePath();
+        }
+        
+
+        if (enemyPath.Count > 0)   //if there are locations to move to
+        {
+            currentPos = gameObject.transform.position; //gets the current pos of the object
+            currentDestination = enemyPath.Peek();  //sets the current destination to the first element in the Queue
+
+
 
             if (Vector3.Distance(currentPos, currentDestination) > navTolerance) //if the object is not at the current object
             {
-                Debug.Log(Vector3.Distance(currentPos, currentDestination));
-                gameObject.transform.position = Vector3.MoveTowards(currentPos, currentDestination, moveSpeed * Time.deltaTime);
+                gameObject.transform.position = Vector3.MoveTowards(currentPos, currentDestination, moveSpeed * Time.deltaTime);    //Move towards the first element in the list
+
             }
-            else
+            else    //if the object has arrived at its target node
             {
-                Debug.Log("Dequeuing");
-                enemyPath.Dequeue();
+                enemyPath.Dequeue();    //dequeue the first element
             }
         }
-        else
-        {
-            Debug.Log("List Empty");
-        }
-
     }
-
-    void UpdatePath()
+    private void UpdatePath()
     {
+        var pathNodes = enemyPathFinder.FindPath(currentPos, moveTarget.transform.position);    //find the path between the current pos and the target
         enemyPath.Clear();  //clears the current path
 
-        
-
+        foreach (var nodePos in pathNodes)
+        {
+            enemyPath.Enqueue(nodePos); //instantiate a new queue for a new path
+        }
     }
 }
