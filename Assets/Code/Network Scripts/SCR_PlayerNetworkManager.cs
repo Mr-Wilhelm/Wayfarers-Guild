@@ -7,6 +7,7 @@ using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class SCR_PlayerNetworkManager : NetworkBehaviour
 {
@@ -31,12 +32,25 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>();
     public string playerNameString;
 
+
+
+
+
+    
+
     /// <summary>
     /// On network spawn of players, fills player objects with each player
     /// </summary>
     /// 
     public override void OnNetworkSpawn()
     {
+        if(SceneManager.GetActiveScene().name == "CityMenu")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        SceneManager.sceneLoaded += test;
+
+
         playerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
         gameObject.name = playerName.Value.ToString();
 
@@ -65,6 +79,20 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             playerCamera.enabled = false;
             int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
             gameObject.layer = NonOwnerLayer;
+        }
+    }
+
+    void test(Scene a, LoadSceneMode b)
+    {
+        if (a.name == "CityMenu")
+        {
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            NetworkObject.Despawn(true);
+            //this.gameObject.SetActive(false);
+            //this.GetComponent<GravitasFirstPersonPlayerSubject>().enabled= false;
+
         }
     }
 

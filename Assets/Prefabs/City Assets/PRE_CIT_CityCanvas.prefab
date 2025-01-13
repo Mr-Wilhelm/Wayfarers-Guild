@@ -9461,6 +9461,7 @@ GameObject:
   - component: {fileID: 6877986361561671823}
   - component: {fileID: 385931752223452675}
   - component: {fileID: 415255040902283621}
+  - component: {fileID: 1552295753563037171}
   - component: {fileID: 3024810402644711554}
   - component: {fileID: 1420839828205700299}
   m_Layer: 5
@@ -9561,6 +9562,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1552295753563037171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237526249122942042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1194995857
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &3024810402644711554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9616,10 +9638,10 @@ MonoBehaviour:
   questButton: {fileID: 0}
   questButtonPivot: {fileID: 0}
   questCollapseArrow: {fileID: 0}
-  NPC1Dialogue: {fileID: 0}
-  NPC2Dialogue: {fileID: 0}
-  NPC3Dialogue: {fileID: 0}
-  NPC4Dialogue: {fileID: 0}
+  NPC1Dialogue: {fileID: 4900000, guid: dc98220a97e65bb47867e3d751cf1d26, type: 3}
+  NPC2Dialogue: {fileID: 4900000, guid: 30e93731742526545b54376b4f202c10, type: 3}
+  NPC3Dialogue: {fileID: 4900000, guid: 538f8170e57a5d048a8a84fb4a41456e, type: 3}
+  NPC4Dialogue: {fileID: 4900000, guid: 4fade975da35f6d4f8305dadbd4b893a, type: 3}
   dialoguePanel: {fileID: 0}
   dialogueText: {fileID: 5602380844245692083}
   characterPortrait: {fileID: 0}

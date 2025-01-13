@@ -10,6 +10,7 @@ using Ink.Runtime;  //ink stuff
 using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using Unity.Netcode;
 
 /// <summary>
 /// To Anyone Other than myself (Will) trying to use this script
@@ -21,7 +22,7 @@ using System.Linq;
 /// "You will witness true horror" - Malenia, Blade of Miquella
 /// </summary>
 
-public class SCR_MenuManager : MonoBehaviour
+public class SCR_MenuManager : NetworkBehaviour
 {
     [SerializeField]
     private SCR_SceneManagerScript sceneManager;
@@ -180,6 +181,18 @@ public class SCR_MenuManager : MonoBehaviour
     private bool questDroppedDown;
     #endregion
 
+    #region NetworkVariables
+    [Header("Networking Variables")]
+    [SerializeField]
+    NetworkVariable<int> questIndex = new NetworkVariable<int>(0);
+
+    #endregion
+
+    public override void OnNetworkSpawn()
+    {
+        questIndex.OnValueChanged += UpdateQuestTextFromIndex;
+
+    }
     private void Awake()
     {
 
@@ -243,7 +256,7 @@ public class SCR_MenuManager : MonoBehaviour
 
         characterPortrait = dialogueText.transform.GetChild(0).GetComponent<Image>();
 
-        questBoardButton = GameObject.Find("QuestBoard");        
+        questBoardButton = GameObject.Find("QuestBoard");
         questBoard = GameObject.Find("QuestBoardBackground");
 
         questBoardBackButton = GameObject.Find("QuestBoardBackButton");
@@ -300,11 +313,14 @@ public class SCR_MenuManager : MonoBehaviour
         //gets the choice texts
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
-        foreach(GameObject choice in choices)
+        foreach (GameObject choice in choices)
         {
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
         }
+
+        ChangeQuestIndexServerRpc(-1);
+
     }
     private void OnEnable()
     {
@@ -315,7 +331,7 @@ public class SCR_MenuManager : MonoBehaviour
     //----------City UI------------
     public void QuestButtonPress()
     {
-        if(!questDroppedDown)
+        if (!questDroppedDown)
         {
             questButtonPivot.transform.localScale = new Vector3
                 (questButtonPivot.transform.localScale.x,
@@ -330,7 +346,7 @@ public class SCR_MenuManager : MonoBehaviour
 
     public void CollapseQuestMenu()
     {
-        if(questDroppedDown)
+        if (questDroppedDown)
         {
             questButtonPivot.transform.localScale = new Vector3
                 (questButtonPivot.transform.localScale.x,
@@ -376,7 +392,7 @@ public class SCR_MenuManager : MonoBehaviour
 
     }
     //----------City UI------------
-#endregion
+    #endregion
 
     #region Port Thames Functions
     //-----------Port Thames Functions------------
@@ -522,19 +538,22 @@ public class SCR_MenuManager : MonoBehaviour
     public void SelectQuestOne()
     {
         selectedQuest = 1;
-        currentQuestText.text = questOneText.text;
+        ChangeQuestIndexServerRpc(selectedQuest);
 
     }
     public void SelectQuestTwo()
     {
         selectedQuest = 2;
-        currentQuestText.text = questTwoText.text;
+        ChangeQuestIndexServerRpc(selectedQuest);
+
+
 
     }
     public void SelectQuestThree()
     {
         selectedQuest = 3;
-        currentQuestText.text = questThreeText.text;
+        ChangeQuestIndexServerRpc(selectedQuest);
+
 
     }
     //----------Spoons Functions----------
@@ -546,8 +565,8 @@ public class SCR_MenuManager : MonoBehaviour
         {
             return;
         }
-        
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Invoke("ContinueStory", 0.2f);  //continues the story after a brief delay, this gets the button clicked first
         }
@@ -625,11 +644,11 @@ public class SCR_MenuManager : MonoBehaviour
         List<string> tags = currentStory.currentTags;   //gets tags from the current story
         Debug.Log(tags.Count);
 
-        if(currentStory.canContinue)
+        if (currentStory.canContinue)
         {
             //Stops the current text typing from playing.
             //This fixes a bug where text overlaps from different dialogues
-            if(typeTextCoroutine != null)
+            if (typeTextCoroutine != null)
             {
                 StopCoroutine(typeTextCoroutine);
             }
@@ -658,7 +677,7 @@ public class SCR_MenuManager : MonoBehaviour
         {
             dialogueText.text += letter;
             audioSource.clip = textSound;
-            if(!audioSource.isPlaying)
+            if (!audioSource.isPlaying)
             {
                 audioSource.Play();
             }
@@ -671,7 +690,7 @@ public class SCR_MenuManager : MonoBehaviour
     {
         List<Choice> currentChoices = currentStory.currentChoices;  //gets current choices from the ink file
 
-        if(currentChoices.Count > choices.Length)
+        if (currentChoices.Count > choices.Length)
         {
             //unity is set up to support up to three choices so far, lemme know if you want more
             Debug.LogError("More choies were given than the Ui can support, Will made this, so ask him for help if necessary. Number of choices given:" + currentChoices.Count);
@@ -689,7 +708,7 @@ public class SCR_MenuManager : MonoBehaviour
 
 
 
-        for(int i = index; i < choices.Length; i++)
+        for (int i = index; i < choices.Length; i++)
         {
             choices[i].gameObject.SetActive(false); //go through the remaining choices the UI supports and make sure they're hidden.
         }
@@ -703,4 +722,33 @@ public class SCR_MenuManager : MonoBehaviour
     }
 
     #endregion
+
+    #region NEtworkFunctions
+    [ServerRpc]
+    public void ChangeQuestIndexServerRpc(int newValue)
+    {
+        questIndex.Value = newValue;
+    }
+
+    
+
+    public void UpdateQuestTextFromIndex(int oldValue,int newValue)
+    {
+        if (questIndex.Value == 1)
+        {
+            currentQuestText.text = questOneText.text;
+        }
+        else if (questIndex.Value == 2)
+        {
+            currentQuestText.text = questTwoText.text;
+        }
+        else if( questIndex.Value == 3 )
+        {
+            currentQuestText.text = questThreeText.text;
+        }
+
+    }
+
+    #endregion
+
 }
