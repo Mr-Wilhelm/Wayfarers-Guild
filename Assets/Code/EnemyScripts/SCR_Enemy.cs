@@ -114,7 +114,7 @@ public class SCR_Enemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Ship")
         {
-            Debug.Log("Colliding With Ship");
+            Destroy(gameObject);
         }
     }
 }

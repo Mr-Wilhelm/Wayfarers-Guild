@@ -21,7 +21,7 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public Vector3 startPos;
     public Vector3 endPos;
-    public float nodeSize = 10f;
+    public float nodeSize;
 
     public List<gridNode> openList = new List<gridNode>();
     public List<gridNode> closedList = new List<gridNode>();
@@ -61,10 +61,11 @@ public class SCR_Pathfinding : MonoBehaviour
         /// <param name="y"> Gets the Y position of the object in the matrix </param>
         /// <param name="z"> Gets the Z position of the object in the matrix </param>
         /// 
-        public Vector3[,,] GetAdjacentNodes(int x, int y, int z, int x_length, int y_length, int z_length)
+        public Vector3[,,] GetAdjacentNodes(int x, int y, int z, int x_length, int y_length, int z_length, float NodeSize)
         {
             // Each section is a row along the x-axis. (left - middle -right)
             Vector3[,,] neighbour = new Vector3[3, 3, 3];
+            
 
             // y = 0 (bottom layer)
             // z = 0 (front layer)
@@ -130,6 +131,8 @@ public class SCR_Pathfinding : MonoBehaviour
             neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
             neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
 
+            int terrainLayer = 1 << 10;
+
             //Boundary check for the neighbour nodes
             for (int i = 0; i < neighbour.GetLength(0); i++)
             {
@@ -149,9 +152,14 @@ public class SCR_Pathfinding : MonoBehaviour
                         {
                             neighbour[i, j, k] = new Vector3(-1, -1, -1);
                         }
+                        if (Physics.CheckSphere(neighbour[i, j, k], NodeSize, terrainLayer))
+                        {
+                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                        }
                     }
                 }
             }
+            
 
             return neighbour;
         }
@@ -165,10 +173,7 @@ public class SCR_Pathfinding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
-        
-
+       
         Vector3 A = new Vector3(3, 15, 24);
         Vector3 B = new Vector3(90, 28, 64);
 
@@ -264,7 +269,8 @@ public class SCR_Pathfinding : MonoBehaviour
                 ((int)currentNode.index.x,
                 (int)currentNode.index.y,
                 (int)currentNode.index.z,
-                navigationMatrix.GetLength(0), navigationMatrix.GetLength(1), navigationMatrix.GetLength(2)))
+                navigationMatrix.GetLength(0), navigationMatrix.GetLength(1), navigationMatrix.GetLength(2),
+                nodeSize))
             {
                 //Debug.Log("neighbourPos : " +neighbourPos + " / - currentIndex : " + currentNode.index);
                 //gets the neighbour node
@@ -301,22 +307,22 @@ public class SCR_Pathfinding : MonoBehaviour
                     }
                 }
             }
-            if(iterator >= 10000)
-            {
-                foreach (var wabung in openList)
-                {
-                    //Debug.Log("-----------------");
-                    //Debug.Log("index : "+wabung.index);
+            //if(iterator >= 10000000)
+            //{
+            //    foreach (var wabung in openList)
+            //    {
+            //        //Debug.Log("-----------------");
+            //        //Debug.Log("index : "+wabung.index);
                     
-                    //Debug.Log("hCost : " + wabung.hCost);
-                    //Debug.Log("gCost : " + wabung.gCost);
-                    //Debug.Log("fCost : " + wabung.GetFCost());
+            //        //Debug.Log("hCost : " + wabung.hCost);
+            //        //Debug.Log("gCost : " + wabung.gCost);
+            //        //Debug.Log("fCost : " + wabung.GetFCost());
 
-                }
-                //Debug.Log(openList.Count);
-                Debug.Log("Breaking at first while loop");
-                break;
-            }
+            //    }
+            //    //Debug.Log(openList.Count);
+            //    Debug.Log("Breaking at first while loop");
+            //    break;
+            //}
         }
         return null;    //No Path found
     }
