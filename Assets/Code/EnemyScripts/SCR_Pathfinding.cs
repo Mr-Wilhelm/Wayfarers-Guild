@@ -12,7 +12,7 @@ public class SCR_Pathfinding : MonoBehaviour
     /// Allows for functions to be called on each independent struct object in the matrix.
     /// 
     /// USING THE LEFT HAND COORDINATE SYSTEM - positive Z is in front of the origin, Positive X is to the right.#
-    /// TODO: Change the GetAdjacentNodes() function so that instead of always returning 27 vector 3's, to only returning valid neighbours
+    /// TODO: There is a logic issue in the first while loop. POssibly in the g, f or h cost
     /// 
     /// </summary>
     /// 
@@ -24,6 +24,8 @@ public class SCR_Pathfinding : MonoBehaviour
 
     private List<gridNode> openList = new List<gridNode>();
     private List<gridNode> closedList = new List<gridNode>();
+
+    public int iterator, iterator2;
 
     //public GameObject target;
     public struct gridNode
@@ -150,11 +152,20 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public bool done = false;
 
+    private void Awake()
+    {
+        Debug.Log("Awake");
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Start");
+    }
 
+    private void OnEnable()
+    {
+        please();
     }
 
     public void please()
@@ -162,14 +173,14 @@ public class SCR_Pathfinding : MonoBehaviour
         if (!done)
         {
             Debug.Log("Start");
-            PopulateWorld(30, 30, 30);
-            if (FindPath(new Vector3(0, 0, 0), new Vector3(2, 2, 2)) == null)
+            PopulateWorld(40, 40, 40);
+            if (FindPath(new Vector3(1, 1, 1), new Vector3(3, 3, 3)) == null)
             {
                 Debug.Log("fuck");
             }
             else
             {
-                foreach (Vector3 pos in FindPath(new Vector3(0, 0, 0), new Vector3(2, 2, 2)))
+                foreach (Vector3 pos in FindPath(new Vector3(1, 1, 1), new Vector3(3, 3, 3)))
                 {
                     Debug.Log(pos);
                 }
@@ -183,7 +194,7 @@ public class SCR_Pathfinding : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        please();
+
     }
 
     /// <summary>
@@ -234,6 +245,7 @@ public class SCR_Pathfinding : MonoBehaviour
 
         while (openList.Count > 0)  //while there are nodes in the open list
         {
+            iterator++;
             Debug.Log("219");
             gridNode currentNode = openList[0]; //current node is the first entry in the list (currently the only one, and the one it is at
             Debug.Log("221");
@@ -308,6 +320,16 @@ public class SCR_Pathfinding : MonoBehaviour
                     }
                 }
             }
+            if(iterator >= 100)
+            {
+                foreach (var wabung in openList)
+                {
+                    Debug.Log(wabung.index);
+                }
+                Debug.Log(openList.Count);
+                Debug.Log("Breaking at first while loop");
+                break;
+            }
         }
         return null;    //No Path found
     }
@@ -319,11 +341,18 @@ public class SCR_Pathfinding : MonoBehaviour
         Debug.Log("301");
         while (currentNode.index != originalNode)    //iterate through the path from end to start (backwards)
         {
+            iterator2++;
             Debug.Log("304");
             newPath.Add(currentNode.position);  //add currentNode.position to the new path
             Debug.Log("306");
             currentNode = navigationMatrix[(int)(currentNode.previousNodePosition.x), (int)(currentNode.previousNodePosition.y), (int)(currentNode.previousNodePosition.z)];   //move to the previous node
             Debug.Log("308");
+
+            if(iterator2 >= 100)
+            {
+                Debug.Log("Break at 2nd while loop");
+                break;
+            }
         }
 
         Debug.Log("311");
