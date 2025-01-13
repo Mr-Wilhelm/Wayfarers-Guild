@@ -25,6 +25,8 @@ namespace Gravitas.Demo
         [SerializeField] private float turnSpeed = 5f;
         private bool interact;
 
+        public bool playerOnWheel = true;
+
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
         /// </summary>
@@ -68,7 +70,7 @@ namespace Gravitas.Demo
 
             // Movement input processing
             keyInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
+            
             // Player rotating
             Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
             t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnSpeed, Vector3.up);
@@ -189,13 +191,6 @@ namespace Gravitas.Demo
                             OnInteractionTargetEvent?.Invoke("Reset Button");
                         }
                     }
-                    else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel"))
-                    {
-                        if (interact)
-                        {
-                            Debug.Log("Interacting with ship wheel");
-                        }
-                    }
                 }
                 else
                 {
@@ -209,23 +204,30 @@ namespace Gravitas.Demo
             /// <returns>Vector3 The calculated velocity</returns>
             Vector3 GetInputVelocity()
             {
-                Vector3 velocity = Vector3.zero;
+                if(playerOnWheel)
+                {
+                    Vector3 velocity = Vector3.zero;
 
-                // Left-Right movement
-                Vector3 right = t.right;
-                float xForce = isLanded ? moveSpeed : jetpackForce;
-                velocity += keyInput.x * xForce * right;
+                    // Left-Right movement
+                    Vector3 right = t.right;
+                    float xForce = isLanded ? moveSpeed : jetpackForce;
+                    velocity += keyInput.x * xForce * right;
 
-                // Up-Down movement
-                float yForce = isLanded ? jumpForce : jetpackForce;
-                velocity += verticalInput * yForce * t.up;
+                    // Up-Down movement
+                    float yForce = isLanded ? jumpForce : jetpackForce;
+                    velocity += verticalInput * yForce * t.up;
 
-                // Forward-Back movement
-                Vector3 forward = t.forward;
-                float zForce = isLanded ? moveSpeed : jetpackForce;
-                velocity += keyInput.y * zForce * forward;
+                    // Forward-Back movement
+                    Vector3 forward = t.forward;
+                    float zForce = isLanded ? moveSpeed : jetpackForce;
+                    velocity += keyInput.y * zForce * forward;
 
-                return velocity;
+                    return velocity;
+                }
+                else
+                {
+                    return Vector3.zero;
+                }
             }
         }
 
