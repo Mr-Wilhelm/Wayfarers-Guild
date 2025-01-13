@@ -25,8 +25,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     [SerializeField] public LayerMask SelfPlayerMesh;
 
     //Tracks the pos and rot of the player
-    //public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
-    //public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
+    public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
 
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>();
     public string playerNameString;
@@ -69,22 +69,15 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     }
 
     //Late update happpens at the end of a frame
-    //private void Update()
-    //{
-    //    //Update the network variables of pos and rot
-    //    if (IsOwner)
-    //    {
-
-    //        //updatePosServerRPC(transform.position);
-    //        //updateRotServerRPC(transform.rotation.eulerAngles);
-    //    }
-    //    //Else set the values of pos and rot using whatever the owner's are
-    //    else
-    //    {
-    //        //transform.position = playerPos.Value;
-    //        //transform.rotation = Quaternion.Euler(playerRot.Value.x, playerRot.Value.y, playerRot.Value.z);
-    //    }
-    //}
+    private void Update()
+    {
+        //Update the network variables of pos and rot
+        if (IsOwner)
+        {
+            updatePosServerRPC(transform.position);
+            updateRotServerRPC(transform.rotation.eulerAngles);
+        }
+    }
 
 
     //Update the playername variable in the network
@@ -102,17 +95,35 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     }
 
     //Updates the owner's pos and sends it to the network
-    //[ServerRpc]
-    //private void updatePosServerRPC(Vector3 newPos)
-    //{
-    //    playerPos.Value = newPos;
-    //}
+    [ServerRpc]
+    private void updatePosServerRPC(Vector3 newPos)
+    {
+        updatePosClientRPC(newPos);
+    }
 
-    ////Updates the owner's rot and sends it to the network
-    //[ServerRpc]
-    //private void updateRotServerRPC(Vector3 newRot)
-    //{
-    //    playerRot.Value = newRot;
-    //}
+    //Updates the owner's rot and sends it to the network
+    [ServerRpc]
+    private void updateRotServerRPC(Vector3 newRot)
+    {
+        updateRotClientRPC(newRot);
+    }
 
+    [ClientRpc]
+    private void updatePosClientRPC(Vector3 newPos)
+    {
+        if(!IsOwner)
+        {
+            transform.position = newPos;
+        }
+    }
+
+    [ClientRpc]
+    private void updateRotClientRPC(Vector3 newRot)
+    {
+        if (!IsOwner)
+        {
+            transform.rotation = Quaternion.Euler(newRot);
+        }
+    }
+    
 }
