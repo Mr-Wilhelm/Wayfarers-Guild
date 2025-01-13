@@ -50,7 +50,6 @@ public class SCR_PlayerSettings : NetworkBehaviour
             if (firstPlayerConnected.Value == false)
             {
                 GameObject enemySpawner = GameObject.Find("SCR_EnemySpawner");
-                enemySpawner.GetComponent<SCR_EnemySpawner>().startSpawning = true;
             }
             else
             {

@@ -157,18 +157,20 @@ public class SCR_Pathfinding : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        PopulateWorld(100, 100, 100);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        PopulateWorld(100, 100, 100);
+
 
         
 
         Vector3 A = new Vector3(3, 15, 24);
         Vector3 B = new Vector3(90, 28, 64);
-
-        Vector3 C = new Vector3(3, 20, 24);
-        Vector3 D = new Vector3(90, 33, 64);
 
         if (FindPath(A, B) == null)
         {
@@ -180,24 +182,8 @@ public class SCR_Pathfinding : MonoBehaviour
             Debug.DrawLine(A, B, Color.blue, 1000f);
             foreach (Vector3 pos in FindPath(A, B))
             {
-                Debug.Log(pos);
+                //Debug.Log(pos);
                 Debug.DrawLine(prevPos, pos, Color.red, 1000f);
-                prevPos = pos;
-            }
-        }
-
-        if (FindPath(C, D) == null)
-        {
-            Debug.Log("fuck");
-        }
-        else
-        {
-            Vector3 prevPos = C;
-            Debug.DrawLine(C, D, Color.green, 1000f);
-            foreach (Vector3 pos in FindPath(C, D))
-            {
-                Debug.Log(pos);
-                //Debug.DrawLine(prevPos, pos, Color.yellow, 1000f);
                 prevPos = pos;
             }
         }
@@ -231,7 +217,7 @@ public class SCR_Pathfinding : MonoBehaviour
         }
     }
 
-    private List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
+    public List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
     {
         //get the start and end points via the parameters passed.
         gridNode startNode = navigationMatrix[(int)MathF.Round(startPoint.x / nodeSize), (int)MathF.Round(startPoint.y / nodeSize), (int)MathF.Round(startPoint.z / nodeSize)];
