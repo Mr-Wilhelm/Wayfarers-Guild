@@ -99,10 +99,5 @@ public class SCR_Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        if(other.gameObject.layer == 10)
-        {
-            Debug.Log("Terrain has been hit but badly");
-        }
     }
 }
