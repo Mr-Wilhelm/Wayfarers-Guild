@@ -54,7 +54,6 @@ public class SCR_Pathfinding : MonoBehaviour
             this.previousNodeIndex = PreviousNodeIndex;
             this.index = Index;
             this.passable = Passable;
-            //this.passable = Physics.CheckSphere(position, 50f, LayerMask.GetMask("Terrain"));
         }
 
         public int GetFCost()
@@ -136,7 +135,6 @@ public class SCR_Pathfinding : MonoBehaviour
             neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
             neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
 
-            int terrainLayer = 10;
 
             //Boundary check for the neighbour nodes
             for (int i = 0; i < neighbour.GetLength(0); i++)
@@ -157,11 +155,7 @@ public class SCR_Pathfinding : MonoBehaviour
                         {
                             neighbour[i, j, k] = new Vector3(-1, -1, -1);
                         }
-                        //if (Physics.CheckSphere(neighbour[i, j, k], NodeSize, terrainLayer))
-                        //{
-                        //    //Debug.Log("Node colliding with the terrain");
-                        //    neighbour[i, j, k] = new Vector3(-1, -1, -1);
-                        //}
+                       
                     }
                 }
             }
@@ -176,29 +170,7 @@ public class SCR_Pathfinding : MonoBehaviour
         PopulateWorld(500, 100, 500);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-        //Vector3 A = new Vector3(3, 15, 24);
-        //Vector3 B = new Vector3(90, 28, 64);
-
-        //if (FindPath(A, B) == null)
-        //{
-        //    Debug.Log("fuck");
-        //}
-        //else
-        //{
-        //    Vector3 prevPos = A;
-        //    Debug.DrawLine(A, B, Color.blue, 1000f);
-        //    foreach (Vector3 pos in FindPath(A, B))
-        //    {
-        //        //Debug.Log(pos);
-        //        Debug.DrawLine(prevPos, pos, Color.red, 1000f);
-        //        prevPos = pos;
-        //    }
-        //}
-    }
+    
 
     /// <summary>
     /// Populates the world with nodes
@@ -231,7 +203,6 @@ public class SCR_Pathfinding : MonoBehaviour
                     {
                         navigationMatrix[i, j, k].passable = true;
                     }
-                    //Debug.Log(navigationMatrix[i, j, k].passable);
                 }
             }
         }
