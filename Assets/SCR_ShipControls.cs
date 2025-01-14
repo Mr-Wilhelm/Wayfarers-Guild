@@ -98,14 +98,24 @@ public class SCR_ShipControls : NetworkBehaviour
         }
         if (!beep)
         {
-            //if (transform.rotation.eulerAngles.x < 0)
-            //{
-            //    updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
-            //}
-            //else if (transform.rotation.eulerAngles.x > 0)
-            //{
-            //    updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
-            //}
+            // Roll Auto-level
+            if (ship.transform.rotation.eulerAngles.x < 5 || ship.transform.rotation.eulerAngles.x > 355)
+            {
+                Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.x);
+            }
+            else if (ship.transform.rotation.eulerAngles.x < 180)
+            {
+
+                Debug.Log(ship.transform.rotation.eulerAngles.x);
+                updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+            }
+            else if (ship.transform.rotation.eulerAngles.x > 180)
+            {
+                Debug.Log(ship.transform.rotation.eulerAngles.x);
+                updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
+            }
+
+            // Pitch Auto-level
             if (ship.transform.rotation.eulerAngles.z < 5 || ship.transform.rotation.eulerAngles.z > 355)
             {
                 Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.z);
