@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using Unity.Netcode;
 using JetBrains.Annotations;
+using UnityEditor.PackageManager;
 
 /// <summary>
 /// To Anyone Other than myself (Will) trying to use this script
@@ -25,6 +26,9 @@ using JetBrains.Annotations;
 
 public class SCR_MenuManager : NetworkBehaviour
 {
+    public GameObject playerPrefab;
+
+
     [SerializeField]
     private SCR_SceneManagerScript sceneManager;
     private bool readyPressed = false;
@@ -822,6 +826,32 @@ public class SCR_MenuManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void loadGameServerRpc()
     {
+        List<ulong> playerIDs = new List<ulong>();
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            playerIDs.Add(player.GetComponent<SCR_PlayerNetworkManager>().OwnerClientId);
+        }
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            Debug.Log("Destroyed");
+            player.GetComponent<NetworkObject>().Despawn();
+
+        }
+
+
+        foreach (ulong playerID in playerIDs)
+        {
+            Debug.Log(playerID);
+            GameObject playerInstance = Instantiate(playerPrefab);
+            //playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerID);
+
+            playerInstance.GetComponent<NetworkObject>().Spawn();
+            playerInstance.GetComponent<NetworkObject>().ChangeOwnership(playerID);
+            playerInstance.transform.position = new Vector3(47, 31, 319);
+            playerInstance.GetComponent<SCR_PlayerNetworkManager>().bust();
+
+        }
+
         NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
     }
 
