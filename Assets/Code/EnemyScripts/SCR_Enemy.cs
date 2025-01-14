@@ -78,6 +78,13 @@ public class SCR_Enemy : MonoBehaviour
     private void UpdatePath()
     {
         var pathNodes = enemyPathFinder.FindPath(currentPos, moveTarget.transform.position);    //find the path between the current pos and the target
+        Vector3 prevPos = currentPos;
+        foreach (var node in pathNodes)
+        {
+            Debug.DrawLine(prevPos, node, Color.red, 10f);
+            prevPos = node;
+        }
+
         enemyPath.Clear();  //clears the current path
 
         foreach (var nodePos in pathNodes)

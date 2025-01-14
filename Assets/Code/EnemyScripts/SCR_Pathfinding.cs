@@ -28,6 +28,8 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public int iterator, iterator2;
 
+    public LayerMask layerMask;
+
     //public GameObject target;
     public struct gridNode
     {
@@ -40,6 +42,7 @@ public class SCR_Pathfinding : MonoBehaviour
 
         public Vector3 previousNodeIndex;
         public Vector3 index;
+        //public bool passable;
 
         //absolute chonker of a struct constructor
         public gridNode(Vector3 Position, int GCost, int HCost, Vector3 PreviousNodeIndex, Vector3 Index)
@@ -50,6 +53,7 @@ public class SCR_Pathfinding : MonoBehaviour
             //this.fCost = gCost + hCost;
             this.previousNodeIndex = PreviousNodeIndex;
             this.index = Index;
+            //this.passable = Physics.CheckSphere(position, 50f, LayerMask.GetMask("Terrain"));
         }
 
         public int GetFCost()
@@ -152,11 +156,11 @@ public class SCR_Pathfinding : MonoBehaviour
                         {
                             neighbour[i, j, k] = new Vector3(-1, -1, -1);
                         }
-                        if (Physics.CheckSphere(neighbour[i, j, k], NodeSize, terrainLayer))
-                        {
-                            //Debug.Log("Node colliding with the terrain");
-                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
-                        }
+                        //if (Physics.CheckSphere(neighbour[i, j, k], NodeSize, terrainLayer))
+                        //{
+                        //    //Debug.Log("Node colliding with the terrain");
+                        //    neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                        //}
                     }
                 }
             }
@@ -175,24 +179,24 @@ public class SCR_Pathfinding : MonoBehaviour
     void Start()
     {
        
-        Vector3 A = new Vector3(3, 15, 24);
-        Vector3 B = new Vector3(90, 28, 64);
+        //Vector3 A = new Vector3(3, 15, 24);
+        //Vector3 B = new Vector3(90, 28, 64);
 
-        if (FindPath(A, B) == null)
-        {
-            Debug.Log("fuck");
-        }
-        else
-        {
-            Vector3 prevPos = A;
-            Debug.DrawLine(A, B, Color.blue, 1000f);
-            foreach (Vector3 pos in FindPath(A, B))
-            {
-                //Debug.Log(pos);
-                Debug.DrawLine(prevPos, pos, Color.red, 1000f);
-                prevPos = pos;
-            }
-        }
+        //if (FindPath(A, B) == null)
+        //{
+        //    Debug.Log("fuck");
+        //}
+        //else
+        //{
+        //    Vector3 prevPos = A;
+        //    Debug.DrawLine(A, B, Color.blue, 1000f);
+        //    foreach (Vector3 pos in FindPath(A, B))
+        //    {
+        //        //Debug.Log(pos);
+        //        Debug.DrawLine(prevPos, pos, Color.red, 1000f);
+        //        prevPos = pos;
+        //    }
+        //}
     }
 
     /// <summary>
@@ -248,8 +252,12 @@ public class SCR_Pathfinding : MonoBehaviour
             gridNode currentNode = openList[0]; //current node is the first entry in the list (currently the only one, and the one it is at
             foreach (var node in openList)  //iterate through the open list
             {
-                
-                //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
+                if (Physics.Raycast(currentNode.position, (currentNode.position - node.position).normalized, nodeSize, layerMask))
+                {
+                    continue;
+                }
+
+                    //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
                 if (node.GetFCost() < currentNode.GetFCost() || node.GetFCost() == currentNode.GetFCost() && node.gCost < currentNode.gCost)
                 {
                     currentNode = node;
@@ -279,7 +287,23 @@ public class SCR_Pathfinding : MonoBehaviour
                 {
                     continue;
                 }
+                //if (Physics.CheckSphere(navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position, nodeSize, 11))
+                //{
+                //    Debug.Log(navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position);
+                //    Debug.DrawLine(navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position, navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position + new Vector3(0, 50, 0), Color.blue, 20f);
+                //    Debug.Log("Wall");
+                //    continue;
+                //}
+
                 gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
+
+                if (Physics.Raycast(currentNode.position, (currentNode.position - neighbourNode.position).normalized, nodeSize, layerMask))
+                {
+                    //Debug.DrawLine(currentNode.position, currentNode.position - neighbourNode.position
+                    Debug.DrawLine(currentNode.position, neighbourNode.position, Color.blue, 10f);
+                    closedList.Add(neighbourNode);
+                    //neighbourNode.previousNodeIndex
+                }
 
                 //Checks if the node is in the closedList, continuing if so.
                 //if (closedList.Exists(n => n.position == neighbourNode.position))
@@ -288,6 +312,8 @@ public class SCR_Pathfinding : MonoBehaviour
 
                 //otherwise get the estimated gCost to reach the neighbour node from the start node
                 int estimatedGCost = currentNode.gCost + (int)Vector3.Distance(currentNode.position, neighbourNode.position);
+
+                
 
                 //if the neighbour is not already in the open list, or if the estimated cost is lower than the current gCost
                 if (!openList.Contains(neighbourNode) || estimatedGCost < neighbourNode.gCost)
@@ -299,6 +325,9 @@ public class SCR_Pathfinding : MonoBehaviour
                     //Debug.Log("###############################");
                     //Debug.Log("neighbourNode.index : " + neighbourNode.index);
                     //Debug.Log("currentNode.index : " + currentNode.index);
+
+                    
+
                     navigationMatrix[(int)neighbourNode.index.x, (int)neighbourNode.index.y, (int)neighbourNode.index.z] = neighbourNode;
 
                     if (!openList.Contains(neighbourNode))    //if the node isn't already in the list, add it

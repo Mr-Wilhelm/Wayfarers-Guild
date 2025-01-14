@@ -213,6 +213,9 @@ MonoBehaviour:
   nodeSize: 25
   iterator: 0
   iterator2: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!4 &928639110
 Transform:
   m_ObjectHideFlags: 0
@@ -469,6 +472,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PRE_TER_WorldCen
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554869571862828000, guid: 50d77cb03c290af40a9b24a7fdc4e8d1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4713164030356583648, guid: 50d77cb03c290af40a9b24a7fdc4e8d1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008376720397191746, guid: 50d77cb03c290af40a9b24a7fdc4e8d1,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7607798963775129542, guid: 50d77cb03c290af40a9b24a7fdc4e8d1,
         type: 3}
