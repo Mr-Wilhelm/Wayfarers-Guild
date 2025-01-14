@@ -42,10 +42,10 @@ public class SCR_Pathfinding : MonoBehaviour
 
         public Vector3 previousNodeIndex;
         public Vector3 index;
-        //public bool passable;
+        public bool passable;
 
         //absolute chonker of a struct constructor
-        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 PreviousNodeIndex, Vector3 Index)
+        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 PreviousNodeIndex, Vector3 Index, bool Passable)
         {
             this.position = Position;
             this.gCost = GCost;
@@ -53,6 +53,7 @@ public class SCR_Pathfinding : MonoBehaviour
             //this.fCost = gCost + hCost;
             this.previousNodeIndex = PreviousNodeIndex;
             this.index = Index;
+            this.passable = Passable;
             //this.passable = Physics.CheckSphere(position, 50f, LayerMask.GetMask("Terrain"));
         }
 
@@ -222,6 +223,15 @@ public class SCR_Pathfinding : MonoBehaviour
                 {
                     navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize);
                     navigationMatrix[i, j, k].index = new Vector3(i, j, k);
+                    if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize, layerMask))
+                    {
+                        navigationMatrix[i, j, k].passable = false;
+                    }
+                    else
+                    {
+                        navigationMatrix[i, j, k].passable = true;
+                    }
+                    //Debug.Log(navigationMatrix[i, j, k].passable);
                 }
             }
         }
@@ -252,15 +262,15 @@ public class SCR_Pathfinding : MonoBehaviour
             gridNode currentNode = openList[0]; //current node is the first entry in the list (currently the only one, and the one it is at
             foreach (var node in openList)  //iterate through the open list
             {
-                if (Physics.Raycast(currentNode.position, (currentNode.position - node.position).normalized, nodeSize, layerMask))
-                {
-                    continue;
-                }
-
-                    //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
+                
+                //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
                 if (node.GetFCost() < currentNode.GetFCost() || node.GetFCost() == currentNode.GetFCost() && node.gCost < currentNode.gCost)
                 {
-                    currentNode = node;
+                    if (node.passable)
+                    {
+                        currentNode = node;
+                    }
+                    
                 }
             }
 
@@ -296,14 +306,6 @@ public class SCR_Pathfinding : MonoBehaviour
                 //}
 
                 gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
-
-                if (Physics.Raycast(currentNode.position, (currentNode.position - neighbourNode.position).normalized, nodeSize, layerMask))
-                {
-                    //Debug.DrawLine(currentNode.position, currentNode.position - neighbourNode.position
-                    Debug.DrawLine(currentNode.position, neighbourNode.position, Color.blue, 10f);
-                    closedList.Add(neighbourNode);
-                    //neighbourNode.previousNodeIndex
-                }
 
                 //Checks if the node is in the closedList, continuing if so.
                 //if (closedList.Exists(n => n.position == neighbourNode.position))
@@ -401,14 +403,14 @@ public class SCR_Pathfinding : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if(navigationMatrix != null)
-        {
-            Gizmos.color = Color.yellow;
-            foreach (gridNode pos in navigationMatrix)
-            {
-                Gizmos.DrawSphere(pos.position, nodeSize / 10);
-            }
-        }
+        //if(navigationMatrix != null)
+        //{
+        //    Gizmos.color = Color.yellow;
+        //    foreach (gridNode pos in navigationMatrix)
+        //    {
+        //        Gizmos.DrawSphere(pos.position, nodeSize / 10);
+        //    }
+        //}
     }
 }
 
