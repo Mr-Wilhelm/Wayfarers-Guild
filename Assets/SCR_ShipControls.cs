@@ -10,18 +10,30 @@ public class SCR_ShipControls : NetworkBehaviour
 {
 
     public bool onWheel = false;
+
+    [SerializeField]
     private GameObject ship;
+
+    [SerializeField]
     private Rigidbody shipRb;
 
     [SerializeField] private float shipAcceleration;
     [SerializeField] private float shipTurnSpeed;
     private float rotationSpeed;
     private float shipCurrentSpeed;
+
+    public float shipHealth = 10.0f;
+
     [SerializeField] float shipMaxSpeed;
 
     [SerializeField] public NetworkVariable<Vector3> shipPos;
 
-    [SerializeField] private float pitchRollResetSpeed; 
+    [SerializeField] private float pitchRollResetSpeed;
+
+    private void Start()
+    {
+        
+    }
 
     // Update is called once per frame
     void FixedUpdate()
