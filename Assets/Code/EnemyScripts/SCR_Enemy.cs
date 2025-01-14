@@ -39,9 +39,6 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private int frameOffset;
 
-    [SerializeField]
-    private int selectedPrime;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -52,27 +49,6 @@ public class SCR_Enemy : MonoBehaviour
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
 
         UpdatePath();
-
-        selectedPrime = Random.Range(0, 4);
-
-        switch (selectedPrime)
-        {
-            case 0:
-                frameOffset = 181;
-                break;
-            case 1:
-                frameOffset = 191;
-                break;
-            case 2:
-                frameOffset = 193;
-                break;
-            case 3:
-                frameOffset =197;
-                break;
-            case 4:
-                frameOffset = 199;
-                break;
-        }
     }
     // Update is called once per frame
     void Update()
@@ -98,15 +74,17 @@ public class SCR_Enemy : MonoBehaviour
                 enemyPath.Dequeue();    //dequeue the first element
             }
         }
-
-        if (Physics.CheckSphere(gameObject.transform.position, 100, 10))
-        {
-            Debug.Log("Is touching the terrain");
-        }
     }
     private void UpdatePath()
     {
         var pathNodes = enemyPathFinder.FindPath(currentPos, moveTarget.transform.position);    //find the path between the current pos and the target
+        Vector3 prevPos = currentPos;
+        foreach (var node in pathNodes)
+        {
+            Debug.DrawLine(prevPos, node, Color.red, 10f);
+            prevPos = node;
+        }
+
         enemyPath.Clear();  //clears the current path
 
         foreach (var nodePos in pathNodes)
