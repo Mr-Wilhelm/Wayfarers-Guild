@@ -5,7 +5,6 @@ using TMPro;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;

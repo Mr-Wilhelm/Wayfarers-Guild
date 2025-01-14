@@ -219,9 +219,6 @@ public class SCR_MenuManager : NetworkBehaviour
 
     #endregion
 
-
-
-
     public override void OnDestroy()
     {
         base.OnDestroy();
@@ -245,11 +242,17 @@ public class SCR_MenuManager : NetworkBehaviour
         player1ReadyIndicator = GameObject.Find("ReadyPlayerOne").GetComponent<Image>();
         player2ReadyIndicator = GameObject.Find("ReadyPlayerTwo").GetComponent<Image>();
 
-        player1Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
-        player1Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+        player1Unready = Resources.Load<Sprite>("UIElements/Ready up pixel ui.png");
+        player1Ready = Resources.Load<Sprite>("UIElements/Ready up pixel ui.png");
 
-        player2Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
-        player2Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+        player2Unready = Resources.Load<Sprite>("UIElements/Ready up pixel ui.png");
+        player2Ready = Resources.Load<Sprite>("UIElements/Ready up pixel ui.png");
+
+        //player1Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+        //player1Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+
+        //player2Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+        //player2Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
 
         questButton = GameObject.Find("QuestButton");
         questButton.SetActive(true);
@@ -294,10 +297,15 @@ public class SCR_MenuManager : NetworkBehaviour
         npc3Button.SetActive(false);
         npc4Button.SetActive(false);
 
-        NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC1.json", typeof(TextAsset));
-        NPC2Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC2.json", typeof(TextAsset));
-        NPC3Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC3.json", typeof(TextAsset));
-        NPC4Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC4.json", typeof(TextAsset));
+        NPC1Dialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
+        NPC2Dialogue = Resources.Load<TextAsset>("InkJsons/NPC2");
+        NPC3Dialogue = Resources.Load<TextAsset>("InkJsons/NPC3");
+        NPC4Dialogue = Resources.Load<TextAsset>("InkJsons/NPC4");
+
+        //NPC1Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC1.json", typeof(TextAsset));
+        //NPC2Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC2.json", typeof(TextAsset));
+        //NPC3Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC3.json", typeof(TextAsset));
+        //NPC4Dialogue = (TextAsset)AssetDatabase.LoadAssetAtPath("Assets/Code/UIScripts/InkScripts/NPC4.json", typeof(TextAsset));
 
         dialoguePanel = GameObject.Find("Dialogue Box");
         dialoguePanel.SetActive(false);
