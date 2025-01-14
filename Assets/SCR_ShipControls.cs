@@ -21,6 +21,9 @@ public class SCR_ShipControls : NetworkBehaviour
     [SerializeField] private float shipTurnSpeed;
     private float rotationSpeed;
     private float shipCurrentSpeed;
+
+    public float shipHealth = 10.0f;
+
     [SerializeField] float shipMaxSpeed;
 
     [SerializeField] public NetworkVariable<Vector3> shipPos;
