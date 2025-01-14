@@ -39,6 +39,9 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private int frameOffset;
 
+    [SerializeField]
+    private SCR_ShipControls shipControls;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,12 +100,8 @@ public class SCR_Enemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Ship")
         {
+            shipControls.shipHealth -= 1.0f;
             Destroy(gameObject);
-        }
-
-        if(other.gameObject.layer == 10)
-        {
-            Debug.Log("Terrain has been hit but badly");
         }
     }
 }
