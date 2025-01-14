@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class SCR_Portal : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.tag == "Ship")
+        if(other.gameObject.tag == "Ship")
         {
-            Debug.Log("Airhsip has reached the end");
+            NetworkManager.Singleton.SceneManager.LoadScene("CityMenu", LoadSceneMode.Single);
         }
     }
 }
