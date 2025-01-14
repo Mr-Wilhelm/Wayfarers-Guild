@@ -52,6 +52,10 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
+        else if(SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
         SceneManager.sceneLoaded += test;
 
 
@@ -94,23 +98,14 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
-            //if (!myPrefab) { Debug.Log("Prefab Is Empty"); }
-            //else
-            //{
-            //    spawnWithOwnershipServerRpc(OwnerClientId);
-
-            //    Debug.Log("Empty Object");
-            //}
-
-
-
-
-            //NetworkObject.Despawn(true);
-            //this.gameObject.SetActive(false);
             this.GetComponent<SCR_2D_Logic>().enabled = true;
             this.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
             this.enabled = false;
 
+        }
+        else if (a.name == "SCN_DemoScene")
+        {
+            transform.position = GameObject.Find("PRE-Airship").transform.position;
         }
     }
 
