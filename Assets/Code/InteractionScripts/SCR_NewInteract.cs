@@ -23,7 +23,7 @@ public class SCR_NewInteract : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             if(GameObject.FindGameObjectsWithTag("Player").Length != 1)
             {

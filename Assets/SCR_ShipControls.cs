@@ -24,31 +24,58 @@ public class SCR_ShipControls : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (ship == null)
+        {
+            ship = GameObject.Find("PRE-Airship");
+        }
+        updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
         if (onWheel == true)
         {
-            if (ship == null)
+            Debug.Log("straight wheelin");
+            //Forward
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                ship = GameObject.Find("PRE-Airship");
+                Debug.Log("Shiftin");
+                shipAcceleration += 10;
             }
-            if (Input.GetKey(KeyCode.W))
+            //Backward
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
+                shipAcceleration -= 10;
             }
-            if (Input.GetKey(KeyCode.S))
-            {
-                updatePosServerRPC(-(ship.transform.right) * shipAcceleration * Time.deltaTime);
-            }
+            //Yaw Right
             if (Input.GetKey(KeyCode.D))
             {
-                updateRotServerRPC(shipTurnSpeed * Time.deltaTime);
+                updateYawRotServerRPC(shipTurnSpeed * Time.deltaTime);
                 //Vector3 rotation = new Vector3(ship.transform.rotation.eulerAngles.x, ship.transform.rotation.eulerAngles.y + shipTurnSpeed * Time.deltaTime, ship.transform.rotation.eulerAngles.z);
                 //updateRotServerRPC(rotation);
             }
+            //Yaw Left
             if (Input.GetKey(KeyCode.A))
             {
-                updateRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+                updateYawRotServerRPC(-shipTurnSpeed * Time.deltaTime);
                 //Vector3 rotation = new Vector3(ship.transform.rotation.eulerAngles.x, ship.transform.rotation.eulerAngles.y - shipTurnSpeed * Time.deltaTime, ship.transform.rotation.eulerAngles.z);
                 //updateRotServerRPC(rotation);
+            }
+            //Roll Right
+            if(Input.GetKey(KeyCode.E))
+            {
+                updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
+            }
+            //Roll Left
+            if (Input.GetKey(KeyCode.Q))
+            {
+                updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+            }
+            //Pitch up
+            if (Input.GetKey(KeyCode.W))
+            {
+                updatePitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
+            }
+            //Roll Left
+            if (Input.GetKey(KeyCode.S))
+            {
+                updatePitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
         }
     }
@@ -59,13 +86,30 @@ public class SCR_ShipControls : NetworkBehaviour
         updatePosClientRPC(newPos);
     }
 
-    //Updates the owner's rot and sends it to the network
     [ServerRpc(RequireOwnership = false)]
-    private void updateRotServerRPC(float RotationSpeed)
+    private void updateYawRotServerRPC(float RotationSpeed)
     {
-        Debug.Log("Rotating server rpc");
-
         Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, RotationSpeed, 0);
+        GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+        updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
+
+        updateRotClientRPC(newRot);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void updateRollRotServerRPC(float RotationSpeed)
+    {
+        Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(RotationSpeed, 0, 0);
+        GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+        updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
+
+        updateRotClientRPC(newRot);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void updatePitchRotServerRPC(float RotationSpeed)
+    {
+        Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, 0, RotationSpeed);
         GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
         updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
 
