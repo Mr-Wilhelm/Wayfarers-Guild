@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using Unity.Netcode;
+using JetBrains.Annotations;
 
 /// <summary>
 /// To Anyone Other than myself (Will) trying to use this script
@@ -783,6 +784,12 @@ public class SCR_MenuManager : NetworkBehaviour
     #region ReadyOperationsFunctions
 
 
+    [ServerRpc(RequireOwnership = false)]
+    public void loadGameServerRpc()
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
+    }
+
     void ReadyButtonPressed()
     {
         GameObject Readytint = GameObjectCommon.FindChildwithTagStringLayer(this.gameObject, "ReadyTint", GameObjectCommon.NameTagLayer.Name);
@@ -801,7 +808,7 @@ public class SCR_MenuManager : NetworkBehaviour
             else 
             { 
                 Debug.Log("CUMCUMCBEANS");
-                NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
+                loadGameServerRpc();
                 Debug.Log("weiner");
             }
         }
@@ -810,6 +817,7 @@ public class SCR_MenuManager : NetworkBehaviour
             clientReady = false;
             ReadyedServerRpc(false);
         }
+
         
 
         //if (IsServer)
