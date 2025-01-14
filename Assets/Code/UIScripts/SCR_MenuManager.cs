@@ -171,6 +171,24 @@ public class SCR_MenuManager : NetworkBehaviour
     private GameObject readyButton;
 
     [SerializeField]
+    private Image player1ReadyIndicator;
+
+    [SerializeField]
+    private Image player2ReadyIndicator;
+
+    [SerializeField]
+    private Sprite player1Unready;
+
+    [SerializeField]
+    private Sprite player1Ready;
+
+    [SerializeField]
+    private Sprite player2Unready;
+
+    [SerializeField]
+    private Sprite player2Ready;
+
+    [SerializeField]
     private GameObject questButton;
 
     [SerializeField]
@@ -223,6 +241,15 @@ public class SCR_MenuManager : NetworkBehaviour
 
         readyButton = GameObject.Find("ReadyButton");
         readyButton.SetActive(true);
+
+        player1ReadyIndicator = GameObject.Find("ReadyPlayerOne").GetComponent<Image>();
+        player2ReadyIndicator = GameObject.Find("ReadyPlayerTwo").GetComponent<Image>();
+
+        player1Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+        player1Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+
+        player2Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
+        player2Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
 
         questButton = GameObject.Find("QuestButton");
         questButton.SetActive(true);
@@ -806,7 +833,7 @@ public class SCR_MenuManager : NetworkBehaviour
             }
 
             else 
-            { 
+            {
                 Debug.Log("CUMCUMCBEANS");
                 loadGameServerRpc();
                 Debug.Log("weiner");
