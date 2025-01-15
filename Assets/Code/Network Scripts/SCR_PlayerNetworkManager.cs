@@ -153,11 +153,11 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     /// 
     public override void OnNetworkSpawn()
     {
-        if(SceneManager.GetActiveScene().name == "CityMenu")
+        if (SceneManager.GetActiveScene().name == "CityMenu")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
-        else if(SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -178,7 +178,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             //enable camera for owner
             playerCamera = gameObject.GetComponentInChildren<Camera>();
             playerCamera.enabled = true;
-            
+
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");

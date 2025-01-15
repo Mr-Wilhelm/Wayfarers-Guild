@@ -847,8 +847,8 @@ public class SCR_MenuManager : NetworkBehaviour
 
             playerInstance.GetComponent<NetworkObject>().Spawn();
             playerInstance.GetComponent<NetworkObject>().ChangeOwnership(playerID);
-            playerInstance.transform.position = new Vector3(47, 31, 319);
-            playerInstance.GetComponent<SCR_PlayerNetworkManager>().bust();
+            //playerInstance.transform.position = new Vector3(47, 31, 319);
+            //playerInstance.GetComponent<SCR_PlayerNetworkManager>().bust();
 
         }
 
