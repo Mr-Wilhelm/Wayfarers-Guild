@@ -11,12 +11,7 @@ public class SCR_Pathfinding : MonoBehaviour
     /// <summary>
     /// Makes a 3d array (matrix) of structs, with a vector3 of their position.
     /// Allows for functions to be called on each independent struct object in the matrix.
-    /// 
-    /// USING THE LEFT HAND COORDINATE SYSTEM - positive Z is in front of the origin, Positive X is to the right.#
-    /// TODO: There is a logic issue in the first while loop. POssibly in the g, f or h cost
-    /// 
     /// </summary>
-    /// 
     public gridNode[,,] navigationMatrix;
 
     public Vector3 startPos;
@@ -69,97 +64,121 @@ public class SCR_Pathfinding : MonoBehaviour
         {
             // Each section is a row along the x-axis. (left - middle -right)
             Vector3[,,] neighbour = new Vector3[3, 3, 3];
-            
 
-            // y = 0 (bottom layer)
-            // z = 0 (front layer)
-            //bottom back left, middle, right
-            neighbour[0, 0, 0] = new Vector3(x - 1, y - 1, z - 1);    // x = 0 (left)         
-            neighbour[1, 0, 0] = new Vector3(x, y - 1, z - 1);            // x = 1 (middle)   
-            neighbour[2, 0, 0] = new Vector3(x + 1, y - 1, z - 1);          // x = 2 (right)
-                
-
-            // y = 0 (bottom layer)
-            // z = 1 (middle layer)
-            //bottom middle left, middle, right
-            neighbour[0, 0, 1] = new Vector3(x - 1, y - 1, z);    // x = 0 (left)
-            neighbour[1, 0, 1] = new Vector3(x, y - 1, z);        // x = 1 (middle)
-            neighbour[2, 0, 1] = new Vector3(x + 1, y - 1, z);    // x = 2 (right)
-
-            // y = 0 (bottom layer)
-            // z = 2 (back layer)
-            //bottom front left, middle, right
-            neighbour[0, 0, 2] = new Vector3(x - 1, y - 1, z + 1);    // x = 0 (left)
-            neighbour[1, 0, 2] = new Vector3(x, y - 1, z + 1);        // x = 1 (middle)
-            neighbour[2, 0, 2] = new Vector3(x + 1, y - 1, z + 1);    // x = 2 (right)
-
-            // y = 1 (middle layer)
-            // z = 0 (front layer)
-            //middle back left, middle, right
-            neighbour[0, 1, 0] = new Vector3(x - 1, y, z - 1);    // x = 0 (left)
-            neighbour[1, 1, 0] = new Vector3(x, y, z - 1);        // x = 1 (middle)
-            neighbour[2, 1, 0] = new Vector3(x + 1, y, z - 1);    // x = 2 (right)
-
-            // y = 1 (middle layer)
-            // z = 1 (middle layer)
-            //middle middle left, middle, right
-            neighbour[0, 1, 1] = new Vector3(x - 1, y, z);    // x = 0 (left)
-            neighbour[1, 1, 1] = new Vector3(-1, -1, -1);        // x = 1 (middle)
-            neighbour[2, 1, 1] = new Vector3(x + 1, y, z);    // x = 2 (right)
-
-            // y = 1 (middle layer)
-            // z = 2 (back layer)
-            //middle front left, middle, right
-            neighbour[0, 1, 2] = new Vector3(x - 1, y, z + 1);    // x = 0 (left)
-            neighbour[1, 1, 2] = new Vector3(x, y, z + 1);        // x = 1 (middle)
-            neighbour[2, 1, 2] = new Vector3(x + 1, y, z + 1);    // x = 2 (right)
-
-            // y = 2 (top layer)
-            // z = 0 (front layer)
-            //top back left, middle, right
-            neighbour[0, 2, 0] = new Vector3(x - 1, y + 1, z - 1);    // x = 0 (left)
-            neighbour[1, 2, 0] = new Vector3(x, y + 1, z - 1);        // x = 1 (middle)
-            neighbour[2, 2, 0] = new Vector3(x + 1, y + 1, z - 1);    // x = 2 (right)
-
-            // y = 2 (top layer)
-            // z = 1 (middle layer)
-            //top middle left, middle, right
-            neighbour[0, 2, 1] = new Vector3(x - 1, y + 1, z);    // x = 0 (left)
-            neighbour[1, 2, 1] = new Vector3(x, y + 1, z);        // x = 1 (middle)
-            neighbour[2, 2, 1] = new Vector3(x + 1, y + 1, z);    // x = 2 (right)
-
-            // y = 2 (top layer)
-            // z = 2 (back layer)
-            //top front left, middle, right
-            neighbour[0, 2, 2] = new Vector3(x - 1, y + 1, z + 1);    // x = 0 (left)
-            neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
-            neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
+            #region oldcode
+            //// y = 0 (bottom layer)
+            //// z = 0 (front layer)
+            ////bottom back left, middle, right
+            //neighbour[0, 0, 0] = new Vector3(x - 1, y - 1, z - 1);    // x = 0 (left)         
+            //neighbour[1, 0, 0] = new Vector3(x, y - 1, z - 1);            // x = 1 (middle)   
+            //neighbour[2, 0, 0] = new Vector3(x + 1, y - 1, z - 1);          // x = 2 (right)
 
 
-            //Boundary check for the neighbour nodes
-            for (int i = 0; i < neighbour.GetLength(0); i++)
+            //// y = 0 (bottom layer)
+            //// z = 1 (middle layer)
+            ////bottom middle left, middle, right
+            //neighbour[0, 0, 1] = new Vector3(x - 1, y - 1, z);    // x = 0 (left)
+            //neighbour[1, 0, 1] = new Vector3(x, y - 1, z);        // x = 1 (middle)
+            //neighbour[2, 0, 1] = new Vector3(x + 1, y - 1, z);    // x = 2 (right)
+
+            //// y = 0 (bottom layer)
+            //// z = 2 (back layer)
+            ////bottom front left, middle, right
+            //neighbour[0, 0, 2] = new Vector3(x - 1, y - 1, z + 1);    // x = 0 (left)
+            //neighbour[1, 0, 2] = new Vector3(x, y - 1, z + 1);        // x = 1 (middle)
+            //neighbour[2, 0, 2] = new Vector3(x + 1, y - 1, z + 1);    // x = 2 (right)
+
+            //// y = 1 (middle layer)
+            //// z = 0 (front layer)
+            ////middle back left, middle, right
+            //neighbour[0, 1, 0] = new Vector3(x - 1, y, z - 1);    // x = 0 (left)
+            //neighbour[1, 1, 0] = new Vector3(x, y, z - 1);        // x = 1 (middle)
+            //neighbour[2, 1, 0] = new Vector3(x + 1, y, z - 1);    // x = 2 (right)
+
+            //// y = 1 (middle layer)
+            //// z = 1 (middle layer)
+            ////middle middle left, middle, right
+            //neighbour[0, 1, 1] = new Vector3(x - 1, y, z);    // x = 0 (left)
+            //neighbour[1, 1, 1] = new Vector3(-1, -1, -1);        // x = 1 (middle)
+            //neighbour[2, 1, 1] = new Vector3(x + 1, y, z);    // x = 2 (right)
+
+            //// y = 1 (middle layer)
+            //// z = 2 (back layer)
+            ////middle front left, middle, right
+            //neighbour[0, 1, 2] = new Vector3(x - 1, y, z + 1);    // x = 0 (left)
+            //neighbour[1, 1, 2] = new Vector3(x, y, z + 1);        // x = 1 (middle)
+            //neighbour[2, 1, 2] = new Vector3(x + 1, y, z + 1);    // x = 2 (right)
+
+            //// y = 2 (top layer)
+            //// z = 0 (front layer)
+            ////top back left, middle, right
+            //neighbour[0, 2, 0] = new Vector3(x - 1, y + 1, z - 1);    // x = 0 (left)
+            //neighbour[1, 2, 0] = new Vector3(x, y + 1, z - 1);        // x = 1 (middle)
+            //neighbour[2, 2, 0] = new Vector3(x + 1, y + 1, z - 1);    // x = 2 (right)
+
+            //// y = 2 (top layer)
+            //// z = 1 (middle layer)
+            ////top middle left, middle, right
+            //neighbour[0, 2, 1] = new Vector3(x - 1, y + 1, z);    // x = 0 (left)
+            //neighbour[1, 2, 1] = new Vector3(x, y + 1, z);        // x = 1 (middle)
+            //neighbour[2, 2, 1] = new Vector3(x + 1, y + 1, z);    // x = 2 (right)
+
+            //// y = 2 (top layer)
+            //// z = 2 (back layer)
+            ////top front left, middle, right
+            //neighbour[0, 2, 2] = new Vector3(x - 1, y + 1, z + 1);    // x = 0 (left)
+            //neighbour[1, 2, 2] = new Vector3(x, y + 1, z + 1);        // x = 1 (middle)
+            //neighbour[2, 2, 2] = new Vector3(x + 1, y + 1, z + 1);    // x = 2 (right)
+
+
+            ////Boundary check for the neighbour nodes
+            //for (int i = 0; i < neighbour.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < neighbour.GetLength(1); j++)
+            //    {
+            //        for (int k = 0; k < neighbour.GetLength(2); k++)
+            //        {
+            //            if (neighbour[i, j, k].x >= x_length || neighbour[i, j, k].x < 0)
+            //            {
+            //                neighbour[i, j, k] = new Vector3(-1, -1 -1);
+            //            }
+            //            if (neighbour[i, j, k].y >= y_length || neighbour[i, j, k].y < 0)
+            //            {
+            //                neighbour[i, j, k] = new Vector3(-1, -1, -1);
+            //            }
+            //            if (neighbour[i, j, k].z >= z_length || neighbour[i, j, k].z < 0)
+            //            {
+            //                neighbour[i, j, k] = new Vector3(-1, -1, -1);
+            //            }
+
+            //        }
+            //    }
+            //}
+            #endregion
+            //loop through all neighbours
+            for(int offsetX = -1; offsetX <= 1; offsetX++)
             {
-                for (int j = 0; j < neighbour.GetLength(1); j++)
+                for (int offsetY = -1; offsetY <= 1; offsetY++)
                 {
-                    for (int k = 0; k < neighbour.GetLength(2); k++)
+                    for(int offsetZ = -1; offsetZ <= 1; offsetZ++)
                     {
-                        if (neighbour[i, j, k].x >= x_length || neighbour[i, j, k].x < 0)
+                        int newX = x + offsetX;
+                        int newY = y + offsetY;
+                        int newZ = z + offsetZ;
+
+                        //checks if the new position is in the matrix
+                        if (newX >= 0 && newX < x_length && newY >= 0 && newY < y_length && newZ >= 0 && newZ < z_length)
                         {
-                            neighbour[i, j, k] = new Vector3(-1, -1 -1);
+                            //store the position
+                            neighbour[offsetX + 1, offsetY + 1, offsetZ + 1] = new Vector3(newX, newY, newZ);
                         }
-                        if (neighbour[i, j, k].y >= y_length || neighbour[i, j, k].y < 0)
+                        else
                         {
-                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
+                            neighbour[offsetX + 1, offsetY + 1, offsetZ + 1] = new Vector3(-1, -1, -1);
                         }
-                        if (neighbour[i, j, k].z >= z_length || neighbour[i, j, k].z < 0)
-                        {
-                            neighbour[i, j, k] = new Vector3(-1, -1, -1);
-                        }
-                       
                     }
                 }
             }
-            
 
             return neighbour;
         }
@@ -169,8 +188,6 @@ public class SCR_Pathfinding : MonoBehaviour
     {
         PopulateWorld(500, 100, 500);
     }
-
-    
 
     /// <summary>
     /// Populates the world with nodes
@@ -240,8 +257,7 @@ public class SCR_Pathfinding : MonoBehaviour
                     if (node.passable)
                     {
                         currentNode = node;
-                    }
-                    
+                    }                    
                 }
             }
 
@@ -251,10 +267,9 @@ public class SCR_Pathfinding : MonoBehaviour
 
             if(currentNode.position == endNode.position)
             {
-                return RemakePath(currentNode, startNode.index); //remake the path when you reach the next node
-                
+                return RemakePath(currentNode, startNode.index); //remake the path when you reach the next node                
             }
-            //Debug.Log("---------------" + currentNode.index + "---------------");
+
             foreach (var neighbourPos in currentNode.GetAdjacentNodes   //iterates through all adjacent nodes
                 ((int)currentNode.index.x,
                 (int)currentNode.index.y,
@@ -262,19 +277,12 @@ public class SCR_Pathfinding : MonoBehaviour
                 navigationMatrix.GetLength(0), navigationMatrix.GetLength(1), navigationMatrix.GetLength(2),
                 nodeSize))
             {
-                //Debug.Log("neighbourPos : " +neighbourPos + " / - currentIndex : " + currentNode.index);
+
                 //gets the neighbour node
                 if ((int)neighbourPos.x == -1)
                 {
                     continue;
                 }
-                //if (Physics.CheckSphere(navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position, nodeSize, 11))
-                //{
-                //    Debug.Log(navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position);
-                //    Debug.DrawLine(navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position, navigationMatrix[(int)neighbourPos.x, (int)neighbourPos.y, (int)neighbourPos.z].position + new Vector3(0, 50, 0), Color.blue, 20f);
-                //    Debug.Log("Wall");
-                //    continue;
-                //}
 
                 gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
 
@@ -295,11 +303,6 @@ public class SCR_Pathfinding : MonoBehaviour
                     neighbourNode.gCost = estimatedGCost; //update the gCost of the neighbour
                     neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);//get the hcost of the new neighbour
                     neighbourNode.previousNodeIndex = currentNode.index;//update the previous node position to that of the current one
-                    //Debug.Log("###############################");
-                    //Debug.Log("neighbourNode.index : " + neighbourNode.index);
-                    //Debug.Log("currentNode.index : " + currentNode.index);
-
-                    
 
                     navigationMatrix[(int)neighbourNode.index.x, (int)neighbourNode.index.y, (int)neighbourNode.index.z] = neighbourNode;
 
@@ -310,54 +313,23 @@ public class SCR_Pathfinding : MonoBehaviour
                     }
                 }
             }
-            //if(iterator >= 10000000)
-            //{
-            //    foreach (var wabung in openList)
-            //    {
-            //        //Debug.Log("-----------------");
-            //        //Debug.Log("index : "+wabung.index);
-                    
-            //        //Debug.Log("hCost : " + wabung.hCost);
-            //        //Debug.Log("gCost : " + wabung.gCost);
-            //        //Debug.Log("fCost : " + wabung.GetFCost());
-
-            //    }
-            //    //Debug.Log(openList.Count);
-            //    Debug.Log("Breaking at first while loop");
-            //    break;
-            //}
         }
         return null;    //No Path found
     }
 
     private List<Vector3> RemakePath(gridNode currentNode, Vector3 originalNode)
     {
-        //Debug.Log("/////////////////////");
-        //foreach (var wabung in openList)
-        //{
-        //    Debug.Log("index : " + wabung.index);
-        //}
-        //Debug.Log("vvvvvvvvvvvvvvvvvvvvvv");
-        //foreach (var wabung in closedList)
-        //{
-        //    Debug.Log("index : " + wabung.index);
-        //    Debug.Log("prev index : " + wabung.previousNodeIndex);
-        //}
 
-        //Debug.Log("++++++++++++++++++++++++++++++++++++++++");
+
         List<Vector3> newPath = new List<Vector3>();    //make a new list for the new path
-        //Debug.Log("originalNode index : " + originalNode);
+
         iterator2 = 0;
         while (currentNode.index != originalNode)    //iterate through the path from end to start (backwards)
         {
-            
-            //Debug.Log("currentNode index : "+currentNode.index);
-            //Debug.Log("currentNode previousNodeIndex : " + currentNode.previousNodeIndex);
+
             iterator2++;
             newPath.Add(currentNode.position);  //add currentNode.position to the new path
             currentNode = navigationMatrix[(int)(currentNode.previousNodeIndex.x), (int)(currentNode.previousNodeIndex.y), (int)(currentNode.previousNodeIndex.z)];   //move to the previous node
-            //Debug.Log(currentNode.index);
-
 
             if(iterator2 >= 1000)
             {
@@ -370,18 +342,6 @@ public class SCR_Pathfinding : MonoBehaviour
         newPath.Reverse();
         //return the path
         return newPath;
-    }
-
-    void OnDrawGizmos()
-    {
-        //if(navigationMatrix != null)
-        //{
-        //    Gizmos.color = Color.yellow;
-        //    foreach (gridNode pos in navigationMatrix)
-        //    {
-        //        Gizmos.DrawSphere(pos.position, nodeSize / 10);
-        //    }
-        //}
     }
 }
 
