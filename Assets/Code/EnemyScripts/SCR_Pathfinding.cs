@@ -270,7 +270,7 @@ public class SCR_Pathfinding : MonoBehaviour
                 return RemakePath(currentNode, startNode.index); //remake the path when you reach the next node                
             }
 
-            foreach (var neighbourPos in currentNode.GetAdjacentNodes   //iterates through all adjacent nodes
+            foreach (var neighbourPos in currentNode.GetAdjacentNodes   //iterates through all adjacent nodes, get this in start, not runtime to improve runtime efficiency.
                 ((int)currentNode.index.x,
                 (int)currentNode.index.y,
                 (int)currentNode.index.z,
