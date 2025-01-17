@@ -190,6 +190,7 @@ MonoBehaviour:
   jumpForce: 10
   moveSpeed: 20
   turnSpeed: 4
+  drag: 5
   playerOnWheel: 0
 --- !u!114 &-3273300779194110752
 MonoBehaviour:
@@ -203,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3449801546
+  GlobalObjectIdHash: 2650615169
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -448,8 +449,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onWheel: 0
+  ship: {fileID: 0}
+  shipRb: {fileID: 0}
   shipAcceleration: 5
   shipTurnSpeed: 5
+  shipHealth: 10
   shipMaxSpeed: 40
   shipPos:
     m_InternalValue: {x: 0, y: 0, z: 0}
