@@ -1,4 +1,5 @@
 using GLTFast.Schema;
+using Gravitas;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -46,7 +47,8 @@ public class SCR_ShipControls : NetworkBehaviour
         {
             ship = GameObject.Find("PRE-Airship");
         }
-        updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
+        //updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
+        ship.GetComponent<GravitasBody>().AddForce(ship.transform.right * 1000, ForceMode.Acceleration);
         bool beep = false;
         if (onWheel == true)
         {
