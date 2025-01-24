@@ -48,7 +48,16 @@ public class SCR_ShipControls : NetworkBehaviour
             ship = GameObject.Find("PRE-Airship");
         }
         //updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
-        ship.GetComponent<GravitasBody>().AddForce(ship.transform.right * 1000, ForceMode.Acceleration);
+        Vector3 forceToAdd = (ship.transform.right * shipAcceleration);
+        ship.GetComponent<GravitasBody>().AddForce(forceToAdd, ForceMode.Acceleration);
+        Vector3 currentSpeed = ship.GetComponent<GravitasBody>().Velocity;
+        Debug.Log(currentSpeed);
+        if (currentSpeed.x >= shipMaxSpeed)
+        {
+            //Debug.Log("Capping speed");
+            currentSpeed.x = shipMaxSpeed;  
+            ship.GetComponent<GravitasBody>().Velocity = currentSpeed;
+        }
         bool beep = false;
         if (onWheel == true)
         {
