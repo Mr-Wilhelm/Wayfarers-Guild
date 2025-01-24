@@ -1,18 +1,87 @@
-### Blank Unity Project ### 
+# Packages #
 
-This repository has been pre-configured with a .gitignore and .gitattributes file specific to Unity projects using git-lfs. 
+Title: Gravitas physics system  
+Author : [awtdev](https://itch.io/profile/awtdev)  
+URL : [https://awtdev.itch.io/gravitas-physics-system](https://awtdev.itch.io/gravitas-physics-system)  
+Lincense: CC0
 
-This project was created for Unity [2023.2.20](https://unity.com/releases/editor/whats-new/2023.2.20#installs)
+# Git Branch Naming Scheme #
+Branches should be named following this format: 
+"branch type"-"prefix"-"Discipline"-"branch_name"
 
-The project has been created with a barebones folder structure.  The settings have been optimized for best 3D quality without adding any additional packages to the project.
-For 2D projects, go to Edit -> Project Settings -> Editor and set the "Default Behaviour Mode" to 2D.  Do this at the start so that imported assets are optimized automatically.
+## Branch Types ##
+- Dev - Developer branch, for adding new features. The game state in these branches should be incomplete and unpolished
+- Master - ONLY FOR POLISHED BUILDS FOR PEER ASSESSMENTS AND DEMO DAYS
 
-To use this repo select it from the tremplate list when making a new repo.
+## Prefixes ##
+- Asset - Asset branch, for when you're just adding assets into the game.
+- Bugfix - For branches that are fixing bugs.
+- Docs - For documentation themed updates.
+- Feature - For new features.
+- Hotfix - For quick fixes that happen on the fly.
+- Release - For releasing polished builds.
+- Playtest - For releasing semi-stable playtesting builds
 
-Note:  Do not leave empty folders in your Unity project.  Empty folders do not get added to version control, but the meta files they create do.  This can lead to issues with keeping your project up to date.
+## Discipline (Fairly self explanatory.) ##
+- For releases, there may not be a discipline, so you can just put "N/A"
+- Animation - For Animation related work.
+- Art - For art related work. (Can include the specific discipline if you'd like.)
+- Audio - For audio related work.
+- Design - For design, UX and QA related work.
+- Production - For production related work.
+- Programming - For programming related work.
+- Writing - For writing related work.
 
-Please make sure you place all of your Terrain in a folder called "Terrain" or "Terrains". Failing to do so will result in corupted projects.
+## Branch name ##
+Just for readability sake, make sure words are separated by underscores. Otherwise it can be whatever, just make sure it is clear and obvious as to what has been made. A good guide for this would be to include what is being edited, and what about it is being edited. For example:
+AI_3D_Pathfinding.
+And not:
+Enemybranch. <- this is too vague... what is being done with the enemies in this branch exactly?
 
-Be aware that we have changed the settings to allow sub folders, this means you might accidently push as Unity project inside your Unity project so make sure you know what folder you are working from.
- 
-Do you have any suggestions for improvements? Please submit a pull request!
+## Examples ##
+- Dev-Asset-Art-Crane model added.
+- Master-Playest-Design-Core Gameplay Loop Testing.
+
+# File Naming Convention #
+In engine files should also follow a naming convention. This is most applicable to programmers, however should also be followed by ANYONE putting ANYTHING in engine.
+Files should be prefixed with a tag, followed by the name. Words in the name should be separated by underscores.
+The general structure of files should be as follows:
+"Tag" - "Name1_Name2"
+
+## Animation Files (Probably will get changed as we get more into animation) ##
+- ANI - Animations
+
+## Art Files ##
+- MAT - Materials
+- MOD - Models
+- TEX - Textures
+- SPR - Sprites
+- BAC - Background Art
+- UIN - User Interface Art (Things like buttons)
+
+## Audio Files ##
+- MUS - Music
+- SFX - Sound Effects
+
+## Code Files ##
+- SCR - Script
+
+## Prefabs ##
+- PRE_AIR - Airship Prefabs
+- PRE_CIT - City Prefabs
+- PRE_ENE - Enemy Prefabs
+- PRE_NET - Network Object Prefabs
+- PRE_PLA - Player Prefabs
+- PRE_PPR - Post Processing Prefabs
+- PRE_SHA - Ship Asset Prefabs (Things like the engine, wheel, pressure gauge etc.)
+- PRE_TER - Terrain Prefabs
+- PRE_UIN - User Interface Prefabs
+
+## Scenes ##
+- SCN - 2D Scenes
+- SCN - 3D Scenes
+
+## Examples ##
+
+- ART_MAT-Airship_Material
+- PRE_CIT-City_Canvas

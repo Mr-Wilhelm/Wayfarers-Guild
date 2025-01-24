@@ -1,0 +1,1 @@
+Their attention is drawn to someone else
