@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,7 +20,7 @@ public class SCR_Pathfinding : MonoBehaviour
     public float nodeSize;
 
     public List<Vector3> openList = new List<Vector3>();
-    public List<Vector3> closedList = new List<Vector3>();
+    public List<gridNode> closedList = new List<gridNode>();
 
     public int iterator, iterator2;
 
@@ -124,7 +125,7 @@ public class SCR_Pathfinding : MonoBehaviour
                     navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize);
                     navigationMatrix[i, j, k].index = new Vector3(i, j, k);
 
-                    if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize, layerMask))
+                    if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize/2, layerMask))
                     {
                         navigationMatrix[i, j, k].passable = false;
                     }
@@ -146,7 +147,7 @@ public class SCR_Pathfinding : MonoBehaviour
         gridNode endNode = navigationMatrix[(int)MathF.Round(endPoint.x / nodeSize), (int)MathF.Round(endPoint.y / nodeSize), (int)MathF.Round(endPoint.z / nodeSize)];        
 
         //cleaning lists
-        openList.Clear();
+        //openList.Clear();
         closedList.Clear();
 
         //Setting the g and h cost of the start node by getting the distance between the positions of the start and end nodes.
@@ -166,23 +167,23 @@ public class SCR_Pathfinding : MonoBehaviour
             gridNode currentNode = sortedQueue.Min;
             sortedQueue.Remove(currentNode);
             
-            foreach (var testIndex in openList)  //iterate through the open list
-            {
-                gridNode node = navigationMatrix[(int)testIndex.x, (int)testIndex.y, (int)testIndex.z];
+            //foreach (var testIndex in openList)  //iterate through the open list
+            //{
+            //    gridNode node = navigationMatrix[(int)testIndex.x, (int)testIndex.y, (int)testIndex.z];
 
-                //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
-                if ((node.GetFCost() < currentNode.GetFCost() || node.GetFCost() == currentNode.GetFCost() && node.gCost < currentNode.gCost) && node.passable)
-                {
-                    currentNode = node;
-                    Debug.Log("index: " + currentNode.index);
-                    Debug.Log("passable: " + currentNode.passable);
+            //    //compare fCost values, if they're the same, compare gCost values to see if the node the iteration is on, is less than the node the enemy is currently at
+            //    if ((node.GetFCost() < currentNode.GetFCost() || node.GetFCost() == currentNode.GetFCost() && node.gCost < currentNode.gCost) && node.passable)
+            //    {
+            //        currentNode = node;
+            //        Debug.Log("index: " + currentNode.index);
+            //        Debug.Log("passable: " + currentNode.passable);
 
-                }
-            }
+            //    }
+            //}
 
             //remove the current node from the open list and add it to the closed list, since it has now been visited
-            openList.Remove(currentNode.index);
-            closedList.Add(currentNode.index);
+            //openList.Remove(currentNode.index);
+            closedList.Add(currentNode);
 
             if(currentNode.position == endNode.position)
             {
@@ -196,21 +197,28 @@ public class SCR_Pathfinding : MonoBehaviour
                 {
                     continue;
                 }
+                
 
                 gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
 
-                if (closedList.Contains(neighbourNode.index))
+                if (!neighbourNode.passable || closedList.Contains(neighbourNode))
+                {
                     continue;
+                }
+
+                //if (closedList.Contains(neighbourNode))
+                //    continue;
 
                 //otherwise get the estimated gCost to reach the neighbour node from the start node
                 int estimatedGCost = currentNode.gCost + (int)Vector3.Distance(currentNode.position, neighbourNode.position);
                 
                 //if the neighbour is not already in the open list, or if the estimated cost is lower than the current gCost
-                if (!openList.Contains(neighbourNode.index) || estimatedGCost < neighbourNode.gCost)
+                if (!sortedQueue.Contains(neighbourNode) || estimatedGCost < neighbourNode.gCost)
                 {
                     neighbourNode.gCost = estimatedGCost; //update the gCost of the neighbour
                     neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);//get the hcost of the new neighbour
                    
+
                     neighbourNode.previousNodeIndex = currentNode.index;//update the previous node position to that of the current one
                     
                     navigationMatrix[(int)neighbourNode.index.x, (int)neighbourNode.index.y, (int)neighbourNode.index.z] = neighbourNode;
