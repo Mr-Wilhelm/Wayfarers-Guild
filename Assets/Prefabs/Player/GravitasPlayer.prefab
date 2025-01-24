@@ -118,7 +118,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -185,11 +185,10 @@ MonoBehaviour:
   interactableLayers:
     serializedVersion: 2
     m_Bits: 0
-  playerParticleSystem: {fileID: 1193758425159005828}
-  jetpackForce: 0
   jumpForce: 10
   moveSpeed: 20
   turnSpeed: 4
+  drag: 5
   playerOnWheel: 0
 --- !u!114 &-3273300779194110752
 MonoBehaviour:
@@ -448,8 +447,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onWheel: 0
+  ship: {fileID: 0}
+  shipRb: {fileID: 0}
   shipAcceleration: 5
   shipTurnSpeed: 5
+  shipHealth: 10
   shipMaxSpeed: 40
   shipPos:
     m_InternalValue: {x: 0, y: 0, z: 0}
