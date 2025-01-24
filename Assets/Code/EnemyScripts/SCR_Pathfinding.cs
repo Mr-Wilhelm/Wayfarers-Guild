@@ -154,7 +154,7 @@ public class SCR_Pathfinding : MonoBehaviour
         startNode.hCost = (int)Vector3.Distance(startNode.position, endNode.position);
         startNode.previousNodeIndex = startNode.index;
 
-        var sortedQueue = new SortedSet<gridNode>(new NodeComparer());  //using a sorted queue is more efficient, better time complexity (O(n)
+        var sortedQueue = new SortedSet<gridNode>(new NodeComparer());  //using a sorted queue is more efficient, better time complexity (O(n))
         sortedQueue.Add(startNode);
         //openList.Add(startNode.index);    //add the start node to the open list
 
@@ -252,11 +252,12 @@ public class SCR_Pathfinding : MonoBehaviour
         return newPath;
     }
 
-    public class NodeComparer : IComparer<gridNode>
+    //This entire class is heavily AI assisted.
+    public class NodeComparer : IComparer<gridNode> //uses an IComparer (a built in c# thing), helps sort things in order
     {
         public int Compare(gridNode x, gridNode y)
         {
-            int fCostComparison = x.GetFCost().CompareTo(y.GetFCost());
+            int fCostComparison = x.GetFCost().CompareTo(y.GetFCost());     //compare x and y fcost, and check to see if one preceeds the other
 
             if (fCostComparison == 0)
             {
@@ -264,7 +265,7 @@ public class SCR_Pathfinding : MonoBehaviour
                 return x.gCost.CompareTo(y.gCost);
             }
 
-            return fCostComparison;
+            return fCostComparison; //return fcost
         }
     }
 }
