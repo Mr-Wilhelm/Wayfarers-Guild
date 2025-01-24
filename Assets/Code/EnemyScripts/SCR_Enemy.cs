@@ -59,6 +59,8 @@ public class SCR_Enemy : MonoBehaviour
         gameObject.transform.LookAt(moveTarget.transform.position);
         frames++;
 
+        
+
         if(frames % frameOffset == 0)
         {
             UpdatePath();
@@ -84,7 +86,7 @@ public class SCR_Enemy : MonoBehaviour
         Vector3 prevPos = currentPos;
         foreach (var node in pathNodes)
         {
-            Debug.DrawLine(prevPos, node, Color.red, 10f);
+            Debug.DrawLine(prevPos, node, Color.red, 0.5f);
             prevPos = node;
         }
 

@@ -42,17 +42,29 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     }
 
 
-    /// <summary>
-    /// On network spawn of players, fills player objects with each player
-    /// </summary>
-    /// 
-    public override void OnNetworkSpawn()
+    public void bust()
     {
-        if(SceneManager.GetActiveScene().name == "CityMenu")
+        StartCoroutine(bust2());
+    }
+
+    IEnumerator bust2()
+    {
+        yield return new WaitForSeconds(2f);
+
+        bust3ClientRpc();
+        bust4();
+    }
+
+
+    [ClientRpc]
+    public void bust3ClientRpc()
+    {
+
+        if (SceneManager.GetActiveScene().name == "CityMenu")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
-        else if(SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -73,7 +85,100 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             //enable camera for owner
             playerCamera = gameObject.GetComponentInChildren<Camera>();
             playerCamera.enabled = true;
-            
+
+
+            //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigBody.layer = SelfPlayerMeshLayer;
+            CraigClothes.layer = SelfPlayerMeshLayer;
+        }
+        else
+        {
+            gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            Debug.Log(playerNameString + " is not owner, disabling movement");
+            playerCamera.enabled = false;
+            int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
+            gameObject.layer = NonOwnerLayer;
+        }
+    }
+
+    public void bust4()
+    {
+
+        if (SceneManager.GetActiveScene().name == "CityMenu")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        SceneManager.sceneLoaded += test;
+
+
+        playerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
+        gameObject.name = playerName.Value.ToString();
+
+        Debug.Log("GRAVITAS PLAYER SPAWNED");
+        if (IsOwner)
+        {
+
+            FixedString128Bytes name = "Player_" + NetworkManager.Singleton.LocalClientId;
+            updateNameServerRPC(name);
+
+            Debug.Log("Owner detected");
+            //enable camera for owner
+            playerCamera = gameObject.GetComponentInChildren<Camera>();
+            playerCamera.enabled = true;
+
+
+            //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigBody.layer = SelfPlayerMeshLayer;
+            CraigClothes.layer = SelfPlayerMeshLayer;
+        }
+        else
+        {
+            gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            Debug.Log(playerNameString + " is not owner, disabling movement");
+            playerCamera.enabled = false;
+            int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
+            gameObject.layer = NonOwnerLayer;
+        }
+    }
+
+    /// <summary>
+    /// On network spawn of players, fills player objects with each player
+    /// </summary>
+    /// 
+    public override void OnNetworkSpawn()
+    {
+        if (SceneManager.GetActiveScene().name == "CityMenu")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        SceneManager.sceneLoaded += test;
+
+
+        playerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
+        gameObject.name = playerName.Value.ToString();
+
+        Debug.Log("GRAVITAS PLAYER SPAWNED");
+        if (IsOwner)
+        {
+
+            FixedString128Bytes name = "Player_" + NetworkManager.Singleton.LocalClientId;
+            updateNameServerRPC(name);
+
+            Debug.Log("Owner detected");
+            //enable camera for owner
+            playerCamera = gameObject.GetComponentInChildren<Camera>();
+            playerCamera.enabled = true;
+
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
@@ -100,11 +205,14 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
             this.GetComponent<SCR_2D_Logic>().enabled = true;
             this.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            this.GetComponent<SCR_ShipControls>().enabled = false;
             this.enabled = false;
 
         }
         else if (a.name == "SCN_DemoScene")
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             transform.position = GameObject.Find("PRE-Airship").transform.position;
         }
     }

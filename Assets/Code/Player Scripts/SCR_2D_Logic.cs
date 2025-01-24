@@ -39,6 +39,7 @@ public class SCR_2D_Logic : NetworkBehaviour
 
             this.GetComponent<SCR_PlayerNetworkManager>().enabled = true;
             this.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = true;
+            this.GetComponent<SCR_ShipControls>().enabled = true;
             transform.position = GameObject.Find("PRE-Airship").transform.position;
             this.enabled = false;
 

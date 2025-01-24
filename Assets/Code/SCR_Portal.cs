@@ -10,6 +10,11 @@ public class SCR_Portal : MonoBehaviour
     {
         if(other.gameObject.tag == "Ship")
         {
+            GameObject.Find("PRE-Airship").GetComponent<NetworkObject>().Despawn();
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                player.GetComponent<SCR_ShipControls>().enabled = false;
+            }
             NetworkManager.Singleton.SceneManager.LoadScene("CityMenu", LoadSceneMode.Single);
         }
     }
