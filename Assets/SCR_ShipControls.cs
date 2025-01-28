@@ -45,7 +45,8 @@ public class SCR_ShipControls : NetworkBehaviour
         }
         //updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
         Vector3 forceToAdd = (ship.transform.right * shipAcceleration);
-        shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
+        updatePosServerRPC(forceToAdd);
+        //shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
         Vector3 currentSpeed = shipRb.Velocity;
         if (currentSpeed.x >= shipMaxSpeed)
         {
@@ -147,9 +148,9 @@ public class SCR_ShipControls : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void updatePosServerRPC(Vector3 newPos)
+    private void updatePosServerRPC(Vector3 forceToAdd)
     {
-        updatePosClientRPC(newPos);
+        updatePosClientRPC(forceToAdd);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -205,9 +206,10 @@ public class SCR_ShipControls : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void updatePosClientRPC(Vector3 newPos)
+    private void updatePosClientRPC(Vector3 forceToAdd)
     {
-        GameObject.Find("PRE-Airship").transform.position += newPos;
+        //GameObject.Find("PRE-Airship").transform.position += newPos;
+        shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
     }
 
     [ClientRpc]
