@@ -21,7 +21,7 @@ namespace Gravitas.Demo
             verticalInput; // Stored vertical input from jumping or jetpack thrust
         [SerializeField] private float jetpackForce = 15f;
         [SerializeField] private float jumpForce = 7f;
-        [SerializeField] private float moveSpeed = 6f;
+        [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private float turnSpeed = 5f;
 
         private bool interact;
@@ -110,7 +110,7 @@ namespace Gravitas.Demo
             //sets the players velocity and adds a jump force
             if (isLanded)
             {
-                gravitasBody.Velocity = inputVelocity;
+                gravitasBody.Velocity = inputVelocity.normalized * moveSpeed;
                 gravitasBody.AddForce(new Vector3(0, inputVelocity.y, 0) * Time.deltaTime, ForceMode.VelocityChange);
             }
 
