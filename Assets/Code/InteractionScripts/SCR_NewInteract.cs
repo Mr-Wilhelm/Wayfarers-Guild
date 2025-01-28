@@ -40,13 +40,11 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 otherPlayerCanInteract = true;
             }
-            Debug.Log("Interacting");
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
             {
                 Debug.Log(hitInfo.collider.gameObject.name);
                 if (interacting)
                 {
-                    Debug.Log("Getting off ship wheel");
                     gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
@@ -54,7 +52,6 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && otherPlayerCanInteract)
                 {
-                    Debug.Log("Taking ship wheel");
                     gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
@@ -70,7 +67,6 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             else if (interacting)
             {
-                Debug.Log("Getting off ship wheel");
                 gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;

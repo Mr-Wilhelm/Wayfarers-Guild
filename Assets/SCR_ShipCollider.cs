@@ -1,22 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gravitas;
 
 public class SCR_ShipCollider : MonoBehaviour
 {
     [SerializeField] public LayerMask terrainLayer;
     [SerializeField] private float bounceForce = 10f;
-    [SerializeField] private Rigidbody shipRB;
+    [SerializeField] private GravitasBody shipRB;
 
     private void OnTriggerEnter(Collider other)
     {
         if (((1 << other.gameObject.layer) & terrainLayer) != 0)
         {
             //Vector3 collisionPoint = other.ClosestPoint(transform.position); // Point of collision
-            Vector3 bounceDirection = (transform.position - other.transform.position).normalized;
+            Vector3 hitPoint = other.ClosestPoint(transform.position);
+            Vector3 bounceDirection = hitPoint.normalized;
 
             shipRB.AddForce(bounceDirection * bounceForce, ForceMode.Impulse);
-            Debug.Log("Hit terrain");
+            Debug.Log("Hit terrain at : " + hitPoint);
         }
     }
 

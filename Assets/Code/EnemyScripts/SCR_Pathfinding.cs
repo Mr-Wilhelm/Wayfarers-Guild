@@ -319,8 +319,8 @@ public class SCR_Pathfinding : MonoBehaviour
                 if ((node.GetFCost() < currentNode.GetFCost() || node.GetFCost() == currentNode.GetFCost() && node.gCost < currentNode.gCost) && node.passable)
                 {
                     currentNode = node;
-                    Debug.Log("index: " + currentNode.index);
-                    Debug.Log("passable: " + currentNode.passable);
+                    //Debug.Log("index: " + currentNode.index);
+                    //Debug.Log("passable: " + currentNode.passable);
 
                 }
             }

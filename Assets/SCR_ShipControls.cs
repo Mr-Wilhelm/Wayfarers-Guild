@@ -16,7 +16,7 @@ public class SCR_ShipControls : NetworkBehaviour
     private GameObject ship;
 
     [SerializeField]
-    private Rigidbody shipRb;
+    private GravitasBody shipRb;
 
     [SerializeField] private float shipAcceleration;
     [SerializeField] private float shipTurnSpeed;
@@ -31,11 +31,6 @@ public class SCR_ShipControls : NetworkBehaviour
 
     [SerializeField] private float pitchRollResetSpeed;
 
-    private void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -46,33 +41,21 @@ public class SCR_ShipControls : NetworkBehaviour
         if (ship == null)
         {
             ship = GameObject.Find("PRE-Airship");
+            shipRb = ship.GetComponent<GravitasBody>();
         }
         //updatePosServerRPC(ship.transform.right * shipAcceleration * Time.deltaTime);
         Vector3 forceToAdd = (ship.transform.right * shipAcceleration);
-        ship.GetComponent<GravitasBody>().AddForce(forceToAdd, ForceMode.Acceleration);
-        Vector3 currentSpeed = ship.GetComponent<GravitasBody>().Velocity;
-        Debug.Log(currentSpeed);
+        shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
+        Vector3 currentSpeed = shipRb.Velocity;
         if (currentSpeed.x >= shipMaxSpeed)
         {
             //Debug.Log("Capping speed");
             currentSpeed.x = shipMaxSpeed;  
-            ship.GetComponent<GravitasBody>().Velocity = currentSpeed;
+            shipRb.Velocity = currentSpeed;
         }
         bool beep = false;
         if (onWheel == true)
         {
-            //Debug.Log("straight wheelin");
-            //Forward
-            //if (Input.GetKeyDown(KeyCode.LeftShift))
-            //{
-            //    Debug.Log("Shiftin");
-            //    shipAcceleration += 10;
-            //}
-            ////Backward
-            //if (Input.GetKeyDown(KeyCode.LeftControl))
-            //{
-            //    shipAcceleration -= 10;
-            //}
             //Yaw Right
             if (Input.GetKey(KeyCode.D))
             {
