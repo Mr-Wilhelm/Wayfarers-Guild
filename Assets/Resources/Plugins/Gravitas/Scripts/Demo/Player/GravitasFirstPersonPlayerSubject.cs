@@ -110,7 +110,22 @@ namespace Gravitas.Demo
             //sets the players velocity and adds a jump force
             if (isLanded)
             {
-                gravitasBody.Velocity = inputVelocity.normalized * moveSpeed;
+                //Vector3 normalisedVel = gravitasBody.Velocity.normalized;
+                //gravitasBody.Velocity = new Vector3(normalisedVel.x * moveSpeed, gravitasBody.Velocity.y, normalisedVel.z * moveSpeed);
+
+                //gravitasBody.Velocity = inputVelocity.normalized * moveSpeed;
+
+                Vector2 HorizontalComponent = new Vector2(inputVelocity.x, inputVelocity.z).normalized;
+                HorizontalComponent *= moveSpeed;
+
+
+                //TODO Find out why pressing space decides to add left and right force movement?
+                Debug.Log(inputVelocity.x + ", " + inputVelocity.y + ", " + inputVelocity.z);
+
+                gravitasBody.Velocity = new Vector3(HorizontalComponent.x,inputVelocity.y,HorizontalComponent.y);
+
+                //Debug.Log(HorizontalComponent);
+                //gravitasBody.Velocity = inputVelocity;
                 gravitasBody.AddForce(new Vector3(0, inputVelocity.y, 0) * Time.deltaTime, ForceMode.VelocityChange);
             }
 
@@ -228,7 +243,6 @@ namespace Gravitas.Demo
                     // Up-Down movement
                     float yForce = jumpForce;
                     Vector3 velocityY = verticalInput * yForce * t.up;
-                    Debug.Log(verticalInput);
 
                     // Forward-Back movement
                     Vector3 forward = t.forward;
