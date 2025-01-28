@@ -187,7 +187,7 @@ MonoBehaviour:
     m_Bits: 0
   playerParticleSystem: {fileID: 1193758425159005828}
   jetpackForce: 0
-  jumpForce: 10
+  jumpForce: 7
   moveSpeed: 20
   turnSpeed: 4
   playerOnWheel: 0
@@ -448,8 +448,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onWheel: 0
+  ship: {fileID: 0}
+  shipRb: {fileID: 0}
   shipAcceleration: 5
   shipTurnSpeed: 5
+  shipHealth: 10
   shipMaxSpeed: 40
   shipPos:
     m_InternalValue: {x: 0, y: 0, z: 0}
