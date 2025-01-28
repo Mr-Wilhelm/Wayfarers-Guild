@@ -81,7 +81,7 @@ namespace Gravitas.Demo
             // Camera pitching
             angleX += -mouseInput.y * turnSpeed;
 
-            if (gravitasBody.IsLanded)
+            if (gravitasBody.IsLanded && !DiffMovement)
             {
                 angleX = Mathf.Clamp(angleX, -90f, 90f);
 
@@ -91,17 +91,32 @@ namespace Gravitas.Demo
 
             playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
 
-            // Vertical input
-            if (Input.GetKey(KeyCode.LeftShift))
-                verticalInput = 1; // Up
-            else if (Input.GetKey(KeyCode.LeftControl))
-                verticalInput = -1; // Down
-            else
-                verticalInput = 0; // None
+            if (DiffMovement)
+            {
+                // Vertical input
+                if (Input.GetKey(KeyCode.Space))
+                    verticalInput = 1; // Up
+                else
+                    verticalInput = 0; // None
 
-            // Interaction input
-            if (!interact)
-                interact = Input.GetKeyDown(KeyCode.E);
+                // Interaction input
+                if (!interact)
+                    interact = Input.GetKeyDown(KeyCode.E);
+            }
+            else if (!DiffMovement)
+            {
+                // Vertical input
+                if (Input.GetKey(KeyCode.LeftShift))
+                    verticalInput = 1; // Up
+                else if (Input.GetKey(KeyCode.LeftControl))
+                    verticalInput = -1; // Down
+                else
+                    verticalInput = 0; // None
+
+                // Interaction input
+                if (!interact)
+                    interact = Input.GetKeyDown(KeyCode.E);
+            }
         }
 
         protected override void OnSubjectFixedUpdate()
@@ -225,6 +240,7 @@ namespace Gravitas.Demo
 
                         // Up-Down movement
                         float yForce = isLanded ? jumpForce : jetpackForce;
+                        Debug.Log(verticalInput);
                         velocity += verticalInput * yForce * t.up;
 
                         // Forward-Back movement
@@ -246,6 +262,7 @@ namespace Gravitas.Demo
                         // Up-Down movement
                         float yForce = jumpForce;
                         Vector3 velocityY = verticalInput * yForce * t.up;
+                        Debug.Log(verticalInput);
 
                         // Forward-Back movement
                         Vector3 forward = t.forward;
