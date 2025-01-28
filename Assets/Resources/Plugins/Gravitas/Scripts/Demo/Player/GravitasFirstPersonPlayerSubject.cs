@@ -23,6 +23,9 @@ namespace Gravitas.Demo
         [SerializeField] private float jumpForce = 10f;
         [SerializeField] private float moveSpeed = 20f;
         [SerializeField] private float turnSpeed = 5f;
+
+
+        [SerializeField] private bool DiffMovement = false;
         private bool interact;
 
         public bool playerOnWheel = false;
@@ -110,11 +113,16 @@ namespace Gravitas.Demo
             bool isLanded = gravitasBody.IsLanded;
             Vector3 inputVelocity = GetInputVelocity();
 
-            if (!isLanded && inputVelocity != Vector3.zero && playerParticleSystem != null)
-                playerParticleSystem.Play();
 
-            if (!isLanded || gravitasBody.Velocity.magnitude < MAX_GROUND_SPEED)
+            if (!isLanded || gravitasBody.Velocity.magnitude < MAX_GROUND_SPEED )
+            {
                 gravitasBody.AddForce(inputVelocity * Time.deltaTime, ForceMode.VelocityChange);
+            }
+            if (isLanded && DiffMovement)
+            {
+                gravitasBody.Velocity = inputVelocity;
+                gravitasBody.AddForce(new Vector3(0,inputVelocity.y,0) * Time.deltaTime, ForceMode.VelocityChange);
+            }
 
             ProcessInteractionRaycast();
             interact = false;
@@ -206,23 +214,48 @@ namespace Gravitas.Demo
             {
                 if(!playerOnWheel)
                 {
-                    Vector3 velocity = Vector3.zero;
+                    if (!DiffMovement)
+                    {
+                        Vector3 velocity = Vector3.zero;
 
-                    // Left-Right movement
-                    Vector3 right = t.right;
-                    float xForce = isLanded ? moveSpeed : jetpackForce;
-                    velocity += keyInput.x * xForce * right;
+                        // Left-Right movement
+                        Vector3 right = t.right;
+                        float xForce = isLanded ? moveSpeed : jetpackForce;
+                        velocity += keyInput.x * xForce * right;
 
-                    // Up-Down movement
-                    float yForce = isLanded ? jumpForce : jetpackForce;
-                    velocity += verticalInput * yForce * t.up;
+                        // Up-Down movement
+                        float yForce = isLanded ? jumpForce : jetpackForce;
+                        velocity += verticalInput * yForce * t.up;
 
-                    // Forward-Back movement
-                    Vector3 forward = t.forward;
-                    float zForce = isLanded ? moveSpeed : jetpackForce;
-                    velocity += keyInput.y * zForce * forward;
+                        // Forward-Back movement
+                        Vector3 forward = t.forward;
+                        float zForce = isLanded ? moveSpeed : jetpackForce;
+                        velocity += keyInput.y * zForce * forward;
 
-                    return velocity;
+                        return velocity;
+                    }
+                    else
+                    {
+                        Vector3 velocity = Vector3.zero;
+
+                        // Left-Right movement
+                        Vector3 right = t.right;
+                        float xForce =  moveSpeed * 0.5f;
+                        Vector3 velocityx = keyInput.x * xForce * right;
+
+                        // Up-Down movement
+                        float yForce = jumpForce;
+                        Vector3 velocityY = verticalInput * yForce * t.up;
+
+                        // Forward-Back movement
+                        Vector3 forward = t.forward;
+                        float zForce = moveSpeed*0.5f;
+                        Vector3 velocityZ = keyInput.y * zForce * forward;
+
+                        velocity = velocityx + velocityZ + velocityY;
+                        return velocity;
+
+                    }
                 }
                 else
                 {
