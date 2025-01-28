@@ -128,16 +128,34 @@ namespace Gravitas.Demo
             bool isLanded = gravitasBody.IsLanded;
             Vector3 inputVelocity = GetInputVelocity();
 
+            if (!DiffMovement)
+            {
+                if (!isLanded || gravitasBody.Velocity.magnitude < MAX_GROUND_SPEED )
+                {
+                    gravitasBody.AddForce(inputVelocity * Time.deltaTime, ForceMode.VelocityChange);
+                }
+            }
+            if (DiffMovement)
+            {
+                if (isLanded)
+                {
+                    gravitasBody.Velocity = inputVelocity;
+                    gravitasBody.AddForce(new Vector3(0,inputVelocity.y,0) * Time.deltaTime, ForceMode.VelocityChange);
+                }
+                if(!isLanded)
+                {
+                    if(Mathf.Abs(gravitasBody.Velocity.x) > (moveSpeed * 0.3f)|| Mathf.Abs(gravitasBody.Velocity.z) > (moveSpeed * 0.3f))
+                    {
+                        Vector3 normlaisedVel = gravitasBody.Velocity.normalized;
+                        gravitasBody.Velocity =new Vector3(  normlaisedVel.x * (moveSpeed * 0.3f),gravitasBody.Velocity.y, normlaisedVel.z * (moveSpeed * 0.3f));
+                        //gravitasBody.AddForce(inputVelocity * Time.deltaTime, ForceMode.VelocityChange);
 
-            if (!isLanded || gravitasBody.Velocity.magnitude < MAX_GROUND_SPEED )
-            {
-                gravitasBody.AddForce(inputVelocity * Time.deltaTime, ForceMode.VelocityChange);
+                    }
+                    gravitasBody.AddForce(new Vector3(inputVelocity.x, 0, inputVelocity.z) * 5f* Time.deltaTime, ForceMode.VelocityChange);
+                    //gravitasBody.AddForce(inputVelocity * Time.deltaTime, ForceMode.VelocityChange);
+                }
             }
-            if (isLanded && DiffMovement)
-            {
-                gravitasBody.Velocity = inputVelocity;
-                gravitasBody.AddForce(new Vector3(0,inputVelocity.y,0) * Time.deltaTime, ForceMode.VelocityChange);
-            }
+            Debug.Log(gravitasBody.Velocity);
 
             ProcessInteractionRaycast();
             interact = false;
@@ -256,7 +274,7 @@ namespace Gravitas.Demo
 
                         // Left-Right movement
                         Vector3 right = t.right;
-                        float xForce =  moveSpeed * 0.5f;
+                        float xForce =  moveSpeed * 0.3f;
                         Vector3 velocityx = keyInput.x * xForce * right;
 
                         // Up-Down movement
@@ -266,7 +284,7 @@ namespace Gravitas.Demo
 
                         // Forward-Back movement
                         Vector3 forward = t.forward;
-                        float zForce = moveSpeed*0.5f;
+                        float zForce = moveSpeed*0.3f;
                         Vector3 velocityZ = keyInput.y * zForce * forward;
 
                         velocity = velocityx + velocityZ + velocityY;
