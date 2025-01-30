@@ -6,6 +6,7 @@ using System.Globalization;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class SCR_ShipControls : NetworkBehaviour
 {
@@ -115,7 +116,6 @@ public class SCR_ShipControls : NetworkBehaviour
                 }
                 else if (ship.transform.rotation.eulerAngles.x < 180)
                 {
-
                     //Debug.Log(ship.transform.rotation.eulerAngles.x);
                     updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
                 }
@@ -156,21 +156,37 @@ public class SCR_ShipControls : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void updateYawRotServerRPC(float RotationSpeed)
     {
-        Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, RotationSpeed, 0);
-        GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
-        updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
+        Vector3 torque = new Vector3(0, RotationSpeed, 0);
+        //Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, RotationSpeed, 0);
+        //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+        //updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
 
-        updateRotClientRPC(newRot);
+        updateRotClientRPC(torque);
+        //updateRotClientRPC(newRot);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void updateRollRotServerRPC(float RotationSpeed)
     {
-        Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(RotationSpeed, 0, 0);
-        GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
-        updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
+        Vector3 torque = new Vector3(RotationSpeed, 0, 0);
+        //Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(RotationSpeed, 0, 0);
+        //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+        //updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
 
-        updateRotClientRPC(newRot);
+        updateRotClientRPC(torque);
+        //updateRotClientRPC(newRot);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void updatePitchRotServerRPC(float RotationSpeed)
+    {
+        Vector3 torque = new Vector3(0,0, RotationSpeed);   
+        //Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, 0, RotationSpeed);
+        //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+        //updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
+
+        updateRotClientRPC(torque);
+        //updateRotClientRPC(newRot);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -184,15 +200,6 @@ public class SCR_ShipControls : NetworkBehaviour
         updateRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void updatePitchRotServerRPC(float RotationSpeed)
-    {
-        Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, 0, RotationSpeed);
-        GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
-        updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
-
-        updateRotClientRPC(newRot);
-    }
 
     [ServerRpc(RequireOwnership = false)]
     private void resetPitchRotServerRPC()
@@ -215,6 +222,7 @@ public class SCR_ShipControls : NetworkBehaviour
     [ClientRpc]
     private void updateRotClientRPC(Vector3 newRot)
     {
-        GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+        shipRb.AddTorque(newRot, ForceMode.Acceleration);
+        //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
     }
 }
