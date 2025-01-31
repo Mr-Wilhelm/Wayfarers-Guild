@@ -55,7 +55,7 @@ public class SCR_ShipControls : NetworkBehaviour
             currentSpeed.x = shipMaxSpeed;  
             shipRb.Velocity = currentSpeed;
         }
-        bool beep = false;
+        bool changingShipRot = false;
         if (onWheel == true)
         {
             //Yaw Right
@@ -75,76 +75,63 @@ public class SCR_ShipControls : NetworkBehaviour
             //Roll Right
             if(Input.GetKey(KeyCode.E))
             {
-                beep = true;
+                changingShipRot = true;
                 updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
             //Roll Left
             if (Input.GetKey(KeyCode.Q))
             {
-                beep = true;
+                changingShipRot = true;
                 updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
             //Pitch up
             if (Input.GetKey(KeyCode.W))
             {
-                beep = true;
+                changingShipRot = true;
                 updatePitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
             //Roll Left
             if (Input.GetKey(KeyCode.S))
             {
-                beep = true;
+                changingShipRot = true;
+                updatePitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+            }     
+        }
+        if (!changingShipRot)
+        {
+            // Roll Auto-level
+            if (ship.transform.rotation.eulerAngles.x < 2 || ship.transform.rotation.eulerAngles.x > 358)
+            {
+                //Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.x);
+            }
+            else if (ship.transform.rotation.eulerAngles.x < 180)
+            {
+                //Debug.Log(ship.transform.rotation.eulerAngles.x);
+                updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+            }
+            else if (ship.transform.rotation.eulerAngles.x > 180)
+            {
+                //Debug.Log(ship.transform.rotation.eulerAngles.x);
+                updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
+            }
+
+            // Pitch Auto-level
+            if (ship.transform.rotation.eulerAngles.z < 2 || ship.transform.rotation.eulerAngles.z > 358)
+            {
+                //Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.z);
+            }
+            else if (ship.transform.rotation.eulerAngles.z < 180)
+            {
+
+                //Debug.Log(ship.transform.rotation.eulerAngles.z);
                 updatePitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
-
-
-            //if(!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
-            //{
-            //    resetRollRotServerRPC();
-            //}
-            //if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
-            //{
-            //    Debug.Log("No pitching");
-            //    resetPitchRotServerRPC();
-            //}
-            if (!beep)
+            else if (ship.transform.rotation.eulerAngles.z > 180)
             {
-                // Roll Auto-level
-                if (ship.transform.rotation.eulerAngles.x < 2 || ship.transform.rotation.eulerAngles.x > 358)
-                {
-                    //Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.x);
-                }
-                else if (ship.transform.rotation.eulerAngles.x < 180)
-                {
-                    //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                    updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
-                }
-                else if (ship.transform.rotation.eulerAngles.x > 180)
-                {
-                    //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                    updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
-                }
-
-                // Pitch Auto-level
-                if (ship.transform.rotation.eulerAngles.z < 2 || ship.transform.rotation.eulerAngles.z > 358)
-                {
-                    //Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.z);
-                }
-                else if (ship.transform.rotation.eulerAngles.z < 180)
-                {
-
-                    //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                    updatePitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
-                }
-                else if (ship.transform.rotation.eulerAngles.z > 180)
-                {
-                    //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                    updatePitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
-                }
-
+                //Debug.Log(ship.transform.rotation.eulerAngles.z);
+                updatePitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
         }
-        
     }
 
     [ServerRpc(RequireOwnership = false)]

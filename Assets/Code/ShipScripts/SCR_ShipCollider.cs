@@ -12,16 +12,6 @@ public class SCR_ShipCollider : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
-        Debug.Log("Collision");
         ContactPoint contactPoint = collision.contacts[0];
         Vector3 collisionPoint = contactPoint.point;
         Debug.Log("Collision point is: " + collisionPoint);
