@@ -120,12 +120,13 @@ namespace Gravitas.Demo
 
 
                 //TODO Find out why pressing space decides to add left and right force movement?
-                Debug.Log(inputVelocity.x + ", " + inputVelocity.y + ", " + inputVelocity.z);
+                //Debug.Log(inputVelocity.x + ", " + inputVelocity.y + ", " + inputVelocity.z);
 
                 gravitasBody.Velocity = new Vector3(HorizontalComponent.x,inputVelocity.y,HorizontalComponent.y);
 
                 //Debug.Log(HorizontalComponent);
                 //gravitasBody.Velocity = inputVelocity;
+                //Debug.Log(inputVelocity.y);
                 gravitasBody.AddForce(new Vector3(0, inputVelocity.y, 0) * Time.deltaTime, ForceMode.VelocityChange);
             }
 
@@ -244,12 +245,23 @@ namespace Gravitas.Demo
                     float yForce = jumpForce;
                     Vector3 velocityY = verticalInput * yForce * t.up;
 
+                    //Checks to sort of floating point numbers issue
+                    if (velocityY.y > 0f)
+                    {
+                        if (velocityY.x + velocityY.z <= 0.1f)
+                        {
+                            velocityY.x = 0f;
+                            velocityY.z = 0f;
+                        }
+                    }
+
                     // Forward-Back movement
                     Vector3 forward = t.forward;
                     float zForce = moveSpeed;
                     Vector3 velocityZ = keyInput.y * zForce * forward;
 
                     velocity = velocityx + velocityZ + velocityY;
+                  
                     return velocity;
 
                 }
