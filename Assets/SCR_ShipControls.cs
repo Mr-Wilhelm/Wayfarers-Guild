@@ -36,6 +36,11 @@ public class SCR_ShipControls : NetworkBehaviour
         
     }
 
+    private void OnDestroy()
+    {
+        ship.GetComponent<SCR_Airship_Logic>().killField();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
