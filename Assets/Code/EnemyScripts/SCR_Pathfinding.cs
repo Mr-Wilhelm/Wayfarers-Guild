@@ -112,8 +112,47 @@ public class SCR_Pathfinding : MonoBehaviour
             (int)Mathf.Floor(y / nodeSize),    //get the number of nodes for the worlds height, y
             (int)Mathf.Floor(z / nodeSize)];    //get the number of nodes for the worlds depth, z
 
+        Vector3[] directions = new Vector3[]
+        {
+            #region basic directions
+            // basic directions, up, down, left, right, forwards, backwards
+            Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back,
+            #endregion
+
+            #region top layer
+            (Vector3.up + Vector3.right).normalized,    //up right
+            (Vector3.up + Vector3.left).normalized, //up left
+            (Vector3.up + Vector3.forward).normalized, //up forward
+            (Vector3.up + Vector3.back).normalized, //up back
+
+            (Vector3.up + Vector3.right + Vector3.forward).normalized,  //up right forward
+            (Vector3.up + Vector3.left + Vector3.forward).normalized, //up left forward
+            (Vector3.up + Vector3.right + Vector3.back).normalized, //up right back
+            (Vector3.up + Vector3.left + Vector3.back).normalized, //up left back
+            #endregion
+
+            #region middle layer
+            (Vector3.right + Vector3.forward).normalized,   //middle right forward
+            (Vector3.left + Vector3.forward).normalized,    //middle left forward
+            (Vector3.right + Vector3.back).normalized,  //middle right back
+            (Vector3.left + Vector3.back).normalized,   //middle left back
+            #endregion
+
+            #region bottom layer
+            (Vector3.down + Vector3.right).normalized,  //down right
+            (Vector3.down + Vector3.left).normalized,   //down left
+            (Vector3.down + Vector3.forward).normalized,    //down forward
+            (Vector3.down + Vector3.back).normalized,   //down back
+
+            (Vector3.down + Vector3.right + Vector3.forward).normalized,    //down right forward
+            (Vector3.down + Vector3.left + Vector3.forward).normalized, //down left forward
+            (Vector3.down + Vector3.right + Vector3.back).normalized,   //down right back
+            (Vector3.down + Vector3.left + Vector3.back).normalized //diwb left back
+            #endregion
+        };
+
         //iterate through the three dimensional array, going through width, then height, then depth (x, y ,z)
-        for(int i = 0; i < navigationMatrix.GetLength(0); i++)            
+        for (int i = 0; i < navigationMatrix.GetLength(0); i++)            
         {
             for (int j = 0; j < navigationMatrix.GetLength(1); j++)
             {
@@ -125,14 +164,16 @@ public class SCR_Pathfinding : MonoBehaviour
                     //ray cast to the neighbours of the node.
                     //if the ray cast collides with terrain, set passable to false
 
-                    if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize/2, layerMask))
-                    {
-                        navigationMatrix[i, j, k].passable = false;
-                    }
-                    else
-                    {
-                        navigationMatrix[i, j, k].passable = true;
-                    }
+
+
+                    //if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize/2, layerMask))
+                    //{
+                    //    navigationMatrix[i, j, k].passable = false;
+                    //}
+                    //else
+                    //{
+                    //    navigationMatrix[i, j, k].passable = true;
+                    //}
 
                     navigationMatrix[i, j, k] = navigationMatrix[i, j, k].assignNeighbours(i, j, k, (int)Mathf.Floor(x / nodeSize), (int)Mathf.Floor(y / nodeSize), (int)Mathf.Floor(z / nodeSize));
                 }
