@@ -202,7 +202,7 @@ public class SCR_Pathfinding : MonoBehaviour
                             rayLength,
                             layerMask))  //fire a ray in that direction, with a length of nodesize / 2
                         {
-                            Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
+                            //Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
                             navigationMatrix[i, j, k].passable = false;
                         }
 
@@ -322,26 +322,26 @@ public class SCR_Pathfinding : MonoBehaviour
         return newPath;
     }
 
-    void OnDrawGizmos()
-    {
-        if (navigationMatrix != null)
-        {
-            foreach (gridNode node in navigationMatrix)
-            {
-                if (node.passable)
-                {
-                    Gizmos.color = nodeDebugColourPassable;
-                }
-                else
-                {
-                    Gizmos.color = nodeDebugColourImpassable;
-                }
+    //void OnDrawGizmos()
+    //{
+    //    if (navigationMatrix != null)
+    //    {
+    //        foreach (gridNode node in navigationMatrix)
+    //        {
+    //            if (node.passable)
+    //            {
+    //                Gizmos.color = nodeDebugColourPassable;
+    //            }
+    //            else
+    //            {
+    //                Gizmos.color = nodeDebugColourImpassable;
+    //            }
                 
-                Gizmos.DrawSphere(node.position, 1);
-            }
-        }
+    //            Gizmos.DrawSphere(node.position, 1);
+    //        }
+    //    }
         
-    }
+    //}
 
     
     //This entire class is heavily AI assisted.
