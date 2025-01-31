@@ -119,15 +119,12 @@ namespace Gravitas.Demo
                 HorizontalComponent *= moveSpeed;
 
 
-                //TODO Find out why pressing space decides to add left and right force movement?
-                //Debug.Log(inputVelocity.x + ", " + inputVelocity.y + ", " + inputVelocity.z);
 
+                //We dont want the jump to be normalised
+                //Set the player velocity
                 gravitasBody.Velocity = new Vector3(HorizontalComponent.x,inputVelocity.y,HorizontalComponent.y);
 
-                //Debug.Log(HorizontalComponent);
-                //gravitasBody.Velocity = inputVelocity;
-                //Debug.Log(inputVelocity.y);
-                gravitasBody.AddForce(new Vector3(0, inputVelocity.y, 0) * Time.deltaTime, ForceMode.VelocityChange);
+ 
             }
 
             //Controlls the velocity and force when in air
