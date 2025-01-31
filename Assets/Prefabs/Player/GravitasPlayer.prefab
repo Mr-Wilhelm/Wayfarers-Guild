@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8938185879831433393}
   - component: {fileID: 6677807439807493320}
   - component: {fileID: 6395319205621110177}
+  - component: {fileID: 1446695601757579563}
   m_Layer: 2
   m_Name: GravitasPlayer
   m_TagString: Player
@@ -202,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2650615169
+  GlobalObjectIdHash: 3449801546
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -441,7 +442,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2901272450876613093}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2250eadcf5da284f85ae3e04697eeef, type: 3}
   m_Name: 
@@ -458,6 +459,28 @@ MonoBehaviour:
   pitchRollResetSpeed: 0.3
   rollResetThreshold: 5
   pitchResetThreshold: 5
+--- !u!114 &1446695601757579563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c87f539fd4b0d54dbb89704f327ab14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onWheel: 0
+  ship: {fileID: 0}
+  shipRb: {fileID: 0}
+  shipAcceleration: 8.5
+  shipTurnSpeed: 7.5
+  shipHealth: 10
+  shipMaxSpeed: 25
+  shipPos:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  pitchRollResetSpeed: 0.3
 --- !u!1 &4691975859331995007
 GameObject:
   m_ObjectHideFlags: 0
