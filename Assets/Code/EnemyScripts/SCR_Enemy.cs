@@ -48,7 +48,7 @@ public class SCR_Enemy : MonoBehaviour
 
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
 
-        UpdatePath();
+        //UpdatePath();
     }
     // Update is called once per frame
     void Update()
@@ -78,8 +78,8 @@ public class SCR_Enemy : MonoBehaviour
     }
     private void UpdatePath()
     {
-        var pathNodes = enemyPathFinder.FindPath(currentPos, moveTarget.transform.position);    //find the path between the current pos and the target
-        Vector3 prevPos = currentPos;
+        var pathNodes = enemyPathFinder.FindPath(transform.position, moveTarget.transform.position);    //find the path between the current pos and the target
+        Vector3 prevPos = transform.position;
         foreach (var node in pathNodes)
         {
             Debug.DrawLine(prevPos, node, Color.red, 0.5f);

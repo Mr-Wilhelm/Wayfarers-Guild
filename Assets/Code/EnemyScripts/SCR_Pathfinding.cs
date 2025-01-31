@@ -184,22 +184,28 @@ public class SCR_Pathfinding : MonoBehaviour
 
                         float rayLength = Mathf.Sqrt(Mathf.Pow(nodeSize, 2) + Mathf.Pow(nodeSize, 2) + (Mathf.Pow(nodeSize, 2)));
 
-                        
 
 
+
+                        //if (Physics.Raycast(
+                        //    navigationMatrix[i, j, k].position,
+                        //    dir, out hit,
+                        //    rayLength / 2,
+                        //    layerMask))  //fire a ray in that direction, with a length of nodesize / 2
+                        //{
+                        //    Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
+                        //    navigationMatrix[i, j, k].passable = false; 
+                        //}
                         if (Physics.Raycast(
-                            navigationMatrix[i, j, k].position, 
-                            dir, out hit, 
-                            rayLength/2, 
+                            navigationMatrix[i, j, k].position + (dir * (rayLength)),
+                            -dir, out hit,
+                            rayLength,
                             layerMask))  //fire a ray in that direction, with a length of nodesize / 2
                         {
-                            //Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
-                            navigationMatrix[i, j, k].passable = false; 
+                            Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
+                            navigationMatrix[i, j, k].passable = false;
                         }
-                        else
-                        {
-                            //Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourPassable, 100000.0f);
-                        }
+
                     }
 
 
@@ -239,7 +245,6 @@ public class SCR_Pathfinding : MonoBehaviour
 
         while (sortedOpenList.Count > 0)  //while there are nodes in the open list
         {
-            iterator++;
             //gridNode currentNode = navigationMatrix[(int)openList[0].x, (int)openList[0].y, (int)openList[0].z]; //current node is the first entry in the list (currently the only one, and the one it is at
             gridNode currentNode = sortedOpenList.Min;
             sortedOpenList.Remove(currentNode);
