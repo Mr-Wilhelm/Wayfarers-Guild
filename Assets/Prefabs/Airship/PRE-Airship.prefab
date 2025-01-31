@@ -130,9 +130,9 @@ GameObject:
   - component: {fileID: 3862583868586302060}
   - component: {fileID: 7719117898313359212}
   - component: {fileID: 6094857185372489301}
-  m_Layer: 2
+  m_Layer: 13
   m_Name: airship_cockpit_support
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -217,7 +217,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281480536609800652}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3fafd698b5ff7d4d87687df6bcea2b9, type: 3}
   m_Name: 
@@ -241,7 +241,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4096
-  bounceForce: 10
+  bounceForce: 10000000
   shipRB: {fileID: 1526133519715437570}
 --- !u!1 &291926840844022887
 GameObject:
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2508096769
+  GlobalObjectIdHash: 2033395026
   InScenePlacedSourceGlobalObjectIdHash: 1728072267
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1208,9 +1208,9 @@ GameObject:
   - component: {fileID: 8403345300573425056}
   - component: {fileID: 4106437396489135224}
   - component: {fileID: 2878389680747207929}
-  m_Layer: 2
+  m_Layer: 13
   m_Name: airship_balloon
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1295,7 +1295,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797550200692736643}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3fafd698b5ff7d4d87687df6bcea2b9, type: 3}
   m_Name: 
@@ -1319,7 +1319,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4096
-  bounceForce: 10
+  bounceForce: 10000000
   shipRB: {fileID: 1526133519715437570}
 --- !u!1 &1985410097812184606
 GameObject:
@@ -2042,7 +2042,7 @@ GameObject:
   - component: {fileID: 4339317143299538861}
   m_Layer: 0
   m_Name: Gravitas Manager
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2344,9 +2344,9 @@ GameObject:
   - component: {fileID: 1515480578441284708}
   - component: {fileID: 4812060099820053571}
   - component: {fileID: 165238316120849246}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: airship_lower_hull
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2431,7 +2431,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2447,7 +2447,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5403208117182151824}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3fafd698b5ff7d4d87687df6bcea2b9, type: 3}
   m_Name: 
@@ -2455,7 +2455,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4096
-  bounceForce: 10
+  bounceForce: 10000000
   shipRB: {fileID: 1526133519715437570}
 --- !u!1 &5719966978680131916
 GameObject:
@@ -2501,9 +2501,9 @@ GameObject:
   - component: {fileID: 4388525408564836345}
   - component: {fileID: 4055051661648470176}
   - component: {fileID: 7776689624315404089}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: airship_front_window
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2588,7 +2588,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2604,7 +2604,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5894603582123955807}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3fafd698b5ff7d4d87687df6bcea2b9, type: 3}
   m_Name: 
@@ -2612,7 +2612,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4096
-  bounceForce: 10
+  bounceForce: 10000000
   shipRB: {fileID: 1526133519715437570}
 --- !u!1 &6096034285795481059
 GameObject:
@@ -2775,9 +2775,9 @@ GameObject:
   - component: {fileID: 5244308265641374502}
   - component: {fileID: 3590850644763217465}
   - component: {fileID: 1594221289720100343}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: airship_upper_hull
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2862,7 +2862,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -2878,7 +2878,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6369612568853466063}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3fafd698b5ff7d4d87687df6bcea2b9, type: 3}
   m_Name: 
@@ -2886,7 +2886,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4096
-  bounceForce: 10
+  bounceForce: 10000000
   shipRB: {fileID: 1526133519715437570}
 --- !u!1 &6475696086278338636
 GameObject:
@@ -3152,7 +3152,7 @@ GameObject:
   - component: {fileID: 6838547079305252604}
   m_Layer: 2
   m_Name: RoundDoorCollider
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3206,9 +3206,9 @@ GameObject:
   - component: {fileID: 8634842090117121140}
   - component: {fileID: 2953544048391451088}
   - component: {fileID: 514626402761118472}
-  m_Layer: 2
+  m_Layer: 13
   m_Name: airship_balloon_frame
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3293,7 +3293,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -3309,7 +3309,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7444909411842374291}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3fafd698b5ff7d4d87687df6bcea2b9, type: 3}
   m_Name: 
@@ -3317,7 +3317,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4096
-  bounceForce: 10
+  bounceForce: 10000000
   shipRB: {fileID: 1526133519715437570}
 --- !u!1 &7671319666553040455
 GameObject:
@@ -3393,7 +3393,7 @@ GameObject:
   - component: {fileID: 6930388052937967928}
   m_Layer: 2
   m_Name: RoundDoorCollider (1)
-  m_TagString: Untagged
+  m_TagString: Ship
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3813,6 +3813,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: basic_door
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e5c49fcf01d591a40b52595ecdc9c40a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -3935,6 +3940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 42a29fe94d8bb6643a66c3d1c380b5d0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4061,6 +4071,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: engineroom side window (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9474d24d2036b454d88abad2e8720070,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 6593526574420322473, guid: 9474d24d2036b454d88abad2e8720070,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4155,6 +4170,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: bridge side window narrow (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c59ed2002d28004498879c3a41462c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 4822282214243315355, guid: 5c59ed2002d28004498879c3a41462c9,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4248,6 +4268,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: engineroom side window (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9474d24d2036b454d88abad2e8720070,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 6593526574420322473, guid: 9474d24d2036b454d88abad2e8720070,
         type: 3}
@@ -4347,6 +4372,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: long cage light
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4560,6 +4590,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e0c935a41a45c814da6b140872e95431,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4694,6 +4729,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da03b66566d89d044a98863b1a994b5e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 3331743262113846594, guid: da03b66566d89d044a98863b1a994b5e,
         type: 3}
@@ -4849,6 +4889,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b50f5f4ac80dd544e983391205d66ec7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 5380204453299584952, guid: b50f5f4ac80dd544e983391205d66ec7,
         type: 3}
@@ -5014,6 +5059,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d55f418fdc1385343a5c97b01eb73a51,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5192,6 +5242,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2450fcee249280646a8fe2fb3eb8979b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 6690239005335468874, guid: 2450fcee249280646a8fe2fb3eb8979b,
         type: 3}
       propertyPath: m_Layer
@@ -5327,6 +5382,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -5449,6 +5509,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 93b6bcb23341caa4ebf2e94547d61087,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5580,6 +5645,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -5672,6 +5742,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: engineroom side window (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9474d24d2036b454d88abad2e8720070,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 6593526574420322473, guid: 9474d24d2036b454d88abad2e8720070,
         type: 3}
@@ -5766,6 +5841,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: engineroom side window (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9474d24d2036b454d88abad2e8720070,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 6593526574420322473, guid: 9474d24d2036b454d88abad2e8720070,
         type: 3}
@@ -5950,6 +6030,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6048,6 +6133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall - crew quarters
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 127e95b3e6f66a242b686e2e3dbca620,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6136,6 +6226,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: wall - storage
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 972fb52b925ba684683723bc2a6f97dc,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 1900350036352125362, guid: 972fb52b925ba684683723bc2a6f97dc,
         type: 3}
@@ -6235,6 +6330,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: long cage light (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6348,6 +6448,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 269249a234a012a45a9585a7fbbfdc79,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6474,6 +6579,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: engineroom side window (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9474d24d2036b454d88abad2e8720070,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 6593526574420322473, guid: 9474d24d2036b454d88abad2e8720070,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -6573,6 +6683,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6670,6 +6785,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: wall - engineroom
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b772c0f3b6b3e674780ccf15f9eb3d1a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6769,6 +6889,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 46289a152f56f944382968c7a91f354c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 1503241887007864755, guid: 46289a152f56f944382968c7a91f354c,
         type: 3}
@@ -6915,6 +7040,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -7012,6 +7142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c84fc9276f89a1c44ae63dbedb9ab73f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 1485698974405828983, guid: c84fc9276f89a1c44ae63dbedb9ab73f,
         type: 3}
@@ -7168,6 +7303,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -7266,6 +7406,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: bridge side window large (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f211b3fb8b5ba624ebccad4c9c89b2f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7360,6 +7505,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -7452,6 +7602,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window narrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c59ed2002d28004498879c3a41462c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4822282214243315355, guid: 5c59ed2002d28004498879c3a41462c9,
         type: 3}
@@ -7546,6 +7701,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: side window long
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 5359572174461653307, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
         type: 3}
@@ -7656,6 +7816,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret - access tube mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ceecde2b28023a4408441fdd6cfa6c3c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 2699114821029393880, guid: ceecde2b28023a4408441fdd6cfa6c3c,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -7749,6 +7914,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: side window long (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 5359572174461653307, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
         type: 3}
@@ -7853,6 +8023,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 061b678bd0cc244458c73da14d83e420,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4418441107175701473, guid: 061b678bd0cc244458c73da14d83e420,
         type: 3}
@@ -7984,6 +8159,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: side window long (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 5359572174461653307, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -8077,6 +8257,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window small (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 858f458a0a679f046b723d5e97981b50,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 7171455656205924515, guid: 858f458a0a679f046b723d5e97981b50,
         type: 3}
@@ -8176,6 +8361,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 12be1ebbd1c39a749825cb6c496a27a6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4955313569825039201, guid: 12be1ebbd1c39a749825cb6c496a27a6,
         type: 3}
@@ -8309,6 +8499,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -8406,6 +8601,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: long cage light (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8505,6 +8705,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -8597,6 +8802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Turret - access tube frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cdb6492e4ca76e448bb373f6a34076a0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 3829624986380546851, guid: cdb6492e4ca76e448bb373f6a34076a0,
         type: 3}
@@ -8706,6 +8916,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window narrow (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c59ed2002d28004498879c3a41462c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4822282214243315355, guid: 5c59ed2002d28004498879c3a41462c9,
         type: 3}
@@ -8820,6 +9035,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d7320366d5600a4fa0cce377f3dd468,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 7904005486462865726, guid: 7d7320366d5600a4fa0cce377f3dd468,
         type: 3}
@@ -8955,6 +9175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window large
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f211b3fb8b5ba624ebccad4c9c89b2f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9276,6 +9501,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 047278873d8075842999abf5b9de4327,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -9455,6 +9685,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 79212ffe479733b44ba59943acfe180a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 1103103543205516970, guid: 79212ffe479733b44ba59943acfe180a,
         type: 3}
       propertyPath: m_Layer
@@ -9605,6 +9840,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: engineroom side window (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9474d24d2036b454d88abad2e8720070,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 6593526574420322473, guid: 9474d24d2036b454d88abad2e8720070,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -9703,6 +9943,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: long cage light (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9816,6 +10061,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cfe61641eb83fb9459b747f45fcc0438,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9942,6 +10192,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bridge front windo
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 12be1ebbd1c39a749825cb6c496a27a6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 4955313569825039201, guid: 12be1ebbd1c39a749825cb6c496a27a6,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -10035,6 +10290,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window narrow (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c59ed2002d28004498879c3a41462c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4822282214243315355, guid: 5c59ed2002d28004498879c3a41462c9,
         type: 3}
@@ -10135,6 +10395,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: basic_door (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e5c49fcf01d591a40b52595ecdc9c40a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -10227,6 +10492,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window narrow (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c59ed2002d28004498879c3a41462c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4822282214243315355, guid: 5c59ed2002d28004498879c3a41462c9,
         type: 3}
@@ -10327,6 +10597,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -10425,6 +10700,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: long cage light (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 374d7a58c64d0fe47b5b82f6219ada97,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -10517,6 +10797,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: side window long (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 5359572174461653307, guid: 2c42a7d024d7ad64a8b6ea57f2443d1b,
         type: 3}
@@ -10641,6 +10926,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9e810538c0dd68489982504f9ea0c3a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10777,6 +11067,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 061b678bd0cc244458c73da14d83e420,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 4418441107175701473, guid: 061b678bd0cc244458c73da14d83e420,
         type: 3}
       propertyPath: m_Layer
@@ -10907,6 +11202,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: bridge side window small (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 858f458a0a679f046b723d5e97981b50,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
+      objectReference: {fileID: 0}
     - target: {fileID: 7171455656205924515, guid: 858f458a0a679f046b723d5e97981b50,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -11000,6 +11300,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: bridge side window narrow (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c59ed2002d28004498879c3a41462c9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 4822282214243315355, guid: 5c59ed2002d28004498879c3a41462c9,
         type: 3}
