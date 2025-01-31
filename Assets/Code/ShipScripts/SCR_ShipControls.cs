@@ -177,18 +177,16 @@ public class SCR_ShipControls : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void resetRollRotServerRPC(float RotationSpeed)
     {
-        Quaternion currentRotation = ship.transform.rotation;
-        Quaternion newRot = Quaternion.Euler(currentRotation.x, currentRotation.y, 0);
-        resetRotClientRPC(new Vector3(newRot.x, newRot.y, newRot.z));
+        Vector3 newRot = ship.transform.rotation.eulerAngles + new Vector3(RotationSpeed, 0, 0);   
+        resetRotClientRPC(newRot);
     }
 
 
     [ServerRpc(RequireOwnership = false)]
     private void resetPitchRotServerRPC(float RotationSpeed)
     {
-        Quaternion currentRotation = ship.transform.rotation;
-        Quaternion newRot = Quaternion.Euler(0, currentRotation.y, currentRotation.z);
-        resetRotClientRPC(new Vector3(newRot.x, newRot.y, newRot.z));
+        Vector3 newRot = ship.transform.rotation.eulerAngles + new Vector3(0, 0, RotationSpeed);
+        resetRotClientRPC(newRot);
     }
 
     [ClientRpc]
