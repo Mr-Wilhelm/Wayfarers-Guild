@@ -25,6 +25,10 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public GameObject debugPrefab;
 
+    [SerializeField]
+    private Vector4 nodeDebugColour;
+
+
 
     //public GameObject target;
     public struct gridNode
@@ -116,38 +120,44 @@ public class SCR_Pathfinding : MonoBehaviour
         {
             #region basic directions
             // basic directions, up, down, left, right, forwards, backwards
-            Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back,
+            (Vector3.up).normalized,
+            (Vector3.down).normalized,
+            (Vector3.left).normalized,
+            (Vector3.right).normalized,
+            (Vector3.forward).normalized,
+            (Vector3.back).normalized,
             #endregion
 
             #region top layer
-            (Vector3.up + Vector3.right).normalized,    //up right
-            (Vector3.up + Vector3.left).normalized, //up left
-            (Vector3.up + Vector3.forward).normalized, //up forward
-            (Vector3.up + Vector3.back).normalized, //up back
+            (Vector3.up + Vector3.right).normalized,   //up right
+            (Vector3.up + Vector3.left).normalized,   //up left
+            (Vector3.up + Vector3.forward).normalized,   //up forward
+            (Vector3.up + Vector3.back).normalized,   //up back
 
-            (Vector3.up + Vector3.right + Vector3.forward).normalized,  //up right forward
+            (Vector3.up + Vector3.right + Vector3.forward).normalized, //up right forward
             (Vector3.up + Vector3.left + Vector3.forward).normalized, //up left forward
-            (Vector3.up + Vector3.right + Vector3.back).normalized, //up right back
-            (Vector3.up + Vector3.left + Vector3.back).normalized, //up left back
+            (Vector3.up + Vector3.right + Vector3.back).normalized, //up right backward
+            (Vector3.up + Vector3.left + Vector3.back).normalized, //up left backward
+
             #endregion
 
             #region middle layer
             (Vector3.right + Vector3.forward).normalized,   //middle right forward
-            (Vector3.left + Vector3.forward).normalized,    //middle left forward
-            (Vector3.right + Vector3.back).normalized,  //middle right back
-            (Vector3.left + Vector3.back).normalized,   //middle left back
+            (Vector3.left + Vector3.forward).normalized,   //middle left forward
+            (Vector3.right + Vector3.back).normalized,   //middle right backward
+            (Vector3.left + Vector3.back).normalized,   //middle left backward
             #endregion
 
             #region bottom layer
-            (Vector3.down + Vector3.right).normalized,  //down right
+            (Vector3.down + Vector3.right).normalized,   //down right
             (Vector3.down + Vector3.left).normalized,   //down left
-            (Vector3.down + Vector3.forward).normalized,    //down forward
+            (Vector3.down + Vector3.forward).normalized,   //down forward
             (Vector3.down + Vector3.back).normalized,   //down back
 
-            (Vector3.down + Vector3.right + Vector3.forward).normalized,    //down right forward
+            (Vector3.down + Vector3.right + Vector3.forward).normalized, //down right forward
             (Vector3.down + Vector3.left + Vector3.forward).normalized, //down left forward
-            (Vector3.down + Vector3.right + Vector3.back).normalized,   //down right back
-            (Vector3.down + Vector3.left + Vector3.back).normalized //diwb left back
+            (Vector3.down + Vector3.right + Vector3.back).normalized, //down right backward
+            (Vector3.down + Vector3.left + Vector3.back).normalized, //down left backward
             #endregion
         };
 
@@ -161,9 +171,36 @@ public class SCR_Pathfinding : MonoBehaviour
                     navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize);
                     navigationMatrix[i, j, k].index = new Vector3(i, j, k);
 
+                    navigationMatrix[i, j, k].passable = true;
+
                     //ray cast to the neighbours of the node.
                     //if the ray cast collides with terrain, set passable to false
+                    foreach (Vector3 dir in directions) //iterate through all directions
+                    {
+                        RaycastHit hit;
 
+                        float rayLength = Mathf.Sqrt(Mathf.Pow(nodeSize, 2) + Mathf.Pow(nodeSize, 2) + (Mathf.Pow(nodeSize, 2)));
+
+                        if(i == 1 && j == 1 && k == 1)
+                        {
+                            Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength, nodeDebugColour, 100000.0f);
+                        }
+
+
+                        if (Physics.Raycast(
+                            navigationMatrix[i, j, k].position, 
+                            dir, out hit, 
+                            rayLength, 
+                            layerMask))  //fire a ray in that direction, with a length of nodesize / 2
+                        {
+                            if(hit.transform.gameObject.tag == "obstacle")
+                            {
+                                //Debug.Log("Hit object with that" + hit.transform.gameObject.tag);
+                                navigationMatrix[i, j, k].passable = false; //this doesn't work
+                                break;
+                            }
+                        }
+                    }
 
 
                     //if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize/2, layerMask))
@@ -278,6 +315,32 @@ public class SCR_Pathfinding : MonoBehaviour
 
         //return the path
         return newPath;
+    }
+
+    public void OnDrawGizmos()
+    {
+        foreach(gridNode node in navigationMatrix)
+        {
+            Gizmos.color = nodeDebugColour;
+            Gizmos.DrawSphere(node.position, 1);
+        }
+    }
+
+    private Vector3 NormaliseKeepingSign(Vector3 vector)
+    {
+        Debug.Log("-----------------------------");
+        Debug.Log(vector);
+
+        Vector3 oldVector = vector;
+        Debug.Log(oldVector.normalized);
+        Debug.Log("Normalisex X: " + oldVector.normalized.x);
+        vector.x = (oldVector.normalized.x) * Mathf.Sign(oldVector.x);
+        vector.y = (oldVector.normalized.y) * Mathf.Sign(oldVector.y);
+        vector.z = (oldVector.normalized.z) * Mathf.Sign(oldVector.z);
+
+        Debug.Log(vector);
+        Debug.Log("-----------------------------");
+        return vector;
     }
 
     //This entire class is heavily AI assisted.
