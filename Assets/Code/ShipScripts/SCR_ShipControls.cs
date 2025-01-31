@@ -110,12 +110,12 @@ public class SCR_ShipControls : NetworkBehaviour
             else if (ship.transform.rotation.eulerAngles.x < 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                resetRollRotServerRPC();
+                resetRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
             else if (ship.transform.rotation.eulerAngles.x > 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                resetRollRotServerRPC();
+                resetRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
 
             // Pitch Auto-level
@@ -127,12 +127,12 @@ public class SCR_ShipControls : NetworkBehaviour
             {
 
                 //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                resetPitchRotServerRPC();
+                resetPitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
             else if (ship.transform.rotation.eulerAngles.z > 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                resetPitchRotServerRPC();
+                resetPitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
         }
     }
@@ -175,26 +175,20 @@ public class SCR_ShipControls : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void resetRollRotServerRPC()
+    private void resetRollRotServerRPC(float RotationSpeed)
     {
         Quaternion currentRotation = ship.transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(0, currentRotation.eulerAngles.y, currentRotation.eulerAngles.z);
-        Quaternion newRotation = Quaternion.Lerp(currentRotation, targetRotation, pitchRollResetSpeed * Time.deltaTime);
-
-        ship.transform.rotation = newRotation;
-        resetRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
+        Quaternion newRot = Quaternion.Euler(currentRotation.x, currentRotation.y, 0);
+        resetRotClientRPC(new Vector3(newRot.x, newRot.y, newRot.z));
     }
 
 
     [ServerRpc(RequireOwnership = false)]
-    private void resetPitchRotServerRPC()
+    private void resetPitchRotServerRPC(float RotationSpeed)
     {
-        Quaternion currentRotation =ship.transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, 0);
-        Quaternion newRotation = Quaternion.Lerp(currentRotation, targetRotation, pitchRollResetSpeed * Time.deltaTime);
-
-        ship.transform.rotation = newRotation;
-        resetRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
+        Quaternion currentRotation = ship.transform.rotation;
+        Quaternion newRot = Quaternion.Euler(0, currentRotation.y, currentRotation.z);
+        resetRotClientRPC(new Vector3(newRot.x, newRot.y, newRot.z));
     }
 
     [ClientRpc]
