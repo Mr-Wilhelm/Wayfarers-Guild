@@ -32,6 +32,9 @@ public class SCR_ShipControls : NetworkBehaviour
 
     [SerializeField] private float pitchRollResetSpeed;
 
+    [SerializeField] private float rollResetThreshold = 5f;
+    [SerializeField] private float pitchResetThreshold = 5f;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -107,12 +110,12 @@ public class SCR_ShipControls : NetworkBehaviour
             else if (ship.transform.rotation.eulerAngles.x < 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+                resetRollRotServerRPC();
             }
             else if (ship.transform.rotation.eulerAngles.x > 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
+                resetRollRotServerRPC();
             }
 
             // Pitch Auto-level
@@ -124,12 +127,12 @@ public class SCR_ShipControls : NetworkBehaviour
             {
 
                 //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                updatePitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+                resetPitchRotServerRPC();
             }
             else if (ship.transform.rotation.eulerAngles.z > 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                updatePitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
+                resetPitchRotServerRPC();
             }
         }
     }
@@ -168,35 +171,30 @@ public class SCR_ShipControls : NetworkBehaviour
     private void updatePitchRotServerRPC(float RotationSpeed)
     {
         Vector3 torque = new Vector3(0,0, RotationSpeed);   
-        //Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(0, 0, RotationSpeed);
-        //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
-        //updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
-
         updateRotClientRPC(torque);
-        //updateRotClientRPC(newRot);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void resetRollRotServerRPC()
     {
-        Quaternion currentRotation = GameObject.Find("PRE-Airship").transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(0, currentRotation.eulerAngles.y, currentRotation.eulerAngles.z); // Reset roll to 0
+        Quaternion currentRotation = ship.transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(0, currentRotation.eulerAngles.y, currentRotation.eulerAngles.z);
         Quaternion newRotation = Quaternion.Lerp(currentRotation, targetRotation, pitchRollResetSpeed * Time.deltaTime);
 
-        GameObject.Find("PRE-Airship").transform.rotation = newRotation;
-        updateRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
+        ship.transform.rotation = newRotation;
+        resetRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
     }
 
 
     [ServerRpc(RequireOwnership = false)]
     private void resetPitchRotServerRPC()
     {
-        Quaternion currentRotation = GameObject.Find("PRE-Airship").transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, 0); // Reset roll to 0
+        Quaternion currentRotation =ship.transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(currentRotation.eulerAngles.x, currentRotation.eulerAngles.y, 0);
         Quaternion newRotation = Quaternion.Lerp(currentRotation, targetRotation, pitchRollResetSpeed * Time.deltaTime);
 
-        GameObject.Find("PRE-Airship").transform.rotation = newRotation;
-        updateRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
+        ship.transform.rotation = newRotation;
+        resetRotClientRPC(new Vector3(newRotation.x, newRotation.y, newRotation.z));
     }
 
     [ClientRpc]
@@ -211,5 +209,11 @@ public class SCR_ShipControls : NetworkBehaviour
     {
         shipRb.AddTorque(newRot, ForceMode.Acceleration);
         //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
+    }
+
+    [ClientRpc]
+    private void resetRotClientRPC(Vector3 newRot)
+    {
+        ship.transform.rotation = Quaternion.Euler(newRot);
     }
 }
