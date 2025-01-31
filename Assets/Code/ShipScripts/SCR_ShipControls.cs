@@ -110,12 +110,12 @@ public class SCR_ShipControls : NetworkBehaviour
             else if (ship.transform.rotation.eulerAngles.x < 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                resetRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+                updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
             else if (ship.transform.rotation.eulerAngles.x > 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.x);
-                resetRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
+                updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
 
             // Pitch Auto-level
@@ -127,12 +127,12 @@ public class SCR_ShipControls : NetworkBehaviour
             {
 
                 //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                resetPitchRotServerRPC(-shipTurnSpeed * Time.deltaTime);
+                updateRollRotServerRPC(-shipTurnSpeed * Time.deltaTime);
             }
             else if (ship.transform.rotation.eulerAngles.z > 180)
             {
                 //Debug.Log(ship.transform.rotation.eulerAngles.z);
-                resetPitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
+                updateRollRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
         }
     }
@@ -159,12 +159,8 @@ public class SCR_ShipControls : NetworkBehaviour
     private void updateRollRotServerRPC(float RotationSpeed)
     {
         Vector3 torque = new Vector3(RotationSpeed, 0, 0);
-        //Vector3 newRot = GameObject.Find("PRE-Airship").transform.rotation.eulerAngles + new Vector3(RotationSpeed, 0, 0);
-        //GameObject.Find("PRE-Airship").transform.rotation = Quaternion.Euler(newRot);
-        //updateRotClientRPC(new Vector3(GameObject.Find("PRE-Airship").transform.rotation.x, GameObject.Find("PRE-Airship").transform.rotation.y, GameObject.Find("PRE-Airship").transform.rotation.z));
-
+        
         updateRotClientRPC(torque);
-        //updateRotClientRPC(newRot);
     }
 
     [ServerRpc(RequireOwnership = false)]
