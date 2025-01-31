@@ -110,19 +110,15 @@ namespace Gravitas.Demo
             //sets the players velocity and adds a jump force
             if (isLanded)
             {
-                //Vector3 normalisedVel = gravitasBody.Velocity.normalized;
-                //gravitasBody.Velocity = new Vector3(normalisedVel.x * moveSpeed, gravitasBody.Velocity.y, normalisedVel.z * moveSpeed);
-
-                //gravitasBody.Velocity = inputVelocity.normalized * moveSpeed;
-
-                Vector2 HorizontalComponent = new Vector2(inputVelocity.x, inputVelocity.z).normalized;
-                HorizontalComponent *= moveSpeed;
+                //Normalises the Horizontal velocity to fix walking at diagnoals speeds
+                Vector2 horizontalComponent = new Vector2(inputVelocity.x, inputVelocity.z).normalized;
+                horizontalComponent *= moveSpeed;
 
 
 
                 //We dont want the jump to be normalised
                 //Set the player velocity
-                gravitasBody.Velocity = new Vector3(HorizontalComponent.x,inputVelocity.y,HorizontalComponent.y);
+                gravitasBody.Velocity = new Vector3(horizontalComponent.x,inputVelocity.y,horizontalComponent.y);
 
  
             }
@@ -133,8 +129,8 @@ namespace Gravitas.Demo
                 //clamps the velocity
                 if (Mathf.Abs(gravitasBody.Velocity.x) > moveSpeed || Mathf.Abs(gravitasBody.Velocity.z) > moveSpeed)
                 {
-                    Vector3 normlaisedVel = gravitasBody.Velocity.normalized;
-                    gravitasBody.Velocity = new Vector3(normlaisedVel.x * moveSpeed, gravitasBody.Velocity.y, normlaisedVel.z * moveSpeed);
+                    Vector3 normalisedAirVelocity = gravitasBody.Velocity.normalized;
+                    gravitasBody.Velocity = new Vector3(normalisedAirVelocity.x * moveSpeed, gravitasBody.Velocity.y, normalisedAirVelocity.z * moveSpeed);
                 }
 
                 //adds air controll
@@ -233,10 +229,9 @@ namespace Gravitas.Demo
                 {
                     Vector3 velocity = Vector3.zero;
 
-                    // Left-Right movement
-                    Vector3 right = t.right;
+                    //Left-Right movement
                     float xForce = moveSpeed;
-                    Vector3 velocityx = keyInput.x * xForce * right;
+                    Vector3 velocityX = keyInput.x * xForce * t.right;
 
                     // Up-Down movement
                     float yForce = jumpForce;
@@ -252,12 +247,13 @@ namespace Gravitas.Demo
                         }
                     }
 
-                    // Forward-Back movement
-                    Vector3 forward = t.forward;
+                    //Forward-Back movement
                     float zForce = moveSpeed;
-                    Vector3 velocityZ = keyInput.y * zForce * forward;
+                    Vector3 velocityZ = keyInput.y * zForce * t.forward;
 
-                    velocity = velocityx + velocityZ + velocityY;
+
+                    //Adding all velocity Vectors together
+                    velocity = velocityX + velocityY + velocityZ;
                   
                     return velocity;
 
