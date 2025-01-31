@@ -26,7 +26,10 @@ public class SCR_Pathfinding : MonoBehaviour
     public GameObject debugPrefab;
 
     [SerializeField]
-    private Vector4 nodeDebugColour;
+    private Vector4 nodeDebugColourPassable;
+
+    [SerializeField]
+    private Vector4 nodeDebugColourImpassable;
 
 
 
@@ -181,24 +184,21 @@ public class SCR_Pathfinding : MonoBehaviour
 
                         float rayLength = Mathf.Sqrt(Mathf.Pow(nodeSize, 2) + Mathf.Pow(nodeSize, 2) + (Mathf.Pow(nodeSize, 2)));
 
-                        if(i == 1 && j == 1 && k == 1)
-                        {
-                            Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength, nodeDebugColour, 100000.0f);
-                        }
+                        
 
 
                         if (Physics.Raycast(
                             navigationMatrix[i, j, k].position, 
                             dir, out hit, 
-                            rayLength, 
+                            rayLength/2, 
                             layerMask))  //fire a ray in that direction, with a length of nodesize / 2
                         {
-                            if(hit.transform.gameObject.tag == "obstacle")
-                            {
-                                //Debug.Log("Hit object with that" + hit.transform.gameObject.tag);
-                                navigationMatrix[i, j, k].passable = false; //this doesn't work
-                                break;
-                            }
+                            //Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
+                            navigationMatrix[i, j, k].passable = false; 
+                        }
+                        else
+                        {
+                            //Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourPassable, 100000.0f);
                         }
                     }
 
@@ -317,32 +317,28 @@ public class SCR_Pathfinding : MonoBehaviour
         return newPath;
     }
 
-    public void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-        foreach(gridNode node in navigationMatrix)
+        if (navigationMatrix != null)
         {
-            Gizmos.color = nodeDebugColour;
-            Gizmos.DrawSphere(node.position, 1);
+            foreach (gridNode node in navigationMatrix)
+            {
+                if (node.passable)
+                {
+                    Gizmos.color = nodeDebugColourPassable;
+                }
+                else
+                {
+                    Gizmos.color = nodeDebugColourImpassable;
+                }
+                
+                Gizmos.DrawSphere(node.position, 1);
+            }
         }
+        
     }
 
-    private Vector3 NormaliseKeepingSign(Vector3 vector)
-    {
-        Debug.Log("-----------------------------");
-        Debug.Log(vector);
-
-        Vector3 oldVector = vector;
-        Debug.Log(oldVector.normalized);
-        Debug.Log("Normalisex X: " + oldVector.normalized.x);
-        vector.x = (oldVector.normalized.x) * Mathf.Sign(oldVector.x);
-        vector.y = (oldVector.normalized.y) * Mathf.Sign(oldVector.y);
-        vector.z = (oldVector.normalized.z) * Mathf.Sign(oldVector.z);
-
-        Debug.Log(vector);
-        Debug.Log("-----------------------------");
-        return vector;
-    }
-
+    
     //This entire class is heavily AI assisted.
     public class NodeComparer : IComparer<gridNode> //uses an IComparer (a built in c# thing), helps sort things in order
     {

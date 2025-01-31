@@ -16,9 +16,6 @@ public class SCR_Enemy : MonoBehaviour
     private Queue<Vector3> enemyPath = new Queue<Vector3>();
 
     [SerializeField]
-    private List<Vector3> dummyList = new List<Vector3>();
-
-    [SerializeField]
     private float navTolerance = 2;
 
     [SerializeField]

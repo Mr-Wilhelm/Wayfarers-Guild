@@ -1298,8 +1298,6 @@ MonoBehaviour:
   startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
   nodeSize: 25
-  openList: []
-  closedList: []
   iterator: 0
   iterator2: 0
   layerMask:
@@ -1307,6 +1305,8 @@ MonoBehaviour:
     m_Bits: 4096
   debugPrefab: {fileID: 2374186273311428324, guid: bdd589f03e2fe23479e1db7144b24607,
     type: 3}
+  nodeDebugColourPassable: {x: 0, y: 0, z: 1, w: 0.1}
+  nodeDebugColourImpassable: {x: 1, y: 0, z: 0, w: 0.2}
 --- !u!4 &1822672177
 Transform:
   m_ObjectHideFlags: 0
