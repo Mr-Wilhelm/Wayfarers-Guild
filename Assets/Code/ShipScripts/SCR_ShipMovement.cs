@@ -29,6 +29,8 @@ public class SCR_ShipMovement : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(!IsServer) return;
+
         Vector3 forceToAdd = (gameObject.transform.right * shipAcceleration);
         shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
         updatePosServerRPC(gameObject.transform.position);
