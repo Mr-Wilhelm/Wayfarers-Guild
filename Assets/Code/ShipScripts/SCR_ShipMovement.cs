@@ -11,13 +11,8 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class SCR_ShipMovement : NetworkBehaviour
 {
-    public bool onWheel = false;
-
-    [SerializeField]
-    private GameObject ship;
-
-    [SerializeField]
-    private GravitasBody shipRb;
+    [SerializeField] private GameObject ship;
+    [SerializeField] private GravitasBody shipRb;
 
     [SerializeField] private float shipAcceleration;
     [SerializeField] private float shipTurnSpeed;
@@ -35,7 +30,8 @@ public class SCR_ShipMovement : NetworkBehaviour
     void FixedUpdate()
     {
         Vector3 forceToAdd = (gameObject.transform.right * shipAcceleration);
-        updatePosServerRPC(forceToAdd);
+        shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
+        updatePosServerRPC(gameObject.transform.position);
         Vector3 currentSpeed = shipRb.Velocity;
         if (currentSpeed.x >= shipMaxSpeed)
         {
@@ -105,9 +101,9 @@ public class SCR_ShipMovement : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void updatePosClientRPC(Vector3 forceToAdd)
+    private void updatePosClientRPC(Vector3 newPos)
     {
-        shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
+        //ship.transform.position = newPos;
     }
 
     [ClientRpc]
