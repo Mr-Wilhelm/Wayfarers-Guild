@@ -14,6 +14,7 @@ public class SCR_NewInteract : NetworkBehaviour
     bool otherPlayerCanInteract = false;
 
     public Camera playerCam;
+    private GameObject ship;
 
     private void Start()
     {
@@ -48,21 +49,19 @@ public class SCR_NewInteract : NetworkBehaviour
                     gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
-                    gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+                    ship.GetComponent<SCR_ShipControls>().onWheel = false;
                 }
                 else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && otherPlayerCanInteract)
                 {
+                    if (ship == null)
+                    {
+                        ship = GameObject.Find("PRE-Airship");
+                    }
                     gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
                     gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = true;
-                    gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
-                }
-                else
-                {
-                    Debug.Log("Wheel hit, dont work tho");
-                    Debug.Log(interacting);
-                    Debug.Log(otherPlayerCanInteract);
+                    ship.GetComponent<SCR_ShipControls>().onWheel = true;
                 }
             }
             else if (interacting)
@@ -70,7 +69,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
-                gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+                ship.GetComponent<SCR_ShipControls>().onWheel = false;
             }
         }
     }

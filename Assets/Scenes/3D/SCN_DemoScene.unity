@@ -216,6 +216,7 @@ MonoBehaviour:
     m_Bits: 4096
   bounceForce: 1000
   shipRB: {fileID: 2096152176}
+  invincibilityPeriod: 1
 --- !u!1001 &285877205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -777,10 +778,40 @@ PrefabInstance:
       propertyPath: m_Name
       value: PRE-Airship
       objectReference: {fileID: 0}
+    - target: {fileID: 2953544048391451088, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3590850644763217465, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055051661648470176, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4106437396489135224, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812060099820053571, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5925854933676025847, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111.61
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -827,10 +858,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7719117898313359212, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 2096152186}
   m_SourcePrefab: {fileID: 100100000, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
 --- !u!1 &1815479877 stripped
 GameObject:
@@ -989,6 +1029,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2713c52bd92cce46284873df0f55ad41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2096152186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815479877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c87f539fd4b0d54dbb89704f327ab14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onWheel: 0
+  ship: {fileID: 0}
+  shipRb: {fileID: 0}
+  shipAcceleration: 8.5
+  shipTurnSpeed: 7.5
+  shipHealth: 10
+  shipMaxSpeed: 25
+  shipPos:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  pitchRollResetSpeed: 0.2
 --- !u!1001 &205842481679277227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1102,8 +1164,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.875686, y: 1, z: 1}
-  m_Center: {x: -1.9378422, y: 0, z: 0}
+  m_Size: {x: 0.87789327, y: 1, z: 1}
+  m_Center: {x: 0.06105428, y: 0, z: 0}
 --- !u!1001 &7877689047193187797
 PrefabInstance:
   m_ObjectHideFlags: 0

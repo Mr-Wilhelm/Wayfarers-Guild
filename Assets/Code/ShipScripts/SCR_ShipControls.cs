@@ -20,8 +20,6 @@ public class SCR_ShipControls : NetworkBehaviour
 
     [SerializeField] private float shipAcceleration;
     [SerializeField] private float shipTurnSpeed;
-    private float rotationSpeed;
-    private float shipCurrentSpeed;
 
     public float shipHealth = 10.0f;
 
@@ -34,14 +32,14 @@ public class SCR_ShipControls : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!IsOwner)
-        {
-            enabled = false; return;
-        }
         if (ship == null)
         {
             ship = GameObject.Find("PRE-Airship");
             shipRb = ship.GetComponent<GravitasBody>();
+        }
+        if (!IsOwner)
+        {
+            enabled = false; return;
         }
         Vector3 forceToAdd = (ship.transform.right * shipAcceleration);
         updatePosServerRPC(forceToAdd);
@@ -119,9 +117,7 @@ public class SCR_ShipControls : NetworkBehaviour
             {
                 updatePitchRotServerRPC(shipTurnSpeed * Time.deltaTime);
             }
-
         }
-
     }
 
     [ServerRpc(RequireOwnership = false)]
