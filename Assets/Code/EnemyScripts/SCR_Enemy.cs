@@ -40,7 +40,7 @@ public class SCR_Enemy : MonoBehaviour
     private int frameOffset;
 
     [SerializeField]
-    private SCR_ShipControls shipControls;
+    private SCR_ShipMovement shipVariables;
 
     // Start is called before the first frame update
     void Start()
@@ -102,7 +102,7 @@ public class SCR_Enemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Ship")
         {
-            shipControls.shipHealth -= 1.0f;
+            other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
             Destroy(gameObject);
         }
     }

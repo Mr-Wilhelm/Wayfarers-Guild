@@ -14,13 +14,13 @@ GameObject:
   - component: {fileID: 4601838892339141937}
   - component: {fileID: 1588662365330327186}
   - component: {fileID: 5089495323612287736}
-  - component: {fileID: 7428270716508070394}
   - component: {fileID: -3273300779194110752}
+  - component: {fileID: 1446695601757579563}
+  - component: {fileID: 7428270716508070394}
   - component: {fileID: 1527291677001032635}
   - component: {fileID: -7635383097292173331}
   - component: {fileID: 8938185879831433393}
   - component: {fileID: 6677807439807493320}
-  - component: {fileID: 1446695601757579563}
   m_Layer: 2
   m_Name: GravitasPlayer
   m_TagString: Player
@@ -164,6 +164,49 @@ MonoBehaviour:
   bodyColliders:
   - {fileID: 4601838892339141937}
   gravitasBodyRigidbody: {fileID: 1588662365330327186}
+--- !u!114 &-3273300779194110752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3449801546
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1446695601757579563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c87f539fd4b0d54dbb89704f327ab14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onWheel: 0
+  ship: {fileID: 0}
+  shipRb: {fileID: 0}
+  shipAcceleration: 8.5
+  shipTurnSpeed: 7.5
+  shipHealth: 10
+  shipMaxSpeed: 25
+  shipPos:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  pitchRollResetSpeed: 0.3
 --- !u!114 &7428270716508070394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,27 +233,6 @@ MonoBehaviour:
   turnSpeed: 4
   drag: 5
   playerOnWheel: 0
---- !u!114 &-3273300779194110752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901272450876613093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2650615169
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &1527291677001032635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,28 +456,6 @@ MonoBehaviour:
   canInteract:
     m_InternalValue: 1
   playerCam: {fileID: 5932428688813479342}
---- !u!114 &1446695601757579563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901272450876613093}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c87f539fd4b0d54dbb89704f327ab14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onWheel: 0
-  ship: {fileID: 0}
-  shipRb: {fileID: 0}
-  shipAcceleration: 8.5
-  shipTurnSpeed: 7.5
-  shipHealth: 10
-  shipMaxSpeed: 25
-  shipPos:
-    m_InternalValue: {x: 0, y: 0, z: 0}
-  pitchRollResetSpeed: 0.3
 --- !u!1 &4691975859331995007
 GameObject:
   m_ObjectHideFlags: 0

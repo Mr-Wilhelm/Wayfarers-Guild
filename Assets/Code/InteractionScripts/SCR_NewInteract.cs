@@ -49,7 +49,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
-                    ship.GetComponent<SCR_ShipControls>().onWheel = false;
+                    gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
                 }
                 else if (hitInfo.collider.gameObject.layer == LayerMask.NameToLayer("Wheel") && !interacting && otherPlayerCanInteract)
                 {
@@ -61,7 +61,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
                     gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = true;
-                    ship.GetComponent<SCR_ShipControls>().onWheel = true;
+                    gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
                 }
             }
             else if (interacting)
@@ -69,7 +69,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
-                ship.GetComponent<SCR_ShipControls>().onWheel = false;
+                gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
             }
         }
     }
