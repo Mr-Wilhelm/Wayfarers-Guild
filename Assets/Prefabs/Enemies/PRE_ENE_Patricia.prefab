@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2030343380051439568}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: anteni
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 510022065451742302}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Rightleg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8679951373417526037}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: lowerleg1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1182302668028587390}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 246747777848540807}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Moth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5377837009365159786}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Lowerleg3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 279846991784522431}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Wings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6984917471343322858}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Leftleg1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6832355049644308318}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: rightwing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6586418059739332533}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Righteg3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3114362008072773340}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: lowerleg4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1774072280380512092}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Rightegg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3294189850266116352}
   - component: {fileID: 4244996929555938993}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Moth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8983310477610087268}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Leftleg3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 7063745155799107555}
   - component: {fileID: 8931182404837754874}
   - component: {fileID: 724679935828044953}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: PRE_ENE_Patricia
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -578,7 +578,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPathFinder: {fileID: 0}
   moveTarget: {fileID: 0}
-  dummyList: []
   navTolerance: 5
   rb: {fileID: 0}
   moveSpeed: 10
@@ -626,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 481327644
+  GlobalObjectIdHash: 1537765610
   InScenePlacedSourceGlobalObjectIdHash: 2431686588
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -650,7 +649,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -665,7 +664,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7503513380712361172}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -696,7 +695,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4460557189332280347}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: rightleg1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -728,7 +727,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9096356388525578799}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -765,7 +764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3989263907121171424}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: fluff1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +795,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5002029320937425818}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: LeftAntenai
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -818,73 +817,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2030343380051439568}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4928002350806228181
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2645551150719225342}
-  - component: {fileID: 3618623722716416867}
-  - component: {fileID: 3875606588419619431}
-  m_Layer: 14
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2645551150719225342
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4928002350806228181}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1726938935221048420}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3618623722716416867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4928002350806228181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76e6bd97d5d0fba47a4f6433afd28586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!64 &3875606588419619431
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4928002350806228181}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1050908021570271116, guid: 1f1ca277324bb534bbbad397f6332914, type: 3}
 --- !u!1 &5135603499074488665
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9191806419894732574}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Leftwing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +857,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4002233388009265750}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Fluff2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -956,7 +888,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 556340125681098074}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Leftleg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -988,7 +920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4847666611647102136}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: eggs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1021,7 +953,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8600844740253766776}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1056,7 +988,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8253359597685419934}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: RightAntenai
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1089,7 +1021,7 @@ GameObject:
   - component: {fileID: 1726938935221048420}
   - component: {fileID: 5427376009946876587}
   - component: {fileID: 3659198050054149402}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: PRE_ENE_Patricia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1110,7 +1042,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3294189850266116352}
-  - {fileID: 2645551150719225342}
   m_Father: {fileID: 7870803403660239297}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &5427376009946876587
@@ -1151,9 +1082,9 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1050908021570271116, guid: 1f1ca277324bb534bbbad397f6332914, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 7ab629ff80292174dbe017d154cb8147, type: 3}
 --- !u!1 &7920002863696938508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1163,7 +1094,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8528231998728194242}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Lowerleg2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1194,7 +1125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4485189708226056801}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Leftegg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
