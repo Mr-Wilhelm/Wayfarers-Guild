@@ -13,51 +13,45 @@ public class SCR_ShipControls : NetworkBehaviour
     public bool onWheel = false;
 
     [SerializeField]
-    private GameObject ship;
+    public GameObject ship;
+    public SCR_ShipMovement shipMovement;
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (ship == null)
+        if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
+        if (shipMovement == null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); }
+        if (!IsOwner){ Debug.Log("Is owner return"); return; }
+        if (!onWheel) { return; }
+        //Yaw Right
+        if (Input.GetKey(KeyCode.D))
         {
-            ship = GameObject.Find("PRE-Airship");
+            shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
         }
-        if (!IsOwner)
+        //Yaw Left
+        if (Input.GetKey(KeyCode.A))
         {
-            enabled = false; return;
+            shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
         }
-        if (onWheel == true)
+        //Roll Right
+        if(Input.GetKey(KeyCode.E))
         {
-            //Yaw Right
-            if (Input.GetKey(KeyCode.D))
-            {
-                ship.GetComponent<SCR_ShipMovement>().updateYawRotServerRPC("Right");
-            }
-            //Yaw Left
-            if (Input.GetKey(KeyCode.A))
-            {
-                ship.GetComponent<SCR_ShipMovement>().updateYawRotServerRPC("Left");
-            }
-            //Roll Right
-            if(Input.GetKey(KeyCode.E))
-            {
-                ship.GetComponent<SCR_ShipMovement>().updateRollRotServerRPC("Left");
-            }
-            //Roll Left
-            if (Input.GetKey(KeyCode.Q))
-            {
-                ship.GetComponent<SCR_ShipMovement>().updateRollRotServerRPC("Right");
-            }
-            //Pitch up
-            if (Input.GetKey(KeyCode.W))
-            {
-                ship.GetComponent<SCR_ShipMovement>().updatePitchRotServerRPC("Right");
-            }
-            //Roll Left
-            if (Input.GetKey(KeyCode.S))
-            {
-                ship.GetComponent<SCR_ShipMovement>().updatePitchRotServerRPC("Left");
-            }
+            shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
+        }
+        //Roll Left
+        if (Input.GetKey(KeyCode.Q))
+        {
+            shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
+        }
+        //Pitch up
+        if (Input.GetKey(KeyCode.W))
+        {
+            shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
+        }
+        //Roll Left
+        if (Input.GetKey(KeyCode.S))
+        {
+            shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
         }
     }
 }
