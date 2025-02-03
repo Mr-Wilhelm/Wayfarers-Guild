@@ -46,7 +46,7 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     //TODO make sure this works and actually sets the names correctly
     //TODO Figure out where to call this function, ideally after host is pressed, and before scene is switched
     [ServerRpc(RequireOwnership = false)]
-    public void UpdatePlayerNameRPC()
+    public void UpdatePlayerNameServerRPC()
     {
         TMP_InputField NameInputField = GameObject.Find("Name").GetComponent<TMP_InputField>();
         if (NameInputField.text == "Name" || NameInputField.text == "")
