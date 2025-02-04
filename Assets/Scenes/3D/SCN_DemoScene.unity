@@ -617,6 +617,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dbf0d36896f0a741acf2cd50438e644, type: 3}
+--- !u!1 &1169644495 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3054693048225094965, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1815479876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1169644501
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169644495}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.1, y: 1.1, z: 1.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1289032893
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,6 +903,11 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 2508096769
       objectReference: {fileID: 0}
+    - target: {fileID: 1160337116946496809, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
@@ -885,6 +917,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Convex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054693048225094965, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: Ballista bolt storage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054693048225094965, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3590850644763217465, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -966,6 +1008,11 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7740761646079688578, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -974,6 +1021,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 4
       addedObject: {fileID: 2096152186}
+    - targetCorrespondingSourceObject: {fileID: 3054693048225094965, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1169644501}
   m_SourcePrefab: {fileID: 100100000, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
 --- !u!1 &1815479877 stripped
 GameObject:
@@ -1013,8 +1064,6 @@ MonoBehaviour:
   startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
   nodeSize: 25
-  openList: []
-  closedList: []
   iterator: 0
   iterator2: 0
   layerMask:
@@ -1022,6 +1071,8 @@ MonoBehaviour:
     m_Bits: 4096
   debugPrefab: {fileID: 2374186273311428324, guid: bdd589f03e2fe23479e1db7144b24607,
     type: 3}
+  nodeDebugColourPassable: {x: 0, y: 0, z: 0, w: 0}
+  nodeDebugColourImpassable: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &1822672177
 Transform:
   m_ObjectHideFlags: 0
