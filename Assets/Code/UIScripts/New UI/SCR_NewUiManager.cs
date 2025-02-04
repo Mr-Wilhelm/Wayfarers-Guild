@@ -30,5 +30,12 @@ public class SCR_NewUiManager : MonoBehaviour
     public void Func_SpoonsButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", true);
+        spoonsButton.interactable = false;
+    }
+
+    public void Func_SpoonsBackButtonPressed()
+    {
+        cityAnimator.SetBool("SpoonsPressed", false);
+        spoonsButton.interactable = true;
     }
 }
