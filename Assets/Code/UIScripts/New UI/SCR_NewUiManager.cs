@@ -16,10 +16,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
     [Header("Animations")]
     [SerializeField]
-    private Animation spoonsSpriteAnimation;
-
-    [SerializeField]
-    private Animator spoonsSpriteAnimator;
+    private Animator cityAnimator;
 
     private void Start()
     {
@@ -27,13 +24,11 @@ public class SCR_NewUiManager : MonoBehaviour
 
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
-        spoonsSpriteAnimation = spoonsSprite.GetComponent<Animation>();
-
-        spoonsSpriteAnimator = spoonsSprite.GetComponent<Animator>();
+        cityAnimator = GetComponent<Animator>();
     }
 
     public void Func_SpoonsButtonPressed()
     {
-        spoonsSpriteAnimator.SetBool("SpoonsPressed", true);
+        cityAnimator.SetBool("SpoonsPressed", true);
     }
 }
