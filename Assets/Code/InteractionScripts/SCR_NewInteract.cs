@@ -21,6 +21,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     [SerializeField] private LayerMask Wheel;
     [SerializeField] private LayerMask Ballista;
+    [SerializeField] private LayerMask EngineFuel;
     [SerializeField] private GravitasFirstPersonPlayerSubject playerScriptReference;
 
     private void Start()
@@ -73,10 +74,20 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.layer == Ballista)
                 {
-                    Debug.Log("Interacting with ballsita");
+                    Debug.Log("Interacting with ballsita storage");
                     if (playerScriptReference.hasItem == false)
                     {
                         Debug.Log("Picking up ballista");
+                        playerScriptReference.hasItem = true;
+                    }
+                    else { Debug.Log("Already have item"); }
+                }
+                else if (hitInfo.collider.gameObject.layer == EngineFuel)
+                {
+                    Debug.Log("Interacting with engine fuel storage");
+                    if(playerScriptReference.hasItem == false)
+                    {
+                        Debug.Log("Picking up fuel");
                         playerScriptReference.hasItem = true;
                     }
                     else { Debug.Log("Already have item"); }
