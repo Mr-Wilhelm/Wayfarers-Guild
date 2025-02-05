@@ -259,7 +259,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3062406329663130477}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5640595736928253548}
+        m_TargetAssemblyTypeName: SCR_NewUiManager, Assembly-CSharp
+        m_MethodName: MakeChoice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2202643537655345851
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,13 +400,10 @@ MonoBehaviour:
   dialogueText: {fileID: 0}
   dialogueIsPlaying: 0
   choices:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  choicesText:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2097914655986618178}
+  - {fileID: 4728155318415886834}
+  - {fileID: 7589791252828370668}
+  choicesText: []
   audioSource: {fileID: 0}
   textSound: {fileID: 8300000, guid: 7ad32dbcc8ce48b4a83894a5a869f45e, type: 3}
 --- !u!95 &2905208540386131833
@@ -543,6 +552,7 @@ GameObject:
   - component: {fileID: 1547916956143513990}
   - component: {fileID: 6784751910137799743}
   - component: {fileID: 841262192790811571}
+  - component: {fileID: 7094105960641963546}
   m_Layer: 5
   m_Name: CityBackground
   m_TagString: Untagged
@@ -607,6 +617,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &7094105960641963546
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245631353814069280}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4450757605318015491
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +640,7 @@ GameObject:
   - component: {fileID: 2829341521015213309}
   - component: {fileID: 7716928857238323114}
   - component: {fileID: 7342116498247753643}
+  - component: {fileID: 5547805369794519701}
   m_Layer: 5
   m_Name: CityBackground (1)
   m_TagString: Untagged
@@ -682,6 +705,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5547805369794519701
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4450757605318015491}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4728155318415886834
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +730,7 @@ GameObject:
   - component: {fileID: 8714478117247809982}
   - component: {fileID: 5398183605915217866}
   m_Layer: 5
-  m_Name: Choice0 (1)
+  m_Name: Choice1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -802,7 +837,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8714478117247809982}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5640595736928253548}
+        m_TargetAssemblyTypeName: SCR_NewUiManager, Assembly-CSharp
+        m_MethodName: MakeChoice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5208458903084509100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1267,7 @@ GameObject:
   - component: {fileID: 7426070726595957017}
   - component: {fileID: 7567340799499430963}
   m_Layer: 5
-  m_Name: Choice0 (2)
+  m_Name: Choice2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1327,7 +1374,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7426070726595957017}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5640595736928253548}
+        m_TargetAssemblyTypeName: SCR_NewUiManager, Assembly-CSharp
+        m_MethodName: MakeChoice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7922401742105474067
 GameObject:
   m_ObjectHideFlags: 0

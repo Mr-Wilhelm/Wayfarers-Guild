@@ -172,6 +172,11 @@ public class SCR_NewUiManager : MonoBehaviour
             
     }
 
+    public void MakeChoice(int choiceIndex)
+    {
+        currentStory.ChooseChoiceIndex(choiceIndex);
+    }
+
     #endregion
 
     public void Func_TestButtonPress()
