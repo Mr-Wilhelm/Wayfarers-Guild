@@ -765,8 +765,6 @@ public class SCR_MenuManager : NetworkBehaviour
             index++;
         }
 
-
-
         for (int i = index; i < choices.Length; i++)
         {
             choices[i].gameObject.SetActive(false); //go through the remaining choices the UI supports and make sure they're hidden.

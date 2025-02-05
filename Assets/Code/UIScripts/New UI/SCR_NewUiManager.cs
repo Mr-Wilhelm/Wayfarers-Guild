@@ -71,6 +71,8 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         cityAnimator.SetBool("SpoonsPressed", true);
         spoonsButton.interactable = false;
+
+        //Invoke(EnterDialogueMode(spoonsNPCDialogue), 2.0f); it no likey this line my brain is exploding
     }
 
     public void Func_SpoonsBackButtonPressed()
