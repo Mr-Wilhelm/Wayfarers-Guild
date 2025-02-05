@@ -6,6 +6,8 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using Ink.Runtime;
 using TMPro;
+using NUnit.Framework.Constraints;
+using System.Linq;
 
 public class SCR_NewUiManager : MonoBehaviour
 {
@@ -37,6 +39,7 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private bool dialogueIsPlaying = false;
 
+    [Header("Choices UI")]
     [SerializeField]
     private GameObject[] choices;
 
@@ -66,6 +69,15 @@ public class SCR_NewUiManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         dialogueIsPlaying = false;
         dialogueText = dialoguePanel.GetComponentInChildren<TextMeshProUGUI>();
+
+        choicesText = new TextMeshProUGUI[choices.Length];
+        int index = 0;
+
+        foreach(GameObject choice in choices)
+        {
+            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            index++;
+        }
         //dialogue system variable assignment
 
         audioSource = GetComponent<AudioSource>();
@@ -110,8 +122,10 @@ public class SCR_NewUiManager : MonoBehaviour
         ContinueStory();
     }
 
-    private void ExitDialogueMode()
+    private IEnumerator ExitDialogueMode()
     {
+        yield return new WaitForSeconds(0.2f);
+
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
@@ -121,12 +135,41 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         if (currentStory.canContinue)
         {
-            dialogueText.text = currentStory.Continue();
+            dialogueText.text = currentStory.Continue();    //set text for current dialogue line
+
+            DisplayChoices();
         }
         else
         {
-            ExitDialogueMode();
+            StartCoroutine(ExitDialogueMode());
         }
+    }
+
+    private void DisplayChoices()
+    {
+        List<Choice> currentChoices = currentStory.currentChoices;
+
+        if(currentChoices.Count > choices.Length)
+        {
+            Debug.LogError("More choices given than the UI can support - Will made this, ask him for help if you dont understand");
+        }
+
+        int index = 0;
+        //enable and initialise the choices for the dialogue
+
+        foreach(Choice choice in currentChoices)
+        {
+            choices[index].gameObject.SetActive(true);
+            choicesText[index].text = choice.text;
+            index++;
+        }
+        
+        //make the other choices invisible
+        for(int i = index; i < choices.Length; i++)
+        {
+            choices[i].gameObject.SetActive(false);
+        }
+            
     }
 
     #endregion
