@@ -116,7 +116,6 @@ public class SCR_NewUiManager : MonoBehaviour
         //dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
 
-        StartCoroutine(ExitDialogueMode());
         spoonsButton.interactable = true;
    
     }
@@ -135,7 +134,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private IEnumerator ExitDialogueMode()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.0f);
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
