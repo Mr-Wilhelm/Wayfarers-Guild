@@ -107,7 +107,18 @@ public class SCR_NewUiManager : MonoBehaviour
     public void Func_SpoonsBackButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", false);
+
+        //if(cityAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        //{
+        //    ExitDialogueMode();
+        //}
+        //ContinueStory();
+        //dialogueIsPlaying = false;
+        //dialoguePanel.SetActive(false);
+
+        StartCoroutine(ExitDialogueMode());
         spoonsButton.interactable = true;
+   
     }
 
     #region Ink Dialogue Stuff - Tutorial used found in link Below
@@ -124,7 +135,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private IEnumerator ExitDialogueMode()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1.0f);
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
