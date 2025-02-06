@@ -92,7 +92,14 @@ public class SCR_NewUiManager : MonoBehaviour
 
         else if(Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)
         {
-            ContinueStory();
+            if(currentStory.canContinue)
+            {
+                ContinueStory();
+            }
+            else
+            {
+                return;
+            }
         }
     }
 
@@ -107,14 +114,7 @@ public class SCR_NewUiManager : MonoBehaviour
     public void Func_SpoonsBackButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", false);
-
-        //if(cityAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        //{
-        //    ExitDialogueMode();
-        //}
-        //ContinueStory();
-        //dialogueIsPlaying = false;
-        //dialoguePanel.SetActive(false);
+        cityAnimator.SetBool("HasChoices", false);
 
         spoonsButton.interactable = true;
    
@@ -148,6 +148,7 @@ public class SCR_NewUiManager : MonoBehaviour
             dialogueText.text = currentStory.Continue();    //set text for current dialogue line
 
             DisplayChoices();
+
         }
         else
         {
@@ -157,6 +158,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private void DisplayChoices()
     {
+
         List<Choice> currentChoices = currentStory.currentChoices;
 
         if(currentChoices.Count > choices.Length)
@@ -173,9 +175,9 @@ public class SCR_NewUiManager : MonoBehaviour
             choicesText[index].text = choice.text;
             index++;
         }
-        
+
         //make the other choices invisible
-        for(int i = index; i < choices.Length; i++)
+        for (int i = index; i < choices.Length; i++)
         {
             choices[i].gameObject.SetActive(false);
         }
