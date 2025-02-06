@@ -94,6 +94,10 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             if(currentStory.canContinue)
             {
+                if (cityAnimator.GetBool("HasChoices") == false)
+                {
+                    cityAnimator.SetBool("HasChoices", true);
+                }
                 ContinueStory();
             }
             else
@@ -115,6 +119,14 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         cityAnimator.SetBool("SpoonsPressed", false);
         cityAnimator.SetBool("HasChoices", false);
+
+        //if(cityAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        //{
+        //    ExitDialogueMode();
+        //}
+        //ContinueStory();
+        //dialogueIsPlaying = false;
+        //dialoguePanel.SetActive(false);
 
         spoonsButton.interactable = true;
    
