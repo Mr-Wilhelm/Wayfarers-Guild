@@ -155,16 +155,25 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private void ContinueStory()
     {
+        List<string> tags = currentStory.currentTags;   //gets tags from the current story
+        Debug.Log(tags.Count);
+
         if (currentStory.canContinue)
         {
-            dialogueText.text = currentStory.Continue();    //set text for current dialogue line
+            //Stops the current text typing from playing.
+            //This fixes a bug where text overlaps from different dialogues
+            if (typeTextCoroutine != null)
+            {
+                StopCoroutine(typeTextCoroutine);
+            }
 
-            DisplayChoices();
-
+            typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue())); //set text for the current line
+            //display dialogue choices
+            DisplayChoices();   //shows button choices
         }
         else
         {
-            StartCoroutine(ExitDialogueMode());
+            ExitDialogueMode();
         }
     }
 
@@ -196,9 +205,27 @@ public class SCR_NewUiManager : MonoBehaviour
             
     }
 
+    private IEnumerator TypeText(string text)
+    {
+        dialogueText.text = "";
+        foreach (char letter in text.ToCharArray())
+        {
+            dialogueText.text += letter;
+            audioSource.clip = textSound;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+
+            yield return new WaitForSeconds(20.0f * Time.deltaTime);
+        }
+    }
+
     public void MakeChoice(int choiceIndex)
     {
+        Debug.Log("You made your choice");
         currentStory.ChooseChoiceIndex(choiceIndex);
+        ContinueStory();
     }
 
     #endregion
