@@ -52,7 +52,7 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
             {
-                Debug.Log(hitInfo.collider.gameObject.name);
+                Debug.Log(hitInfo.collider.gameObject.name + " layer is: " + hitInfo.collider.gameObject.layer);
                 if (interacting)
                 {
                     playerScriptReference.playerOnWheel = false;
@@ -60,7 +60,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
                 }
-                else if (hitInfo.collider.gameObject.layer == Wheel && !interacting && otherPlayerCanInteract)
+                else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract)
                 {
                     if (ship == null)
                     {
@@ -72,7 +72,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     playerScriptReference.playerOnWheel = true;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
                 }
-                else if (hitInfo.collider.gameObject.layer == Ballista)
+                else if (hitInfo.collider.gameObject.CompareTag("Ballista Storage"))
                 {
                     Debug.Log("Interacting with ballsita storage");
                     if (playerScriptReference.hasItem == false)
@@ -82,7 +82,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     }
                     else { Debug.Log("Already have item"); }
                 }
-                else if (hitInfo.collider.gameObject.layer == EngineFuel)
+                else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
                     Debug.Log("Interacting with engine fuel storage");
                     if(playerScriptReference.hasItem == false)
