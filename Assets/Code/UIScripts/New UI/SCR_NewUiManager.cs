@@ -15,6 +15,9 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private Button spoonsButton;
 
+    [SerializeField]
+    private Button questButton;
+
     [Header("Sprites")]
     [SerializeField]
     private GameObject spoonsSprite;
@@ -56,20 +59,22 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private void Start()
     {
+        //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
+        questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
 
+        //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
+        //animator variables
         cityAnimator = GetComponent<Animator>();
 
-        //dialogue system variable assignment
+        //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
-
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
         dialogueIsPlaying = false;
         dialogueText = dialoguePanel.GetComponentInChildren<TextMeshProUGUI>();
-
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
 
@@ -78,8 +83,8 @@ public class SCR_NewUiManager : MonoBehaviour
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
         }
-        //dialogue system variable assignment
 
+        //audio variables
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -90,15 +95,15 @@ public class SCR_NewUiManager : MonoBehaviour
             return;
         }
 
-        else if(Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)
+        else if(Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
         {
-            if(currentStory.canContinue)
+            if(currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
             {
-                if (cityAnimator.GetBool("HasChoices") == false)
+                if (cityAnimator.GetBool("HasChoices") == false)    
                 {
-                    cityAnimator.SetBool("HasChoices", true);
+                    cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
                 }
-                ContinueStory();
+                ContinueStory();    //continue the story (this is an ink plugin thing)
             }
             else
             {
@@ -107,6 +112,7 @@ public class SCR_NewUiManager : MonoBehaviour
         }
     }
 
+    #region Button Functions
     public void Func_SpoonsButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", true);
@@ -120,31 +126,33 @@ public class SCR_NewUiManager : MonoBehaviour
         cityAnimator.SetBool("SpoonsPressed", false);
         cityAnimator.SetBool("HasChoices", false);
 
-        //if(cityAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        //{
-        //    ExitDialogueMode();
-        //}
-        //ContinueStory();
-        //dialogueIsPlaying = false;
-        //dialoguePanel.SetActive(false);
-
         spoonsButton.interactable = true;
    
     }
 
+    public void Func_QuestButtonPressed()
+    {
+
+    }
+    public void Func_TestButtonPress()
+    {
+        Debug.Log("BEEP");
+    }
+    #endregion Button Functions
+
     #region Ink Dialogue Stuff - Tutorial used found in link Below
     //https://youtu.be/vY0Sk93YUhA
-    
-    public void EnterDialogueMode(TextAsset inkJSON)
-    {
-        currentStory = new Story(inkJSON.text);
-        dialogueIsPlaying = true;
-        dialoguePanel.SetActive(true);
 
-        ContinueStory();
+    public void EnterDialogueMode(TextAsset inkJSON)    //starts dialogue with the text file as a parameter
+    {
+        currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
+        dialogueIsPlaying = true;   
+        dialoguePanel.SetActive(true);  //activate the dialogue panel
+
+        ContinueStory();    //continue the story
     }
 
-    private IEnumerator ExitDialogueMode()
+    private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
         yield return new WaitForSeconds(0.0f);
 
@@ -153,7 +161,7 @@ public class SCR_NewUiManager : MonoBehaviour
         dialogueText.text = "";
     }
 
-    private void ContinueStory()
+    private void ContinueStory()    //
     {
         List<string> tags = currentStory.currentTags;   //gets tags from the current story
         Debug.Log(tags.Count);
@@ -168,7 +176,6 @@ public class SCR_NewUiManager : MonoBehaviour
             }
 
             typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue())); //set text for the current line
-            //display dialogue choices
             DisplayChoices();   //shows button choices
         }
         else
@@ -180,7 +187,7 @@ public class SCR_NewUiManager : MonoBehaviour
     private void DisplayChoices()
     {
 
-        List<Choice> currentChoices = currentStory.currentChoices;
+        List<Choice> currentChoices = currentStory.currentChoices;  //gets a list of choices from the ink dialogue (Choice class is an ink plugin thing)
 
         if(currentChoices.Count > choices.Length)
         {
@@ -190,7 +197,7 @@ public class SCR_NewUiManager : MonoBehaviour
         int index = 0;
         //enable and initialise the choices for the dialogue
 
-        foreach(Choice choice in currentChoices)
+        foreach(Choice choice in currentChoices)    //iterate through all choices, for each one, set choices active and display
         {
             choices[index].gameObject.SetActive(true);
             choicesText[index].text = choice.text;
@@ -198,7 +205,7 @@ public class SCR_NewUiManager : MonoBehaviour
         }
 
         //make the other choices invisible
-        for (int i = index; i < choices.Length; i++)
+        for (int i = index; i < choices.Length; i++)  
         {
             choices[i].gameObject.SetActive(false);
         }
@@ -208,16 +215,16 @@ public class SCR_NewUiManager : MonoBehaviour
     private IEnumerator TypeText(string text)
     {
         dialogueText.text = "";
-        foreach (char letter in text.ToCharArray())
+        foreach (char letter in text.ToCharArray()) //convert the text to a char array
         {
-            dialogueText.text += letter;
+            dialogueText.text += letter;    //add each char to the string
             audioSource.clip = textSound;
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.Play(); //play the audio
             }
 
-            yield return new WaitForSeconds(20.0f * Time.deltaTime);
+            yield return new WaitForSeconds(20.0f * Time.deltaTime);    //typing speed
         }
     }
 
@@ -230,8 +237,5 @@ public class SCR_NewUiManager : MonoBehaviour
 
     #endregion
 
-    public void Func_TestButtonPress()
-    {
-        Debug.Log("BEEP");
-    }
+
 }
