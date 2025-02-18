@@ -138,6 +138,10 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
     }
+    public void Func_QuestPressed()
+    {
+        cityAnimator.SetBool("QuestPressed", true);
+    }
     public void Func_TestButtonPress()
     {
         Debug.Log("BEEP");
