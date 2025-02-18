@@ -24,15 +24,30 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private LayerMask EngineFuel;
     [SerializeField] private GravitasFirstPersonPlayerSubject playerScriptReference;
 
+    [SerializeField] private GameObject craigBodyMesh;
+    [SerializeField] private GameObject craigClothesMesh;
+    [SerializeField] private GameObject craigHoldItemMesh;
+    [SerializeField] private GameObject engineFoodMesh;
+    [SerializeField] private GameObject ballistaBoltMesh;
+    private string objectBeingHeld = string.Empty;
+
+    [SerializeField] private GameObject ballistaBoltPrefab;
+    [SerializeField] private GameObject engineFoodPrefab;
+    [SerializeField] private GameObject dropPosition;
+
     private void Start()
     {
         UpdateCanInteractBoolServerRpc(true);
         playerScriptReference = GetComponent<GravitasFirstPersonPlayerSubject>();
+        craigHoldItemMesh.SetActive(false);
+        engineFoodMesh.SetActive(false);
+        ballistaBoltMesh.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!IsOwner) { enabled = false; return; }
         if (Input.GetKeyDown(InteractKey))
         {
             if(GameObject.FindGameObjectsWithTag("Player").Length != 1)
@@ -78,6 +93,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     if (playerScriptReference.hasItem == false)
                     {
                         Debug.Log("Picking up ballista");
+                        pickUpItem("Ballista Bolt");
                         playerScriptReference.hasItem = true;
                     }
                     else { Debug.Log("Already have item"); }
@@ -88,6 +104,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     if(playerScriptReference.hasItem == false)
                     {
                         Debug.Log("Picking up fuel");
+                        pickUpItem("Engine Food");
                         playerScriptReference.hasItem = true;
                     }
                     else { Debug.Log("Already have item"); }
@@ -120,6 +137,89 @@ public class SCR_NewInteract : NetworkBehaviour
     private void dropItem()
     {
         playerScriptReference.hasItem = false;
+        DropItemServerRPC();
+        if(objectBeingHeld == "Ballista Bolt")
+        {
+            SpawnBallistaBolt();
+        }
+        else if(objectBeingHeld == "Engine Food")
+        {
+            SpawnEngineFood();
+        }
         Debug.Log("Dropping item");
+    }
+
+    private void pickUpItem(string itemToPickUp)
+    {
+        if(itemToPickUp == "Ballista Bolt")
+        {
+            objectBeingHeld = "Ballista Bolt";
+            PickUpBallistaBoltServerRPC();
+        }
+        else if(itemToPickUp == "Engine Food")
+        {
+            objectBeingHeld = "Engine Food";
+            PickUpEngineFoodServerRPC();
+        }
+    }
+
+    [ServerRpc]
+    private void PickUpBallistaBoltServerRPC()
+    {
+        PickUpBallistaBoltClientRPC();
+    }
+
+    [ClientRpc]
+    private void PickUpBallistaBoltClientRPC()
+    {
+        craigHoldItemMesh.SetActive(true);
+        craigBodyMesh.SetActive(false);
+        craigClothesMesh.SetActive(false);
+        ballistaBoltMesh.SetActive(true);
+    }
+
+    [ServerRpc]
+    private void PickUpEngineFoodServerRPC()
+    {
+        PickUpEngineFoodClientRPC();
+    }
+
+    [ClientRpc]
+    private void PickUpEngineFoodClientRPC()
+    {
+        craigHoldItemMesh.SetActive(true);
+        craigBodyMesh.SetActive(false);
+        craigClothesMesh.SetActive(false);
+        engineFoodMesh.SetActive(true);
+    }
+
+    [ServerRpc]
+    private void DropItemServerRPC()
+    {
+        DropItemClientRPC();
+    }
+
+    [ClientRpc]
+    private void DropItemClientRPC()
+    {
+        craigHoldItemMesh.SetActive(false);
+        craigBodyMesh.SetActive(true);
+        craigClothesMesh.SetActive(true);
+        ballistaBoltMesh.SetActive(false);
+        engineFoodMesh.SetActive(false);
+    }
+
+    private void SpawnBallistaBolt()
+    {
+        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform);
+        var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
+        instanceNetworkOBJ.Spawn(); 
+    }
+
+    private void SpawnEngineFood()
+    {
+        var instance = Instantiate(engineFoodPrefab, dropPosition.transform);
+        var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
+        instanceNetworkOBJ.Spawn();
     }
 }
