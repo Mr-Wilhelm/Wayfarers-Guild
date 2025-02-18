@@ -132,6 +132,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
     public void Func_QuestButtonPressed()
     {
+        Debug.Log("Quest Button Pressed");
 
     }
     public void Func_TestButtonPress()
