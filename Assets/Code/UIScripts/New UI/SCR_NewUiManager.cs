@@ -142,6 +142,10 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         cityAnimator.SetBool("QuestPressed", true);
     }
+    public void Func_QuestBackButtonPressed()
+    {
+        cityAnimator.SetBool("QuestBoardPressed", false);
+    }
     public void Func_TestButtonPress()
     {
         Debug.Log("BEEP");
