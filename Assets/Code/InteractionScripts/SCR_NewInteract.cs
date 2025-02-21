@@ -93,7 +93,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     if (playerScriptReference.hasItem == false)
                     {
                         Debug.Log("Picking up ballista");
-                        pickUpItem("Ballista Bolt");
+                        pickUpItem("Ballista Bolt", false, null);
                         playerScriptReference.hasItem = true;
                     }
                     else { Debug.Log("Already have item"); }
@@ -104,10 +104,22 @@ public class SCR_NewInteract : NetworkBehaviour
                     if(playerScriptReference.hasItem == false)
                     {
                         Debug.Log("Picking up fuel");
-                        pickUpItem("Engine Food");
+                        pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
                     }
                     else { Debug.Log("Already have item"); }
+                }
+                else if(hitInfo.collider.gameObject.CompareTag("Ballista Bolt"))
+                {
+                    Debug.Log("Found bolt on ground");
+                    pickUpItem("Ballista Bolt", true, hitInfo.collider.transform.root.gameObject);
+                    playerScriptReference.hasItem = true;
+                }
+                else if(hitInfo.collider.gameObject.CompareTag("Engine Fuel"))
+                {
+                    Debug.Log("Found scran on ground");
+                    pickUpItem("Engine Food", true, hitInfo.collider.transform.root.gameObject);
+                    playerScriptReference.hasItem = true;
                 }
             }
             else if (interacting)
@@ -149,8 +161,12 @@ public class SCR_NewInteract : NetworkBehaviour
         Debug.Log("Dropping item");
     }
 
-    private void pickUpItem(string itemToPickUp)
+    private void pickUpItem(string itemToPickUp, bool pickingUpFromGround, GameObject objToPickUp)
     {
+        if(pickingUpFromGround)
+        {
+            objToPickUp.GetComponent<NetworkObject>().Despawn(true);
+        }
         if(itemToPickUp == "Ballista Bolt")
         {
             objectBeingHeld = "Ballista Bolt";
@@ -211,14 +227,14 @@ public class SCR_NewInteract : NetworkBehaviour
 
     private void SpawnBallistaBolt()
     {
-        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform);
+        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn(); 
     }
 
     private void SpawnEngineFood()
     {
-        var instance = Instantiate(engineFoodPrefab, dropPosition.transform);
+        var instance = Instantiate(engineFoodPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn();
     }

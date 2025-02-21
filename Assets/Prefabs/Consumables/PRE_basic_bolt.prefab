@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4787336514725827430}
+  - component: {fileID: 6654616954131353116}
   m_Layer: 0
   m_Name: PRE_basic_bolt
-  m_TagString: Untagged
+  m_TagString: Ballista Bolt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,6 +33,27 @@ Transform:
   - {fileID: 9111329925812597894}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6654616954131353116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297792217455478779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &8789701794483622765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115,6 +137,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: placeholder_bolt
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ballista Bolt
+      objectReference: {fileID: 0}
     - target: {fileID: 1364974133809703462, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -133,6 +160,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5937954942293425777}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3320037505322025384}
     - targetCorrespondingSourceObject: {fileID: 7512687335075297100, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
         type: 3}
       insertIndex: -1
@@ -340,7 +371,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8447102429601885756}
   serializedVersion: 4
-  m_Mass: 27
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -359,6 +390,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &3320037505322025384
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447102429601885756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.41663373, y: 0.32863668, z: 5.0218725}
+  m_Center: {x: 0.15534419, y: 0.0012750775, z: -2.0109367}
 --- !u!4 &9111329925812597894 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
