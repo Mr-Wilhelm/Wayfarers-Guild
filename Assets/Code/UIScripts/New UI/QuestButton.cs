@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class QuestButton : MonoBehaviour
 {
-    [SerializeField]
-    private QuestInfo infoToDisplay;
+    public enum QuestNames { AppleADay, PostHaste, Lightbulb, Poking };
 
-    private void Start()
-    {
-        infoToDisplay = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
-    }
+    [SerializeField]
+    public QuestNames questName;
 }
