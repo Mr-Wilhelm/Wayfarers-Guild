@@ -57,6 +57,17 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private AudioClip textSound;
 
+    [Header("QuestObjects")]
+
+    [SerializeField]
+    private QuestInfo questInfoObject;
+
+    [SerializeField]
+    private TextMeshProUGUI questInfoText;
+
+    [SerializeField]
+    private string appleADayText;
+
     private void Start()
     {
         //button variables
@@ -86,6 +97,16 @@ public class SCR_NewUiManager : MonoBehaviour
 
         //audio variables
         audioSource = GetComponent<AudioSource>();
+
+        //quest info variables
+        questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
+        questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
+        questInfoObject.gameObject.SetActive(false);
+
+        #region Quest_Info_Text
+
+
+        #endregion
     }
 
     private void Update()
@@ -141,14 +162,25 @@ public class SCR_NewUiManager : MonoBehaviour
     public void Func_QuestPressed()
     {
         cityAnimator.SetBool("QuestPressed", true);
+        questInfoObject.gameObject.SetActive(true);
+        questInfoText.text = appleADayText;
     }
     public void Func_QuestBackButtonPressed()
     {
         cityAnimator.SetBool("QuestBoardPressed", false);
+        spoonsButton.interactable = true;
+        spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        Invoke("delayDespawnQuestInfo", 1.0f);
     }
     public void Func_TestButtonPress()
     {
         Debug.Log("BEEP");
+    }
+
+    private void delayDespawnQuestInfo()
+    {
+        questInfoText.text = "";
+        questInfoObject.gameObject.SetActive(false);
     }
     #endregion Button Functions
 
