@@ -80,7 +80,6 @@ public class SCR_Enemy : MonoBehaviour
     {
         var pathNodes = enemyPathFinder.FindPath(transform.position, moveTarget.transform.position);    //find the path between the current pos and the target
         Vector3 prevPos = transform.position;
-        if(pathNodes == null) { return; } //fixes nullrefrence error 
         foreach (var node in pathNodes)
         {
             Debug.DrawLine(prevPos, node, Color.red, 0.5f);

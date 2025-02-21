@@ -20,17 +20,8 @@ public class SCR_ShipControls : NetworkBehaviour
     void FixedUpdate()
     {
         if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
-        if (shipMovement == null)
-        {
-            try
-            {
-                shipMovement = ship.GetComponent<SCR_ShipMovement>();
-            }
-            catch { }
-        }
-
-
-        if (!IsOwner){ Debug.Log("Is owner return"); return; }
+        if (shipMovement == null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); }
+        if (!IsOwner){ return; }
         if (!onWheel) { return; }
         //Yaw Right
         if (Input.GetKey(KeyCode.D))
