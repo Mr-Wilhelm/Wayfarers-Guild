@@ -312,7 +312,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   bounceForce: 1000
-  shipRB: {fileID: 2096152176}
+  shipRB: {fileID: 0}
   invincibilityPeriod: 1
 --- !u!1001 &285877205
 PrefabInstance:
@@ -451,6 +451,52 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 215879821}
   m_SourcePrefab: {fileID: 100100000, guid: 50d77cb03c290af40a9b24a7fdc4e8d1, type: 3}
+--- !u!1 &295270717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 295270719}
+  - component: {fileID: 295270718}
+  m_Layer: 0
+  m_Name: Gravitas Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &295270718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295270717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aed234d11eb1a28ea6425c54fd68f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physicsSceneTimescale: 1
+  fieldsLayer: 7
+--- !u!4 &295270719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295270717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &374836298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -473,7 +519,7 @@ PrefabInstance:
         type: 3}
       propertyPath: moveTarget
       value: 
-      objectReference: {fileID: 1815479877}
+      objectReference: {fileID: 0}
     - target: {fileID: 7870803403660239297, guid: 6dbf0d36896f0a741acf2cd50438e644,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -556,7 +602,7 @@ PrefabInstance:
         type: 3}
       propertyPath: moveTarget
       value: 
-      objectReference: {fileID: 1815479877}
+      objectReference: {fileID: 0}
     - target: {fileID: 7870803403660239297, guid: 6dbf0d36896f0a741acf2cd50438e644,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -757,7 +803,7 @@ PrefabInstance:
         type: 3}
       propertyPath: moveTarget
       value: 
-      objectReference: {fileID: 1815479877}
+      objectReference: {fileID: 0}
     - target: {fileID: 7870803403660239297, guid: 6dbf0d36896f0a741acf2cd50438e644,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -876,90 +922,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 2508096769
       objectReference: {fileID: 0}
-    - target: {fileID: 1160337116946496809, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Ballista Storage
-      objectReference: {fileID: 0}
     - target: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
       value: PRE-Airship
-      objectReference: {fileID: 0}
-    - target: {fileID: 2269424524655007596, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2372453648068247999, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2761858700590471212, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3054693048225094965, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Ballista Storage
-      objectReference: {fileID: 0}
-    - target: {fileID: 3406955953148985389, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.92045
-      objectReference: {fileID: 0}
-    - target: {fileID: 3406955953148985389, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.92045
-      objectReference: {fileID: 0}
-    - target: {fileID: 3406955953148985389, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.92045
-      objectReference: {fileID: 0}
-    - target: {fileID: 3447842583513846078, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_text
-      value: Engin Fyool
-      objectReference: {fileID: 0}
-    - target: {fileID: 3985253831137614494, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Fuel Storage
-      objectReference: {fileID: 0}
-    - target: {fileID: 4476594670696708259, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_text
-      value: Balleesta Bohlts
-      objectReference: {fileID: 0}
-    - target: {fileID: 4476594670696708259, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_margin.x
-      value: -24.234093
-      objectReference: {fileID: 0}
-    - target: {fileID: 4476594670696708259, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_margin.z
-      value: -35.088837
-      objectReference: {fileID: 0}
-    - target: {fileID: 5488834044601376543, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Fuel Storage
-      objectReference: {fileID: 0}
-    - target: {fileID: 6103664493142966338, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6417397187711105944, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Fuel Storage
       objectReference: {fileID: 0}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -1011,37 +977,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7514467850582466327, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7630780514317697971, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7740761646079688578, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Ballista Storage
-      objectReference: {fileID: 0}
-    - target: {fileID: 9124425516178564819, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Wheel
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
---- !u!1 &1815479877 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1815479876}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1822672175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,7 +1060,7 @@ PrefabInstance:
         type: 3}
       propertyPath: moveTarget
       value: 
-      objectReference: {fileID: 1815479877}
+      objectReference: {fileID: 0}
     - target: {fileID: 7870803403660239297, guid: 6dbf0d36896f0a741acf2cd50438e644,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1181,18 +1121,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dbf0d36896f0a741acf2cd50438e644, type: 3}
---- !u!114 &2096152176 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1526133519715437570, guid: 00b41b74b038dae468603ed3702607b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1815479876}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815479877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2713c52bd92cce46284873df0f55ad41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &205842481679277227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1541,3 +1469,4 @@ SceneRoots:
   - {fileID: 374836298}
   - {fileID: 285877205}
   - {fileID: 205842481679277227}
+  - {fileID: 295270719}
