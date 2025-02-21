@@ -227,7 +227,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     private void SpawnBallistaBolt()
     {
-        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
+        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, (dropPosition.transform.rotation * Quaternion.Euler(0, 90, 0)));
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn(); 
     }
