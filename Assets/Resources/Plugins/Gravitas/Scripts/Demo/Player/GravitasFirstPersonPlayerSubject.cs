@@ -28,6 +28,8 @@ namespace Gravitas.Demo
 
         public bool playerOnWheel = false;
 
+        [SerializeField] public bool hasItem = false;
+
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
         /// </summary>

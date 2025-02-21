@@ -24,6 +24,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] public GameObject CraigClothes;
 
+    [SerializeField] public GameObject CraigHoldingMesh;
+
     [SerializeField] public LayerMask SelfPlayerMesh;
 
     //Tracks the pos and rot of the player
@@ -137,6 +139,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
             CraigBody.layer = SelfPlayerMeshLayer;
             CraigClothes.layer = SelfPlayerMeshLayer;
+            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
@@ -185,6 +188,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
             CraigBody.layer = SelfPlayerMeshLayer;
             CraigClothes.layer = SelfPlayerMeshLayer;
+            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
