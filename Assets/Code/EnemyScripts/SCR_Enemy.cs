@@ -42,7 +42,7 @@ public class SCR_Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //moveTarget = GameObject.Find("target");
+        moveTarget = GameObject.Find("PRE-Airship");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
 
