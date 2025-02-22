@@ -73,7 +73,7 @@ public class SCR_NewUiManager : MonoBehaviour
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
-        questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
+        QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
 
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
