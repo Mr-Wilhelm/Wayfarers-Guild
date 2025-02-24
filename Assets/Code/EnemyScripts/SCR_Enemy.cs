@@ -42,7 +42,7 @@ public class SCR_Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //moveTarget = GameObject.Find("target");
+        moveTarget = GameObject.Find("PRE-Airship");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
 
@@ -80,7 +80,6 @@ public class SCR_Enemy : MonoBehaviour
     {
         var pathNodes = enemyPathFinder.FindPath(transform.position, moveTarget.transform.position);    //find the path between the current pos and the target
         Vector3 prevPos = transform.position;
-        if(pathNodes == null) { return; } //fixes nullrefrence error 
         foreach (var node in pathNodes)
         {
             Debug.DrawLine(prevPos, node, Color.red, 0.5f);

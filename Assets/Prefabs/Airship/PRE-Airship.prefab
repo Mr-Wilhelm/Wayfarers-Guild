@@ -583,7 +583,7 @@ GameObject:
   - component: {fileID: 4476594670696708259}
   m_Layer: 15
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: Ballista Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -597,7 +597,7 @@ RectTransform:
   m_GameObject: {fileID: 1160337116946496809}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 80}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.92045, y: 0.92045, z: 0.92045}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6008661985910323004}
@@ -635,7 +635,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ballista Bolts
+  m_text: Balleesta Bohlts
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -700,7 +700,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -18.825378, w: 0}
+  m_margin: {x: -24.234093, y: 0, z: -35.088837, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1148,10 +1148,10 @@ GameObject:
   - component: {fileID: 4348270759818148452}
   - component: {fileID: 5925854933676025847}
   - component: {fileID: 1526133519715437570}
+  - component: {fileID: 117376098355334954}
   - component: {fileID: 1162378559868278564}
   - component: {fileID: 437348803390760833}
   - component: {fileID: 2236378454587850020}
-  - component: {fileID: 117376098355334954}
   - component: {fileID: 5871016529743343611}
   - component: {fileID: 8977058759946902640}
   - component: {fileID: 509679317495566584}
@@ -1253,6 +1253,27 @@ MonoBehaviour:
   bodyColliders:
   - {fileID: 7456761536600513542}
   gravitasBodyRigidbody: {fileID: 5925854933676025847}
+--- !u!114 &117376098355334954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648404852908797345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2508096769
+  InScenePlacedSourceGlobalObjectIdHash: 1728072267
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &1162378559868278564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,27 +1419,6 @@ MonoBehaviour:
   turnSpeed: 4
   rollSpeed: 2.5
   verticalMoveMultiplier: 3
---- !u!114 &117376098355334954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648404852908797345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2508096769
-  InScenePlacedSourceGlobalObjectIdHash: 1728072267
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!114 &5871016529743343611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2177,7 +2177,7 @@ GameObject:
   - component: {fileID: 8522981299527042046}
   m_Layer: 15
   m_Name: Ballista bolt storage
-  m_TagString: Untagged
+  m_TagString: Ballista Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2619,7 +2619,7 @@ GameObject:
   - component: {fileID: 7985654854903417508}
   m_Layer: 16
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Fuel Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3025,7 +3025,7 @@ GameObject:
   - component: {fileID: 3447842583513846078}
   m_Layer: 16
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: Fuel Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3077,7 +3077,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Engine Fuel
+  m_text: Engin Fyool
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3595,7 +3595,7 @@ GameObject:
   - component: {fileID: 7492980857626399535}
   m_Layer: 16
   m_Name: Engine Fuel Storage
-  m_TagString: Untagged
+  m_TagString: Fuel Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4199,7 +4199,7 @@ GameObject:
   - component: {fileID: 1499141082736094362}
   m_Layer: 15
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Ballista Storage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4647,7 +4647,7 @@ GameObject:
   - component: {fileID: 761018416353030185}
   m_Layer: 11
   m_Name: WheelPos
-  m_TagString: Untagged
+  m_TagString: Wheel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10414,6 +10414,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: -9184024835556489338, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wheel
+      objectReference: {fileID: 0}
     - target: {fileID: -7312839752402980243, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
         type: 3}
       propertyPath: m_Layer
@@ -10423,6 +10428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -4766318155023203209, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wheel
       objectReference: {fileID: 0}
     - target: {fileID: -4470578583631276400, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
         type: 3}
@@ -10484,6 +10494,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: -805019999804995973, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wheel
+      objectReference: {fileID: 0}
     - target: {fileID: 1039839066266190638, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
         type: 3}
       propertyPath: m_Layer
@@ -10512,12 +10527,17 @@ PrefabInstance:
     - target: {fileID: 4357118449180629203, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
         type: 3}
       propertyPath: m_TagString
-      value: Ship
+      value: Wheel
       objectReference: {fileID: 0}
     - target: {fileID: 5422832040542654632, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422832040542654632, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wheel
       objectReference: {fileID: 0}
     - target: {fileID: 6378710604093253655, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
         type: 3}
@@ -10528,6 +10548,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244770732030926824, guid: 5c0b02ea5ac538f439f3bc60937d5b88,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wheel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
