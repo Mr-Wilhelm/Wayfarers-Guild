@@ -162,13 +162,14 @@ public class SCR_NewUiManager : MonoBehaviour
     }
     public void Func_QuestPressed()
     {
-        cityAnimator.SetBool("QuestPressed", true);
         questInfoObject.gameObject.SetActive(true);
         questInfoText.text = appleADayText;
+        cityAnimator.SetBool("QuestPressed", true);
     }
     public void Func_QuestBackButtonPressed()
     {
         cityAnimator.SetBool("QuestBoardPressed", false);
+        cityAnimator.SetBool("QuestPressed", false);
         spoonsButton.interactable = true;
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
         Invoke("delayDespawnQuestInfo", 1.0f);
