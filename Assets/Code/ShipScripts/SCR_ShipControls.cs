@@ -16,11 +16,22 @@ public class SCR_ShipControls : NetworkBehaviour
     public GameObject ship;
     public SCR_ShipMovement shipMovement;
 
+    private void Start()
+    {
+        Invoke("LoadShip", 1);
+    }
+
+    private void LoadShip()
+    {
+        ship = GameObject.Find("PRE-Airship");
+        shipMovement = ship.GetComponent<SCR_ShipMovement>();
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
-        if (shipMovement == null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); }
+        if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
+        if (shipMovement == null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); return; }
         if (!IsOwner){ return; }
         if (!onWheel) { return; }
         //Yaw Right
