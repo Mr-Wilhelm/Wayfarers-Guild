@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2346652142
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -164,6 +164,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3320037505322025384}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4535500277883105306}
     - targetCorrespondingSourceObject: {fileID: 7512687335075297100, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
         type: 3}
       insertIndex: -1
@@ -411,6 +415,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.41663373, y: 0.32863668, z: 5.0218725}
   m_Center: {x: 0.15534419, y: 0.0012750775, z: -2.0109367}
+--- !u!114 &4535500277883105306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447102429601885756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2713c52bd92cce46284873df0f55ad41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyColliders:
+  - {fileID: 814676328423987666}
+  - {fileID: 8291233572675541452}
+  - {fileID: 1805671408081842419}
+  - {fileID: 6744135401608610436}
+  - {fileID: 4565917805810143111}
+  - {fileID: 3188454355986861202}
+  gravitasBodyRigidbody: {fileID: 5937954942293425777}
 --- !u!4 &9111329925812597894 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5c2f12b9824ce646833b4bdac4ccfe7,
