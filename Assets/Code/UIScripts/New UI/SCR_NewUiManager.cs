@@ -8,6 +8,7 @@ using Ink.Runtime;
 using TMPro;
 using NUnit.Framework.Constraints;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class SCR_NewUiManager : MonoBehaviour
 {
@@ -160,11 +161,22 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
     }
-    public void Func_QuestPressed()
+    public void Func_QuestPressed(QuestButton quest)
     {
         questInfoObject.gameObject.SetActive(true);
         questInfoText.text = appleADayText;
         cityAnimator.SetBool("QuestPressed", true);
+
+        switch (quest.questName)
+        {
+            case QuestButton.QuestNames.AppleADay:
+                questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
+                break;
+            case QuestButton.QuestNames.Lightbulb:
+                questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
+                break;
+        }
+
     }
     public void Func_QuestBackButtonPressed()
     {
