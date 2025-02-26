@@ -10,6 +10,8 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public NetworkVariable<NetworkString> player1Name = new NetworkVariable<NetworkString>("Host", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<NetworkString> player2Name = new NetworkVariable<NetworkString>("Client", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    public NetworkVariable<float> shipHealthGlobal = new NetworkVariable<float>(100);
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

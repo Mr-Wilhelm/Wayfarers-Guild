@@ -39,6 +39,9 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private SCR_ShipMovement shipVariables;
 
+    [SerializeField]
+    private float damage = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,7 +105,9 @@ public class SCR_Enemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Ship")
         {
-            other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
+            //other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
+
+            GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-damage);
             Destroy(gameObject);
         }
     }
