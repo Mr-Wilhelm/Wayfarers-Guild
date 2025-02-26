@@ -1,4 +1,5 @@
 using Gravitas.Demo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -67,7 +68,6 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
             {
-                Debug.Log(hitInfo.collider.gameObject.name + " layer is: " + hitInfo.collider.gameObject.layer);
                 if (interacting)
                 {
                     playerScriptReference.playerOnWheel = false;
@@ -89,25 +89,31 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Ballista Storage"))
                 {
-                    Debug.Log("Interacting with ballsita storage");
+                    //Checks if player already has item
                     if (playerScriptReference.hasItem == false)
                     {
-                        Debug.Log("Picking up ballista");
+                        //Picks up ballista bolt from storage
                         pickUpItem("Ballista Bolt", false, null);
                         playerScriptReference.hasItem = true;
                     }
-                    else { Debug.Log("Already have item"); }
+                }
+                else if (hitInfo.collider.gameObject.CompareTag("Engine"))
+                {
+                    if (objectBeingHeld == "Engine Food")
+                    {
+                        Debug.Log("Interact with engine");
+                        dropItem(true);
+                        if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
+                        ship.GetComponent<SCR_ShipMovement>().boostSpeedServerRPC();
+                    }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
-                    Debug.Log("Interacting with engine fuel storage");
                     if(playerScriptReference.hasItem == false)
                     {
-                        Debug.Log("Picking up fuel");
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
                     }
-                    else { Debug.Log("Already have item"); }
                 }
                 else if(hitInfo.collider.gameObject.CompareTag("Ballista Bolt"))
                 {
@@ -140,25 +146,26 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
+
     [ServerRpc(RequireOwnership = false)]
     private void UpdateCanInteractBoolServerRpc(bool newValue)
     {
         canInteract.Value = newValue;
     }
 
-    private void dropItem()
+    private void dropItem(bool itemBeingDeleted = false)
     {
         playerScriptReference.hasItem = false;
         DropItemServerRPC();
         if(objectBeingHeld == "Ballista Bolt")
         {
-            SpawnBallistaBolt();
+            if (!itemBeingDeleted) { SpawnBallistaBolt(); }
         }
         else if(objectBeingHeld == "Engine Food")
         {
-            SpawnEngineFood();
+            if (!itemBeingDeleted) { SpawnEngineFood(); }
         }
-        Debug.Log("Dropping item");
+        objectBeingHeld = "";
     }
 
     private void pickUpItem(string itemToPickUp, bool pickingUpFromGround, GameObject objToPickUp)
