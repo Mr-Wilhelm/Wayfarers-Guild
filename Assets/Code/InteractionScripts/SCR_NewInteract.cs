@@ -21,8 +21,10 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private KeyCode DropKey = KeyCode.G;
 
     [SerializeField] private LayerMask Wheel;
-    [SerializeField] private LayerMask Ballista;
+    [SerializeField] private LayerMask BallistaBolt;
     [SerializeField] private LayerMask EngineFuel;
+    [SerializeField] private LayerMask PickUp;
+    [SerializeField] private LayerMask ActualPickUp;
     [SerializeField] private GravitasFirstPersonPlayerSubject playerScriptReference;
 
     [SerializeField] private GameObject craigBodyMesh;
@@ -66,7 +68,7 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 otherPlayerCanInteract = true;
             }
-            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
+            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
             {
                 if (interacting)
                 {
@@ -94,6 +96,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     {
                         //Picks up ballista bolt from storage
                         pickUpItem("Ballista Bolt", false, null);
+                        Debug.Log(hitInfo.collider.gameObject.name);
                         playerScriptReference.hasItem = true;
                     }
                 }
