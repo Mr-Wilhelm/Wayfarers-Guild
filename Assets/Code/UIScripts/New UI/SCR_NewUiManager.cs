@@ -69,6 +69,9 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private string appleADayText;
 
+    [SerializeField]
+    private TextMeshProUGUI questTrackerText;
+
     private void Start()
     {
         //button variables
@@ -104,11 +107,8 @@ public class SCR_NewUiManager : MonoBehaviour
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
         questInfoObject.gameObject.SetActive(false);
-
-        #region Quest_Info_Text
-
-
-        #endregion
+        
+        questTrackerText = GameObject.Find("QuestTrackerText").GetComponentInChildren<TextMeshProUGUI>();;
     }
 
     private void Update()
@@ -171,9 +171,11 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
+                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay;
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
+                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;
                 break;
         }
 
@@ -186,16 +188,26 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
         Invoke("delayDespawnQuestInfo", 1.0f);
     }
-    public void Func_TestButtonPress()
-    {
-        Debug.Log("BEEP");
-    }
-
     private void delayDespawnQuestInfo()
     {
         questInfoText.text = "";
         questInfoObject.gameObject.SetActive(false);
     }
+    public void AcceptQuest()
+    {
+        Debug.Log("Accept Quest" + questInfoObject.activeQuest);
+        questTrackerText.text = questInfoObject.activeQuest.ToString();
+    }
+    public void DenyQuest()
+    {
+        Debug.Log("Deny Quest" + questInfoObject.activeQuest);
+    }
+    public void Func_TestButtonPress()
+    {
+        Debug.Log("BEEP");
+    }
+
+
     #endregion Button Functions
 
     #region Ink Dialogue Stuff - Tutorial used found in link Below
