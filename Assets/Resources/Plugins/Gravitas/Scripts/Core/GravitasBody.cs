@@ -84,6 +84,24 @@ namespace Gravitas
                 rb.AddTorque(torque, forceMode);
         }
 
+        public virtual void MoveRotation(Quaternion rot)
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.MoveRotation(rot);
+        }
+
+        public virtual Quaternion rotation()
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                return rb.rotation;
+            else
+            {
+                return Quaternion.identity;
+            }
+        }
+
         /// <summary>Automatically finds and assigns colliders that belong to this body.</summary>
         public void AutoFindBodyColliders()
         {
