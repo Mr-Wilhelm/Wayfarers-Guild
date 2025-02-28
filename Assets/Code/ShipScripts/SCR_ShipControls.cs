@@ -27,6 +27,27 @@ public class SCR_ShipControls : NetworkBehaviour
         shipMovement = ship.GetComponent<SCR_ShipMovement>();
     }
 
+
+    private void Update()
+    {
+        if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
+        if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
+        if (!IsOwner) { return; }
+        if (!onWheel) { return; }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && shipMovement.shipAcceleration.Value < shipMovement.shipAccelerationBound)
+        {
+            shipMovement.shipAcceleration.Value += shipMovement.shipAccelerationIncrement;
+            Debug.Log("speed up: " + shipMovement.shipAcceleration.Value);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && shipMovement.shipAcceleration.Value > -shipMovement.shipAccelerationBound/2)
+        {
+            shipMovement.shipAcceleration.Value += -shipMovement.shipAccelerationIncrement;
+            Debug.Log("speed down: " + shipMovement.shipAcceleration.Value);
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -110,6 +131,8 @@ public class SCR_ShipControls : NetworkBehaviour
             CancelInvoke(nameof(startAutoLevelPitch));
             Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
+        
+       
     }
 
     private void startAutoLevelRoll()

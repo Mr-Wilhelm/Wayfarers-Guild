@@ -18,8 +18,12 @@ public class SCR_ShipMovement : NetworkBehaviour
     //[SerializeField] public float shipAcceleration;
     //[SerializeField] public float shipTurnSpeed;
 
-    [SerializeField] public NetworkVariable<float> shipMaxSpeed;
+    [SerializeField] public NetworkVariable<float> shipMaxSpeed = new NetworkVariable<float>(25f);
+
     [SerializeField] public NetworkVariable<float> shipAcceleration;
+    [SerializeField] public float shipAccelerationIncrement;
+    [SerializeField] public float shipAccelerationBound;
+
     [SerializeField] public NetworkVariable<float> shipTurnSpeed;
 
     public float shipHealth = 10.0f;
