@@ -32,6 +32,9 @@ public class SCR_NewUiManager : MonoBehaviour
     private TextAsset spoonsNPCDialogue;
 
     [SerializeField]
+    private TextAsset spoonsQuestDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -42,6 +45,9 @@ public class SCR_NewUiManager : MonoBehaviour
 
     [SerializeField]
     private bool dialogueIsPlaying = false;
+
+    [SerializeField]
+    private List<string> dialogueTags = new List<string>();
 
     [Header("Choices UI")]
     [SerializeField]
@@ -101,6 +107,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
+        spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
         dialogueIsPlaying = false;
@@ -146,7 +153,9 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             if(currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
             {
-                if (cityAnimator.GetBool("HasChoices") == false)    
+                dialogueTags = currentStory.currentTags;
+                Debug.Log(dialogueTags[0]);
+                if (choices.Length > 0)    
                 {
                     cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
                 }
@@ -167,7 +176,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
         if(targetNPC == "Jenny")
         {
-            Debug.Log("Do Special Dialogue");
+            EnterDialogueMode(spoonsQuestDialogue);
         }
         else
         {
@@ -278,6 +287,7 @@ public class SCR_NewUiManager : MonoBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)    //starts dialogue with the text file as a parameter
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
+        dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
         dialoguePanel.SetActive(true);  //activate the dialogue panel
 
@@ -295,9 +305,6 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private void ContinueStory()    //
     {
-        List<string> tags = currentStory.currentTags;   //gets tags from the current story
-        Debug.Log(tags.Count);
-
         if (currentStory.canContinue)
         {
             //Stops the current text typing from playing.
@@ -356,7 +363,7 @@ public class SCR_NewUiManager : MonoBehaviour
                 audioSource.Play(); //play the audio
             }
 
-            yield return new WaitForSeconds(20.0f * Time.deltaTime);    //typing speed
+            yield return new WaitForSeconds(7.5f * Time.deltaTime);    //typing speed (lower value is faster)
         }
     }
 
