@@ -14,9 +14,10 @@ public class SCR_TerrainCollision : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Ship") || shipRecentlyHitTerrain) { return; }
+        shipRB = collision.gameObject.GetComponent<GravitasBody>();
         ContactPoint contactPoint = collision.contacts[0];
         Vector3 collisionPoint = contactPoint.point;
-        Debug.Log("Collision point is: " + collisionPoint);
+        //Debug.Log("Collision point is: " + collisionPoint);
 
         Vector3 collisionNormal = contactPoint.normal;
 
@@ -27,10 +28,27 @@ public class SCR_TerrainCollision : MonoBehaviour
 
     private void Bounce(Vector3 colNormal)
     {
+        Vector3 InvertedNormal = colNormal * -1;
         Vector3 beforeImpactVelocity = shipRB.Velocity;
-        Vector3 reflection = Vector3.Reflect(beforeImpactVelocity, colNormal);
-        Debug.Log("relection direction is: " + reflection);
-        shipRB.AddForce((reflection * bounceForce), ForceMode.Impulse);
+        float CollisionDotProduct = Vector3.Dot(beforeImpactVelocity, InvertedNormal);
+        Debug.Log(InvertedNormal + " Normal");
+        Debug.Log(beforeImpactVelocity + " ShipDir");
+        Debug.Log(CollisionDotProduct + " Result");
+        
+
+        if (CollisionDotProduct < 0.25)
+        {
+            shipRB.AddForce(beforeImpactVelocity.normalized *-1 * bounceForce * 10 * beforeImpactVelocity.magnitude, ForceMode.Impulse);
+            Debug.Log("Collision DOT product mag");
+        }
+        //else
+        //{
+        //    Debug.Log(beforeImpactVelocity);
+        //    Vector3 reflection = Vector3.Reflect(beforeImpactVelocity, colNormal);
+        //    Debug.Log("relection direction is: " + reflection);
+        //    shipRB.AddForce((reflection * bounceForce), ForceMode.Impulse);
+            
+        //}
     }
 
     private void ResetShipHitTerrainRecently()
