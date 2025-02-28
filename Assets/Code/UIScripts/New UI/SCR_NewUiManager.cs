@@ -58,7 +58,7 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private AudioClip textSound;
 
-    [Header("QuestObjects")]
+    [Header("QuestVariables")]
 
     [SerializeField]
     private QuestInfo questInfoObject;
@@ -77,6 +77,12 @@ public class SCR_NewUiManager : MonoBehaviour
 
     [SerializeField]
     private GameObject questTrackerBackground;
+
+    [SerializeField]
+    private string targetNPC;
+
+    [SerializeField]
+    private GameObject questLocation;
 
     private void Start()
     {
@@ -183,10 +189,12 @@ public class SCR_NewUiManager : MonoBehaviour
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
                 questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay;
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
                 questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;
                 break;
         }
 
@@ -220,6 +228,13 @@ public class SCR_NewUiManager : MonoBehaviour
         questTrackerTitle.text = questInfoObject.activeQuest.ToString();
 
         questTrackerInfo.text = questInfoText.text;
+        targetNPC = questInfoObject.targetNPC.ToString();
+
+        if(targetNPC == "Jenny")
+        {
+
+        }
+
     }
     public void DenyQuest()
     {
