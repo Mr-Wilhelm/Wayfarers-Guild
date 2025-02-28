@@ -64,9 +64,9 @@ public class SCR_ShipMovement : NetworkBehaviour
             shipRb.Velocity = currentSpeed;
         }
 
-        
 
-        //AutoLevel();
+
+        AutoLevelUsingServer();
     }
 
 
@@ -99,8 +99,8 @@ public class SCR_ShipMovement : NetworkBehaviour
     {
         //if (senderID != ulong.MaxValue && controllingPlayer.Value != senderID && controllingPlayer.Value != ulong.MaxValue) return;
 
-        if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * Time.deltaTime); }
-        else { rotationSpeed = shipTurnSpeed.Value * Time.deltaTime; }
+        if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * multiplier * Time.deltaTime); }
+        else { rotationSpeed = shipTurnSpeed.Value * multiplier * Time.deltaTime; }
         Vector3 torque = new Vector3(rotationSpeed, 0, 0);
         updateRotClientRPC(torque);
     }
@@ -110,8 +110,8 @@ public class SCR_ShipMovement : NetworkBehaviour
     {
         //if (senderID != ulong.MaxValue && controllingPlayer.Value != senderID && controllingPlayer.Value != ulong.MaxValue) return;
 
-        if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * Time.deltaTime); }
-        else { rotationSpeed = shipTurnSpeed.Value * Time.deltaTime; }
+        if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * multiplier * Time.deltaTime); }
+        else { rotationSpeed = shipTurnSpeed.Value * multiplier * Time.deltaTime; }
         Vector3 torque = new Vector3(0,0, rotationSpeed);   
         updateRotClientRPC(torque);
     }
@@ -181,11 +181,11 @@ public class SCR_ShipMovement : NetworkBehaviour
         }
         else if (ship.transform.rotation.eulerAngles.x < 180)
         {
-            //updateRollRotServerRPC("Left", ulong.MaxValue);
+            updateRollRotServerRPC("Left", ulong.MaxValue, 0.5f);
         }
         else if (ship.transform.rotation.eulerAngles.x > 180)
         {
-            //updateRollRotServerRPC("Right", ulong.MaxValue);
+            updateRollRotServerRPC("Right", ulong.MaxValue, 0.5f);
         }
         // Pitch Auto-level
         if (ship.transform.rotation.eulerAngles.z < 2 || ship.transform.rotation.eulerAngles.z > 358)
@@ -194,30 +194,17 @@ public class SCR_ShipMovement : NetworkBehaviour
         }
         else if (ship.transform.rotation.eulerAngles.z < 180)
         {
-            //updatePitchRotServerRPC("Left", ulong.MaxValue);
+            updatePitchRotServerRPC("Left", ulong.MaxValue, 0.5f);
         }
         else if (ship.transform.rotation.eulerAngles.z > 180)
         {
-            //updatePitchRotServerRPC("Right", ulong.MaxValue);
+            updatePitchRotServerRPC("Right", ulong.MaxValue, 0.5f);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void boostSpeedServerRPC()
     {
-
-        AutoLevelUsingServer();
-
-        //ulong playerID = controllingPlayer.Value;
-        
-        //if(playerID == ulong.MaxValue)
-        //{
-        //    AutoLevelUsingServer();
-        //}
-        //else
-        //{
-        //    AutoLevelWithPlayer(playerID);
-        //}
         boostSpeed();
     }
 
@@ -239,9 +226,5 @@ public class SCR_ShipMovement : NetworkBehaviour
         shipTurnSpeed.Value = unBoostedShipTurnSpeed;
     }
 
-    private void AutoLevelEdward()
-    {
-        
-    }
 
 }
