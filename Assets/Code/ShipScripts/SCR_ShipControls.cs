@@ -37,13 +37,13 @@ public class SCR_ShipControls : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && shipMovement.shipAcceleration.Value < shipMovement.shipAccelerationBound)
         {
-            shipMovement.shipAcceleration.Value += shipMovement.shipAccelerationIncrement;
+            shipMovement.increaseAccelerationServerRPC();
             Debug.Log("speed up: " + shipMovement.shipAcceleration.Value);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && shipMovement.shipAcceleration.Value > -shipMovement.shipAccelerationBound/2)
         {
-            shipMovement.shipAcceleration.Value += -shipMovement.shipAccelerationIncrement;
+            shipMovement.decreaseAccelerationServerRPC();
             Debug.Log("speed down: " + shipMovement.shipAcceleration.Value);
         }
     }

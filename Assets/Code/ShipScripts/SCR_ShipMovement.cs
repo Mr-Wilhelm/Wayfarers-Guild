@@ -141,6 +141,19 @@ public class SCR_ShipMovement : NetworkBehaviour
         shipRb.AddRelativeTorque(newRot, ForceMode.Acceleration);
     }
 
+
+    [ServerRpc(RequireOwnership = false)]
+    public void increaseAccelerationServerRPC()
+    {
+        shipAcceleration.Value += shipAccelerationIncrement;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void decreaseAccelerationServerRPC()
+    {
+        shipAcceleration.Value -= shipAccelerationIncrement;
+    }
+
     //private void AutoLevel()
     //{
     //    ulong playerID = controllingPlayer.Value;
