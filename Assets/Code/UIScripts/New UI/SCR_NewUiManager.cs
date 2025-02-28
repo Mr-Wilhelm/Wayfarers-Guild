@@ -81,8 +81,10 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private string targetNPC;
 
+    private GameObject spoonsNPCLocation, thamesNPCLocation;
+
     [SerializeField]
-    private GameObject questLocation;
+    private GameObject npcLocation;
 
     private void Start()
     {
@@ -126,6 +128,11 @@ public class SCR_NewUiManager : MonoBehaviour
 
         questTrackerInfo.enabled = false;
         questTrackerBackground.SetActive(false);
+
+        npcLocation = GameObject.Find("NPCLocation");
+        npcLocation.SetActive(false);
+
+        spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
     }
 
     private void Update()
@@ -158,7 +165,16 @@ public class SCR_NewUiManager : MonoBehaviour
         cityAnimator.SetBool("SpoonsPressed", true);
         spoonsButton.interactable = false;
 
-        EnterDialogueMode(spoonsNPCDialogue);
+        if(targetNPC == "Jenny")
+        {
+            Debug.Log("Do Special Dialogue");
+        }
+        else
+        {
+
+            EnterDialogueMode(spoonsNPCDialogue);
+        }
+
     }
 
     public void Func_SpoonsBackButtonPressed()
@@ -230,9 +246,17 @@ public class SCR_NewUiManager : MonoBehaviour
         questTrackerInfo.text = questInfoText.text;
         targetNPC = questInfoObject.targetNPC.ToString();
 
-        if(targetNPC == "Jenny")
+        switch (targetNPC)
         {
+            case "Jenny":
+                npcLocation.SetActive(true);
+                npcLocation.transform.position = spoonsNPCLocation.transform.position;
+                break;
 
+            case "None":
+                Debug.Log("No NPC to track");
+                npcLocation.SetActive(false);   //disable again just in case it is active from a quest
+                break;
         }
 
     }
