@@ -77,7 +77,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
                 }
-                else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract)
+                else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract && !playerScriptReference.hasItem)
                 {
                     if (ship == null)
                     {
