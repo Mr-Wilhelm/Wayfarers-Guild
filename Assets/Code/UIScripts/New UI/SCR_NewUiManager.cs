@@ -95,8 +95,18 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private GameObject npcLocation;
 
+    [Header("DDOL Objects")]
+    [SerializeField]
+    private SCR_PlayerDataHandler playerDataHandler;
+
     private void Start()
     {
+        //disable the cameras for all the players so they don't overlap with the 2D scene camera
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponentInChildren<Camera>().enabled = false;
+        }
+
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
@@ -144,6 +154,8 @@ public class SCR_NewUiManager : MonoBehaviour
         npcLocation.SetActive(false);
 
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
+
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
     }
 
     private void Update()
@@ -275,6 +287,11 @@ public class SCR_NewUiManager : MonoBehaviour
     public void DenyQuest()
     {
         Debug.Log("Deny Quest" + questInfoObject.activeQuest);
+    }
+
+    public void Func_RepairButtonPress()
+    {
+        Debug.Log(playerDataHandler.shipHealthGlobal);
     }
     public void Func_TestButtonPress()
     {
