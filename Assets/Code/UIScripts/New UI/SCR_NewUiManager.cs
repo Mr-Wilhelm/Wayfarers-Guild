@@ -47,6 +47,12 @@ public class SCR_NewUiManager : MonoBehaviour
     private bool dialogueIsPlaying = false;
 
     [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip textSound;
+
+    [SerializeField]
     private List<string> dialogueTags = new List<string>();
 
     [Header("Choices UI")]
@@ -59,10 +65,7 @@ public class SCR_NewUiManager : MonoBehaviour
     private Coroutine typeTextCoroutine;
 
     [SerializeField]
-    private AudioSource audioSource;
-
-    [SerializeField]
-    private AudioClip textSound;
+    private bool isShowingChoices;
 
     [Header("QuestVariables")]
 
@@ -115,6 +118,7 @@ public class SCR_NewUiManager : MonoBehaviour
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
 
+
         foreach(GameObject choice in choices)
         {
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
@@ -144,21 +148,20 @@ public class SCR_NewUiManager : MonoBehaviour
 
     private void Update()
     {
-        if(!dialogueIsPlaying)
+        if (!dialogueIsPlaying)
         {
             return;
         }
 
-        else if(Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
         {
-            if(currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
+            dialogueTags = currentStory.currentTags;
+            if (currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
             {
-                dialogueTags = currentStory.currentTags;
-                Debug.Log(dialogueTags[0]);
-                if (choices.Length > 0)    
-                {
-                    cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
-                }
+                //if (cityAnimator.GetBool("HasChoices") == false)
+                //{
+                //    cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
+                //}
                 ContinueStory();    //continue the story (this is an ink plugin thing)
             }
             else
@@ -301,6 +304,7 @@ public class SCR_NewUiManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+        dialogueTags.Clear();
     }
 
     private void ContinueStory()    //
@@ -315,7 +319,8 @@ public class SCR_NewUiManager : MonoBehaviour
             }
 
             typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue())); //set text for the current line
-            DisplayChoices();   //shows button choices
+            if(dialogueTags.Contains("animate") && !isShowingChoices)
+                DisplayChoices();   //shows button choices
         }
         else
         {
@@ -342,12 +347,15 @@ public class SCR_NewUiManager : MonoBehaviour
             choicesText[index].text = choice.text;
             index++;
         }
-
+        isShowingChoices = true;
         //make the other choices invisible
         for (int i = index; i < choices.Length; i++)  
         {
             choices[i].gameObject.SetActive(false);
         }
+
+        if (dialogueTags.Contains("animate"))
+            cityAnimator.SetBool("HasChoices", true);
             
     }
 
@@ -371,6 +379,7 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         Debug.Log("You made your choice");
         currentStory.ChooseChoiceIndex(choiceIndex);
+        isShowingChoices = false;
         ContinueStory();
     }
 

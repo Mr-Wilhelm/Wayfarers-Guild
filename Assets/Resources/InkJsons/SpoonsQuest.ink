@@ -1,8 +1,8 @@
-#animate
+#beans
 Ah, y' saw the poster, then?
 Yeah I have a little somethin' you can 'elp with.
 See, our friends over in Chicago buy out our cider- can't get enough of it. 
-I 'eard Marge's runnin' low on stock over there- 
+I 'eard Marge's runnin' low on stock over there #animate
 if y' don't mind deliverin' her some, we'd be happy to pay. 
 ->Choices
 
