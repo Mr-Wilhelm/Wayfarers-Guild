@@ -40,6 +40,9 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     [SerializeField] public float autoCorrectLimit;
 
+    public bool autoLevelRollActive = true;
+    public bool autoLevelPitchActive = true;
+
 
     private Vector3 rotation;
 
@@ -64,8 +67,15 @@ public class SCR_ShipMovement : NetworkBehaviour
         }
 
 
+        if (autoLevelRollActive)
+        {
+            AutoLevelRoll();
+        }
+        if (autoLevelPitchActive)
+        {
+            AutoLevelPitch();
+        }
 
-        AutoLevelUsingServer();
     }
 
 
@@ -171,7 +181,7 @@ public class SCR_ShipMovement : NetworkBehaviour
     //    }
     //}
 
-    private void AutoLevelUsingServer()
+    private void AutoLevelRoll()
     {
         // Roll Auto-level
         if (ship.transform.rotation.eulerAngles.x < 2 || ship.transform.rotation.eulerAngles.x > 358)
@@ -186,6 +196,10 @@ public class SCR_ShipMovement : NetworkBehaviour
         {
             updateRollRotServerRPC("Right", ulong.MaxValue, 0.5f);
         }
+    }
+
+    private void AutoLevelPitch()
+    {
         // Pitch Auto-level
         if (ship.transform.rotation.eulerAngles.z < 2 || ship.transform.rotation.eulerAngles.z > 358)
         {

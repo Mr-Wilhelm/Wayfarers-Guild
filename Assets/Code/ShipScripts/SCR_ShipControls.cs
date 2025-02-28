@@ -35,11 +35,6 @@ public class SCR_ShipControls : NetworkBehaviour
         if (!IsOwner){ return; }
         if (!onWheel) { return; }
         //Yaw Right
-
-        Debug.Log("x: " + ship.transform.rotation.eulerAngles.x);
-        Debug.Log("y: " + ship.transform.rotation.eulerAngles.y);
-        Debug.Log("z: " + ship.transform.rotation.eulerAngles.z);
-
         if (Input.GetKey(KeyCode.D))
         {
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
@@ -50,24 +45,79 @@ public class SCR_ShipControls : NetworkBehaviour
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
         }
         //Roll Right
-        if(Input.GetKey(KeyCode.E) && (ship.transform.rotation.eulerAngles.x <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.x >= 360 - shipMovement.autoCorrectLimit) )
+        if(Input.GetKey(KeyCode.E) && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit) )
         {
-            shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
+
+            if (ship.transform.rotation.eulerAngles.x < 180)
+            {
+                shipMovement.updateRollRotServerRPC("Left", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
+            }
+
+            
+            shipMovement.autoLevelRollActive = false;
+            CancelInvoke(nameof(startAutoLevelRoll));
+            Invoke(nameof(startAutoLevelRoll), 0.5f);
         }
         //Roll Left
-        if (Input.GetKey(KeyCode.Q) && (ship.transform.rotation.eulerAngles.x <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.x >= 360 - shipMovement.autoCorrectLimit))
+        if (Input.GetKey(KeyCode.Q) && !(ship.transform.rotation.eulerAngles.x < 180 && ship.transform.rotation.eulerAngles.x > shipMovement.autoCorrectLimit))
         {
-            shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
+            if (ship.transform.rotation.eulerAngles.x > 180)
+            {
+                shipMovement.updateRollRotServerRPC("Right", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
+            }
+                
+            shipMovement.autoLevelRollActive = false;
+            CancelInvoke(nameof(startAutoLevelRoll));
+            Invoke(nameof(startAutoLevelRoll), 0.5f);
         }
         //Pitch up
-        if (Input.GetKey(KeyCode.W) && (ship.transform.rotation.eulerAngles.z <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.z >= 360 - shipMovement.autoCorrectLimit))
+        if (Input.GetKey(KeyCode.S) && !(ship.transform.rotation.eulerAngles.z < 180 && ship.transform.rotation.eulerAngles.z > shipMovement.autoCorrectLimit))
         {
-            shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
+            if (ship.transform.rotation.eulerAngles.z > 180)
+            {
+                shipMovement.updatePitchRotServerRPC("Right", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
+            }
+                
+            shipMovement.autoLevelPitchActive = false;
+            CancelInvoke(nameof(startAutoLevelPitch));
+            Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
-        //Roll Left
-        if (Input.GetKey(KeyCode.S) && (ship.transform.rotation.eulerAngles.z <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.z >= 360 - shipMovement.autoCorrectLimit))
+        //Pitch Down
+        if (Input.GetKey(KeyCode.W) && !(ship.transform.rotation.eulerAngles.z > 180 && ship.transform.rotation.eulerAngles.z < 360 - shipMovement.autoCorrectLimit))
         {
-            shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
+            if (ship.transform.rotation.eulerAngles.z < 180)
+            {
+                shipMovement.updatePitchRotServerRPC("Left", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
+            }
+                
+            shipMovement.autoLevelPitchActive = false;
+            CancelInvoke(nameof(startAutoLevelPitch));
+            Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
+    }
+
+    private void startAutoLevelRoll()
+    {
+        shipMovement.autoLevelRollActive = true;
+    }
+    private void startAutoLevelPitch()
+    {
+        shipMovement.autoLevelPitchActive = true;
     }
 }
