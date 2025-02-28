@@ -305,6 +305,7 @@ public class SCR_NewUiManager : MonoBehaviour
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
         dialogueTags.Clear();
+        isShowingChoices = false;
     }
 
     private void ContinueStory()    //
