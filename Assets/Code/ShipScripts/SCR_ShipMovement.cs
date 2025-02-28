@@ -36,7 +36,6 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     [SerializeField] public NetworkVariable<Vector3> shipPos;
 
-    [SerializeField] private float pitchRollResetSpeed;
     private float rotationSpeed;
 
     [SerializeField] private float autoCorrectLimit;
