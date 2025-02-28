@@ -38,7 +38,7 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     private float rotationSpeed;
 
-    [SerializeField] private float autoCorrectLimit;
+    [SerializeField] public float autoCorrectLimit;
 
 
     private Vector3 rotation;

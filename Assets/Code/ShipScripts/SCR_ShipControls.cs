@@ -35,6 +35,11 @@ public class SCR_ShipControls : NetworkBehaviour
         if (!IsOwner){ return; }
         if (!onWheel) { return; }
         //Yaw Right
+
+        Debug.Log("x: " + ship.transform.rotation.eulerAngles.x);
+        Debug.Log("y: " + ship.transform.rotation.eulerAngles.y);
+        Debug.Log("z: " + ship.transform.rotation.eulerAngles.z);
+
         if (Input.GetKey(KeyCode.D))
         {
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
@@ -45,22 +50,22 @@ public class SCR_ShipControls : NetworkBehaviour
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
         }
         //Roll Right
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E) && (ship.transform.rotation.eulerAngles.x <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.x >= 360 - shipMovement.autoCorrectLimit) )
         {
             shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
         }
         //Roll Left
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q) && (ship.transform.rotation.eulerAngles.x <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.x >= 360 - shipMovement.autoCorrectLimit))
         {
             shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
         }
         //Pitch up
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && (ship.transform.rotation.eulerAngles.z <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.z >= 360 - shipMovement.autoCorrectLimit))
         {
             shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
         }
         //Roll Left
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && (ship.transform.rotation.eulerAngles.z <= shipMovement.autoCorrectLimit || ship.transform.rotation.eulerAngles.z >= 360 - shipMovement.autoCorrectLimit))
         {
             shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
         }
