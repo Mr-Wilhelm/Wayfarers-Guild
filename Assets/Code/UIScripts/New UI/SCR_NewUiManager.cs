@@ -70,7 +70,13 @@ public class SCR_NewUiManager : MonoBehaviour
     private string appleADayText;
 
     [SerializeField]
-    private TextMeshProUGUI questTrackerText;
+    private TextMeshProUGUI questTrackerTitle;
+
+    [SerializeField]
+    private TextMeshProUGUI questTrackerInfo;
+
+    [SerializeField]
+    private GameObject questTrackerBackground;
 
     private void Start()
     {
@@ -108,7 +114,12 @@ public class SCR_NewUiManager : MonoBehaviour
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
         questInfoObject.gameObject.SetActive(false);
         
-        questTrackerText = GameObject.Find("QuestTrackerText").GetComponentInChildren<TextMeshProUGUI>();;
+        questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
+        questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
+        questTrackerBackground = GameObject.Find("QuestTrackerBackground");
+
+        questTrackerInfo.enabled = false;
+        questTrackerBackground.SetActive(false);
     }
 
     private void Update()
@@ -188,6 +199,16 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
         Invoke("delayDespawnQuestInfo", 1.0f);
     }
+    public void Func_QuestTrackerDropDown()
+    {
+        questTrackerInfo.enabled = true;
+        questTrackerBackground.SetActive(true);
+    }
+    public void Func_QuestTrackerCollapse()
+    {
+        questTrackerInfo.enabled = false;
+        questTrackerBackground.SetActive(false);
+    }
     private void delayDespawnQuestInfo()
     {
         questInfoText.text = "";
@@ -196,7 +217,9 @@ public class SCR_NewUiManager : MonoBehaviour
     public void AcceptQuest()
     {
         Debug.Log("Accept Quest" + questInfoObject.activeQuest);
-        questTrackerText.text = questInfoObject.activeQuest.ToString();
+        questTrackerTitle.text = questInfoObject.activeQuest.ToString();
+
+        questTrackerInfo.text = questInfoText.text;
     }
     public void DenyQuest()
     {
