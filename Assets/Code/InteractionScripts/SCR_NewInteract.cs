@@ -162,11 +162,11 @@ public class SCR_NewInteract : NetworkBehaviour
         DropItemServerRPC();
         if(objectBeingHeld == "Ballista Bolt")
         {
-            if (!itemBeingDeleted) { SpawnBallistaBolt(); }
+            if (!itemBeingDeleted) { SpawnBallistaBoltServerRPC(); }
         }
         else if(objectBeingHeld == "Engine Food")
         {
-            if (!itemBeingDeleted) { SpawnEngineFood(); }
+            if (!itemBeingDeleted) { SpawnEngineFoodServerRPC(); }
         }
         objectBeingHeld = "";
     }
@@ -175,9 +175,9 @@ public class SCR_NewInteract : NetworkBehaviour
     {
         if(pickingUpFromGround)
         {
-            objToPickUp.GetComponent<NetworkObject>().Despawn(true);
+            deleteItemServerRPC(objToPickUp.GetComponent<NetworkObject>().NetworkObjectId);
         }
-        if(itemToPickUp == "Ballista Bolt")
+        if (itemToPickUp == "Ballista Bolt")
         {
             objectBeingHeld = "Ballista Bolt";
             PickUpBallistaBoltServerRPC();
@@ -189,7 +189,14 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
+    private void deleteItemServerRPC(ulong objToPickUp)
+    {
+        NetworkObject objToDestroy = GetNetworkObject(objToPickUp);
+        objToDestroy.Despawn();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     private void PickUpBallistaBoltServerRPC()
     {
         PickUpBallistaBoltClientRPC();
@@ -204,7 +211,7 @@ public class SCR_NewInteract : NetworkBehaviour
         ballistaBoltMesh.SetActive(true);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void PickUpEngineFoodServerRPC()
     {
         PickUpEngineFoodClientRPC();
@@ -219,7 +226,7 @@ public class SCR_NewInteract : NetworkBehaviour
         engineFoodMesh.SetActive(true);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void DropItemServerRPC()
     {
         DropItemClientRPC();
@@ -235,17 +242,20 @@ public class SCR_NewInteract : NetworkBehaviour
         engineFoodMesh.SetActive(false);
     }
 
-    private void SpawnBallistaBolt()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnBallistaBoltServerRPC()
     {
         var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, (dropPosition.transform.rotation * Quaternion.Euler(0, 90, 0)));
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn(); 
     }
 
-    private void SpawnEngineFood()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnEngineFoodServerRPC()
     {
         var instance = Instantiate(engineFoodPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn();
     }
+
 }
