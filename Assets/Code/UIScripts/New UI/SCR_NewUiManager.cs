@@ -9,6 +9,7 @@ using TMPro;
 using NUnit.Framework.Constraints;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 
 public class SCR_NewUiManager : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class SCR_NewUiManager : MonoBehaviour
 
     [SerializeField]
     private Button questButton;
+
+    [SerializeField]
+    private Button repairButton;
+
+    [SerializeField]
+    private TextMeshProUGUI repairCostText;
 
     [Header("Sprites")]
     [SerializeField]
@@ -95,6 +102,10 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private GameObject npcLocation;
 
+    [Header("Stats")]
+    [SerializeField]
+    private float repairCost;
+
     [Header("DDOL Objects")]
     [SerializeField]
     private SCR_PlayerDataHandler playerDataHandler;
@@ -112,11 +123,19 @@ public class SCR_NewUiManager : MonoBehaviour
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
 
+        repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
+        repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
+        repairCostText.text = repairCost.ToString();
+        
+        //repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
         //animator variables
+        cityAnimator = Resources.Load<Animator>("CityAnimController");
         cityAnimator = GetComponent<Animator>();
+
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
@@ -291,7 +310,7 @@ public class SCR_NewUiManager : MonoBehaviour
 
     public void Func_RepairButtonPress()
     {
-        Debug.Log(playerDataHandler.shipHealthGlobal);
+        playerDataHandler.playerMoney.Value -= (100.0f - playerDataHandler.shipHealthGlobal.Value);
     }
     public void Func_TestButtonPress()
     {

@@ -11,16 +11,12 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public NetworkVariable<NetworkString> player2Name = new NetworkVariable<NetworkString>("Client", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public NetworkVariable<float> shipHealthGlobal = new NetworkVariable<float>(100);
+    public NetworkVariable<float> playerMoney = new NetworkVariable<float>(200);
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
-
-  
-
-
-
     public struct NetworkString : INetworkSerializeByMemcpy
     {
         private ForceNetworkSerializeByMemcpy<FixedString32Bytes> _info;
