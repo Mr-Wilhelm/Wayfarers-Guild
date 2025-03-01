@@ -18,8 +18,12 @@ public class SCR_ShipMovement : NetworkBehaviour
     //[SerializeField] public float shipAcceleration;
     //[SerializeField] public float shipTurnSpeed;
 
-    [SerializeField] public NetworkVariable<float> shipMaxSpeed;
+    [SerializeField] public NetworkVariable<float> shipMaxSpeed = new NetworkVariable<float>(25f);
+
     [SerializeField] public NetworkVariable<float> shipAcceleration;
+    [SerializeField] public float shipAccelerationIncrement;
+    [SerializeField] public float shipAccelerationBound;
+
     [SerializeField] public NetworkVariable<float> shipTurnSpeed;
 
     public float shipHealth = 10.0f;
@@ -36,10 +40,12 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     [SerializeField] public NetworkVariable<Vector3> shipPos;
 
-    [SerializeField] private float pitchRollResetSpeed;
     private float rotationSpeed;
 
-    [SerializeField] private float autoCorrectLimit;
+    [SerializeField] public float autoCorrectLimit;
+
+    public bool autoLevelRollActive = true;
+    public bool autoLevelPitchActive = true;
 
 
     private Vector3 rotation;
@@ -64,29 +70,18 @@ public class SCR_ShipMovement : NetworkBehaviour
             shipRb.Velocity = currentSpeed;
         }
 
-        
 
-        //AutoLevel();
+        if (autoLevelRollActive)
+        {
+            AutoLevelRoll();
+        }
+        if (autoLevelPitchActive)
+        {
+            AutoLevelPitch();
+        }
+
     }
 
-    private void LateUpdate()
-    {
-        if (!IsServer) return;
-
-        Vector3 currentEuler = transform.eulerAngles;
-        Vector3 targetEuler = currentEuler;
-
-        // Auto-level pitch if no pitch input
-        if (Mathf.Abs(rotation.x) < autoCorrectLimit)
-            targetEuler.x = Mathf.LerpAngle(currentEuler.x, 0, Time.fixedDeltaTime * (shipTurnSpeed.Value / 2));
-
-        // Auto-level roll if no roll input
-        if (Mathf.Abs(rotation.z) < autoCorrectLimit)
-            targetEuler.z = Mathf.LerpAngle(currentEuler.z, 0, Time.fixedDeltaTime * (shipTurnSpeed.Value / 2));
-
-        Quaternion targetRotation = Quaternion.Euler(targetEuler);
-        shipRb.MoveRotation(Quaternion.Slerp(shipRb.rotation(), targetRotation, Time.fixedDeltaTime * (shipTurnSpeed.Value / 2)));
-    }
 
 
     [ServerRpc(RequireOwnership = false)]
@@ -118,7 +113,7 @@ public class SCR_ShipMovement : NetworkBehaviour
         //if (senderID != ulong.MaxValue && controllingPlayer.Value != senderID && controllingPlayer.Value != ulong.MaxValue) return;
 
         if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * multiplier * Time.deltaTime); }
-        else { rotationSpeed = shipTurnSpeed.Value * Time.deltaTime; }
+        else { rotationSpeed = shipTurnSpeed.Value * multiplier * Time.deltaTime; }
         Vector3 torque = new Vector3(rotationSpeed, 0, 0);
         updateRotClientRPC(torque);
     }
@@ -129,7 +124,7 @@ public class SCR_ShipMovement : NetworkBehaviour
         //if (senderID != ulong.MaxValue && controllingPlayer.Value != senderID && controllingPlayer.Value != ulong.MaxValue) return;
 
         if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * multiplier * Time.deltaTime); }
-        else { rotationSpeed = shipTurnSpeed.Value * Time.deltaTime; }
+        else { rotationSpeed = shipTurnSpeed.Value * multiplier * Time.deltaTime; }
         Vector3 torque = new Vector3(0,0, rotationSpeed);   
         updateRotClientRPC(torque);
     }
@@ -143,8 +138,20 @@ public class SCR_ShipMovement : NetworkBehaviour
     [ClientRpc]
     private void updateRotClientRPC(Vector3 newRot)
     {
-        rotation += newRot;
-        shipRb.AddTorque(newRot, ForceMode.Acceleration);
+        shipRb.AddRelativeTorque(newRot, ForceMode.Acceleration);
+    }
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void increaseAccelerationServerRPC()
+    {
+        shipAcceleration.Value += shipAccelerationIncrement;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void decreaseAccelerationServerRPC()
+    {
+        shipAcceleration.Value -= shipAccelerationIncrement;
     }
 
     //private void AutoLevel()
@@ -191,7 +198,7 @@ public class SCR_ShipMovement : NetworkBehaviour
     //    }
     //}
 
-    private void AutoLevelUsingServer()
+    private void AutoLevelRoll()
     {
         // Roll Auto-level
         if (ship.transform.rotation.eulerAngles.x < 2 || ship.transform.rotation.eulerAngles.x > 358)
@@ -200,12 +207,16 @@ public class SCR_ShipMovement : NetworkBehaviour
         }
         else if (ship.transform.rotation.eulerAngles.x < 180)
         {
-            //updateRollRotServerRPC("Left", ulong.MaxValue);
+            updateRollRotServerRPC("Left", ulong.MaxValue, 0.5f);
         }
         else if (ship.transform.rotation.eulerAngles.x > 180)
         {
-            //updateRollRotServerRPC("Right", ulong.MaxValue);
+            updateRollRotServerRPC("Right", ulong.MaxValue, 0.5f);
         }
+    }
+
+    private void AutoLevelPitch()
+    {
         // Pitch Auto-level
         if (ship.transform.rotation.eulerAngles.z < 2 || ship.transform.rotation.eulerAngles.z > 358)
         {
@@ -213,30 +224,17 @@ public class SCR_ShipMovement : NetworkBehaviour
         }
         else if (ship.transform.rotation.eulerAngles.z < 180)
         {
-            //updatePitchRotServerRPC("Left", ulong.MaxValue);
+            updatePitchRotServerRPC("Left", ulong.MaxValue, 0.5f);
         }
         else if (ship.transform.rotation.eulerAngles.z > 180)
         {
-            //updatePitchRotServerRPC("Right", ulong.MaxValue);
+            updatePitchRotServerRPC("Right", ulong.MaxValue, 0.5f);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void boostSpeedServerRPC()
     {
-
-        AutoLevelUsingServer();
-
-        //ulong playerID = controllingPlayer.Value;
-        
-        //if(playerID == ulong.MaxValue)
-        //{
-        //    AutoLevelUsingServer();
-        //}
-        //else
-        //{
-        //    AutoLevelWithPlayer(playerID);
-        //}
         boostSpeed();
     }
 
@@ -258,9 +256,5 @@ public class SCR_ShipMovement : NetworkBehaviour
         shipTurnSpeed.Value = unBoostedShipTurnSpeed;
     }
 
-    private void AutoLevelEdward()
-    {
-        
-    }
 
 }

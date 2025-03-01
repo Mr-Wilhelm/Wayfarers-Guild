@@ -84,6 +84,13 @@ namespace Gravitas
                 rb.AddTorque(torque, forceMode);
         }
 
+        public virtual void AddRelativeTorque(Vector3 torque, ForceMode forceMode)
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.AddRelativeTorque(torque, forceMode);
+        }
+
         public virtual void MoveRotation(Quaternion rot)
         {
             Rigidbody rb = CurrentRigidbody;
