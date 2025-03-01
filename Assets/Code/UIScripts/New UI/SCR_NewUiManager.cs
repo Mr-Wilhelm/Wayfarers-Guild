@@ -255,11 +255,13 @@ public class SCR_NewUiManager : MonoBehaviour
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
                 questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay;
                 questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;
+                questInfoObject.jennyImage.enabled = true;
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
                 questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;
                 questInfoObject.targetNPC = QuestInfo.npcBroker.None;
+                questInfoObject.jennyImage.enabled = false;
                 break;
         }
 
