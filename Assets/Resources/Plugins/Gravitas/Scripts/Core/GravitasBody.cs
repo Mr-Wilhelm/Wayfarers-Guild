@@ -346,5 +346,19 @@ namespace Gravitas
                 AutoFindBodyColliders();
             }
         }
+
+
+
+        private void Update()
+        {
+            if (lockedInPlace)
+            {
+                IsLanded = true;
+            }
+        }
+
     }
+
+    
+
 }
