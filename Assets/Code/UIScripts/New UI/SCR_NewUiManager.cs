@@ -110,6 +110,9 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private SCR_PlayerDataHandler playerDataHandler;
 
+    [SerializeField]
+    private TextMeshProUGUI playerMoneyText;
+
     private void Start()
     {
         //disable the cameras for all the players so they don't overlap with the 2D scene camera
@@ -127,15 +130,12 @@ public class SCR_NewUiManager : MonoBehaviour
         repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
         repairCostText.text = repairCost.ToString();
         
-        //repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
-
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
         cityAnimator = GetComponent<Animator>();
-
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
@@ -146,7 +146,6 @@ public class SCR_NewUiManager : MonoBehaviour
         dialogueText = dialoguePanel.GetComponentInChildren<TextMeshProUGUI>();
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
-
 
         foreach(GameObject choice in choices)
         {
@@ -175,6 +174,13 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+
+        //player/ship stat variables
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        repairCostText.text = repairCost.ToString();
+
+        playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
     }
 
     private void Update()
@@ -310,7 +316,12 @@ public class SCR_NewUiManager : MonoBehaviour
 
     public void Func_RepairButtonPress()
     {
-        playerDataHandler.playerMoney.Value -= (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        playerDataHandler.playerMoney.Value -= repairCost;    //subtract money
+        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();  //re-set the value of money
+
+        playerDataHandler.shipHealthGlobal.Value = 100.0f;
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);   //reset repair cost to 0
+        repairCostText.text = repairCost.ToString();
     }
     public void Func_TestButtonPress()
     {
