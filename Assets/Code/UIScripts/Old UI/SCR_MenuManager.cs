@@ -252,12 +252,6 @@ public class SCR_MenuManager : NetworkBehaviour
         player2Unready = Resources.Load<Sprite>("UIElements/Ready up pixel ui.png");
         player2Ready = Resources.Load<Sprite>("UIElements/Ready up pixel ui.png");
 
-        //player1Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
-        //player1Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
-
-        //player2Unready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
-        //player2Ready = (Sprite)AssetDatabase.LoadAssetAtPath("Assets/Art/UI Assets/UI Elements/Ready up pixel ui.png", typeof(Sprite));
-
         questButton = GameObject.Find("QuestButton");
         questButton.SetActive(true);
 
@@ -880,29 +874,6 @@ public class SCR_MenuManager : NetworkBehaviour
             clientReady = false;
             ReadyedServerRpc(false);
         }
-
-        
-
-        //if (IsServer)
-        //{
-        //    GameObject OneButton = GameObjectCommon.FindChildwithTagStringLayer(readyButton, "ReadyPlayerOne", GameObjectCommon.NameTagLayer.Name);
-
-        //    if (readystatus) { OneButton.GetComponent<Image>().color = Color.green; }
-        //    else { OneButton.GetComponent<Image>().color = Color.red; }
-
-        //}
-
-        //if (IsClient)
-        //{
-        //    GameObject TwoButton = GameObjectCommon.FindChildwithTagStringLayer(readyButton, "ReadyPlayerTwo (1)", GameObjectCommon.NameTagLayer.Name);
-
-        //    if (readystatus) { TwoButton.GetComponent<Image>().material.color = Color.green; }
-        //    else if (readystatus) { TwoButton.GetComponent<Image>().color= Color.red; }
-
-        //    //playertwo actions
-        //}
-        // Send off Playerready status Here for ready status
-
     }
 
     [ServerRpc(RequireOwnership = false)]

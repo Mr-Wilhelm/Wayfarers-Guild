@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestInfo : MonoBehaviour
 {
@@ -13,7 +14,21 @@ public class QuestInfo : MonoBehaviour
 
     public float rewardMoney;
 
+    public Image questStamp;
+
+    public Image jennyImage;
+    public Image deliveryImage;
+    public Image researchImage;
+
     public questHeading activeQuest;
     public npcBroker targetNPC;
     public questTypes questType;
+
+    private void Start()
+    {
+        jennyImage = GameObject.Find("JennyImage").GetComponent<Image>();
+        deliveryImage = GameObject.Find("DeliveryImage").GetComponent<Image>();
+        researchImage = GameObject.Find("ResearchImage").GetComponent<Image>();
+        questStamp = GameObject.Find("Stamp").GetComponent<Image>();
+    }
 }

@@ -102,6 +102,8 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private GameObject npcLocation;
 
+    
+
     [Header("Stats")]
     [SerializeField]
     private float repairCost;
@@ -109,6 +111,9 @@ public class SCR_NewUiManager : MonoBehaviour
     [Header("DDOL Objects")]
     [SerializeField]
     private SCR_PlayerDataHandler playerDataHandler;
+
+    [SerializeField]
+    private TextMeshProUGUI playerMoneyText;
 
     private void Start()
     {
@@ -127,15 +132,12 @@ public class SCR_NewUiManager : MonoBehaviour
         repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
         repairCostText.text = repairCost.ToString();
         
-        //repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
-
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
         cityAnimator = GetComponent<Animator>();
-
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
@@ -146,7 +148,6 @@ public class SCR_NewUiManager : MonoBehaviour
         dialogueText = dialoguePanel.GetComponentInChildren<TextMeshProUGUI>();
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
-
 
         foreach(GameObject choice in choices)
         {
@@ -161,6 +162,7 @@ public class SCR_NewUiManager : MonoBehaviour
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
         questInfoObject.gameObject.SetActive(false);
+        questInfoObject.questStamp.enabled = false;
         
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
@@ -175,6 +177,13 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+
+        //player/ship stat variables
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        repairCostText.text = repairCost.ToString();
+
+        playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
     }
 
     private void Update()
@@ -247,13 +256,17 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay;
-                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;
+                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
+                questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
+                questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;
-                questInfoObject.targetNPC = QuestInfo.npcBroker.None;
+                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
+                questInfoObject.jennyImage.enabled = false; //npc image
                 break;
         }
 
@@ -262,8 +275,11 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         cityAnimator.SetBool("QuestBoardPressed", false);
         cityAnimator.SetBool("QuestPressed", false);
+        cityAnimator.SetBool("HasAcceptedQuest", false);
+
         spoonsButton.interactable = true;
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
         Invoke("delayDespawnQuestInfo", 1.0f);
     }
     public void Func_QuestTrackerDropDown()
@@ -280,6 +296,7 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         questInfoText.text = "";
         questInfoObject.gameObject.SetActive(false);
+        questInfoObject.questStamp.enabled = false;
     }
     public void AcceptQuest()
     {
@@ -288,6 +305,9 @@ public class SCR_NewUiManager : MonoBehaviour
 
         questTrackerInfo.text = questInfoText.text;
         targetNPC = questInfoObject.targetNPC.ToString();
+
+        cityAnimator.SetBool("HasAcceptedQuest", true);
+
 
         switch (targetNPC)
         {
@@ -310,7 +330,16 @@ public class SCR_NewUiManager : MonoBehaviour
 
     public void Func_RepairButtonPress()
     {
-        playerDataHandler.playerMoney.Value -= (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        playerDataHandler.playerMoney.Value -= repairCost;    //subtract money
+        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();  //re-set the value of money
+
+        playerDataHandler.shipHealthGlobal.Value = 100.0f;
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);   //reset repair cost to 0
+        repairCostText.text = repairCost.ToString();
+    }
+    public void ShowStamp()
+    {
+        questInfoObject.questStamp.enabled = true;
     }
     public void Func_TestButtonPress()
     {
