@@ -14,6 +14,8 @@ public class QuestInfo : MonoBehaviour
 
     public float rewardMoney;
 
+    public Image questStamp;
+
     public Image jennyImage;
     public Image deliveryImage;
     public Image researchImage;
@@ -27,5 +29,6 @@ public class QuestInfo : MonoBehaviour
         jennyImage = GameObject.Find("JennyImage").GetComponent<Image>();
         deliveryImage = GameObject.Find("DeliveryImage").GetComponent<Image>();
         researchImage = GameObject.Find("ResearchImage").GetComponent<Image>();
+        questStamp = GameObject.Find("Stamp").GetComponent<Image>();
     }
 }

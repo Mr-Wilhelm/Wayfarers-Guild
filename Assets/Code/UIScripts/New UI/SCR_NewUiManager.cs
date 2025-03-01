@@ -162,6 +162,7 @@ public class SCR_NewUiManager : MonoBehaviour
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
         questInfoObject.gameObject.SetActive(false);
+        questInfoObject.questStamp.enabled = false;
         
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
@@ -255,17 +256,17 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay;
-                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;
-                questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;
-                questInfoObject.jennyImage.enabled = true;
+                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
+                questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
+                questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;
-                questInfoObject.targetNPC = QuestInfo.npcBroker.None;
-                questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;
-                questInfoObject.jennyImage.enabled = false;
+                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
+                questInfoObject.jennyImage.enabled = false; //npc image
                 break;
         }
 
@@ -274,8 +275,11 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         cityAnimator.SetBool("QuestBoardPressed", false);
         cityAnimator.SetBool("QuestPressed", false);
+        cityAnimator.SetBool("HasAcceptedQuest", false);
+
         spoonsButton.interactable = true;
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
         Invoke("delayDespawnQuestInfo", 1.0f);
     }
     public void Func_QuestTrackerDropDown()
@@ -292,6 +296,7 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         questInfoText.text = "";
         questInfoObject.gameObject.SetActive(false);
+        questInfoObject.questStamp.enabled = false;
     }
     public void AcceptQuest()
     {
@@ -300,6 +305,9 @@ public class SCR_NewUiManager : MonoBehaviour
 
         questTrackerInfo.text = questInfoText.text;
         targetNPC = questInfoObject.targetNPC.ToString();
+
+        cityAnimator.SetBool("HasAcceptedQuest", true);
+
 
         switch (targetNPC)
         {
@@ -328,6 +336,10 @@ public class SCR_NewUiManager : MonoBehaviour
         playerDataHandler.shipHealthGlobal.Value = 100.0f;
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);   //reset repair cost to 0
         repairCostText.text = repairCost.ToString();
+    }
+    public void ShowStamp()
+    {
+        questInfoObject.questStamp.enabled = true;
     }
     public void Func_TestButtonPress()
     {
