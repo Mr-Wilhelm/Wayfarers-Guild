@@ -1,3 +1,4 @@
+using Gravitas;
 using Gravitas.Demo;
 using System;
 using System.Collections;
@@ -110,6 +111,26 @@ public class SCR_NewInteract : NetworkBehaviour
                         ship.GetComponent<SCR_ShipMovement>().boostSpeedServerRPC();
                     }
                 }
+                else if (hitInfo.collider.gameObject.CompareTag("BallistaHatch"))
+                {
+                    GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
+
+                    Debug.Log("Interact with ballista");
+
+
+                    if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
+                    {
+                        GetComponent<GravitasBody>().lockPosition(ballista);
+                        ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
+                    }
+                    
+
+                    //if (objectBeingHeld == "Ballista Bolt")
+                    //{
+
+                    //    dropItem(true);
+                    //}
+                }
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
                     if(playerScriptReference.hasItem == false)
@@ -148,6 +169,23 @@ public class SCR_NewInteract : NetworkBehaviour
             }
         }
     }
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetPlayerPositionServerRPC(Vector3 newPosition)
+    {
+        transform.position = newPosition; // Update position on server
+        UpdatePositionOnClientsClientRPC(newPosition); // Update position on all clients
+    }
+
+    // This function synchronizes the position to all clients
+    [ClientRpc(RequireOwnership = false)]
+    void UpdatePositionOnClientsClientRPC(Vector3 updatedPosition)
+    {
+        transform.position = updatedPosition; // Update position on clients
+    }
+
 
 
     [ServerRpc(RequireOwnership = false)]

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace Gravitas
 {
@@ -60,6 +61,12 @@ namespace Gravitas
         [SerializeField] private Rigidbody gravitasBodyRigidbody;
         private bool isLanded;
 
+        private Vector3 teleportLocation;
+        private bool blockGravitas = false;
+
+        private GameObject lockAnchor;
+        private bool lockedInPlace = false;
+
         /// <summary>
         /// Adds a force either to this subject's rigidbody, or the proxy's rigidbody if it exists.
         /// </summary>
@@ -96,6 +103,45 @@ namespace Gravitas
             Rigidbody rb = CurrentRigidbody;
             if (rb)
                 rb.MoveRotation(rot);
+        }
+
+        public virtual void MovePosition(Vector3 pos)
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.MovePosition(pos);
+        }
+
+        public virtual void unblockGravitas()
+        {
+            blockGravitas = false;
+        }
+
+        public virtual void teleportPlayer(Vector3 position)
+        {
+            teleportLocation = position;
+            blockGravitas = true;
+            //Invoke(nameof(unblockGravitas), 0.5f);
+        }
+
+        public virtual void lockPosition(GameObject lockObject)
+        {
+            lockAnchor = lockObject;
+            lockedInPlace = true;
+        }
+
+        public virtual void freezeConstraints()
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.constraints = RigidbodyConstraints.FreezePosition;
+        }
+
+        public virtual void unfreezeConstraints()
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.constraints = RigidbodyConstraints.None;
         }
 
         public virtual Quaternion rotation()
@@ -169,19 +215,65 @@ namespace Gravitas
         /// </summary>
         public virtual void UpdatePosition(Transform fieldTransform)
         {
-            if (IsProxied && fieldTransform)
+            //Debug.Log("Weiner Normal");
+            if (blockGravitas)
             {
-                Transform proxyTransform = currentProxy.transform;
-                transform.SetPositionAndRotation
-                (
-                    fieldTransform.TransformPointUnscaled(proxyTransform.localPosition),
-                    Quaternion.LookRotation
+
+                if (IsProxied && fieldTransform)
+                {
+                    Transform proxyTransform = currentProxy.transform;
+                    transform.SetPositionAndRotation
                     (
-                        fieldTransform.TransformDirection(proxyTransform.forward),
-                        fieldTransform.TransformDirection(proxyTransform.up)
-                    )
-                );
+                        teleportLocation,
+                        Quaternion.LookRotation
+                        (
+                            fieldTransform.TransformDirection(proxyTransform.forward),
+                            fieldTransform.TransformDirection(proxyTransform.up)
+                        )
+                    );
+                }
+
+                currentProxy.transform.position = teleportLocation;
+
+                blockGravitas = false;
             }
+            else if (lockedInPlace)
+            {
+                if (IsProxied && fieldTransform)
+                {
+                    Transform proxyTransform = currentProxy.transform;
+                    transform.SetPositionAndRotation
+                    (
+                        lockAnchor.transform.position,
+                        Quaternion.LookRotation
+                        (
+                            fieldTransform.TransformDirection(proxyTransform.forward),
+                            fieldTransform.TransformDirection(proxyTransform.up)
+                        )
+                    );
+                }
+
+                currentProxy.transform.position = lockAnchor.transform.position;
+                isLanded = true;
+            }
+            else
+            {
+                if (IsProxied && fieldTransform)
+                {
+                    Transform proxyTransform = currentProxy.transform;
+                    transform.SetPositionAndRotation
+                    (
+                        fieldTransform.TransformPointUnscaled(proxyTransform.localPosition),
+                        Quaternion.LookRotation
+                        (
+                            fieldTransform.TransformDirection(proxyTransform.forward),
+                            fieldTransform.TransformDirection(proxyTransform.up)
+                        )
+                    );
+                }
+            }
+            
+            
         }
 
         public virtual Collider[] GetBodyColliders()
