@@ -15,6 +15,8 @@ public class QuestInfo : MonoBehaviour
     public float rewardMoney;
 
     public Image jennyImage;
+    public Image deliveryImage;
+    public Image researchImage;
 
     public questHeading activeQuest;
     public npcBroker targetNPC;
@@ -23,5 +25,7 @@ public class QuestInfo : MonoBehaviour
     private void Start()
     {
         jennyImage = GameObject.Find("JennyImage").GetComponent<Image>();
+        deliveryImage = GameObject.Find("DeliveryImage").GetComponent<Image>();
+        researchImage = GameObject.Find("ResearchImage").GetComponent<Image>();
     }
 }
