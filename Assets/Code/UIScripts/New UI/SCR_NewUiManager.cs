@@ -136,7 +136,16 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             player.GetComponentInChildren<Camera>().enabled = false;
         }
-        
+
+        // existing initialization...
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+
+        // Subscribe to network variable changes
+        playerDataHandler.playerMoney.OnValueChanged += OnPlayerMoneyChanged;
+
+        // Set the initial text value
+        OnPlayerMoneyChanged(playerDataHandler.playerMoney.Value, playerDataHandler.playerMoney.Value);
 
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
@@ -225,6 +234,11 @@ public class SCR_NewUiManager : NetworkBehaviour
                 return;
             }
         }
+    }
+
+    private void OnPlayerMoneyChanged(float oldValue, float newValue)
+    {
+        playerMoneyText.text = newValue.ToString();
     }
 
     #region Button Functions
@@ -346,11 +360,11 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     public void Func_RepairButtonPress()
     {
-        playerDataHandler.playerMoney.Value -= repairCost;    //subtract money
-        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();  //re-set the value of money
+        // Update the network variable; the callback will update the UI text automatically
+        playerDataHandler.playerMoney.Value -= repairCost;
 
         playerDataHandler.shipHealthGlobal.Value = 100.0f;
-        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);   //reset repair cost to 0
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
         repairCostText.text = repairCost.ToString();
     }
     public void ShowStamp()
