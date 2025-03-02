@@ -61,7 +61,7 @@ namespace Gravitas
         [SerializeField] private Rigidbody gravitasBodyRigidbody;
         private bool isLanded;
 
-        private Vector3 teleportLocation;
+        private GameObject teleportAnchor;
         private bool blockGravitas = false;
 
         private GameObject lockAnchor;
@@ -117,17 +117,26 @@ namespace Gravitas
             blockGravitas = false;
         }
 
-        public virtual void teleportPlayer(Vector3 position)
+        public virtual void teleportPlayer(GameObject teleportObject)
         {
-            teleportLocation = position;
+            teleportAnchor = teleportObject;
             blockGravitas = true;
-            //Invoke(nameof(unblockGravitas), 0.5f);
         }
 
         public virtual void lockPosition(GameObject lockObject)
         {
             lockAnchor = lockObject;
             lockedInPlace = true;
+        }
+
+        public virtual void unLockPosition()
+        {
+            lockedInPlace = false;
+        }
+
+        public virtual void delayedUnLockPosition(float time)
+        {
+            Invoke(nameof(unLockPosition), time);
         }
 
         public virtual void freezeConstraints()
@@ -221,19 +230,25 @@ namespace Gravitas
 
                 if (IsProxied && fieldTransform)
                 {
-                    Transform proxyTransform = currentProxy.transform;
-                    transform.SetPositionAndRotation
-                    (
-                        teleportLocation,
-                        Quaternion.LookRotation
+                    if (teleportAnchor != null)
+                    {
+                        
+                        Transform proxyTransform = currentProxy.transform;
+                        transform.SetPositionAndRotation
                         (
-                            fieldTransform.TransformDirection(proxyTransform.forward),
-                            fieldTransform.TransformDirection(proxyTransform.up)
-                        )
-                    );
+                            teleportAnchor.transform.position,
+                            Quaternion.LookRotation
+                            (
+                                fieldTransform.TransformDirection(proxyTransform.forward),
+                                fieldTransform.TransformDirection(proxyTransform.up)
+                            )
+                        );
+                        currentProxy.transform.position = teleportAnchor.transform.position;
+                    }
+                    
                 }
 
-                currentProxy.transform.position = teleportLocation;
+                
 
                 blockGravitas = false;
             }
@@ -253,7 +268,7 @@ namespace Gravitas
                     );
                 }
 
-                currentProxy.transform.position = lockAnchor.transform.position;
+                //currentProxy.transform.position = lockAnchor.transform.position;
                 isLanded = true;
             }
             else

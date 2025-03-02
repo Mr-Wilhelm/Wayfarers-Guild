@@ -39,6 +39,8 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private GameObject engineFoodPrefab;
     [SerializeField] private GameObject dropPosition;
 
+    private bool inBallista = false;
+
     private void Start()
     {
         UpdateCanInteractBoolServerRpc(true);
@@ -54,6 +56,7 @@ public class SCR_NewInteract : NetworkBehaviour
         if(!IsOwner) { enabled = false; return; }
         if (Input.GetKeyDown(InteractKey))
         {
+
             if(GameObject.FindGameObjectsWithTag("Player").Length != 1)
             {
                 otherPlayerCanInteract = false;
@@ -69,7 +72,18 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 otherPlayerCanInteract = true;
             }
-            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
+            if (inBallista)
+            {
+                GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
+                Debug.Log("Interact with ballista");
+
+                GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
+
+                GetComponent<GravitasBody>().unLockPosition();
+
+                inBallista = false;
+            }
+            else if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
             {
                 if (interacting)
                 {
@@ -114,23 +128,16 @@ public class SCR_NewInteract : NetworkBehaviour
                 else if (hitInfo.collider.gameObject.CompareTag("BallistaHatch"))
                 {
                     GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
-
-                    Debug.Log("Interact with ballista");
-
-
+                    Debug.Log("Interact with ballista hatch");
                     if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
                     {
                         GetComponent<GravitasBody>().lockPosition(ballista);
                         ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
+                        inBallista = true;
                     }
-                    
 
-                    //if (objectBeingHeld == "Ballista Bolt")
-                    //{
-
-                    //    dropItem(true);
-                    //}
                 }
+                
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
                     if(playerScriptReference.hasItem == false)

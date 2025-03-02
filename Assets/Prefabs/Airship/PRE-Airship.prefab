@@ -1183,6 +1183,7 @@ Transform:
   - {fileID: 3168173561020797992}
   - {fileID: 2463312730844111627}
   - {fileID: 4138585126365933517}
+  - {fileID: 9118939336944037781}
   - {fileID: 5221843978945211561}
   - {fileID: 739124642281677411}
   - {fileID: 683143205312815377}
@@ -2559,6 +2560,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 53.2, y: 0.73, z: 19.6}
   m_Center: {x: -2.4598913, y: -3.6450098, z: -0.6588942}
+--- !u!1 &3920354959596372386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9118939336944037781}
+  - component: {fileID: 5421373799166737835}
+  m_Layer: 0
+  m_Name: BallistaHatch
+  m_TagString: BallistaHatch
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9118939336944037781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3920354959596372386}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.2777958, y: -1.63, z: -0.20050049}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7424090147308266036}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5421373799166737835
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3920354959596372386}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2, y: 2.9136696, z: 1.2}
+  m_Center: {x: 0, y: -2.04, z: 0}
 --- !u!1 &3985253831137614494
 GameObject:
   m_ObjectHideFlags: 0
@@ -7263,6 +7317,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7424090147308266036}
     m_Modifications:
+    - target: {fileID: 3177140776083783278, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177140776083783278, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3177140776083783278, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471641349560648496, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      propertyPath: ballista
+      value: 
+      objectReference: {fileID: 4381152001832446893}
+    - target: {fileID: 3471641349560648496, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      propertyPath: ballistaHousing
+      value: 
+      objectReference: {fileID: 4918623653742275239}
     - target: {fileID: 4516121221693712669, guid: 324522dee2fd8f344a2ac2b152959622,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -7331,8 +7410,51 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6115588264624551614, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4376600491362439408}
   m_SourcePrefab: {fileID: 100100000, guid: 324522dee2fd8f344a2ac2b152959622, type: 3}
+--- !u!1 &4381152001832446893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2836326717597000916, guid: 324522dee2fd8f344a2ac2b152959622,
+    type: 3}
+  m_PrefabInstance: {fileID: 1986178247610027897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4918623653742275239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6904621521277494750, guid: 324522dee2fd8f344a2ac2b152959622,
+    type: 3}
+  m_PrefabInstance: {fileID: 1986178247610027897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5714713369867008455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6115588264624551614, guid: 324522dee2fd8f344a2ac2b152959622,
+    type: 3}
+  m_PrefabInstance: {fileID: 1986178247610027897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4376600491362439408
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5714713369867008455}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.19, y: 0.62, z: 4.3}
+  m_Center: {x: 0, y: -1.35, z: 0}
 --- !u!4 &7944559909482213052 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8489546648636645829, guid: 324522dee2fd8f344a2ac2b152959622,
@@ -10381,7 +10503,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cdb6492e4ca76e448bb373f6a34076a0,
         type: 3}
       propertyPath: m_TagString
-      value: BallistaHatch
+      value: Ship
       objectReference: {fileID: 0}
     - target: {fileID: 2923592020208495370, guid: cdb6492e4ca76e448bb373f6a34076a0,
         type: 3}
@@ -10411,39 +10533,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cdb6492e4ca76e448bb373f6a34076a0,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7473621984310742622}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb6492e4ca76e448bb373f6a34076a0, type: 3}
---- !u!1 &4844861382991738387 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cdb6492e4ca76e448bb373f6a34076a0,
-    type: 3}
-  m_PrefabInstance: {fileID: 5763778576414919490}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &7473621984310742622
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4844861382991738387}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2, y: 2.9136696, z: 1.2}
-  m_Center: {x: 0, y: 0.9568348, z: 0}
 --- !u!4 &5221843978945211561 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cdb6492e4ca76e448bb373f6a34076a0,
