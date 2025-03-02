@@ -13,6 +13,8 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public NetworkVariable<float> shipHealthGlobal = new NetworkVariable<float>(100);
     public NetworkVariable<float> playerMoney = new NetworkVariable<float>(200);
 
+    //public NetworkVariable<TextMeshProUGUI> playerMoneyText = new NetworkVariable<TextMeshProUGUI>();
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
