@@ -34,7 +34,8 @@ public class SCR_SceneManagerScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        NetworkManager.Singleton.SceneManager.LoadScene("CityMenu", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("SCN_NewCityScene", LoadSceneMode.Single);
+        //NetworkManager.Singleton.SceneManager.LoadScene("CityMenu", LoadSceneMode.Single);
     }
 
     public void ExitScene()

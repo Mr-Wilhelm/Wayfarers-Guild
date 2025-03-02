@@ -15,7 +15,7 @@ public class SCR_Portal : MonoBehaviour
             {
                 player.GetComponent<SCR_ShipControls>().enabled = false;
             }
-            NetworkManager.Singleton.SceneManager.LoadScene("CityMenu", LoadSceneMode.Single);
+            GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SCR_SceneManagerScript>().LoadCityScene();
         }
     }
 }

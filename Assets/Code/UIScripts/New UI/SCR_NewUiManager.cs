@@ -8,8 +8,12 @@ using Ink.Runtime;
 using TMPro;
 using NUnit.Framework.Constraints;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
-public class SCR_NewUiManager : MonoBehaviour
+public class SCR_NewUiManager : NetworkBehaviour
 {
     [Header("Buttons")]
     [SerializeField]
@@ -17,6 +21,12 @@ public class SCR_NewUiManager : MonoBehaviour
 
     [SerializeField]
     private Button questButton;
+
+    [SerializeField]
+    private Button repairButton;
+
+    [SerializeField]
+    private TextMeshProUGUI repairCostText;
 
     [Header("Sprites")]
     [SerializeField]
@@ -31,6 +41,9 @@ public class SCR_NewUiManager : MonoBehaviour
     private TextAsset spoonsNPCDialogue;
 
     [SerializeField]
+    private TextAsset spoonsQuestDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -42,6 +55,15 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private bool dialogueIsPlaying = false;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip textSound;
+
+    [SerializeField]
+    private List<string> dialogueTags = new List<string>();
+
     [Header("Choices UI")]
     [SerializeField]
     private GameObject[] choices;
@@ -52,12 +74,9 @@ public class SCR_NewUiManager : MonoBehaviour
     private Coroutine typeTextCoroutine;
 
     [SerializeField]
-    private AudioSource audioSource;
+    private bool isShowingChoices;
 
-    [SerializeField]
-    private AudioClip textSound;
-
-    [Header("QuestObjects")]
+    [Header("QuestVariables")]
 
     [SerializeField]
     private QuestInfo questInfoObject;
@@ -68,20 +87,85 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private string appleADayText;
 
+    [SerializeField]
+    private TextMeshProUGUI questTrackerTitle;
+
+    [SerializeField]
+    private TextMeshProUGUI questTrackerInfo;
+
+    [SerializeField]
+    private GameObject questTrackerBackground;
+
+    [SerializeField]
+    private string targetNPC;
+
+    private GameObject spoonsNPCLocation, thamesNPCLocation;
+
+    [SerializeField]
+    private GameObject npcLocation;
+
+    [Header("Stats")]
+    [SerializeField]
+    private float repairCost;
+
+    [Header("DDOL Objects")]
+    [SerializeField]
+    private SCR_PlayerDataHandler playerDataHandler;
+
+    [SerializeField]
+    private TextMeshProUGUI playerMoneyText;
+
+    #region NetworkVariables
+    [SerializeField]
+    List<GameObject> AllGameobjects = new List<GameObject>();
+    List<GameObject> DeactivatedObjects = new List<GameObject>();
+    bool Ready = false;
+
+    NetworkVariable<bool> PreReadyStatus = new NetworkVariable<bool>(false);
+
+    private bool clientReady = false;
+
+    public GameObject playerPrefab;
+    #endregion
+
+
     private void Start()
     {
+        //disable the cameras for all the players so they don't overlap with the 2D scene camera
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponentInChildren<Camera>().enabled = false;
+        }
+
+        // existing initialization...
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+
+        // Subscribe to network variable changes
+        playerDataHandler.playerMoney.OnValueChanged += OnPlayerMoneyChanged;
+
+        // Set the initial text value
+        OnPlayerMoneyChanged(playerDataHandler.playerMoney.Value, playerDataHandler.playerMoney.Value);
+
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
+        QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
 
+        repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
+        repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
+        repairCostText.text = repairCost.ToString();
+        
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
         //animator variables
+        cityAnimator = Resources.Load<Animator>("CityAnimController");
         cityAnimator = GetComponent<Animator>();
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
+        spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
         dialogueIsPlaying = false;
@@ -102,28 +186,47 @@ public class SCR_NewUiManager : MonoBehaviour
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
         questInfoObject.gameObject.SetActive(false);
+        questInfoObject.questStamp.enabled = false;
+        
+        questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
+        questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
+        questTrackerBackground = GameObject.Find("QuestTrackerBackground");
 
-        #region Quest_Info_Text
+        questTrackerInfo.enabled = false;
+        questTrackerBackground.SetActive(false);
 
+        npcLocation = GameObject.Find("NPCLocation");
+        npcLocation.SetActive(false);
 
-        #endregion
+        spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
+
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+
+        //player/ship stat variables
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        repairCostText.text = repairCost.ToString();
+
+        playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
     }
 
     private void Update()
     {
-        if(!dialogueIsPlaying)
+        if (!dialogueIsPlaying)
         {
             return;
         }
 
-        else if(Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
+
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
         {
-            if(currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
+            dialogueTags = currentStory.currentTags;
+            if (currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
             {
-                if (cityAnimator.GetBool("HasChoices") == false)    
-                {
-                    cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
-                }
+                //if (cityAnimator.GetBool("HasChoices") == false)
+                //{
+                //    cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
+                //}
                 ContinueStory();    //continue the story (this is an ink plugin thing)
             }
             else
@@ -133,13 +236,27 @@ public class SCR_NewUiManager : MonoBehaviour
         }
     }
 
+    private void OnPlayerMoneyChanged(float oldValue, float newValue)
+    {
+        playerMoneyText.text = newValue.ToString();
+    }
+
     #region Button Functions
     public void Func_SpoonsButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", true);
         spoonsButton.interactable = false;
 
-        EnterDialogueMode(spoonsNPCDialogue);
+        if(targetNPC == "Jenny")
+        {
+            EnterDialogueMode(spoonsQuestDialogue);
+        }
+        else
+        {
+
+            EnterDialogueMode(spoonsNPCDialogue);
+        }
+
     }
 
     public void Func_SpoonsBackButtonPressed()
@@ -159,30 +276,185 @@ public class SCR_NewUiManager : MonoBehaviour
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
     }
-    public void Func_QuestPressed()
+    public void Func_QuestPressed(QuestButton quest)
     {
-        cityAnimator.SetBool("QuestPressed", true);
         questInfoObject.gameObject.SetActive(true);
         questInfoText.text = appleADayText;
+        cityAnimator.SetBool("QuestPressed", true);
+
+        switch (quest.questName)
+        {
+            case QuestButton.QuestNames.AppleADay:
+                questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
+                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
+                questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
+                questInfoObject.jennyImage.enabled = true;  //npc image
+                break;
+            case QuestButton.QuestNames.Lightbulb:
+                questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
+                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
+                questInfoObject.jennyImage.enabled = false; //npc image
+                break;
+        }
+
     }
     public void Func_QuestBackButtonPressed()
     {
         cityAnimator.SetBool("QuestBoardPressed", false);
+        cityAnimator.SetBool("QuestPressed", false);
+        cityAnimator.SetBool("HasAcceptedQuest", false);
+
         spoonsButton.interactable = true;
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
         Invoke("delayDespawnQuestInfo", 1.0f);
+    }
+    public void Func_QuestTrackerDropDown()
+    {
+        questTrackerInfo.enabled = true;
+        questTrackerBackground.SetActive(true);
+    }
+    public void Func_QuestTrackerCollapse()
+    {
+        questTrackerInfo.enabled = false;
+        questTrackerBackground.SetActive(false);
+    }
+    private void delayDespawnQuestInfo()
+    {
+        questInfoText.text = "";
+        questInfoObject.gameObject.SetActive(false);
+        questInfoObject.questStamp.enabled = false;
+    }
+    public void AcceptQuest()
+    {
+        Debug.Log("Accept Quest" + questInfoObject.activeQuest);
+        questTrackerTitle.text = questInfoObject.activeQuest.ToString();
+
+        questTrackerInfo.text = questInfoText.text;
+        targetNPC = questInfoObject.targetNPC.ToString();
+
+        cityAnimator.SetBool("HasAcceptedQuest", true);
+
+
+        switch (targetNPC)
+        {
+            case "Jenny":
+                npcLocation.SetActive(true);
+                npcLocation.transform.position = spoonsNPCLocation.transform.position;
+                break;
+
+            case "None":
+                Debug.Log("No NPC to track");
+                npcLocation.SetActive(false);   //disable again just in case it is active from a quest
+                break;
+        }
+
+    }
+    public void DenyQuest()
+    {
+        Debug.Log("Deny Quest" + questInfoObject.activeQuest);
+    }
+
+    public void Func_RepairButtonPress()
+    {
+        playerDataHandler.playerMoney.Value -= repairCost;
+
+        playerDataHandler.shipHealthGlobal.Value = 100.0f;
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        repairCostText.text = repairCost.ToString();
+    }
+    public void ShowStamp()
+    {
+        questInfoObject.questStamp.enabled = true;
+    }
+    public void Func_ReadyButtonPressed()
+    {
+        ReadyButtonPressed();
     }
     public void Func_TestButtonPress()
     {
         Debug.Log("BEEP");
     }
 
-    private void delayDespawnQuestInfo()
-    {
-        questInfoText.text = "";
-        questInfoObject.gameObject.SetActive(false);
-    }
+
     #endregion Button Functions
+
+    #region ReadyOperationsFunctions
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void loadGameServerRpc()
+    {
+        List<ulong> playerIDs = new List<ulong>();
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            playerIDs.Add(player.GetComponent<SCR_PlayerNetworkManager>().OwnerClientId);
+        }
+        Debug.Log("First foreach loop done");
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            Debug.Log("Destroyed");
+            player.GetComponent<NetworkObject>().Despawn();
+
+        }
+        Debug.Log("Second foreach loop done");
+
+        foreach (ulong playerID in playerIDs)
+        {
+            Debug.Log(playerID);
+            GameObject playerInstance = Instantiate(playerPrefab);
+            //playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerID);
+
+            playerInstance.GetComponent<NetworkObject>().Spawn();
+            playerInstance.GetComponent<NetworkObject>().ChangeOwnership(playerID);
+            //playerInstance.transform.position = new Vector3(47, 31, 319);
+            //playerInstance.GetComponent<SCR_PlayerNetworkManager>().bust();
+
+        }
+        Debug.Log("Third foreach loop done");
+
+        NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
+    }
+
+    void ReadyButtonPressed()
+    {
+        GameObject Readytint = GameObjectCommon.FindChildwithTagStringLayer(this.gameObject, "ReadyTint", GameObjectCommon.NameTagLayer.Name);
+
+        bool readystatus = Readytint.activeInHierarchy;
+        Readytint.SetActive(!readystatus);
+
+        if (!clientReady)
+        {
+            clientReady = true;
+            if (!PreReadyStatus.Value)
+            {
+                ReadyedServerRpc(true);
+            }
+
+            else
+            {
+                Debug.Log("Loading Game Server");
+                loadGameServerRpc();
+                Debug.Log("Game Server Loaded");
+            }
+        }
+        else
+        {
+            clientReady = false;
+            ReadyedServerRpc(false);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ReadyedServerRpc(bool newValue)
+    {
+        PreReadyStatus.Value = newValue;
+    }
+
+    #endregion
 
     #region Ink Dialogue Stuff - Tutorial used found in link Below
     //https://youtu.be/vY0Sk93YUhA
@@ -190,6 +462,7 @@ public class SCR_NewUiManager : MonoBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)    //starts dialogue with the text file as a parameter
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
+        dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
         dialoguePanel.SetActive(true);  //activate the dialogue panel
 
@@ -203,13 +476,12 @@ public class SCR_NewUiManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
+        dialogueTags.Clear();
+        isShowingChoices = false;
     }
 
     private void ContinueStory()    //
     {
-        List<string> tags = currentStory.currentTags;   //gets tags from the current story
-        Debug.Log(tags.Count);
-
         if (currentStory.canContinue)
         {
             //Stops the current text typing from playing.
@@ -220,7 +492,8 @@ public class SCR_NewUiManager : MonoBehaviour
             }
 
             typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue())); //set text for the current line
-            DisplayChoices();   //shows button choices
+            if(dialogueTags.Contains("animate") && !isShowingChoices)
+                DisplayChoices();   //shows button choices
         }
         else
         {
@@ -247,12 +520,15 @@ public class SCR_NewUiManager : MonoBehaviour
             choicesText[index].text = choice.text;
             index++;
         }
-
+        isShowingChoices = true;
         //make the other choices invisible
         for (int i = index; i < choices.Length; i++)  
         {
             choices[i].gameObject.SetActive(false);
         }
+
+        if (dialogueTags.Contains("animate"))
+            cityAnimator.SetBool("HasChoices", true);
             
     }
 
@@ -268,7 +544,7 @@ public class SCR_NewUiManager : MonoBehaviour
                 audioSource.Play(); //play the audio
             }
 
-            yield return new WaitForSeconds(20.0f * Time.deltaTime);    //typing speed
+            yield return new WaitForSeconds(7.5f * Time.deltaTime);    //typing speed (lower value is faster)
         }
     }
 
@@ -276,6 +552,7 @@ public class SCR_NewUiManager : MonoBehaviour
     {
         Debug.Log("You made your choice");
         currentStory.ChooseChoiceIndex(choiceIndex);
+        isShowingChoices = false;
         ContinueStory();
     }
 

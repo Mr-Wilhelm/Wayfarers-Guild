@@ -39,10 +39,13 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private SCR_ShipMovement shipVariables;
 
+    [SerializeField]
+    private float damage = 5;
+
     // Start is called before the first frame update
     void Start()
     {
-        //moveTarget = GameObject.Find("target");
+        moveTarget = GameObject.Find("PRE-Airship");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
 
@@ -80,7 +83,10 @@ public class SCR_Enemy : MonoBehaviour
     {
         var pathNodes = enemyPathFinder.FindPath(transform.position, moveTarget.transform.position);    //find the path between the current pos and the target
         Vector3 prevPos = transform.position;
-        if(pathNodes == null) { return; } //fixes nullrefrence error 
+        if(pathNodes == null)
+        {
+            return;
+        }
         foreach (var node in pathNodes)
         {
             Debug.DrawLine(prevPos, node, Color.red, 0.5f);
@@ -99,7 +105,9 @@ public class SCR_Enemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Ship")
         {
-            other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
+            //other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
+
+            GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-damage);
             Destroy(gameObject);
         }
     }

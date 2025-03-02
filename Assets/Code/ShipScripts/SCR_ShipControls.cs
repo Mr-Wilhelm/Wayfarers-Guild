@@ -16,21 +16,44 @@ public class SCR_ShipControls : NetworkBehaviour
     public GameObject ship;
     public SCR_ShipMovement shipMovement;
 
+    private void Start()
+    {
+        Invoke("LoadShip", 1);
+    }
+
+    private void LoadShip()
+    {
+        ship = GameObject.Find("PRE-Airship");
+        shipMovement = ship.GetComponent<SCR_ShipMovement>();
+    }
+
+
+    private void Update()
+    {
+        if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
+        if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
+        if (!IsOwner) { return; }
+        if (!onWheel) { return; }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && shipMovement.shipAcceleration.Value < shipMovement.shipAccelerationBound)
+        {
+            shipMovement.increaseAccelerationServerRPC();
+            Debug.Log("speed up: " + shipMovement.shipAcceleration.Value);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && shipMovement.shipAcceleration.Value > -shipMovement.shipAccelerationBound/2)
+        {
+            shipMovement.decreaseAccelerationServerRPC();
+            Debug.Log("speed down: " + shipMovement.shipAcceleration.Value);
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
-        if (shipMovement == null)
-        {
-            try
-            {
-                shipMovement = ship.GetComponent<SCR_ShipMovement>();
-            }
-            catch { }
-        }
-
-
-        if (!IsOwner){ Debug.Log("Is owner return"); return; }
+        if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
+        if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
+        if (!IsOwner){ return; }
         if (!onWheel) { return; }
         //Yaw Right
         if (Input.GetKey(KeyCode.D))
@@ -43,24 +66,81 @@ public class SCR_ShipControls : NetworkBehaviour
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
         }
         //Roll Right
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.E) && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit) )
         {
-            shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
+
+            if (ship.transform.rotation.eulerAngles.x < 180)
+            {
+                shipMovement.updateRollRotServerRPC("Left", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
+            }
+
+            
+            shipMovement.autoLevelRollActive = false;
+            CancelInvoke(nameof(startAutoLevelRoll));
+            Invoke(nameof(startAutoLevelRoll), 0.5f);
         }
         //Roll Left
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q) && !(ship.transform.rotation.eulerAngles.x < 180 && ship.transform.rotation.eulerAngles.x > shipMovement.autoCorrectLimit))
         {
-            shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
+            if (ship.transform.rotation.eulerAngles.x > 180)
+            {
+                shipMovement.updateRollRotServerRPC("Right", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
+            }
+                
+            shipMovement.autoLevelRollActive = false;
+            CancelInvoke(nameof(startAutoLevelRoll));
+            Invoke(nameof(startAutoLevelRoll), 0.5f);
         }
         //Pitch up
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.S) && !(ship.transform.rotation.eulerAngles.z < 180 && ship.transform.rotation.eulerAngles.z > shipMovement.autoCorrectLimit))
         {
-            shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
+            if (ship.transform.rotation.eulerAngles.z > 180)
+            {
+                shipMovement.updatePitchRotServerRPC("Right", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
+            }
+                
+            shipMovement.autoLevelPitchActive = false;
+            CancelInvoke(nameof(startAutoLevelPitch));
+            Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
-        //Roll Left
-        if (Input.GetKey(KeyCode.S))
+        //Pitch Down
+        if (Input.GetKey(KeyCode.W) && !(ship.transform.rotation.eulerAngles.z > 180 && ship.transform.rotation.eulerAngles.z < 360 - shipMovement.autoCorrectLimit))
         {
-            shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
+            if (ship.transform.rotation.eulerAngles.z < 180)
+            {
+                shipMovement.updatePitchRotServerRPC("Left", OwnerClientId, 2f);
+            }
+            else
+            {
+                shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
+            }
+                
+            shipMovement.autoLevelPitchActive = false;
+            CancelInvoke(nameof(startAutoLevelPitch));
+            Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
+        
+       
+    }
+
+    private void startAutoLevelRoll()
+    {
+        shipMovement.autoLevelRollActive = true;
+    }
+    private void startAutoLevelPitch()
+    {
+        shipMovement.autoLevelPitchActive = true;
     }
 }

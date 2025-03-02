@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 namespace Gravitas
 {
@@ -60,6 +61,12 @@ namespace Gravitas
         [SerializeField] private Rigidbody gravitasBodyRigidbody;
         private bool isLanded;
 
+        private GameObject teleportAnchor;
+        private bool blockGravitas = false;
+
+        private GameObject lockAnchor;
+        private bool lockedInPlace = false;
+
         /// <summary>
         /// Adds a force either to this subject's rigidbody, or the proxy's rigidbody if it exists.
         /// </summary>
@@ -82,6 +89,79 @@ namespace Gravitas
             Rigidbody rb = CurrentRigidbody;
             if (rb)
                 rb.AddTorque(torque, forceMode);
+        }
+
+        public virtual void AddRelativeTorque(Vector3 torque, ForceMode forceMode)
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.AddRelativeTorque(torque, forceMode);
+        }
+
+        public virtual void MoveRotation(Quaternion rot)
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.MoveRotation(rot);
+        }
+
+        public virtual void MovePosition(Vector3 pos)
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.MovePosition(pos);
+        }
+
+        public virtual void unblockGravitas()
+        {
+            blockGravitas = false;
+        }
+
+        public virtual void teleportPlayer(GameObject teleportObject)
+        {
+            teleportAnchor = teleportObject;
+            blockGravitas = true;
+        }
+
+        public virtual void lockPosition(GameObject lockObject)
+        {
+            lockAnchor = lockObject;
+            lockedInPlace = true;
+        }
+
+        public virtual void unLockPosition()
+        {
+            lockedInPlace = false;
+        }
+
+        public virtual void delayedUnLockPosition(float time)
+        {
+            Invoke(nameof(unLockPosition), time);
+        }
+
+        public virtual void freezeConstraints()
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.constraints = RigidbodyConstraints.FreezePosition;
+        }
+
+        public virtual void unfreezeConstraints()
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                rb.constraints = RigidbodyConstraints.None;
+        }
+
+        public virtual Quaternion rotation()
+        {
+            Rigidbody rb = CurrentRigidbody;
+            if (rb)
+                return rb.rotation;
+            else
+            {
+                return Quaternion.identity;
+            }
         }
 
         /// <summary>Automatically finds and assigns colliders that belong to this body.</summary>
@@ -144,19 +224,71 @@ namespace Gravitas
         /// </summary>
         public virtual void UpdatePosition(Transform fieldTransform)
         {
-            if (IsProxied && fieldTransform)
+            //Debug.Log("Weiner Normal");
+            if (blockGravitas)
             {
-                Transform proxyTransform = currentProxy.transform;
-                transform.SetPositionAndRotation
-                (
-                    fieldTransform.TransformPointUnscaled(proxyTransform.localPosition),
-                    Quaternion.LookRotation
-                    (
-                        fieldTransform.TransformDirection(proxyTransform.forward),
-                        fieldTransform.TransformDirection(proxyTransform.up)
-                    )
-                );
+
+                if (IsProxied && fieldTransform)
+                {
+                    if (teleportAnchor != null)
+                    {
+                        
+                        Transform proxyTransform = currentProxy.transform;
+                        transform.SetPositionAndRotation
+                        (
+                            teleportAnchor.transform.position,
+                            Quaternion.LookRotation
+                            (
+                                fieldTransform.TransformDirection(proxyTransform.forward),
+                                fieldTransform.TransformDirection(proxyTransform.up)
+                            )
+                        );
+                        currentProxy.transform.position = teleportAnchor.transform.position;
+                    }
+                    
+                }
+
+                
+
+                blockGravitas = false;
             }
+            else if (lockedInPlace)
+            {
+                if (IsProxied && fieldTransform)
+                {
+                    Transform proxyTransform = currentProxy.transform;
+                    transform.SetPositionAndRotation
+                    (
+                        lockAnchor.transform.position,
+                        Quaternion.LookRotation
+                        (
+                            fieldTransform.TransformDirection(proxyTransform.forward),
+                            fieldTransform.TransformDirection(proxyTransform.up)
+                        )
+                    );
+                }
+
+                //currentProxy.transform.position = lockAnchor.transform.position;
+                isLanded = true;
+            }
+            else
+            {
+                if (IsProxied && fieldTransform)
+                {
+                    Transform proxyTransform = currentProxy.transform;
+                    transform.SetPositionAndRotation
+                    (
+                        fieldTransform.TransformPointUnscaled(proxyTransform.localPosition),
+                        Quaternion.LookRotation
+                        (
+                            fieldTransform.TransformDirection(proxyTransform.forward),
+                            fieldTransform.TransformDirection(proxyTransform.up)
+                        )
+                    );
+                }
+            }
+            
+            
         }
 
         public virtual Collider[] GetBodyColliders()
@@ -229,5 +361,19 @@ namespace Gravitas
                 AutoFindBodyColliders();
             }
         }
+
+
+
+        private void Update()
+        {
+            if (lockedInPlace)
+            {
+                IsLanded = true;
+            }
+        }
+
     }
+
+    
+
 }

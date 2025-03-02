@@ -63,7 +63,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     public void bust3ClientRpc()
     {
 
-        if (SceneManager.GetActiveScene().name == "CityMenu")
+        if (SceneManager.GetActiveScene().name == "SCN_NewCityScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -108,7 +108,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     public void bust4()
     {
 
-        if (SceneManager.GetActiveScene().name == "CityMenu")
+        if (SceneManager.GetActiveScene().name == "SCN_NewCityScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -157,7 +157,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     /// 
     public override void OnNetworkSpawn()
     {
-        if (SceneManager.GetActiveScene().name == "CityMenu")
+        if (SceneManager.GetActiveScene().name == "SCN_NewCityScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -202,7 +202,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     void test(Scene a, LoadSceneMode b)
     {
-        if (a.name == "CityMenu")
+        if (a.name == "SCN_NewCityScene")
         {
 
             Cursor.lockState = CursorLockMode.None;
@@ -218,7 +218,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            transform.position = GameObject.Find("PRE-Airship").transform.position;
+            transform.position = GameObject.Find("PRE-Airship").transform.position + (GameObject.Find("PRE-Airship").transform.up * 1);
         }
     }
 

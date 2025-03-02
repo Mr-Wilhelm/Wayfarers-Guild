@@ -1,4 +1,6 @@
+using Gravitas;
 using Gravitas.Demo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -20,8 +22,10 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private KeyCode DropKey = KeyCode.G;
 
     [SerializeField] private LayerMask Wheel;
-    [SerializeField] private LayerMask Ballista;
+    [SerializeField] private LayerMask BallistaBolt;
     [SerializeField] private LayerMask EngineFuel;
+    [SerializeField] private LayerMask PickUp;
+    [SerializeField] private LayerMask ActualPickUp;
     [SerializeField] private GravitasFirstPersonPlayerSubject playerScriptReference;
 
     [SerializeField] private GameObject craigBodyMesh;
@@ -34,6 +38,8 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private GameObject ballistaBoltPrefab;
     [SerializeField] private GameObject engineFoodPrefab;
     [SerializeField] private GameObject dropPosition;
+
+    private bool inBallista = false;
 
     private void Start()
     {
@@ -50,6 +56,7 @@ public class SCR_NewInteract : NetworkBehaviour
         if(!IsOwner) { enabled = false; return; }
         if (Input.GetKeyDown(InteractKey))
         {
+
             if(GameObject.FindGameObjectsWithTag("Player").Length != 1)
             {
                 otherPlayerCanInteract = false;
@@ -65,9 +72,19 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 otherPlayerCanInteract = true;
             }
-            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange))
+            if (inBallista)
             {
-                Debug.Log(hitInfo.collider.gameObject.name + " layer is: " + hitInfo.collider.gameObject.layer);
+                GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
+                Debug.Log("Interact with ballista");
+
+                GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
+
+                GetComponent<GravitasBody>().unLockPosition();
+
+                inBallista = false;
+            }
+            else if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
+            {
                 if (interacting)
                 {
                     playerScriptReference.playerOnWheel = false;
@@ -75,7 +92,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
                 }
-                else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract)
+                else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract && !playerScriptReference.hasItem)
                 {
                     if (ship == null)
                     {
@@ -89,25 +106,45 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Ballista Storage"))
                 {
-                    Debug.Log("Interacting with ballsita storage");
+                    //Checks if player already has item
                     if (playerScriptReference.hasItem == false)
                     {
-                        Debug.Log("Picking up ballista");
+                        //Picks up ballista bolt from storage
                         pickUpItem("Ballista Bolt", false, null);
+                        Debug.Log(hitInfo.collider.gameObject.name);
                         playerScriptReference.hasItem = true;
                     }
-                    else { Debug.Log("Already have item"); }
                 }
+                else if (hitInfo.collider.gameObject.CompareTag("Engine"))
+                {
+                    if (objectBeingHeld == "Engine Food")
+                    {
+                        Debug.Log("Interact with engine");
+                        dropItem(true);
+                        if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
+                        ship.GetComponent<SCR_ShipMovement>().boostSpeedServerRPC();
+                    }
+                }
+                else if (hitInfo.collider.gameObject.CompareTag("BallistaHatch"))
+                {
+                    GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
+                    Debug.Log("Interact with ballista hatch");
+                    if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
+                    {
+                        GetComponent<GravitasBody>().lockPosition(ballista);
+                        ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
+                        inBallista = true;
+                    }
+
+                }
+                
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
-                    Debug.Log("Interacting with engine fuel storage");
                     if(playerScriptReference.hasItem == false)
                     {
-                        Debug.Log("Picking up fuel");
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
                     }
-                    else { Debug.Log("Already have item"); }
                 }
                 else if(hitInfo.collider.gameObject.CompareTag("Ballista Bolt"))
                 {
@@ -140,34 +177,52 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
+
+
+    [ServerRpc(RequireOwnership = false)]
+    void SetPlayerPositionServerRPC(Vector3 newPosition)
+    {
+        transform.position = newPosition; // Update position on server
+        UpdatePositionOnClientsClientRPC(newPosition); // Update position on all clients
+    }
+
+    // This function synchronizes the position to all clients
+    [ClientRpc(RequireOwnership = false)]
+    void UpdatePositionOnClientsClientRPC(Vector3 updatedPosition)
+    {
+        transform.position = updatedPosition; // Update position on clients
+    }
+
+
+
     [ServerRpc(RequireOwnership = false)]
     private void UpdateCanInteractBoolServerRpc(bool newValue)
     {
         canInteract.Value = newValue;
     }
 
-    private void dropItem()
+    private void dropItem(bool itemBeingDeleted = false)
     {
         playerScriptReference.hasItem = false;
         DropItemServerRPC();
         if(objectBeingHeld == "Ballista Bolt")
         {
-            SpawnBallistaBolt();
+            if (!itemBeingDeleted) { SpawnBallistaBoltServerRPC(); }
         }
         else if(objectBeingHeld == "Engine Food")
         {
-            SpawnEngineFood();
+            if (!itemBeingDeleted) { SpawnEngineFoodServerRPC(); }
         }
-        Debug.Log("Dropping item");
+        objectBeingHeld = "";
     }
 
     private void pickUpItem(string itemToPickUp, bool pickingUpFromGround, GameObject objToPickUp)
     {
         if(pickingUpFromGround)
         {
-            objToPickUp.GetComponent<NetworkObject>().Despawn(true);
+            deleteItemServerRPC(objToPickUp.GetComponent<NetworkObject>().NetworkObjectId);
         }
-        if(itemToPickUp == "Ballista Bolt")
+        if (itemToPickUp == "Ballista Bolt")
         {
             objectBeingHeld = "Ballista Bolt";
             PickUpBallistaBoltServerRPC();
@@ -179,7 +234,14 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
+    private void deleteItemServerRPC(ulong objToPickUp)
+    {
+        NetworkObject objToDestroy = GetNetworkObject(objToPickUp);
+        objToDestroy.Despawn();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     private void PickUpBallistaBoltServerRPC()
     {
         PickUpBallistaBoltClientRPC();
@@ -194,7 +256,7 @@ public class SCR_NewInteract : NetworkBehaviour
         ballistaBoltMesh.SetActive(true);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void PickUpEngineFoodServerRPC()
     {
         PickUpEngineFoodClientRPC();
@@ -209,7 +271,7 @@ public class SCR_NewInteract : NetworkBehaviour
         engineFoodMesh.SetActive(true);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void DropItemServerRPC()
     {
         DropItemClientRPC();
@@ -225,17 +287,20 @@ public class SCR_NewInteract : NetworkBehaviour
         engineFoodMesh.SetActive(false);
     }
 
-    private void SpawnBallistaBolt()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnBallistaBoltServerRPC()
     {
-        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
+        var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, (dropPosition.transform.rotation * Quaternion.Euler(0, 90, 0)));
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn(); 
     }
 
-    private void SpawnEngineFood()
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnEngineFoodServerRPC()
     {
         var instance = Instantiate(engineFoodPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn();
     }
+
 }
