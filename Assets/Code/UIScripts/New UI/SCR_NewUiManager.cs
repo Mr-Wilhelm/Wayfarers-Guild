@@ -10,8 +10,10 @@ using NUnit.Framework.Constraints;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
+using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
-public class SCR_NewUiManager : MonoBehaviour
+public class SCR_NewUiManager : NetworkBehaviour
 {
     [Header("Buttons")]
     [SerializeField]
@@ -102,8 +104,6 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private GameObject npcLocation;
 
-    
-
     [Header("Stats")]
     [SerializeField]
     private float repairCost;
@@ -115,6 +115,20 @@ public class SCR_NewUiManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI playerMoneyText;
 
+    #region NetworkVariables
+    [SerializeField]
+    List<GameObject> AllGameobjects = new List<GameObject>();
+    List<GameObject> DeactivatedObjects = new List<GameObject>();
+    bool Ready = false;
+
+    NetworkVariable<bool> PreReadyStatus = new NetworkVariable<bool>(false);
+
+    private bool clientReady = false;
+
+    public GameObject playerPrefab;
+    #endregion
+
+
     private void Start()
     {
         //disable the cameras for all the players so they don't overlap with the 2D scene camera
@@ -122,6 +136,16 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             player.GetComponentInChildren<Camera>().enabled = false;
         }
+
+        // existing initialization...
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+
+        // Subscribe to network variable changes
+        playerDataHandler.playerMoney.OnValueChanged += OnPlayerMoneyChanged;
+
+        // Set the initial text value
+        OnPlayerMoneyChanged(playerDataHandler.playerMoney.Value, playerDataHandler.playerMoney.Value);
 
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
@@ -193,6 +217,7 @@ public class SCR_NewUiManager : MonoBehaviour
             return;
         }
 
+
         else if (Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
         {
             dialogueTags = currentStory.currentTags;
@@ -209,6 +234,11 @@ public class SCR_NewUiManager : MonoBehaviour
                 return;
             }
         }
+    }
+
+    private void OnPlayerMoneyChanged(float oldValue, float newValue)
+    {
+        playerMoneyText.text = newValue.ToString();
     }
 
     #region Button Functions
@@ -330,16 +360,19 @@ public class SCR_NewUiManager : MonoBehaviour
 
     public void Func_RepairButtonPress()
     {
-        playerDataHandler.playerMoney.Value -= repairCost;    //subtract money
-        playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();  //re-set the value of money
+        playerDataHandler.playerMoney.Value -= repairCost;
 
         playerDataHandler.shipHealthGlobal.Value = 100.0f;
-        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);   //reset repair cost to 0
+        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
         repairCostText.text = repairCost.ToString();
     }
     public void ShowStamp()
     {
         questInfoObject.questStamp.enabled = true;
+    }
+    public void Func_ReadyButtonPressed()
+    {
+        ReadyButtonPressed();
     }
     public void Func_TestButtonPress()
     {
@@ -348,6 +381,80 @@ public class SCR_NewUiManager : MonoBehaviour
 
 
     #endregion Button Functions
+
+    #region ReadyOperationsFunctions
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void loadGameServerRpc()
+    {
+        List<ulong> playerIDs = new List<ulong>();
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            playerIDs.Add(player.GetComponent<SCR_PlayerNetworkManager>().OwnerClientId);
+        }
+        Debug.Log("First foreach loop done");
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            Debug.Log("Destroyed");
+            player.GetComponent<NetworkObject>().Despawn();
+
+        }
+        Debug.Log("Second foreach loop done");
+
+        foreach (ulong playerID in playerIDs)
+        {
+            Debug.Log(playerID);
+            GameObject playerInstance = Instantiate(playerPrefab);
+            //playerInstance.GetComponent<NetworkObject>().SpawnAsPlayerObject(playerID);
+
+            playerInstance.GetComponent<NetworkObject>().Spawn();
+            playerInstance.GetComponent<NetworkObject>().ChangeOwnership(playerID);
+            //playerInstance.transform.position = new Vector3(47, 31, 319);
+            //playerInstance.GetComponent<SCR_PlayerNetworkManager>().bust();
+
+        }
+        Debug.Log("Third foreach loop done");
+
+        NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
+    }
+
+    void ReadyButtonPressed()
+    {
+        GameObject Readytint = GameObjectCommon.FindChildwithTagStringLayer(this.gameObject, "ReadyTint", GameObjectCommon.NameTagLayer.Name);
+
+        bool readystatus = Readytint.activeInHierarchy;
+        Readytint.SetActive(!readystatus);
+
+        if (!clientReady)
+        {
+            clientReady = true;
+            if (!PreReadyStatus.Value)
+            {
+                ReadyedServerRpc(true);
+            }
+
+            else
+            {
+                Debug.Log("Loading Game Server");
+                loadGameServerRpc();
+                Debug.Log("Game Server Loaded");
+            }
+        }
+        else
+        {
+            clientReady = false;
+            ReadyedServerRpc(false);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ReadyedServerRpc(bool newValue)
+    {
+        PreReadyStatus.Value = newValue;
+    }
+
+    #endregion
 
     #region Ink Dialogue Stuff - Tutorial used found in link Below
     //https://youtu.be/vY0Sk93YUhA
