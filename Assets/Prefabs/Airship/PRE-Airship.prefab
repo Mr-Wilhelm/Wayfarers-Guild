@@ -1268,7 +1268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2508096769
+  GlobalObjectIdHash: 2033395026
   InScenePlacedSourceGlobalObjectIdHash: 1728072267
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -7317,41 +7317,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7424090147308266036}
     m_Modifications:
-    - target: {fileID: 3177140776083783278, guid: 324522dee2fd8f344a2ac2b152959622,
+    - target: {fileID: 1994623772117758097, guid: 324522dee2fd8f344a2ac2b152959622,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177140776083783278, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3177140776083783278, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3471641349560648496, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      propertyPath: ballista
+      propertyPath: ballistaFirePoint
       value: 
-      objectReference: {fileID: 4381152001832446893}
-    - target: {fileID: 3471641349560648496, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      propertyPath: ballistaHousing
-      value: 
-      objectReference: {fileID: 4918623653742275239}
-    - target: {fileID: 4516121221693712669, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 136519896
-      objectReference: {fileID: 0}
-    - target: {fileID: 4516121221693712669, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 1728072267
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4340945588644319212}
     - target: {fileID: 6115588264624551614, guid: 324522dee2fd8f344a2ac2b152959622,
         type: 3}
       propertyPath: m_Name
@@ -7407,54 +7377,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8693926522371345302, guid: 324522dee2fd8f344a2ac2b152959622,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2033395026
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6115588264624551614, guid: 324522dee2fd8f344a2ac2b152959622,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4376600491362439408}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 324522dee2fd8f344a2ac2b152959622, type: 3}
---- !u!1 &4381152001832446893 stripped
+--- !u!1 &4340945588644319212 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2836326717597000916, guid: 324522dee2fd8f344a2ac2b152959622,
+  m_CorrespondingSourceObject: {fileID: 2859347696934109333, guid: 324522dee2fd8f344a2ac2b152959622,
     type: 3}
   m_PrefabInstance: {fileID: 1986178247610027897}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4918623653742275239 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6904621521277494750, guid: 324522dee2fd8f344a2ac2b152959622,
-    type: 3}
-  m_PrefabInstance: {fileID: 1986178247610027897}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5714713369867008455 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6115588264624551614, guid: 324522dee2fd8f344a2ac2b152959622,
-    type: 3}
-  m_PrefabInstance: {fileID: 1986178247610027897}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &4376600491362439408
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5714713369867008455}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.19, y: 0.62, z: 4.3}
-  m_Center: {x: 0, y: -1.35, z: 0}
 --- !u!4 &7944559909482213052 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8489546648636645829, guid: 324522dee2fd8f344a2ac2b152959622,
