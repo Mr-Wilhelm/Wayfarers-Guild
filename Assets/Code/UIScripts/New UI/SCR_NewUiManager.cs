@@ -13,7 +13,7 @@ using UnityEditor.Animations;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
-public class SCR_NewUiManager : MonoBehaviour
+public class SCR_NewUiManager : NetworkBehaviour
 {
     [Header("Buttons")]
     [SerializeField]
@@ -380,13 +380,14 @@ public class SCR_NewUiManager : MonoBehaviour
         {
             playerIDs.Add(player.GetComponent<SCR_PlayerNetworkManager>().OwnerClientId);
         }
+        Debug.Log("First foreach loop done");
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             Debug.Log("Destroyed");
             player.GetComponent<NetworkObject>().Despawn();
 
         }
-
+        Debug.Log("Second foreach loop done");
 
         foreach (ulong playerID in playerIDs)
         {
@@ -400,6 +401,7 @@ public class SCR_NewUiManager : MonoBehaviour
             //playerInstance.GetComponent<SCR_PlayerNetworkManager>().bust();
 
         }
+        Debug.Log("Third foreach loop done");
 
         NetworkManager.Singleton.SceneManager.LoadScene("SCN_DemoScene", LoadSceneMode.Single);
     }
