@@ -28,12 +28,12 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private LayerMask ActualPickUp;
     [SerializeField] private GravitasFirstPersonPlayerSubject playerScriptReference;
 
-    [SerializeField] private GameObject craigBodyMesh;
-    [SerializeField] private GameObject craigClothesMesh;
-    [SerializeField] private GameObject craigHoldItemMesh;
+    [SerializeField] public GameObject craigBodyMesh;
+    [SerializeField] public GameObject craigClothesMesh;
+    [SerializeField] public GameObject craigHoldItemMesh;
     [SerializeField] private GameObject engineFoodMesh;
-    [SerializeField] private GameObject ballistaBoltMesh;
-    private string objectBeingHeld = string.Empty;
+    [SerializeField] public GameObject ballistaBoltMesh;
+    public string objectBeingHeld = string.Empty;
 
     [SerializeField] private GameObject ballistaBoltPrefab;
     [SerializeField] private GameObject engineFoodPrefab;
@@ -82,6 +82,21 @@ public class SCR_NewInteract : NetworkBehaviour
                 GetComponent<GravitasBody>().unLockPosition();
 
                 inBallista = false;
+                playerScriptReference.playerOnBallista = false;
+
+                if(playerScriptReference.hasItem)
+                {
+                    if(objectBeingHeld == "Engine Food")
+                    {
+                        Debug.Log("Give back food");
+                        engineFoodMesh.SetActive(true);
+                    }
+                    else if(objectBeingHeld == "Ballista Bolt")
+                    {
+                        Debug.Log("Give back ballista bolt");
+                        ballistaBoltMesh.SetActive(true);
+                    }
+                }
             }
             else if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
             {
@@ -132,12 +147,23 @@ public class SCR_NewInteract : NetworkBehaviour
                     if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
                     {
                         GetComponent<GravitasBody>().lockPosition(ballista);
+                        if(objectBeingHeld == "Ballista Bolt")
+                        {
+                            Debug.Log("Entering with bolt, YIPEEEEEEEEEE");
+                            ballista.GetComponent<SCR_BallistaLogic>().playerHasBolt = true; 
+                        }
+                        else
+                        {
+                            Debug.Log("Entering without bolt, SADDDDDDDDDD");
+                        }
+                        ballistaBoltMesh.SetActive(false);
+                        engineFoodMesh.SetActive(false);
                         ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
+                        ballista.GetComponent<SCR_BallistaLogic>().currentPlayerOnBallistaID = gameObject.GetComponent<NetworkObject>().NetworkObjectId;
                         inBallista = true;
+                        playerScriptReference.playerOnBallista = true;
                     }
-
                 }
-                
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
                     if(playerScriptReference.hasItem == false)
@@ -169,7 +195,7 @@ public class SCR_NewInteract : NetworkBehaviour
         }
         if(Input.GetKeyDown(DropKey))
         {
-            if(playerScriptReference.hasItem == false) { Debug.Log("No item to drop"); }
+            if(playerScriptReference.hasItem == false || inBallista) { Debug.Log("Cannot drop"); }
             else
             {
                 dropItem();
