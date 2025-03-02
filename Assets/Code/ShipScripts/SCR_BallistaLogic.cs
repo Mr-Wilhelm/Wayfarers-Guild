@@ -85,17 +85,27 @@ public class SCR_BallistaLogic : NetworkBehaviour
     {
         Debug.Log("Attempting ballista reload");
         if (!playerHasBolt) { Debug.Log("Player does not have bolt"); return; }
-        if(ballistaLoaded.Value) { Debug.Log("Bolt already loaded"); return; }
-        ballistaLoaded.Value = true;
+        playerHasBolt = false;
+        BallistaLoadServerRPC();
         ballistaBolt.SetActive(true);
         RemoveBoltFromPlayerServerRPC();
     }
 
     [ServerRpc(RequireOwnership = false)]
+    private void BallistaLoadServerRPC()
+    {
+        ballistaLoaded.Value = true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void BallistaUnLoadServerRPC()
+    {
+        ballistaLoaded.Value = false;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     private void RemoveBoltFromPlayerServerRPC()
     {
-        playerHasBolt = false;
-        Debug.Log("Player " + FindNetworkObject(currentPlayerOnBallistaID).name + " currently on ballista");
         GameObject playerOnBallista = FindNetworkObject(currentPlayerOnBallistaID);
         SCR_NewInteract interactScriptRef = playerOnBallista.GetComponent<SCR_NewInteract>();
         FindNetworkObject(currentPlayerOnBallistaID).GetComponent<GravitasFirstPersonPlayerSubject>().hasItem = false;
@@ -111,7 +121,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
         if(!ballistaLoaded.Value) { Debug.Log("Ballista not loaded"); return; }
         Debug.Log("Attempting to fire ballsita");
         ballistaBolt.SetActive(false);
-        ballistaLoaded.Value = false;
+        BallistaUnLoadServerRPC();
         RaycastHit[] hits = Physics.RaycastAll(ballistaFirePoint.transform.position, occupant.transform.forward, BallistaRange);
         {
             foreach(var hit in hits)
