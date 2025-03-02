@@ -193,12 +193,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d034c321c3ac084396d4fdcebe766d1, type: 3}
---- !u!1 &177846704 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4918623653742275239, guid: 00b41b74b038dae468603ed3702607b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1815479876}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &215879816 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4713164030356583648, guid: 50d77cb03c290af40a9b24a7fdc4e8d1,
@@ -635,12 +629,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1485826897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4381152001832446893, guid: 00b41b74b038dae468603ed3702607b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1815479876}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1607569736
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,32 +751,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dbf0d36896f0a741acf2cd50438e644, type: 3}
---- !u!1 &1694773914 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5714713369867008455, guid: 00b41b74b038dae468603ed3702607b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1815479876}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1694773919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694773914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d8590a6a9ad214c99b27baaf5e3e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ballistaLoaded:
-    m_InternalValue: 0
-  ballistaOccupied:
-    m_InternalValue: 0
-  turnSpeed: 20
-  turnLimit: 180
-  ballista: {fileID: 1485826897}
-  ballistaHousing: {fileID: 177846704}
 --- !u!1 &1774915643
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,30 +809,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 2508096769
       objectReference: {fileID: 0}
-    - target: {fileID: 1221476685711945859, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8ac7bdc6ecdef354fa397196a3c692c1, type: 2}
     - target: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
       value: PRE-Airship
-      objectReference: {fileID: 0}
-    - target: {fileID: 2683070901931435620, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 136519896
-      objectReference: {fileID: 0}
-    - target: {fileID: 3101951768478170756, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 72c8870693960db4a916725f7ae22d5c, type: 2}
-    - target: {fileID: 5714713369867008455, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      propertyPath: m_TagString
-      value: Ballista
       objectReference: {fileID: 0}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -923,14 +865,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 5388841449312182614, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5714713369867008455, guid: 00b41b74b038dae468603ed3702607b0,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1694773919}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
 --- !u!1 &1822672175
 GameObject:
