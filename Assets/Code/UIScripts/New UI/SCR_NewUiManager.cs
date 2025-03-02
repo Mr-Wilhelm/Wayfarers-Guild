@@ -360,7 +360,6 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     public void Func_RepairButtonPress()
     {
-        // Update the network variable; the callback will update the UI text automatically
         playerDataHandler.playerMoney.Value -= repairCost;
 
         playerDataHandler.shipHealthGlobal.Value = 100.0f;
