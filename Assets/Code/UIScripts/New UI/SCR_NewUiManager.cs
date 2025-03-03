@@ -134,79 +134,130 @@ public class SCR_NewUiManager : NetworkBehaviour
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             player.GetComponentInChildren<Camera>().enabled = false;
+            Debug.Log("aaaaa");
         }
 
         // existing initialization...
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        Debug.Log("1");
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        Debug.Log("2");
 
         // Subscribe to network variable changes
         playerDataHandler.playerMoney.OnValueChanged += OnPlayerMoneyChanged;
+        Debug.Log("3");
 
         // Set the initial text value
         OnPlayerMoneyChanged(playerDataHandler.playerMoney.Value, playerDataHandler.playerMoney.Value);
+        Debug.Log("4");
 
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
+        Debug.Log("5");
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
+        Debug.Log("6");
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
+        Debug.Log("7");
 
         repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
+        Debug.Log("8");
         repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
+        Debug.Log("9");
         repairCostText.text = repairCost.ToString();
-        
+        Debug.Log("10");
+
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
+        Debug.Log("11");
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
+        Debug.Log("12");
         cityAnimator = GetComponent<Animator>();
+        Debug.Log("3");
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
+        Debug.Log("14");
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
+        Debug.Log("15");
         dialoguePanel = GameObject.Find("DialogueBox");
+        Debug.Log("16");
         dialoguePanel.SetActive(false);
+        Debug.Log("17");
         dialogueIsPlaying = false;
+        Debug.Log("18");
         dialogueText = dialoguePanel.GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Log("19");
         choicesText = new TextMeshProUGUI[choices.Length];
+        Debug.Log("20");
         int index = 0;
+        Debug.Log("21");
 
-        foreach(GameObject choice in choices)
+        foreach (GameObject choice in choices)
         {
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
+            Debug.Log("bbbb");
         }
 
         //audio variables
         audioSource = GetComponent<AudioSource>();
+        Debug.Log("22");
 
         //quest info variables
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
+        Debug.Log("23");
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Log("24");
+
         questInfoObject.gameObject.SetActive(false);
-        questInfoObject.questStamp.enabled = false;
-        
+        Debug.Log("25");
+
+
+
+        //something from here is not loading correctly in build
+
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
+        Debug.Log("27");
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
+        Debug.Log("28");
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
+        Debug.Log("29");
 
         questTrackerInfo.enabled = false;
+        Debug.Log("30");
         questTrackerBackground.SetActive(false);
+        Debug.Log("31");
 
         npcLocation = GameObject.Find("NPCLocation");
+        Debug.Log("32");
         npcLocation.SetActive(false);
+        Debug.Log("33");
 
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
+        Debug.Log("34");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        Debug.Log("35");
 
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        Debug.Log("36");
         repairCostText.text = repairCost.ToString();
+        Debug.Log("37");
 
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        Debug.Log("38");
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
+        Debug.Log("39");
+        questInfoObject.questStamp.enabled = false;
+        Debug.Log("26");
+    }
+
+    private void DisableStamp()
+    {
+        
     }
 
     private void Update()
