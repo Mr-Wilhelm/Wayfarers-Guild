@@ -78,6 +78,11 @@ namespace Gravitas
                 rb.AddForce(force, forceMode);
         }
 
+        public virtual void setProxyPos(Vector3 position)
+        {
+            currentProxy.transform.position = position;
+        }
+
         /// <summary>
         /// Adds a torque force to this subject's rigidbody, or the proxy's rigidbody if it exists.
         /// </summary>

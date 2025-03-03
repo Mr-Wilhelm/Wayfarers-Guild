@@ -35,6 +35,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>();
     public string playerNameString;
 
+    [SerializeField] Collider playerCollider;
 
     [SerializeField] private GameObject myPrefab;
 
@@ -98,6 +99,9 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            playerCollider.enabled = false;
+            gameObject.GetComponent<GravitasBody>().DestroyProxy();
+            gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
             int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
@@ -144,6 +148,9 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            playerCollider.enabled = false;
+            gameObject.GetComponent<GravitasBody>().DestroyProxy();
+            gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
             int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
@@ -193,6 +200,9 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            playerCollider.enabled = false;
+            gameObject.GetComponent<GravitasBody>().DestroyProxy();
+            gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
             int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
@@ -228,8 +238,10 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         //Update the network variables of pos and rot
         if (IsOwner)
         {
-            updatePosServerRPC(transform.position);
-            updateRotServerRPC(transform.rotation.eulerAngles);
+            //updatePosServerRPC(transform.position);
+            //updateRotServerRPC(transform.rotation.eulerAngles);
+
+
         }
     }
 

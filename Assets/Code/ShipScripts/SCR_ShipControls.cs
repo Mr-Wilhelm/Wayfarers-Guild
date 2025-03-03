@@ -46,15 +46,7 @@ public class SCR_ShipControls : NetworkBehaviour
             shipMovement.decreaseAccelerationServerRPC();
             Debug.Log("speed down: " + shipMovement.shipAcceleration.Value);
         }
-    }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
-        if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
-        if (!IsOwner){ return; }
-        if (!onWheel) { return; }
         //Yaw Right
         if (Input.GetKey(KeyCode.D))
         {
@@ -66,7 +58,7 @@ public class SCR_ShipControls : NetworkBehaviour
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
         }
         //Roll Right
-        if(Input.GetKey(KeyCode.E) && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit) )
+        if (Input.GetKey(KeyCode.E) && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit))
         {
 
             if (ship.transform.rotation.eulerAngles.x < 180)
@@ -78,7 +70,7 @@ public class SCR_ShipControls : NetworkBehaviour
                 shipMovement.updateRollRotServerRPC("Left", OwnerClientId);
             }
 
-            
+
             shipMovement.autoLevelRollActive = false;
             CancelInvoke(nameof(startAutoLevelRoll));
             Invoke(nameof(startAutoLevelRoll), 0.5f);
@@ -94,7 +86,7 @@ public class SCR_ShipControls : NetworkBehaviour
             {
                 shipMovement.updateRollRotServerRPC("Right", OwnerClientId);
             }
-                
+
             shipMovement.autoLevelRollActive = false;
             CancelInvoke(nameof(startAutoLevelRoll));
             Invoke(nameof(startAutoLevelRoll), 0.5f);
@@ -110,7 +102,7 @@ public class SCR_ShipControls : NetworkBehaviour
             {
                 shipMovement.updatePitchRotServerRPC("Right", OwnerClientId);
             }
-                
+
             shipMovement.autoLevelPitchActive = false;
             CancelInvoke(nameof(startAutoLevelPitch));
             Invoke(nameof(startAutoLevelPitch), 0.5f);
@@ -126,14 +118,24 @@ public class SCR_ShipControls : NetworkBehaviour
             {
                 shipMovement.updatePitchRotServerRPC("Left", OwnerClientId);
             }
-                
+
             shipMovement.autoLevelPitchActive = false;
             CancelInvoke(nameof(startAutoLevelPitch));
             Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
+    }
+
+    // Update is called once per frame
+    //void FixedUpdate()
+    //{
+    //    if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
+    //    if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
+    //    if (!IsOwner){ return; }
+    //    if (!onWheel) { return; }
+        
         
        
-    }
+    //}
 
     private void startAutoLevelRoll()
     {
