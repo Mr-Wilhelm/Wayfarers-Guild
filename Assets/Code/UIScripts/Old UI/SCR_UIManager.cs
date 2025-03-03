@@ -12,7 +12,6 @@ public class SCR_UIManager : MonoBehaviour
     [Header("Interactables")]
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
-    [SerializeField] public TMP_InputField nameInputField;
 
     [Header("ScreenStuffs")]
     [SerializeField]
@@ -85,11 +84,6 @@ public class SCR_UIManager : MonoBehaviour
 
         NetworkManager.Singleton.StartHost();
 
-        if (nameInputField.text == "")
-        {
-            nameInputField.text = "Player 1";
-        }
-
         //handler.player1Name.Value = nameInputField.text;
 
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
@@ -117,14 +111,6 @@ public class SCR_UIManager : MonoBehaviour
         }
 
         NetworkManager.Singleton.StartClient();
-
-        if (nameInputField.text == "")
-        {
-            //set as localhost. If on a host with IPV4, then 127.0.0.1 wont work
-            nameInputField.text = "Player 2";
-        }
-
-        //handler.player2Name.Value = nameInputField.text;
     }
 
     private void Update()
