@@ -310,6 +310,7 @@ MonoBehaviour:
   bounceForce: 1000
   shipRB: {fileID: 0}
   invincibilityPeriod: 1
+  terrainNormalsInverted: 1
 --- !u!1001 &285877205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1035,7 +1036,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5aa152f8d13884b816eb094865de51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: MainMenu
+  menuSceneToLoad: MainMenu
+  playSceneToLoad: 
 --- !u!4 &1774915645
 Transform:
   m_ObjectHideFlags: 0
