@@ -116,7 +116,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
-        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene" || SceneManager.GetActiveScene().name == "SCN_NewTerrainTestScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -224,7 +224,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             this.enabled = false;
 
         }
-        else if (a.name == "SCN_DemoScene")
+        else if (a.name == "SCN_DemoScene"|| a.name == "SCN_NewTerrainTestScene")
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

@@ -41,6 +41,8 @@ public class SCR_UIManager : MonoBehaviour
 
     private SCR_PlayerDataHandler handler;
 
+    private GameObject sceneToLoadFinderObj;
+
     private void Start()
     {
         //Lines for hosting and joining as a client
@@ -53,10 +55,15 @@ public class SCR_UIManager : MonoBehaviour
 
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
+        sceneToLoadFinderObj = GameObject.Find("LoadMainMenuOBJ");
+        sceneToLoad = sceneToLoadFinderObj.GetComponent<SCR_LoadedFromMainMenuCheck>().playSceneToLoad;
 
         //handler = GameObject.Find("SCR_PlayerDataHandler").gameObject.GetComponent<SCR_PlayerDataHandler>();
 
-        if(sceneToLoad == "")
+        Debug.Log("Scene to Load var is: " + sceneToLoad);
+        if(sceneToLoad == null) { Debug.Log("No scene to load found"); }
+
+        if (sceneToLoad == "")
         {
             sceneToLoad = "SCN_WIP_3DPathfinding";
         }
