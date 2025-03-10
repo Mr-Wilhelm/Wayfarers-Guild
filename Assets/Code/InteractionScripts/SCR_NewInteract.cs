@@ -184,6 +184,11 @@ public class SCR_NewInteract : NetworkBehaviour
                     pickUpItem("Engine Food", true, hitInfo.collider.transform.root.gameObject);
                     playerScriptReference.hasItem = true;
                 }
+                else if(hitInfo.collider.gameObject.CompareTag("Compendium"))
+                {
+                    Debug.Log("Interacting with compendium");
+                    hitInfo.collider.gameObject.GetComponent<Animator>().SetTrigger("OpenTrigger");
+                }
             }
             else if (interacting)
             {
