@@ -16,6 +16,8 @@ public class SCR_ShipControls : NetworkBehaviour
     public GameObject ship;
     public SCR_ShipMovement shipMovement;
 
+    [SerializeField] private Animator wheelAnimator;
+
     private void Start()
     {
         Invoke("LoadShip", 1);
@@ -25,13 +27,14 @@ public class SCR_ShipControls : NetworkBehaviour
     {
         ship = GameObject.Find("PRE-Airship");
         shipMovement = ship.GetComponent<SCR_ShipMovement>();
+        wheelAnimator = GameObject.Find("Wheel").GetComponent<Animator>();
     }
 
 
     private void Update()
     {
-        if (ship == null) { ship = GameObject.Find("PRE-Airship"); return; }
-        if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
+        if (ship == null) { LoadShip(); return; }
+        if (shipMovement == null) { if (ship != null) { LoadShip(); } }
         if (!IsOwner) { return; }
         if (!onWheel) { return; }
 
@@ -48,14 +51,30 @@ public class SCR_ShipControls : NetworkBehaviour
         }
 
         //Yaw Right
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) == true)
         {
+            Debug.Log("Turning right");
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
+            wheelAnimator.speed = 1;
+            wheelAnimator.SetBool("TurningLeft", false);
+            wheelAnimator.SetBool("TurningRight", true);
         }
         //Yaw Left
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) == true)
         {
+            Debug.Log("Turning left");
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
+            wheelAnimator.speed = 1;
+            wheelAnimator.SetBool("TurningLeft", true);
+            wheelAnimator.SetBool("TurningRight", false);
+        }
+        if(Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false) 
+        {
+            wheelAnimator.SetBool("Turning", false);
+            wheelAnimator.speed = 0;
+            wheelAnimator.SetBool("TurningLeft", false);
+            wheelAnimator.SetBool("TurningRight", false);
+            wheelAnimator.SetBool("NotTurning", true);
         }
         //Roll Right
         if (Input.GetKey(KeyCode.E) && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit))
