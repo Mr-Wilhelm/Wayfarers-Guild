@@ -24,9 +24,7 @@ public class SCR_RemoveCrystal : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Crystal dissapear now");
-        GameObject crystal = FindObjectOfType<SCR_Crysal>().gameObject;
-        crystal.SetActive(false);
+        animator.gameObject.GetComponent<SCR_Book>().DisableCrystal();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

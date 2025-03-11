@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class SCR_Book : MonoBehaviour
 {
+    [SerializeField] GameObject crystal;
+
     // Start is called before the first frame update
-    void Start()
+    public void DisableCrystal()
     {
-        
+        crystal.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnableCrystal() 
     {
-        
+        crystal.SetActive(true);
     }
 }

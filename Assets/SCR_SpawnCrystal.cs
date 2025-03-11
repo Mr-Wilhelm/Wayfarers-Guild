@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SCR_SpawnCrystal : StateMachineBehaviour
@@ -12,8 +13,7 @@ public class SCR_SpawnCrystal : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GameObject crystal = FindObjectOfType<SCR_Crysal>().gameObject;
-        crystal.SetActive(true);
+        animator.gameObject.GetComponent<SCR_Book>().EnableCrystal();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -13,6 +13,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     [SerializeField] private float interactionRange;
     [SerializeField] public NetworkVariable<bool> canInteract;
+    [SerializeField] public NetworkVariable<bool> bookOpen;
     bool otherPlayerCanInteract = false;
 
     public Camera playerCam;
@@ -187,7 +188,18 @@ public class SCR_NewInteract : NetworkBehaviour
                 else if(hitInfo.collider.gameObject.CompareTag("Compendium"))
                 {
                     Debug.Log("Interacting with compendium");
-                    hitInfo.collider.gameObject.GetComponent<Animator>().SetTrigger("OpenTrigger");
+                    if(bookOpen.Value == false)
+                    {
+                        if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
+                        hitInfo.collider.gameObject.GetComponent<Animator>().SetTrigger("OpenTrigger");
+                        BookOpenBoolServerRPC(true);
+                    }
+                    else
+                    {
+                        if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opening")) { Debug.Log("Book opening, please wait"); return; }
+                        hitInfo.collider.gameObject.GetComponent<Animator>().SetTrigger("CloseTrigger");
+                        BookOpenBoolServerRPC(false);
+                    }
                 }
             }
             else if (interacting)
@@ -224,12 +236,16 @@ public class SCR_NewInteract : NetworkBehaviour
         transform.position = updatedPosition; // Update position on clients
     }
 
-
-
     [ServerRpc(RequireOwnership = false)]
     private void UpdateCanInteractBoolServerRpc(bool newValue)
     {
         canInteract.Value = newValue;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void BookOpenBoolServerRPC(bool newValue)
+    {
+        bookOpen.Value = newValue;
     }
 
     private void dropItem(bool itemBeingDeleted = false)
