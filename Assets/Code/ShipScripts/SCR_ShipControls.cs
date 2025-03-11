@@ -17,6 +17,9 @@ public class SCR_ShipControls : NetworkBehaviour
     public SCR_ShipMovement shipMovement;
 
     [SerializeField] private Animator wheelAnimator;
+    private GameObject[] wheelPiecesToRotate;
+    private GameObject[] wheelRimPieces;
+    private GameObject wheelCentrePost;
 
     private void Start()
     {
@@ -28,6 +31,9 @@ public class SCR_ShipControls : NetworkBehaviour
         ship = GameObject.Find("PRE-Airship");
         shipMovement = ship.GetComponent<SCR_ShipMovement>();
         wheelAnimator = GameObject.Find("Wheel").GetComponent<Animator>();
+        wheelPiecesToRotate = GameObject.FindGameObjectsWithTag("WheelRotatePieces");
+        wheelRimPieces = GameObject.FindGameObjectsWithTag("WheelRimPieces");
+        wheelCentrePost = GameObject.Find("WheelCentrePost");
     }
 
 
@@ -55,18 +61,54 @@ public class SCR_ShipControls : NetworkBehaviour
         {
             Debug.Log("Turning right");
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
-            wheelAnimator.speed = 1;
-            wheelAnimator.SetBool("TurningLeft", false);
-            wheelAnimator.SetBool("TurningRight", true);
+            float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
+            if (centreZRotation <= -179.5f)
+            {
+                Debug.Log("Stopping wheel rotation to the right");
+                return;
+            }
+            foreach (GameObject wheelPiece in wheelPiecesToRotate)
+            {
+                Debug.Log("Turning wheel pieces right");
+                wheelPiece.transform.Rotate(new Vector3(0,0,-1), 0.5f);
+                Vector3 wheelRotation = wheelCentrePost.transform.eulerAngles;
+                Debug.Log("wheel centre post rotation is: " + wheelRotation);
+                //wheelPiece.transform.localRotation = Quaternion.Euler(wheelPiece.transform.localRotation.x, wheelPiece.transform.localRotation.x + 1.0f, wheelPiece.transform.localRotation.z);
+                //wheelPiece.transform.Rotate(wheelPiece.transform.rotation.x, wheelPiece.transform.rotation.y + 1.0f, wheelPiece.transform.rotation.z);
+            }
+            foreach(GameObject wheelRimPiece in wheelRimPieces)
+            {
+                wheelRimPiece.transform.Rotate(new Vector3(0, 1, 0), 0.5f);
+            }
+            //wheelAnimator.speed = 1;
+            //wheelAnimator.SetBool("TurningLeft", false);
+            //wheelAnimator.SetBool("TurningRight", true);
         }
         //Yaw Left
         if (Input.GetKey(KeyCode.A) == true)
         {
             Debug.Log("Turning left");
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
-            wheelAnimator.speed = 1;
-            wheelAnimator.SetBool("TurningLeft", true);
-            wheelAnimator.SetBool("TurningRight", false);
+            float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
+            if (centreZRotation >= 179.5f)
+            {
+                Debug.Log("Stopping wheel rotation to the left");
+                return;
+            }
+            foreach (GameObject wheelPiece in wheelPiecesToRotate)
+            {
+                Debug.Log("Turning wheel pieces left");
+                wheelPiece.transform.Rotate(new Vector3(0, 0, 1), 0.5f);
+                //wheelPiece.transform.localRotation = Quaternion.Euler(wheelPiece.transform.localRotation.x, wheelPiece.transform.localRotation.x - 1.0f, wheelPiece.transform.localRotation.z);
+                //wheelPiece.transform.Rotate(wheelPiece.transform.rotation.x, wheelPiece.transform.rotation.y - 1.0f, wheelPiece.transform.rotation.z);
+            }
+            foreach (GameObject wheelRimPiece in wheelRimPieces)
+            {
+                wheelRimPiece.transform.Rotate(new Vector3(0, -1, 0), 0.5f);
+            }
+            //wheelAnimator.speed = 1;
+            //wheelAnimator.SetBool("TurningLeft", true);
+            //wheelAnimator.SetBool("TurningRight", false);
         }
         if(Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false) 
         {
@@ -151,10 +193,16 @@ public class SCR_ShipControls : NetworkBehaviour
     //    if (shipMovement == null) { if (ship != null) { shipMovement = ship.GetComponent<SCR_ShipMovement>(); } }
     //    if (!IsOwner){ return; }
     //    if (!onWheel) { return; }
-        
-        
-       
+
+
+
     //}
+
+    private float NormalizeAngle(float angle)
+    {
+        if (angle > 180) angle -= 360;
+        return angle;
+    }
 
     private void startAutoLevelRoll()
     {
