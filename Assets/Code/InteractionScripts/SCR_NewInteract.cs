@@ -1,4 +1,4 @@
-using Gravitas;
+﻿using Gravitas;
 using Gravitas.Demo;
 using System;
 using System.Collections;
@@ -13,7 +13,12 @@ public class SCR_NewInteract : NetworkBehaviour
 
     [SerializeField] private float interactionRange;
     [SerializeField] public NetworkVariable<bool> canInteract;
-    [SerializeField] public NetworkVariable<bool> bookOpen;
+    [SerializeField]
+    private NetworkVariable<bool> bookOpen = new NetworkVariable<bool>(
+    false,
+    NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Server
+);
     bool otherPlayerCanInteract = false;
 
     public Camera playerCam;
@@ -51,14 +56,15 @@ public class SCR_NewInteract : NetworkBehaviour
         ballistaBoltMesh.SetActive(false);
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        if(!IsOwner) { enabled = false; return; }
+        if (!IsOwner) { enabled = false; return; }
         if (Input.GetKeyDown(InteractKey))
         {
 
-            if(GameObject.FindGameObjectsWithTag("Player").Length != 1)
+            if (GameObject.FindGameObjectsWithTag("Player").Length != 1)
             {
                 otherPlayerCanInteract = false;
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
@@ -85,14 +91,14 @@ public class SCR_NewInteract : NetworkBehaviour
                 inBallista = false;
                 playerScriptReference.playerOnBallista = false;
 
-                if(playerScriptReference.hasItem)
+                if (playerScriptReference.hasItem)
                 {
-                    if(objectBeingHeld == "Engine Food")
+                    if (objectBeingHeld == "Engine Food")
                     {
                         Debug.Log("Give back food");
                         engineFoodMesh.SetActive(true);
                     }
-                    else if(objectBeingHeld == "Ballista Bolt")
+                    else if (objectBeingHeld == "Ballista Bolt")
                     {
                         Debug.Log("Give back ballista bolt");
                         ballistaBoltMesh.SetActive(true);
@@ -148,10 +154,10 @@ public class SCR_NewInteract : NetworkBehaviour
                     if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
                     {
                         GetComponent<GravitasBody>().lockPosition(ballista);
-                        if(objectBeingHeld == "Ballista Bolt")
+                        if (objectBeingHeld == "Ballista Bolt")
                         {
                             Debug.Log("Entering with bolt, YIPEEEEEEEEEE");
-                            ballista.GetComponent<SCR_BallistaLogic>().playerHasBolt = true; 
+                            ballista.GetComponent<SCR_BallistaLogic>().playerHasBolt = true;
                         }
                         else
                         {
@@ -167,38 +173,37 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
                 {
-                    if(playerScriptReference.hasItem == false)
+                    if (playerScriptReference.hasItem == false)
                     {
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
                     }
                 }
-                else if(hitInfo.collider.gameObject.CompareTag("Ballista Bolt"))
+                else if (hitInfo.collider.gameObject.CompareTag("Ballista Bolt"))
                 {
                     Debug.Log("Found bolt on ground");
                     pickUpItem("Ballista Bolt", true, hitInfo.collider.transform.root.gameObject);
                     playerScriptReference.hasItem = true;
                 }
-                else if(hitInfo.collider.gameObject.CompareTag("Engine Fuel"))
+                else if (hitInfo.collider.gameObject.CompareTag("Engine Fuel"))
                 {
                     Debug.Log("Found scran on ground");
                     pickUpItem("Engine Food", true, hitInfo.collider.transform.root.gameObject);
                     playerScriptReference.hasItem = true;
                 }
-                else if(hitInfo.collider.gameObject.CompareTag("Compendium"))
+                else if (hitInfo.collider.gameObject.CompareTag("Compendium"))
                 {
                     Debug.Log("Interacting with compendium");
-                    if(bookOpen.Value == false)
+                    Debug.Log($"bookOpen network var: { hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value } ");
+                    if (hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value == false)
                     {
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
-                        hitInfo.collider.gameObject.GetComponent<Animator>().SetTrigger("OpenTrigger");
-                        BookOpenBoolServerRPC(true);
+                        OpenBookGoBetweenServerRPC();
                     }
                     else
                     {
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opening")) { Debug.Log("Book opening, please wait"); return; }
-                        hitInfo.collider.gameObject.GetComponent<Animator>().SetTrigger("CloseTrigger");
-                        BookOpenBoolServerRPC(false);
+                        CloseBookGoBetweenServerRPC();
                     }
                 }
             }
@@ -210,9 +215,9 @@ public class SCR_NewInteract : NetworkBehaviour
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
             }
         }
-        if(Input.GetKeyDown(DropKey))
+        if (Input.GetKeyDown(DropKey))
         {
-            if(playerScriptReference.hasItem == false || inBallista) { Debug.Log("Cannot drop"); }
+            if (playerScriptReference.hasItem == false || inBallista) { Debug.Log("Cannot drop"); }
             else
             {
                 dropItem();
@@ -220,7 +225,37 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void OpenBookGoBetweenServerRPC()
+    {
+        GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
+        bookRef.GetComponent<SCR_Book>().bookOpen.Value = true;
+        OpenBookClientRPC();
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void CloseBookGoBetweenServerRPC()
+    {
+        GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
+        bookRef.GetComponent<SCR_Book>().bookOpen.Value = false;
+        CloseBookClientRPC();
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void OpenBookClientRPC()
+    {
+        Debug.Log($"Player: {gameObject.GetComponent<NetworkObject>().NetworkObjectId} trying to open book");
+        GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
+        bookRef.GetComponent<Animator>().SetTrigger("OpenTrigger");
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void CloseBookClientRPC()
+    {
+        Debug.Log($"Player: {gameObject.GetComponent<NetworkObject>().NetworkObjectId} trying to close book");
+        GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
+        bookRef.GetComponent<Animator>().SetTrigger("CloseTrigger");
+    }
 
     [ServerRpc(RequireOwnership = false)]
     void SetPlayerPositionServerRPC(Vector3 newPosition)
@@ -240,12 +275,6 @@ public class SCR_NewInteract : NetworkBehaviour
     private void UpdateCanInteractBoolServerRpc(bool newValue)
     {
         canInteract.Value = newValue;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void BookOpenBoolServerRPC(bool newValue)
-    {
-        bookOpen.Value = newValue;
     }
 
     private void dropItem(bool itemBeingDeleted = false)
