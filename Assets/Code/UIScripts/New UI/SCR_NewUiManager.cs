@@ -545,8 +545,9 @@ public class SCR_NewUiManager : NetworkBehaviour
             if(dialogueTags.Contains("animate") && !isShowingChoices)
                 DisplayChoices();   //shows button choices
         }
-        else
+        else if(!currentStory.canContinue)
         {
+            Debug.Log("No More Dialogue");
             ExitDialogueMode();
         }
     }
