@@ -1,0 +1,73 @@
+name: Bug Report - Template (Preferred Option)
+#Louis Palmer Template Test Issues
+description: File a bug report with Text fields and dropdowns - Louis custom template.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+projects: ["octo-org/1", "octo-org/44"]
+assignees:
+  - octocat
+body:
+  - type: dropdown
+    id: Risk
+    attributes:
+      label: Risk Level
+      description: Low - Bugs that have next to no impact on gameplay or project <br>
+                  Medium - Has impacts and may hinder gameplay <br>
+                  High - Gamebreaking issues that completly halt or disrupt the gameplay or project <br>
+                  Inapplicable - None of the Risk levels apply to this bug (avoid using if you can)
+      options:
+        - LOW
+        - MEDIUM
+        - HIGH
+        - INAPPLICABLE
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Description of Bug
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textarea
+    id: how-happened
+    attributes:
+      label: How to recreate bug?
+      description: Step by Step of what you can do to recreate bug, make it as basic and simple as possible? If you cant recreate just state what you did before it happened <br>
+                  1. Load Scene <br>
+                   2. Launch the game by pressing the start button <br>
+                   3. Walk over and interact with ship stearing wheel <br>
+                   4. Error Appears 
+      value: "1. Load Scene  
+              2. Launch the game by pressing the start button  
+              3. Walk over and interact with ship steering wheel  
+              4. Error Appears"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes?
+      description: Additional Information Optional
+      placeholder: Notes
+    validations:
+      required: false
+  - type: dropdown
+    id: Device
+    attributes:
+      label: Is this bug appearing on your personal device or University Device?
+      multiple: true
+      options:
+        - Personal Device
+        - University Computer
+        
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+
