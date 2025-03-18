@@ -462,6 +462,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1856121434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5640595736928253548, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8522280660864739538}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91dbc6dfb62d4648bcb73d7ffe623e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8522280660864739538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -470,10 +482,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 738260171603958828, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -544.73016
+      objectReference: {fileID: 0}
     - target: {fileID: 2202643537655345851, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
       propertyPath: m_Name
       value: NewUICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2504161938351688206, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1856121434}
+    - target: {fileID: 2504161938351688206, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Func_SpoonsButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 2627970856418310581, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
@@ -499,6 +526,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 586.0499
+      objectReference: {fileID: 0}
+    - target: {fileID: 3489920989487704265, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -567.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 4636229721370198432, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -569.99994
       objectReference: {fileID: 0}
     - target: {fileID: 4869461957654691265, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
@@ -605,6 +642,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1094277347}
+    - target: {fileID: 5623530793144065257, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -555.99994
+      objectReference: {fileID: 0}
     - target: {fileID: 6310392062026546320, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.a
@@ -679,7 +721,7 @@ PrefabInstance:
     - target: {fileID: 7014089499981163973, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -544.7301
+      value: -544.73016
       objectReference: {fileID: 0}
     - target: {fileID: 9095424103799429224, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
