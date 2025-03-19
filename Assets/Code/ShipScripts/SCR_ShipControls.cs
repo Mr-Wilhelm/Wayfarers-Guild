@@ -62,7 +62,7 @@ public class SCR_ShipControls : NetworkBehaviour
         {
             Debug.Log("Turning right");
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
-            RotateWheelRightServerRPC();
+            //RotateWheelRightServerRPC();
             //wheelAnimator.speed = 1;
             //wheelAnimator.SetBool("TurningLeft", false);
             //wheelAnimator.SetBool("TurningRight", true);
@@ -72,7 +72,7 @@ public class SCR_ShipControls : NetworkBehaviour
         {
             Debug.Log("Turning left");
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
-            RotateWheelLeftServerRPC();
+            //RotateWheelLeftServerRPC();
             //wheelAnimator.speed = 1;
             //wheelAnimator.SetBool("TurningLeft", true);
             //wheelAnimator.SetBool("TurningRight", false);
