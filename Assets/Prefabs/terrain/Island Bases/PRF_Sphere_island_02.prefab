@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7211346782116378908}
   - component: {fileID: 416608824730525367}
   - component: {fileID: 3098339473264440335}
+  - component: {fileID: 6311067906901112799}
   m_Layer: 0
   m_Name: Sphere_island_02
   m_TagString: Untagged
@@ -85,6 +86,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6311067906901112799
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3411996197089212245}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6262110904400382068, guid: 6fae333c02951bf47a20207fdfa5e2af, type: 3}
 --- !u!1 &8379789480513435214
 GameObject:
   m_ObjectHideFlags: 0
