@@ -308,7 +308,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.networkActiveQuest.Value = 0; //quest heading
                 questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = true;  //npc image

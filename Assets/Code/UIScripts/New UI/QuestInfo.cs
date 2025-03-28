@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using Unity.Collections;
+using JetBrains.Annotations;
 
 public class QuestInfo : NetworkBehaviour
 {
@@ -25,6 +26,12 @@ public class QuestInfo : NetworkBehaviour
     public NetworkVariable<questHeading> activeQuest;
     public NetworkVariable<npcBroker> targetNPC;
     public NetworkVariable<questTypes> questType;
+
+    //network stuff testing
+
+    public NetworkVariable<int> networkActiveQuest;     //0 - Apple A Day, 1 - PostHaste, 2 - Lightbulb, 3 - Poking
+    public NetworkVariable<int> networkTargetNPC;
+    public NetworkVariable<int> networkQuestType;
 
     private void Start()
     {
