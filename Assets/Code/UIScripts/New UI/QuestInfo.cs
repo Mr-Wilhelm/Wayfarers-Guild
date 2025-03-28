@@ -29,9 +29,9 @@ public class QuestInfo : NetworkBehaviour
 
     //network stuff testing
 
-    public NetworkVariable<int> networkActiveQuest;     //0 - Apple A Day, 1 - PostHaste, 2 - Lightbulb, 3 - Poking
-    public NetworkVariable<int> networkTargetNPC;
-    public NetworkVariable<int> networkQuestType;
+    public NetworkVariable<int> networkActiveQuest;     //0 - Apple A Day, 1 - LightbulbMoment
+    public NetworkVariable<int> networkTargetNPC;   //0 - NOne, 1 - Jenny, 2 - Keegan, 3 - Chris, 4 - Celia, 5 - Matthew
+    public NetworkVariable<int> networkQuestType;   //0 - Cargo, 1 - Research
 
     private void Start()
     {

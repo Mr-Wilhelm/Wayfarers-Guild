@@ -308,15 +308,15 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
-                questInfoObject.networkActiveQuest.Value = 0; //quest heading
-                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
+                questInfoObject.activeQuest.Value = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.Jenny;  //quest broker
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
-                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.activeQuest.Value = QuestInfo.questHeading.LightbulbMoment;   //quest heading
+                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.None;   //npc broker
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
@@ -353,7 +353,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void AcceptQuest()
     {
         Debug.Log("Accept Quest" + questInfoObject.activeQuest);
-        questTrackerTitle.text = questInfoObject.activeQuest.ToString();
+        questTrackerTitle.text = questInfoObject.activeQuest.Value.ToString();
 
         questTrackerInfo.text = questInfoText.text;
         targetNPC = questInfoObject.targetNPC.ToString();
