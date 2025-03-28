@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using Unity.Collections;
 
 public class QuestInfo : NetworkBehaviour
 {
@@ -11,7 +12,7 @@ public class QuestInfo : NetworkBehaviour
 
     public enum questHeading {AppleADay, LightbulbMoment };
 
-    public NetworkVariable<string> questText;
+    public NetworkVariable<FixedString128Bytes> questText;
 
     public float rewardMoney;
 
