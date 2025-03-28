@@ -46,6 +46,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextAsset exampleNPCDialogue;
 
     [SerializeField]
+    private TextAsset scienceNPCDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -171,6 +174,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
 
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
+        scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
 
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
@@ -266,6 +270,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             EnterDialogueMode(spoonsQuestDialogue);
         }
+        else if (targetNPC == "Matthew")
+        {
+            EnterDialogueMode(scienceNPCDialogue);
+        }
         else
         {
 
@@ -313,11 +321,25 @@ public class SCR_NewUiManager : NetworkBehaviour
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
+            case QuestButton.QuestNames.Poking:
+                questInfoText.text = "I'd like to obtain data concerning the Tulebreather's fog. Please meet me at The Weathered Spoony McSpoonface for more details.";
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Matthew;  //quest broker
+                questInfoObject.activeQuest = QuestInfo.questHeading.Poking; //quest heading
+                questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
+                questInfoObject.jennyImage.enabled = false;  //npc image
+                break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
                 questInfoObject.activeQuest.Value = QuestInfo.questHeading.LightbulbMoment;   //quest heading
                 questInfoObject.targetNPC.Value = QuestInfo.npcBroker.None;   //npc broker
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
+                questInfoObject.jennyImage.enabled = false; //npc image
+                break;
+            case QuestButton.QuestNames.PostHaste:
+                questInfoText.text = "Need these packages delivered ASAP by any willing Wayfarers. Please take them quickly!";
+                questInfoObject.activeQuest = QuestInfo.questHeading.PostHaste;   //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
         }
@@ -364,6 +386,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         switch (targetNPC)
         {
             case "Jenny":
+                npcLocation.SetActive(true);
+                npcLocation.transform.position = spoonsNPCLocation.transform.position;
+                break;
+            case "Matthew":
                 npcLocation.SetActive(true);
                 npcLocation.transform.position = spoonsNPCLocation.transform.position;
                 break;
