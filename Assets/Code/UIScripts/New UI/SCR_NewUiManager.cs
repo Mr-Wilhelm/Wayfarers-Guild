@@ -316,6 +316,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
+                Debug.Log("Active quest value is" + questInfoObject.activeQuest.Value);
                 questInfoObject.activeQuest.Value = QuestInfo.questHeading.AppleADay; //quest heading
                 questInfoObject.targetNPC.Value = QuestInfo.npcBroker.Jenny;  //quest broker
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
@@ -343,7 +344,6 @@ public class SCR_NewUiManager : NetworkBehaviour
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
         }
-
     }
     public void Func_QuestBackButtonPressed()
     {
@@ -374,11 +374,11 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     public void AcceptQuest()
     {
-        Debug.Log("Accept Quest" + questInfoObject.activeQuest);
+        Debug.Log("Accept Quest" + questInfoObject.activeQuest.Value);
         questTrackerTitle.text = questInfoObject.activeQuest.Value.ToString();
 
         questTrackerInfo.text = questInfoText.text;
-        targetNPC = questInfoObject.targetNPC.ToString();
+        targetNPC = questInfoObject.targetNPC.Value.ToString();
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
 
