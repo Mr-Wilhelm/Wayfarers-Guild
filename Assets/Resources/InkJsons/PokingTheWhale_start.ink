@@ -6,7 +6,7 @@ I have never found a first hand account of such behaviours, however. That is wha
 You must venture out there, and call a Tulebreather over with some loud noise or sonar ping in order to test these faculties.
 Once it approaches, dive into its fog to ensure it is safe there. 
 You must bring me the results quickly. 
-Science waits for no man's dawdling doddery, and I will not stand to be left in the dark
+Science waits for no man's dawdling doddery, and I will not stand to be left in the dark #animate
 Do you understand? 
 ->Choices
 
@@ -23,3 +23,4 @@ Then what are you waiting for? Get out and get me those results!
 Hm. Errant fool. Very well, to each their own funeral. 
 Should you gain a semblance of intelligence and change your mind, do seek me again. 
 -> END
+

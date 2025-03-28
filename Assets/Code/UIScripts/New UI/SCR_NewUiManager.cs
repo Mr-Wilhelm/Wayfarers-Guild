@@ -46,6 +46,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextAsset exampleNPCDialogue;
 
     [SerializeField]
+    private TextAsset scienceNPCDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -171,6 +174,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
 
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
+        scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
 
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
