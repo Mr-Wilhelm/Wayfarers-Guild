@@ -57,6 +57,9 @@ public class SCR_ShipMovement : NetworkBehaviour
     {
         if(!IsServer) return;
 
+        
+
+        shipRb.AddRelativeTorque(rotation, ForceMode.Acceleration);
         rotation = Vector3.zero;
 
         Vector3 forceToAdd = (gameObject.transform.right * shipAcceleration.Value);
@@ -90,11 +93,11 @@ public class SCR_ShipMovement : NetworkBehaviour
         controllingPlayer.Value = playerID;
     }    
 
-    [ServerRpc(RequireOwnership = false)]
-    private void updatePosServerRPC(Vector3 forceToAdd)
-    {
-        updatePosClientRPC(forceToAdd);
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //private void updatePosServerRPC(Vector3 forceToAdd)
+    //{
+    //    updatePosClientRPC(forceToAdd);
+    //}
 
     [ServerRpc(RequireOwnership = false)]
     public void updateYawRotServerRPC(string LeftOrRight, ulong senderID)
@@ -104,7 +107,7 @@ public class SCR_ShipMovement : NetworkBehaviour
         if(LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * Time.deltaTime); }
         else { rotationSpeed = shipTurnSpeed.Value * Time.deltaTime; }
         Vector3 torque = new Vector3(0, rotationSpeed, 0);
-        updateRotClientRPC(torque);
+        updateRotServerRPC(torque);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -115,7 +118,7 @@ public class SCR_ShipMovement : NetworkBehaviour
         if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * multiplier * Time.deltaTime); }
         else { rotationSpeed = shipTurnSpeed.Value * multiplier * Time.deltaTime; }
         Vector3 torque = new Vector3(rotationSpeed, 0, 0);
-        updateRotClientRPC(torque);
+        updateRotServerRPC(torque);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -125,20 +128,21 @@ public class SCR_ShipMovement : NetworkBehaviour
 
         if (LeftOrRight == "Left") { rotationSpeed = (-shipTurnSpeed.Value * multiplier * Time.deltaTime); }
         else { rotationSpeed = shipTurnSpeed.Value * multiplier * Time.deltaTime; }
-        Vector3 torque = new Vector3(0,0, rotationSpeed);   
-        updateRotClientRPC(torque);
+        Vector3 torque = new Vector3(0,0, rotationSpeed);
+        updateRotServerRPC(torque);
     }
 
-    [ClientRpc]
-    private void updatePosClientRPC(Vector3 newPos)
-    {
-        //ship.transform.position = newPos;
-    }
+    //[ClientRpc]
+    //private void updatePosClientRPC(Vector3 newPos)
+    //{
+    //    //ship.transform.position = newPos;
+    //}
 
-    [ClientRpc]
-    private void updateRotClientRPC(Vector3 newRot)
+    [ServerRpc(RequireOwnership = false)]
+    private void updateRotServerRPC(Vector3 newRot)
     {
-        shipRb.AddRelativeTorque(newRot, ForceMode.Acceleration);
+        //shipRb.AddRelativeTorque(newRot, ForceMode.Acceleration);
+        rotation += newRot;
     }
 
 

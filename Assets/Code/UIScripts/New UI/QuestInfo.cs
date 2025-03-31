@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
+using Unity.Collections;
+using JetBrains.Annotations;
 
-public class QuestInfo : MonoBehaviour
+public class QuestInfo : NetworkBehaviour
 {
     public enum questTypes {Cargo, Research };
-    public enum npcBroker {None, Jenny, Keegam, Chris, Celia, Matthew };
+    public enum npcBroker {None, Jenny, Keegan, Chris, Celia, Matthew };
 
-    public enum questHeading {AppleADay, LightbulbMoment };
+    public enum questHeading {AppleADay, LightbulbMoment, Poking, PostHaste };
 
-    public string questText;
+    public NetworkVariable<FixedString128Bytes> questText;
 
     public float rewardMoney;
 
@@ -20,9 +23,15 @@ public class QuestInfo : MonoBehaviour
     public Image deliveryImage;
     public Image researchImage;
 
-    public questHeading activeQuest;
-    public npcBroker targetNPC;
-    public questTypes questType;
+    public NetworkVariable<questHeading> activeQuest;
+    public NetworkVariable<npcBroker> targetNPC;
+    public NetworkVariable<questTypes> questType;
+
+    //network stuff testing
+
+    public NetworkVariable<int> networkActiveQuest;     //0 - Apple A Day, 1 - LightbulbMoment
+    public NetworkVariable<int> networkTargetNPC;   //0 - NOne, 1 - Jenny, 2 - Keegan, 3 - Chris, 4 - Celia, 5 - Matthew
+    public NetworkVariable<int> networkQuestType;   //0 - Cargo, 1 - Research
 
     private void Start()
     {

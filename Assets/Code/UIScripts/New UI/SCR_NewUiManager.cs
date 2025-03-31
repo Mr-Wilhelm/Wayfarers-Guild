@@ -9,7 +9,6 @@ using TMPro;
 using NUnit.Framework.Constraints;
 using System.Linq;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
@@ -42,6 +41,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [SerializeField]
     private TextAsset spoonsQuestDialogue;
+
+    [SerializeField]
+    private TextAsset exampleNPCDialogue;
+
+    [SerializeField]
+    private TextAsset scienceNPCDialogue;
 
     [SerializeField]
     private GameObject dialoguePanel;
@@ -135,6 +140,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             player.GetComponentInChildren<Camera>().enabled = false;
+            Debug.Log("aaaaa");
         }
 
         // existing initialization...
@@ -155,7 +161,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
         repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
         repairCostText.text = repairCost.ToString();
-        
+
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
 
@@ -166,6 +172,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
+
+        exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
+        scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
+
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
         dialogueIsPlaying = false;
@@ -173,7 +183,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         choicesText = new TextMeshProUGUI[choices.Length];
         int index = 0;
 
-        foreach(GameObject choice in choices)
+        foreach (GameObject choice in choices)
         {
             choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             index++;
@@ -185,9 +195,11 @@ public class SCR_NewUiManager : NetworkBehaviour
         //quest info variables
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
+
         questInfoObject.gameObject.SetActive(false);
-        questInfoObject.questStamp.enabled = false;
-        
+
+        //something from here is not loading correctly in build
+
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
@@ -208,6 +220,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
+        questInfoObject.questStamp.enabled = false;
+    }
+
+    private void DisableStamp()
+    {
+        
     }
 
     private void Update()
@@ -231,6 +249,7 @@ public class SCR_NewUiManager : NetworkBehaviour
             }
             else
             {
+                Debug.Log("WEEEEEEEEEEE");
                 return;
             }
         }
@@ -251,12 +270,23 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             EnterDialogueMode(spoonsQuestDialogue);
         }
+        else if (targetNPC == "Matthew")
+        {
+            EnterDialogueMode(scienceNPCDialogue);
+        }
         else
         {
 
             EnterDialogueMode(spoonsNPCDialogue);
         }
 
+    }
+
+    public void Func_ExampleButtonPressed()
+    {
+        cityAnimator.SetBool("SpoonsPressed", true);
+        spoonsButton.interactable = false;
+        EnterDialogueMode(exampleNPCDialogue);
     }
 
     public void Func_SpoonsBackButtonPressed()
@@ -286,20 +316,34 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
-                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
+                Debug.Log("Active quest value is" + questInfoObject.activeQuest.Value);
+                questInfoObject.activeQuest.Value = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.Jenny;  //quest broker
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
+            case QuestButton.QuestNames.Poking:
+                questInfoText.text = "I'd like to obtain data concerning the Tulebreather's fog. Please meet me at The Weathered Spoony McSpoonface for more details.";
+                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.Matthew;  //quest broker
+                questInfoObject.activeQuest.Value = QuestInfo.questHeading.Poking; //quest heading
+                questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
+                questInfoObject.jennyImage.enabled = false;  //npc image
+                break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
-                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
-                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.activeQuest.Value = QuestInfo.questHeading.LightbulbMoment;   //quest heading
+                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.None;   //npc broker
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
+            case QuestButton.QuestNames.PostHaste:
+                questInfoText.text = "Need these packages delivered ASAP by any willing Wayfarers. Please take them quickly!";
+                questInfoObject.activeQuest.Value = QuestInfo.questHeading.PostHaste;   //quest heading
+                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
+                questInfoObject.jennyImage.enabled = false; //npc image
+                break;
         }
-
     }
     public void Func_QuestBackButtonPressed()
     {
@@ -330,11 +374,11 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     public void AcceptQuest()
     {
-        Debug.Log("Accept Quest" + questInfoObject.activeQuest);
-        questTrackerTitle.text = questInfoObject.activeQuest.ToString();
+        Debug.Log("Accept Quest" + questInfoObject.activeQuest.Value);
+        questTrackerTitle.text = questInfoObject.activeQuest.Value.ToString();
 
         questTrackerInfo.text = questInfoText.text;
-        targetNPC = questInfoObject.targetNPC.ToString();
+        targetNPC = questInfoObject.targetNPC.Value.ToString();
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
 
@@ -342,6 +386,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         switch (targetNPC)
         {
             case "Jenny":
+                npcLocation.SetActive(true);
+                npcLocation.transform.position = spoonsNPCLocation.transform.position;
+                break;
+            case "Matthew":
                 npcLocation.SetActive(true);
                 npcLocation.transform.position = spoonsNPCLocation.transform.position;
                 break;
@@ -471,16 +519,17 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
-        yield return new WaitForSeconds(0.0f);
+        yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
+        spoonsButton.interactable = true;
     }
 
-    private void ContinueStory()    //
+    private void ContinueStory()
     {
         if (currentStory.canContinue)
         {
@@ -495,9 +544,10 @@ public class SCR_NewUiManager : NetworkBehaviour
             if(dialogueTags.Contains("animate") && !isShowingChoices)
                 DisplayChoices();   //shows button choices
         }
-        else
+        else if(!currentStory.canContinue)
         {
-            ExitDialogueMode();
+            Debug.Log("No More Dialogue");
+            StartCoroutine(ExitDialogueMode());
         }
     }
 
@@ -521,6 +571,7 @@ public class SCR_NewUiManager : NetworkBehaviour
             index++;
         }
         isShowingChoices = true;
+        Debug.Log("Show Choices");
         //make the other choices invisible
         for (int i = index; i < choices.Length; i++)  
         {
