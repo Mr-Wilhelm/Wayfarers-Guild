@@ -35,7 +35,6 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     public NetworkVariable<FixedString128Bytes> playerName = new NetworkVariable<FixedString128Bytes>();
     public string playerNameString;
 
-    [SerializeField] Collider playerCollider;
 
     [SerializeField] private GameObject myPrefab;
 
@@ -45,14 +44,75 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         SceneManager.sceneLoaded -= test;
     }
 
-    public void playerStartLogic()
+
+    public void bust()
+    {
+        StartCoroutine(bust2());
+    }
+
+    IEnumerator bust2()
+    {
+        yield return new WaitForSeconds(2f);
+
+        bust3ClientRpc();
+        bust4();
+    }
+
+
+    [ClientRpc]
+    public void bust3ClientRpc()
     {
 
         if (SceneManager.GetActiveScene().name == "SCN_NewCityScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
-        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene" || SceneManager.GetActiveScene().name == "SCN_NewTerrainTestScene")
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        SceneManager.sceneLoaded += test;
+
+
+        playerName.OnValueChanged += OnNetworkPlayerName_OnValueChange;
+        gameObject.name = playerName.Value.ToString();
+
+        Debug.Log("GRAVITAS PLAYER SPAWNED");
+        if (IsOwner)
+        {
+
+            FixedString128Bytes name = "Player_" + NetworkManager.Singleton.LocalClientId;
+            updateNameServerRPC(name);
+
+            Debug.Log("Owner detected");
+            //enable camera for owner
+            playerCamera = gameObject.GetComponentInChildren<Camera>();
+            playerCamera.enabled = true;
+
+
+            //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigBody.layer = SelfPlayerMeshLayer;
+            CraigClothes.layer = SelfPlayerMeshLayer;
+        }
+        else
+        {
+            gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            Debug.Log(playerNameString + " is not owner, disabling movement");
+            playerCamera.enabled = false;
+            int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
+            gameObject.layer = NonOwnerLayer;
+        }
+    }
+
+    public void bust4()
+    {
+
+        if (SceneManager.GetActiveScene().name == "SCN_NewCityScene")
+        {
+            test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+        else if (SceneManager.GetActiveScene().name == "SCN_DemoScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
@@ -84,9 +144,6 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
-            playerCollider.enabled = false;
-            gameObject.GetComponent<GravitasBody>().DestroyProxy();
-            gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
             int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
@@ -136,9 +193,6 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
-            playerCollider.enabled = false;
-            gameObject.GetComponent<GravitasBody>().DestroyProxy();
-            gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
             int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
@@ -160,7 +214,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             this.enabled = false;
 
         }
-        else if (a.name == "SCN_DemoScene"|| a.name == "SCN_NewTerrainTestScene")
+        else if (a.name == "SCN_DemoScene")
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -174,10 +228,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         //Update the network variables of pos and rot
         if (IsOwner)
         {
-            //updatePosServerRPC(transform.position);
-            //updateRotServerRPC(transform.rotation.eulerAngles);
-
-
+            updatePosServerRPC(transform.position);
+            updateRotServerRPC(transform.rotation.eulerAngles);
         }
     }
 
