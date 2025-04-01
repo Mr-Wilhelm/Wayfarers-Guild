@@ -52,6 +52,8 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     private NetworkVariable<ulong> controllingPlayer = new NetworkVariable<ulong>(ulong.MaxValue, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    public GameObject engine;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -240,6 +242,7 @@ public class SCR_ShipMovement : NetworkBehaviour
     public void boostSpeedServerRPC()
     {
         boostSpeed();
+        engine.GetComponent<Animator>().SetTrigger("feedEngine");
     }
 
     private void boostSpeed()
@@ -255,6 +258,7 @@ public class SCR_ShipMovement : NetworkBehaviour
     public void unBoostSpeed()
     {
         Debug.Log("UnBoosting speed");
+        engine.GetComponent<Animator>().SetTrigger("slowDownEngine");
         shipAcceleration.Value = unBoostedShipAcceleration;
         shipMaxSpeed.Value = unBoostedShipMaxSpeed;
         shipTurnSpeed.Value = unBoostedShipTurnSpeed;
