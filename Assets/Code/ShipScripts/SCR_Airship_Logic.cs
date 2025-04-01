@@ -10,7 +10,7 @@ public class SCR_Airship_Logic : MonoBehaviour
     {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            player.GetComponent<SCR_PlayerNetworkManager>().playerStartLogic();
+            player.GetComponent<SCR_PlayerNetworkManager>().bust4();
         }
     }
 
