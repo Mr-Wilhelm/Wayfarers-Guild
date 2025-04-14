@@ -57,7 +57,8 @@ public class SCR_SceneManagerScript : MonoBehaviour
 
         if(Input.GetKey(KeyCode.R))
         {
-            LoadMainScene();
+            //LoadMainScene();
+            Debug.Log("Reset Function has been removed because why would you have reset and reload on the same key bind? you fucking idiot Jeremy!");
         }
     }
 
