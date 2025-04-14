@@ -218,7 +218,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            transform.position = GameObject.Find("PlayerSpawnPoint").transform.position;
+            transform.position = GameObject.Find("PRE-Airship").transform.position + (GameObject.Find("PRE-Airship").transform.up * 1);
         }
     }
 
