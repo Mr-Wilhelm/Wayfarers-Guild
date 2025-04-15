@@ -54,7 +54,7 @@ public class QuestHandler : NetworkBehaviour
         lightbulbQuestTask = "Attract a Voracious Angel Moth by turning on the ship lights";
         pokingQuestTask = "Attract a Tulebreather with the sonar ping";
 
-        activeQuest.OnValueChanged += QuestChanged; //subscribes OnValueChanged with a delegate by using +=. This tells the code to call the function when OnValueChanged happens
+        //activeQuest.OnValueChanged += QuestChanged; //subscribes OnValueChanged with a delegate by using +=. This tells the code to call the function when OnValueChanged happens
     }
 
     private void Update()
@@ -63,29 +63,29 @@ public class QuestHandler : NetworkBehaviour
         Debug.Log(" Current Quest Description " + activeQuestDescription.Value);
     }
 
-    private void QuestChanged(FixedString128Bytes oldQuest, FixedString128Bytes newQuest)
-    {
-        AssignQuestTask();
-    }
+    //private void QuestChanged(FixedString128Bytes oldQuest, FixedString128Bytes newQuest)
+    //{
+    //    AssignQuestTask();
+    //}
 
-    private void AssignQuestTask()
-    {
-        string questName = activeQuest.Value.ToString();
+    //private void AssignQuestTask()
+    //{
+    //    string questName = activeQuest.Value.ToString();
 
-        switch(questName)
-        {
-            case "AppleADay":
-                activeQuestDescription.Value = appleADayQuestTask;
-                break;
-            case "Poking":
-                activeQuestDescription.Value = pokingQuestTask;
-                break;
-            case "LightbulbMoment":
-                activeQuestDescription.Value = lightbulbQuestTask;
-                break;
-            case "PostHaste":
-                activeQuestDescription.Value = postHasteQuestTask;
-                break;
-        }
-    }
+    //    switch(questName)
+    //    {
+    //        case "AppleADay":
+    //            activeQuestDescription.Value = appleADayQuestTask;
+    //            break;
+    //        case "Poking":
+    //            activeQuestDescription.Value = pokingQuestTask;
+    //            break;
+    //        case "LightbulbMoment":
+    //            activeQuestDescription.Value = lightbulbQuestTask;
+    //            break;
+    //        case "PostHaste":
+    //            activeQuestDescription.Value = postHasteQuestTask;
+    //            break;
+    //    }
+    //}
 }
