@@ -118,6 +118,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private SCR_PlayerDataHandler playerDataHandler;
 
     [SerializeField]
+    private QuestHandler questHandler;
+
+    [SerializeField]
     private TextMeshProUGUI playerMoneyText;
 
     #region NetworkVariables
@@ -213,6 +216,8 @@ public class SCR_NewUiManager : NetworkBehaviour
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+
+        questHandler = GameObject.Find("PlayerQuestHandler").GetComponent<QuestHandler>();
 
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
@@ -376,6 +381,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         Debug.Log("Accept Quest" + questInfoObject.activeQuest);
         questTrackerTitle.text = questInfoObject.activeQuest.ToString();
+        questHandler.activeQuest.Value = questInfoObject.activeQuest.ToString();
 
         questTrackerInfo.text = questInfoText.text;
         targetNPC = questInfoObject.targetNPC.ToString();
