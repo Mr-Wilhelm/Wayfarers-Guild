@@ -1369,6 +1369,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -5.468
       objectReference: {fileID: 0}
+    - target: {fileID: 7306863259432010492, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: ballistaBolt
+      value: 
+      objectReference: {fileID: 6297792217455478779, guid: de932182dca60f0468458132a1f56856,
+        type: 3}
+    - target: {fileID: 7306863259432010492, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: ballistaFirePoint
+      value: 
+      objectReference: {fileID: 7428636248450692052, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1739,6 +1751,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 13
       addedObject: {fileID: 639002908}
+    - targetCorrespondingSourceObject: {fileID: 7944559909482213052, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 926561886}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6922010916072084503, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -1949,6 +1965,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 734955394}
   m_SourcePrefab: {fileID: 100100000, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
+--- !u!4 &437485121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7944559909482213052, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &468917882 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5244923186070366763, guid: 00b41b74b038dae468603ed3702607b0,
@@ -2422,6 +2444,12 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.3750005, y: 0.78093594, z: 1.0875002}
   m_Center: {x: 0, y: 0.39046797, z: 0}
+--- !u!4 &926561886 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+    type: 3}
+  m_PrefabInstance: {fileID: 6198224293393854869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &955484849 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1436779323289776016, guid: 00b41b74b038dae468603ed3702607b0,
@@ -4128,6 +4156,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87418e747c3991c458c363664adebe17, type: 3}
+--- !u!1001 &6198224293393854869
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 437485121}
+    m_Modifications:
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.543
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.527
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4659514774269775577, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7428636248450692052, guid: e54264d149beb83449fc9638870f7c52,
+        type: 3}
+      propertyPath: m_Name
+      value: BallistaFirePoint
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e54264d149beb83449fc9638870f7c52, type: 3}
 --- !u!1001 &7877689047193187797
 PrefabInstance:
   m_ObjectHideFlags: 0
