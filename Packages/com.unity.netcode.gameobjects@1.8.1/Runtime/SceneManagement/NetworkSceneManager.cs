@@ -1376,26 +1376,21 @@ namespace Unity.Netcode
         /// <returns><see cref="SceneEventProgressStatus"/> (<see cref="SceneEventProgressStatus.Started"/> means it was successful)</returns>
         public SceneEventProgressStatus LoadScene(string sceneName, LoadSceneMode loadSceneMode)
         {
-            Debug.Log("Beans 1");
             var sceneEventProgress = ValidateSceneEventLoading(sceneName);
             if (sceneEventProgress.Status != SceneEventProgressStatus.Started)
             {
                 return sceneEventProgress.Status;
             }
-            Debug.Log("Beans 2");
             // This will be the message we send to everyone when this scene event sceneEventProgress is complete
             sceneEventProgress.SceneEventType = SceneEventType.LoadEventCompleted;
             sceneEventProgress.LoadSceneMode = loadSceneMode;
-            Debug.Log("Beans 3");
             var sceneEventData = BeginSceneEvent();
-            Debug.Log("Beans 4");
             // Now set up the current scene event
             sceneEventData.SceneEventProgressId = sceneEventProgress.Guid;
             sceneEventData.SceneEventType = SceneEventType.Load;
             sceneEventData.SceneHash = SceneHashFromNameOrPath(sceneName);
             sceneEventData.LoadSceneMode = loadSceneMode;
             var sceneEventId = sceneEventData.SceneEventId;
-            Debug.Log("Beans 5");
             // This both checks to make sure the scene is valid and if not resets the active scene event
             m_IsSceneEventActive = ValidateSceneBeforeLoading(sceneEventData.SceneHash, loadSceneMode);
             if (!m_IsSceneEventActive)
@@ -1403,7 +1398,6 @@ namespace Unity.Netcode
                 EndSceneEvent(sceneEventId);
                 return SceneEventProgressStatus.SceneFailedVerification;
             }
-            Debug.Log("Beans 6");
             if (sceneEventData.LoadSceneMode == LoadSceneMode.Single)
             {
                 // The Condition: While a scene is asynchronously loaded in single loading scene mode, if any new NetworkObjects are spawned
@@ -1425,12 +1419,10 @@ namespace Unity.Netcode
                 // Register the active scene for unload scene event notifications
                 SceneUnloadEventHandler.RegisterScene(this, SceneManager.GetActiveScene(), LoadSceneMode.Single);
             }
-            Debug.Log("Beans 7");
             // Now start loading the scene
             sceneEventProgress.SceneEventId = sceneEventId;
             sceneEventProgress.OnSceneEventCompleted = OnSceneLoaded;
             var sceneLoad = SceneManagerHandler.LoadSceneAsync(sceneName, loadSceneMode, sceneEventProgress);
-            Debug.Log("Beans 8");
             // Notify the local server that a scene loading event has begun
             OnSceneEvent?.Invoke(new SceneEvent()
             {
@@ -1440,9 +1432,7 @@ namespace Unity.Netcode
                 SceneName = sceneName,
                 ClientId = NetworkManager.ServerClientId
             });
-            Debug.Log("Beans 9");
             OnLoad?.Invoke(NetworkManager.ServerClientId, sceneName, sceneEventData.LoadSceneMode, sceneLoad);
-            Debug.Log("Beans 10");
             //Return our scene progress instance
             return sceneEventProgress.Status;
         }
