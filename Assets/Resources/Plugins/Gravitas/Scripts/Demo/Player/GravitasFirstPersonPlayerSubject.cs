@@ -29,7 +29,6 @@ namespace Gravitas.Demo
         public bool playerOnWheel = false;
 
         [SerializeField] public bool hasItem = false;
-        [SerializeField] public bool playerOnBallista = false;
 
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
@@ -63,12 +62,12 @@ namespace Gravitas.Demo
             base.OnSubjectUpdate();
 
             // Reload scene control
-            //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
-            //{
-            //    GravitasSceneManager.ReloadMainScene();
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+            {
+                GravitasSceneManager.ReloadMainScene();
 
-            //    return;
-            //}
+                return;
+            }
 
             Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
 
@@ -82,13 +81,9 @@ namespace Gravitas.Demo
             // Camera pitching
             angleX += -mouseInput.y * turnSpeed;
 
-            if (playerOnBallista)
+            if (gravitasBody.IsLanded)
             {
-                angleX = Mathf.Clamp(angleX, 0, 60);
-            }
-            else if (gravitasBody.IsLanded)
-            {
-                angleX = Mathf.Clamp(angleX, -90, 90);
+                angleX = Mathf.Clamp(angleX, -90f, 90f);
             }
 
             playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);

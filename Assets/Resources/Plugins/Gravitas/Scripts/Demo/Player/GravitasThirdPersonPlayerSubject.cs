@@ -35,12 +35,12 @@ namespace Gravitas.Demo
             base.OnSubjectUpdate();
 
             // Reload scene control
-            //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
-            //{
-            //    GravitasSceneManager.ReloadMainScene();
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+            {
+                GravitasSceneManager.ReloadMainScene();
 
-            //    return;
-            //}
+                return;
+            }
 
             Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
             bool isLanded = gravitasBody.IsLanded;

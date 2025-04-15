@@ -106,14 +106,14 @@ namespace Gravitas.Demo
                 else
                     verticalInput = 0;
 
-                //if (Input.GetKeyDown(KeyCode.R)) // Reset angular velocity
-                //{
-                //    gravitasBody.AngularVelocity = Vector3.zero;
-                //}
-                //else if (Input.GetKeyDown(KeyCode.X)) // Reset velocity
-                //{
-                //    gravitasBody.Velocity = Vector3.zero;
-                //}
+                if (Input.GetKeyDown(KeyCode.R)) // Reset angular velocity
+                {
+                    gravitasBody.AngularVelocity = Vector3.zero;
+                }
+                else if (Input.GetKeyDown(KeyCode.X)) // Reset velocity
+                {
+                    gravitasBody.Velocity = Vector3.zero;
+                }
             }
         }
 
