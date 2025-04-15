@@ -29,6 +29,7 @@ namespace Gravitas.Demo
         public bool playerOnWheel = false;
 
         [SerializeField] public bool hasItem = false;
+        [SerializeField] public bool playerOnBallista = false;
 
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
@@ -62,18 +63,18 @@ namespace Gravitas.Demo
             base.OnSubjectUpdate();
 
             // Reload scene control
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
-            {
-                GravitasSceneManager.ReloadMainScene();
+            //if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.R))
+            //{
+            //    GravitasSceneManager.ReloadMainScene();
 
-                return;
-            }
+            //    return;
+            //}
 
             Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
 
             // Movement input processing
             keyInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            
+
             // Player rotating
             Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
             t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnSpeed, Vector3.up);
@@ -81,9 +82,13 @@ namespace Gravitas.Demo
             // Camera pitching
             angleX += -mouseInput.y * turnSpeed;
 
-            if (gravitasBody.IsLanded)
+            if (playerOnBallista)
             {
-                angleX = Mathf.Clamp(angleX, -90f, 90f);
+                angleX = Mathf.Clamp(angleX, 0, 60);
+            }
+            else if (gravitasBody.IsLanded)
+            {
+                angleX = Mathf.Clamp(angleX, -90, 90);
             }
 
             playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
@@ -97,7 +102,7 @@ namespace Gravitas.Demo
             // Interaction input
             if (!interact)
                 interact = Input.GetKeyDown(KeyCode.E);
-          
+
         }
 
         protected override void OnSubjectFixedUpdate()
@@ -120,9 +125,9 @@ namespace Gravitas.Demo
 
                 //We dont want the jump to be normalised
                 //Set the player velocity
-                gravitasBody.Velocity = new Vector3(horizontalComponent.x,inputVelocity.y,horizontalComponent.y);
+                gravitasBody.Velocity = new Vector3(horizontalComponent.x, inputVelocity.y, horizontalComponent.y);
 
- 
+
             }
 
             //Controlls the velocity and force when in air
@@ -167,10 +172,10 @@ namespace Gravitas.Demo
                     {
                         if (interact)
                         {
-                            #if GRAVITAS_LOGGING
+#if GRAVITAS_LOGGING
                             if (GravitasDebugLogger.CanLog(GravitasDebugLoggingFlags.PlayerInteraction))
                                 GravitasDebugLogger.Log($"Taking control of spaceship {spaceshipControls.SpaceshipName}");
-                            #endif
+#endif
 
                             spaceshipControls.InteractWithSpaceshipControls(this);
                             OnInteractionTargetEvent?.Invoke(string.Empty);
@@ -185,10 +190,10 @@ namespace Gravitas.Demo
                     {
                         if (interact)
                         {
-                            #if GRAVITAS_LOGGING
+#if GRAVITAS_LOGGING
                             if (GravitasDebugLogger.CanLog(GravitasDebugLoggingFlags.PlayerInteraction))
                                 GravitasDebugLogger.Log($"Switching field direction to {fieldDirectionControl.DirectionName}");
-                            #endif
+#endif
 
                             fieldDirectionControl.SwitchGravity();
                         }
@@ -202,10 +207,10 @@ namespace Gravitas.Demo
                     {
                         if (interact)
                         {
-                            #if GRAVITAS_LOGGING
+#if GRAVITAS_LOGGING
                             if (GravitasDebugLogger.CanLog(GravitasDebugLoggingFlags.PlayerInteraction))
                                 GravitasDebugLogger.Log("Resetting spaceship");
-                            #endif
+#endif
 
                             spaceshipResetButton.ResetSpaceship();
                         }
@@ -227,7 +232,7 @@ namespace Gravitas.Demo
             /// <returns>Vector3 The calculated velocity</returns>
             Vector3 GetInputVelocity()
             {
-                if(!playerOnWheel)
+                if (!playerOnWheel)
                 {
                     Vector3 velocity = Vector3.zero;
 
@@ -256,7 +261,7 @@ namespace Gravitas.Demo
 
                     //Adding all velocity Vectors together
                     velocity = velocityX + velocityY + velocityZ;
-                  
+
                     return velocity;
 
                 }
