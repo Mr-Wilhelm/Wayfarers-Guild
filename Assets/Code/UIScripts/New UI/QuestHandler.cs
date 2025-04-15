@@ -63,29 +63,29 @@ public class QuestHandler : NetworkBehaviour
         Debug.Log(" Current Quest Description " + activeQuestDescription.Value);
     }
 
-    //private void QuestChanged(FixedString128Bytes oldQuest, FixedString128Bytes newQuest)
-    //{
-    //    AssignQuestTask();
-    //}
+    private void QuestChanged(FixedString128Bytes oldQuest, FixedString128Bytes newQuest)
+    {
+        AssignQuestTask();
+    }
 
-    //private void AssignQuestTask()
-    //{
-    //    string questName = activeQuest.Value.ToString();
+    private void AssignQuestTask()
+    {
+        string questName = activeQuest.Value.ToString();
 
-    //    switch(questName)
-    //    {
-    //        case "AppleADay":
-    //            activeQuestDescription.Value = appleADayQuestTask;
-    //            break;
-    //        case "Poking":
-    //            activeQuestDescription.Value = pokingQuestTask;
-    //            break;
-    //        case "LightbulbMoment":
-    //            activeQuestDescription.Value = lightbulbQuestTask;
-    //            break;
-    //        case "PostHaste":
-    //            activeQuestDescription.Value = postHasteQuestTask;
-    //            break;
-    //    }
-    //}
+        switch (questName)
+        {
+            case "AppleADay":
+                activeQuestDescription.Value = appleADayQuestTask;
+                break;
+            case "Poking":
+                activeQuestDescription.Value = pokingQuestTask;
+                break;
+            case "LightbulbMoment":
+                activeQuestDescription.Value = lightbulbQuestTask;
+                break;
+            case "PostHaste":
+                activeQuestDescription.Value = postHasteQuestTask;
+                break;
+        }
+    }
 }

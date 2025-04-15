@@ -9,10 +9,6 @@ public class GameUIScript : NetworkBehaviour
 {
     public QuestHandler questHandlerObject;
 
-    //public NetworkVariable<TextMeshProUGUI> questPrompt = new NetworkVariable<TextMeshProUGUI>();
-    //public NetworkVariable<TextMeshProUGUI> questPromptHeading = new NetworkVariable<TextMeshProUGUI>();
-    //public NetworkVariable<TextMeshProUGUI> questPromptTask = new NetworkVariable<TextMeshProUGUI>();
-
     public NetworkVariable<FixedString128Bytes> questPrompt = new NetworkVariable<FixedString128Bytes>();
     public NetworkVariable<FixedString128Bytes> questPromptHeading = new NetworkVariable<FixedString128Bytes>();
     public NetworkVariable<FixedString128Bytes> questPromptTask = new NetworkVariable<FixedString128Bytes>();
@@ -25,11 +21,19 @@ public class GameUIScript : NetworkBehaviour
     {
         questHandlerObject = GameObject.Find("PlayerQuestHandler").GetComponent<QuestHandler>();
 
+        //getting the variables
         questPromptText = GameObject.Find("QuestPrompt").GetComponent<TextMeshProUGUI>();
         questPromptHeadingText = GameObject.Find("QuestPromptHeading").GetComponent<TextMeshProUGUI>();
         questPromptTaskText = GameObject.Find("QuestPromptTask").GetComponent<TextMeshProUGUI>();
 
-        //questPromptHeading.Value.text = questHandlerObject.activeQuest.Value.ToString();
-        //questPromptTask.Value.text = questHandlerObject.activeQuestDescription.Value.ToString();
+        //getting the values from the Quest Handler for the active quest
+        questPrompt.Value = "beans";
+        questPromptHeading.Value = questHandlerObject.activeQuest.Value;
+        questPromptTask.Value = questHandlerObject.activeQuestDescription.Value;
+
+        //assinging the text to the value of the network string
+        questPromptText.text = questPrompt.Value.ToString();
+        questPromptHeadingText.text = questPromptHeading.Value.ToString();
+        questPromptTaskText.text = questPromptTask.Value.ToString();
     }
 }
