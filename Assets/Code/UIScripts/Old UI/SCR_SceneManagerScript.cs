@@ -50,15 +50,16 @@ public class SCR_SceneManagerScript : MonoBehaviour
             Application.Quit();
         }
 
-        //if(Input.GetKey(KeyCode.L))
-        //{
-        //    LoadCityScene();
-        //}
+        if(Input.GetKey(KeyCode.L))
+        {
+            LoadCityScene();
+        }
 
-        //if(Input.GetKey(KeyCode.R))
-        //{
-        //    LoadMainScene();
-        //}
+        if(Input.GetKey(KeyCode.R))
+        {
+            //LoadMainScene();
+            Debug.Log("Reset Function has been removed because why would you have reset and reload on the same key bind? you fucking idiot Jeremy!");
+        }
     }
 
 }

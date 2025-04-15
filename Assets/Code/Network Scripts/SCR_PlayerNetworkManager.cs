@@ -160,7 +160,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             this.enabled = false;
 
         }
-        else if (a.name == "SCN_DemoScene"|| a.name == "SCN_NewTerrainTestScene")
+        else if (a.name == "SCN_DemoScene" || a.name == "SCN_NewTerrainTestScene")
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -213,7 +213,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     private void updatePosClientRPC(Vector3 newPos)
     {
-        if(!IsOwner)
+        if (!IsOwner)
         {
             transform.position = newPos;
         }

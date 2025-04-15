@@ -316,34 +316,34 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             case QuestButton.QuestNames.AppleADay:
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
-                Debug.Log("Active quest value is" + questInfoObject.activeQuest.Value);
-                questInfoObject.activeQuest.Value = QuestInfo.questHeading.AppleADay; //quest heading
-                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.Jenny;  //quest broker
+                questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
             case QuestButton.QuestNames.Poking:
                 questInfoText.text = "I'd like to obtain data concerning the Tulebreather's fog. Please meet me at The Weathered Spoony McSpoonface for more details.";
-                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.Matthew;  //quest broker
-                questInfoObject.activeQuest.Value = QuestInfo.questHeading.Poking; //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.Matthew;  //quest broker
+                questInfoObject.activeQuest = QuestInfo.questHeading.Poking; //quest heading
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
                 questInfoObject.jennyImage.enabled = false;  //npc image
                 break;
             case QuestButton.QuestNames.Lightbulb:
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
-                questInfoObject.activeQuest.Value = QuestInfo.questHeading.LightbulbMoment;   //quest heading
-                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
             case QuestButton.QuestNames.PostHaste:
                 questInfoText.text = "Need these packages delivered ASAP by any willing Wayfarers. Please take them quickly!";
-                questInfoObject.activeQuest.Value = QuestInfo.questHeading.PostHaste;   //quest heading
-                questInfoObject.targetNPC.Value = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.activeQuest = QuestInfo.questHeading.PostHaste;   //quest heading
+                questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
         }
+
     }
     public void Func_QuestBackButtonPressed()
     {
@@ -374,11 +374,11 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     public void AcceptQuest()
     {
-        Debug.Log("Accept Quest" + questInfoObject.activeQuest.Value);
-        questTrackerTitle.text = questInfoObject.activeQuest.Value.ToString();
+        Debug.Log("Accept Quest" + questInfoObject.activeQuest);
+        questTrackerTitle.text = questInfoObject.activeQuest.ToString();
 
         questTrackerInfo.text = questInfoText.text;
-        targetNPC = questInfoObject.targetNPC.Value.ToString();
+        targetNPC = questInfoObject.targetNPC.ToString();
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
 

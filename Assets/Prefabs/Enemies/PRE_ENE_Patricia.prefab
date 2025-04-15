@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2030343380051439568}
   m_Layer: 0
   m_Name: anteni
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 510022065451742302}
   m_Layer: 0
   m_Name: Rightleg2
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8528231998728194242}
-  - {fileID: 6586418059739332533}
   m_Father: {fileID: 9096356388525578799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &328069426579436473
@@ -77,7 +76,7 @@ GameObject:
   - component: {fileID: 8679951373417526037}
   m_Layer: 0
   m_Name: lowerleg1
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +107,7 @@ GameObject:
   - component: {fileID: 1182302668028587390}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,7 +138,7 @@ GameObject:
   - component: {fileID: 246747777848540807}
   m_Layer: 0
   m_Name: Moth
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +172,7 @@ GameObject:
   - component: {fileID: 5377837009365159786}
   m_Layer: 0
   m_Name: Lowerleg3
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -204,7 +203,7 @@ GameObject:
   - component: {fileID: 279846991784522431}
   m_Layer: 0
   m_Name: Wings
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -237,7 +236,7 @@ GameObject:
   - component: {fileID: 6984917471343322858}
   m_Layer: 0
   m_Name: Leftleg1
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,7 +268,7 @@ GameObject:
   - component: {fileID: 6832355049644308318}
   m_Layer: 0
   m_Name: rightwing
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,7 +299,7 @@ GameObject:
   - component: {fileID: 6586418059739332533}
   m_Layer: 0
   m_Name: Righteg3
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -313,13 +312,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2199527351293860144}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.14562303, y: -0.5887495, z: -0.08499878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3645, y: -0.308125, z: -0.108125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3114362008072773340}
-  m_Father: {fileID: 510022065451742302}
+  m_Father: {fileID: 9096356388525578799}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2452261518037212607
 GameObject:
@@ -332,7 +331,7 @@ GameObject:
   - component: {fileID: 3114362008072773340}
   m_Layer: 0
   m_Name: lowerleg4
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,7 +362,7 @@ GameObject:
   - component: {fileID: 1774072280380512092}
   m_Layer: 0
   m_Name: Rightegg
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -395,7 +394,7 @@ GameObject:
   - component: {fileID: 4244996929555938993}
   m_Layer: 0
   m_Name: Moth
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -508,7 +507,7 @@ GameObject:
   - component: {fileID: 8983310477610087268}
   m_Layer: 0
   m_Name: Leftleg3
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -587,7 +586,6 @@ MonoBehaviour:
   frames: 0
   frameOffset: 120
   shipVariables: {fileID: 0}
-  damage: 5
 --- !u!54 &7063745155799107555
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -627,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 481327644
+  GlobalObjectIdHash: 2435684434
   InScenePlacedSourceGlobalObjectIdHash: 2431686588
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -668,7 +666,7 @@ GameObject:
   - component: {fileID: 7503513380712361172}
   m_Layer: 0
   m_Name: tail
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -699,7 +697,7 @@ GameObject:
   - component: {fileID: 4460557189332280347}
   m_Layer: 0
   m_Name: rightleg1
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -731,7 +729,7 @@ GameObject:
   - component: {fileID: 9096356388525578799}
   m_Layer: 0
   m_Name: Legs
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -751,6 +749,7 @@ Transform:
   m_Children:
   - {fileID: 4460557189332280347}
   - {fileID: 510022065451742302}
+  - {fileID: 6586418059739332533}
   - {fileID: 8983310477610087268}
   - {fileID: 6984917471343322858}
   - {fileID: 556340125681098074}
@@ -767,7 +766,7 @@ GameObject:
   - component: {fileID: 3989263907121171424}
   m_Layer: 0
   m_Name: fluff1
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -798,7 +797,7 @@ GameObject:
   - component: {fileID: 5002029320937425818}
   m_Layer: 0
   m_Name: LeftAntenai
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -829,7 +828,7 @@ GameObject:
   - component: {fileID: 9191806419894732574}
   m_Layer: 0
   m_Name: Leftwing
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -860,7 +859,7 @@ GameObject:
   - component: {fileID: 4002233388009265750}
   m_Layer: 0
   m_Name: Fluff2
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -891,7 +890,7 @@ GameObject:
   - component: {fileID: 556340125681098074}
   m_Layer: 0
   m_Name: Leftleg2
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -923,7 +922,7 @@ GameObject:
   - component: {fileID: 4847666611647102136}
   m_Layer: 0
   m_Name: eggs
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -956,7 +955,7 @@ GameObject:
   - component: {fileID: 8600844740253766776}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -991,7 +990,7 @@ GameObject:
   - component: {fileID: 8253359597685419934}
   m_Layer: 0
   m_Name: RightAntenai
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1022,9 +1021,9 @@ GameObject:
   - component: {fileID: 1726938935221048420}
   - component: {fileID: 5427376009946876587}
   - component: {fileID: 3659198050054149402}
-  m_Layer: 18
+  m_Layer: 0
   m_Name: PRE_ENE_Patricia
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1097,7 +1096,7 @@ GameObject:
   - component: {fileID: 8528231998728194242}
   m_Layer: 0
   m_Name: Lowerleg2
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1128,7 +1127,7 @@ GameObject:
   - component: {fileID: 4485189708226056801}
   m_Layer: 0
   m_Name: Leftegg
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
