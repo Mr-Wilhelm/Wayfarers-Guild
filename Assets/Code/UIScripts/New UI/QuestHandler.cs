@@ -17,6 +17,7 @@ public class QuestHandler : NetworkBehaviour
     private FixedString128Bytes postHasteQuestTask = "Complete a run with the cargo still intact";
     private FixedString128Bytes lightbulbQuestTask = "Attract a Voracious Angel Moth by turning on the ship lights";
     private FixedString128Bytes pokingQuestTask = "Attract a Tulebreather with the sonar ping";
+    private FixedString128Bytes noQuestTask = "You Currently have no active quests, speak to someone at the sky cities to find one!";
 
     public NetworkVariable<bool> hasCargoQuest = new NetworkVariable<bool>();   //identifies if a cargo quest was activated
 
@@ -85,6 +86,10 @@ public class QuestHandler : NetworkBehaviour
             case "PostHaste":
                 activeQuestDescription.Value = postHasteQuestTask;
                 break;
+            default:
+                activeQuestDescription.Value = noQuestTask;
+                break;
+
         }
     }
 

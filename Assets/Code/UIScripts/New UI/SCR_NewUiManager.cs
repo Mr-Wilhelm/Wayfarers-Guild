@@ -226,6 +226,14 @@ public class SCR_NewUiManager : NetworkBehaviour
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
         questInfoObject.questStamp.enabled = false;
+
+        //Start of scene functions
+
+        if(questHandler.hasCargoQuest.Value == true)
+        {
+            questHandler.hasCargoQuest.Value = false;
+            playerDataHandler.playerMoney.Value += 100;
+        }
     }
 
     private void DisableStamp()

@@ -25,7 +25,7 @@ public class SCR_Portal : MonoBehaviour
                 player.GetComponent<SCR_ShipControls>().enabled = false;
             }
 
-            if(questHandler.hasCargoQuest.Value == true)
+            if(questHandler.hasCargoQuest.Value == true)    //completion check for cargo quests
             {
                 Debug.Log("Cargo Quest Completed");
                 Debug.Log("Set quest for completion in the dialogue for spoons");
