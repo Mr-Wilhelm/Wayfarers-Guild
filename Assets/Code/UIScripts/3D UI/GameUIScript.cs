@@ -8,7 +8,6 @@ using Unity.Collections;
 public class GameUIScript : NetworkBehaviour
 {
     public QuestHandler questHandlerObject;
-    public SCR_NewInteract interactScript;
 
     public NetworkVariable<FixedString128Bytes> questPrompt = new NetworkVariable<FixedString128Bytes>();
     public NetworkVariable<FixedString128Bytes> questPromptHeading = new NetworkVariable<FixedString128Bytes>();
@@ -17,11 +16,13 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI questPromptText, questPromptHeadingText, questPromptTaskText;
 
+    [SerializeField]
+    private bool questPromptEnabled = false;
+
     //Start is called before the first frame update
     void Start()
     {
         questHandlerObject = GameObject.Find("PlayerQuestHandler").GetComponent<QuestHandler>();
-        interactScript = GameObject.FindGameObjectWithTag("Player").GetComponent<SCR_NewInteract>();
 
         //getting the variables
         questPromptText = GameObject.Find("QuestPrompt").GetComponent<TextMeshProUGUI>();
@@ -29,7 +30,7 @@ public class GameUIScript : NetworkBehaviour
         questPromptTaskText = GameObject.Find("QuestPromptTask").GetComponent<TextMeshProUGUI>();
 
         //getting the values from the Quest Handler for the active quest
-        questPrompt.Value = "beans";
+        questPrompt.Value = "Hold Q to view current quest";
         questPromptHeading.Value = questHandlerObject.activeQuest.Value;
         questPromptTask.Value = questHandlerObject.activeQuestDescription.Value;
 
@@ -45,14 +46,23 @@ public class GameUIScript : NetworkBehaviour
 
     private void Update()
     {
-        if(interactScript.questShowing)
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            questPromptEnabled = !questPromptEnabled;
+        }
+        if(Input.GetKeyUp(KeyCode.Q))
+        {
+            questPromptEnabled = !questPromptEnabled;
+        }
+
+        if(questPromptEnabled)
         {
             Debug.Log("Show Quest");
             questPromptText.gameObject.SetActive(false);
             questPromptHeadingText.gameObject.SetActive(true);
             questPromptTaskText.gameObject.SetActive(true);
         }
-        else if(!interactScript.questShowing)
+        else if(!questPromptEnabled)
         {
             Debug.Log("Hide Quest");
             questPromptText.gameObject.SetActive(true);
