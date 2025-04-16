@@ -8,6 +8,7 @@ using Unity.Collections;
 public class GameUIScript : NetworkBehaviour
 {
     public QuestHandler questHandlerObject;
+    public SCR_NewInteract interactScript;
 
     public NetworkVariable<FixedString128Bytes> questPrompt = new NetworkVariable<FixedString128Bytes>();
     public NetworkVariable<FixedString128Bytes> questPromptHeading = new NetworkVariable<FixedString128Bytes>();
@@ -20,6 +21,7 @@ public class GameUIScript : NetworkBehaviour
     void Start()
     {
         questHandlerObject = GameObject.Find("PlayerQuestHandler").GetComponent<QuestHandler>();
+        interactScript = GameObject.FindGameObjectWithTag("Player").GetComponent<SCR_NewInteract>();
 
         //getting the variables
         questPromptText = GameObject.Find("QuestPrompt").GetComponent<TextMeshProUGUI>();
@@ -39,5 +41,23 @@ public class GameUIScript : NetworkBehaviour
         questPromptText.gameObject.SetActive(true);
         questPromptHeadingText.gameObject.SetActive(false);
         questPromptTaskText.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(interactScript.questShowing)
+        {
+            Debug.Log("Show Quest");
+            questPromptText.gameObject.SetActive(false);
+            questPromptHeadingText.gameObject.SetActive(true);
+            questPromptTaskText.gameObject.SetActive(true);
+        }
+        else if(!interactScript.questShowing)
+        {
+            Debug.Log("Hide Quest");
+            questPromptText.gameObject.SetActive(true);
+            questPromptHeadingText.gameObject.SetActive(false);
+            questPromptTaskText.gameObject.SetActive(false);
+        }
     }
 }

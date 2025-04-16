@@ -11,7 +11,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     private bool interacting = false;
 
-    private bool questShowing = false;
+    public bool questShowing = false;
 
     [SerializeField] private float interactionRange;
     [SerializeField] public NetworkVariable<bool> canInteract;
@@ -23,7 +23,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     [SerializeField] private KeyCode InteractKey = KeyCode.F;
     [SerializeField] private KeyCode DropKey = KeyCode.G;
-    [SerializeField] private KeyCode ShowQuestKey = KeyCode.Q;
+    [SerializeField] public KeyCode ShowQuestKey = KeyCode.Q;
 
     [SerializeField] private LayerMask Wheel;
     [SerializeField] private LayerMask BallistaBolt;
@@ -224,9 +224,6 @@ public class SCR_NewInteract : NetworkBehaviour
         if(Input.GetKeyDown(ShowQuestKey))
         {
             questShowing = !questShowing;
-            if(questShowing) { Debug.Log("Show Quest"); }
-            else if(!questShowing) { Debug.Log("Hide Quest"); }
-
         }
     }
 
