@@ -18,6 +18,8 @@ public class QuestHandler : NetworkBehaviour
     private FixedString128Bytes lightbulbQuestTask = "Attract a Voracious Angel Moth by turning on the ship lights";
     private FixedString128Bytes pokingQuestTask = "Attract a Tulebreather with the sonar ping";
 
+    public NetworkVariable<bool> hasCargoQuest = new NetworkVariable<bool>();   //identifies if a cargo quest was activated
+
     public static QuestHandler Instance
     {
         get { return instance; }    //intellisense is a literal god, it did all of this automatically
@@ -46,8 +48,7 @@ public class QuestHandler : NetworkBehaviour
 
     private void Update()
     {
-        //Debug.Log("Current Active Quest: " + activeQuest.Value);
-        //Debug.Log("Current Quest Description: " + activeQuestDescription.Value);
+
     }
 
     //these functions are called when OnValueChanged happens.

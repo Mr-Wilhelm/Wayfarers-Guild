@@ -388,6 +388,15 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
 
+        //checks the type of quest being selected
+        if(questInfoObject.questType == QuestInfo.questTypes.Cargo)
+        {
+            questHandler.hasCargoQuest.Value = true;
+        }
+        else
+        {
+            questHandler.hasCargoQuest.Value = false;
+        }
 
         switch (targetNPC)
         {
