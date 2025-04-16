@@ -35,5 +35,9 @@ public class GameUIScript : NetworkBehaviour
         questPromptText.text = questPrompt.Value.ToString();
         questPromptHeadingText.text = questPromptHeading.Value.ToString();
         questPromptTaskText.text = questPromptTask.Value.ToString();
+
+        questPromptText.gameObject.SetActive(true);
+        questPromptHeadingText.gameObject.SetActive(false);
+        questPromptTaskText.gameObject.SetActive(false);
     }
 }

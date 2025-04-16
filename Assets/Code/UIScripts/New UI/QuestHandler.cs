@@ -46,8 +46,8 @@ public class QuestHandler : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log("Current Active Quest: " + activeQuest.Value);
-        Debug.Log("Current Quest Description: " + activeQuestDescription.Value);
+        //Debug.Log("Current Active Quest: " + activeQuest.Value);
+        //Debug.Log("Current Quest Description: " + activeQuestDescription.Value);
     }
 
     //these functions are called when OnValueChanged happens.
