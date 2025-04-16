@@ -3,35 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Collections;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 
 public class QuestHandler : NetworkBehaviour
 {
-    private static QuestHandler instance;
-
+    public static QuestHandler instance;
+    
+    //tracking variables
     public NetworkVariable<FixedString128Bytes> activeQuest = new NetworkVariable<FixedString128Bytes>();
-
     public NetworkVariable<FixedString128Bytes> activeQuestDescription = new NetworkVariable<FixedString128Bytes>();
 
-    [SerializeField]
-    private string appleADayQuestTask;
-
-    [SerializeField]
-    private string postHasteQuestTask;
-
-    [SerializeField]
-    private string lightbulbQuestTask;
-
-    [SerializeField]
-    private string pokingQuestTask;
+    //Task Descriptions for each quest
+    private FixedString128Bytes appleADayQuestTask = "Complete a run with the cargo still intact";
+    private FixedString128Bytes postHasteQuestTask = "Complete a run with the cargo still intact";
+    private FixedString128Bytes lightbulbQuestTask = "Attract a Voracious Angel Moth by turning on the ship lights";
+    private FixedString128Bytes pokingQuestTask = "Attract a Tulebreather with the sonar ping";
 
     public static QuestHandler Instance
     {
         get { return instance; }    //intellisense is a literal god, it did all of this automatically
     }
 
-    private void Awake()    
+    private void Awake()
     {
         //standard code for preventing duplicate instances of a singleton
         DontDestroyOnLoad(gameObject);
@@ -39,40 +31,46 @@ public class QuestHandler : NetworkBehaviour
         {
             instance = this;
         }
-        else if(instance != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
     }
-
-    private void Start()
+    public override void OnNetworkSpawn()   //happens when network stuff starts
     {
-        appleADayQuestTask = "Complete a run with the cargo still in tact";
-        postHasteQuestTask = "Complete a run with the cargo still in tact";
-        lightbulbQuestTask = "Attract a Voracious Angel Moth by turning on the ship lights";
-        pokingQuestTask = "Attract a Tulebreather with the sonar ping";
-
-        //activeQuest.OnValueChanged += QuestChanged; //subscribes OnValueChanged with a delegate by using +=. This tells the code to call the function when OnValueChanged happens
+        
+        activeQuest.OnValueChanged += OnQuestChanged;   //subscribes OnValueChanged with a delegate by using +=. This tells the code to call the function when OnValueChanged happens
+        activeQuestDescription.OnValueChanged += OnQuestDescriptionChanged;
     }
 
     private void Update()
     {
         Debug.Log("Current Active Quest: " + activeQuest.Value);
-        Debug.Log(" Current Quest Description " + activeQuestDescription.Value);
+        Debug.Log("Current Quest Description: " + activeQuestDescription.Value);
     }
 
-    private void QuestChanged(FixedString128Bytes oldQuest, FixedString128Bytes newQuest)
+    //these functions are called when OnValueChanged happens.
+    private void OnQuestChanged(FixedString128Bytes oldQuest, FixedString128Bytes newQuest)
     {
-        AssignQuestTask();
+        if (IsServer)
+        {
+            UpdateQuestDescription(newQuest);
+        }
+
     }
 
-    private void AssignQuestTask()
+    private void OnQuestDescriptionChanged(FixedString128Bytes oldDesc, FixedString128Bytes newDesc)
     {
-        string questName = activeQuest.Value.ToString();
+        Debug.Log("Updated Quest Description: " + newDesc.ToString());
+    }
 
-        switch (questName)
+    //actually changes the quest description
+    private void UpdateQuestDescription(FixedString128Bytes questName)
+    {
+        string quest = questName.ToString();
+
+        switch (quest)
         {
             case "AppleADay":
                 activeQuestDescription.Value = appleADayQuestTask;
@@ -87,5 +85,16 @@ public class QuestHandler : NetworkBehaviour
                 activeQuestDescription.Value = postHasteQuestTask;
                 break;
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]   //allows client to invoke on the server, allows client to have authority over changing stuff
+
+    //This function was made with heavy aid from ChatGPT.
+    public void SetQuestServerRpc(string questName)
+    {
+        // Update the active quest.
+        activeQuest.Value = questName;
+        // Also update the description immediately.
+        UpdateQuestDescription(activeQuest.Value);
     }
 }
