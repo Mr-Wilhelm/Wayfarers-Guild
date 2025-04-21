@@ -24,6 +24,8 @@ public class SCR_NewInteract : NetworkBehaviour
     public Camera playerCam;
     private GameObject ship;
 
+    public GameUIScript gameUI;
+
     [SerializeField] private KeyCode InteractKey = KeyCode.F;
     [SerializeField] private KeyCode DropKey = KeyCode.G;
 
@@ -54,6 +56,8 @@ public class SCR_NewInteract : NetworkBehaviour
         craigHoldItemMesh.SetActive(false);
         engineFoodMesh.SetActive(false);
         ballistaBoltMesh.SetActive(false);
+
+
     }
 
 
@@ -61,6 +65,18 @@ public class SCR_NewInteract : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) { enabled = false; return; }
+
+        if (GameObject.Find("MainUICanvas").GetComponent<GameUIScript>())
+        {
+            Debug.Log("GOOD BEANS");
+            gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
+        }
+        else
+        {
+            Debug.Log("BAD BEANS");
+        }
+
+
         if (Input.GetKeyDown(InteractKey))
         {
 
@@ -197,12 +213,16 @@ public class SCR_NewInteract : NetworkBehaviour
                     Debug.Log($"bookOpen network var: { hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value } ");
                     if (hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value == false)
                     {
+                        gameUI.showCompendium = true;
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
+
                         OpenBookGoBetweenServerRPC();
                     }
                     else
                     {
+                        gameUI.showCompendium = false;
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opening")) { Debug.Log("Book opening, please wait"); return; }
+
                         CloseBookGoBetweenServerRPC();
                     }
                 }

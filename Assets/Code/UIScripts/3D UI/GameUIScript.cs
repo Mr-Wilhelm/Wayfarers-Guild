@@ -19,6 +19,8 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private bool questPromptEnabled = false;
 
+    public bool showCompendium = false;
+
     //Start is called before the first frame update
     void Start()
     {
@@ -57,14 +59,12 @@ public class GameUIScript : NetworkBehaviour
 
         if(questPromptEnabled)
         {
-            Debug.Log("Show Quest");
             questPromptText.gameObject.SetActive(false);
             questPromptHeadingText.gameObject.SetActive(true);
             questPromptTaskText.gameObject.SetActive(true);
         }
         else if(!questPromptEnabled)
         {
-            Debug.Log("Hide Quest");
             questPromptText.gameObject.SetActive(true);
             questPromptHeadingText.gameObject.SetActive(false);
             questPromptTaskText.gameObject.SetActive(false);
