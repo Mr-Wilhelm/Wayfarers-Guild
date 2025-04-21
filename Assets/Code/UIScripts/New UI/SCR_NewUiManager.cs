@@ -69,6 +69,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private List<string> dialogueTags = new List<string>();
 
+    [SerializeField]
+    private string currentFullLine;
+
     [Header("Choices UI")]
     [SerializeField]
     private GameObject[] choices;
@@ -229,16 +232,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //Start of scene functions
 
+        //no need to check for any complete conditions, because the complete condition of a cargo quest is getting to the end
         if(questHandler.hasCargoQuest.Value == true)
         {
             questHandler.hasCargoQuest.Value = false;
             playerDataHandler.playerMoney.Value += 100;
         }
-    }
-
-    private void DisableStamp()
-    {
-        
     }
 
     private void Update()
@@ -248,22 +247,18 @@ public class SCR_NewUiManager : NetworkBehaviour
             return;
         }
 
-
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && dialogueIsPlaying)  //check if dialogue is playing
+        if(Input.GetMouseButtonDown(0))
         {
-            dialogueTags = currentStory.currentTags;
-            if (currentStory.canContinue)    //check if the text file has more dialogue (this bool is an ink plugin thing)
-            {
-                //if (cityAnimator.GetBool("HasChoices") == false)
-                //{
-                //    cityAnimator.SetBool("HasChoices", true);   //set the choices parameter in the animator
-                //}
-                ContinueStory();    //continue the story (this is an ink plugin thing)
+            if(typeTextCoroutine != null)
+            {  
+                StopCoroutine(typeTextCoroutine);   //stop the current text typing
+                dialogueText.text = currentFullLine;    //set the text to the full line
+                typeTextCoroutine = null;   //set the current coroutine to null to prevent any more typing
             }
-            else
+
+            else if(!isShowingChoices)
             {
-                Debug.Log("WEEEEEEEEEEE");
-                return;
+                ContinueStory();
             }
         }
     }
@@ -409,7 +404,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         switch (targetNPC)
         {
             case "Jenny":
-                npcLocation.SetActive(true);
+                npcLocation.SetActive(true);    //sets the mark above the area to visible
                 npcLocation.transform.position = spoonsNPCLocation.transform.position;
                 break;
             case "Matthew":
@@ -554,22 +549,24 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void ContinueStory()
     {
-        if (currentStory.canContinue)
+        if(currentStory.canContinue)
         {
-            //Stops the current text typing from playing.
-            //This fixes a bug where text overlaps from different dialogues
-            if (typeTextCoroutine != null)
+            currentFullLine = currentStory.Continue();  //caching the full text line to display if a click happens
+
+            if(typeTextCoroutine != null)
             {
                 StopCoroutine(typeTextCoroutine);
             }
 
-            typeTextCoroutine = StartCoroutine(TypeText(currentStory.Continue())); //set text for the current line
-            if(dialogueTags.Contains("animate") && !isShowingChoices)
-                DisplayChoices();   //shows button choices
+            typeTextCoroutine = StartCoroutine(TypeText(currentFullLine));
+
+            if(dialogueTags.Contains("animate") && !isShowingChoices)   //show choices after the animations
+            {
+                DisplayChoices();
+            }
         }
-        else if(!currentStory.canContinue)
+        else
         {
-            Debug.Log("No More Dialogue");
             StartCoroutine(ExitDialogueMode());
         }
     }
