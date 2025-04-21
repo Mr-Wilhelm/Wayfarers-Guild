@@ -1120,11 +1120,11 @@ GameObject:
   - component: {fileID: 5596019494744766832}
   - component: {fileID: 93689529977489660}
   - component: {fileID: 1488208131564314932}
+  - component: {fileID: 9213437935000080166}
   - component: {fileID: 5640595736928253548}
   - component: {fileID: 2905208540386131833}
   - component: {fileID: 2110078703182124853}
   - component: {fileID: 7741787372001323038}
-  - component: {fileID: 9213437935000080166}
   m_Layer: 5
   m_Name: NewUICanvas
   m_TagString: Untagged
@@ -1224,6 +1224,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &9213437935000080166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2202643537655345851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3123205983
+  InScenePlacedSourceGlobalObjectIdHash: 3076388177
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &5640595736928253548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,6 +1273,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   textSound: {fileID: 8300000, guid: 7ad32dbcc8ce48b4a83894a5a869f45e, type: 3}
   dialogueTags: []
+  currentFullLine: 
   choices:
   - {fileID: 2097914655986618178}
   - {fileID: 4728155318415886834}
@@ -1268,6 +1290,7 @@ MonoBehaviour:
   npcLocation: {fileID: 0}
   repairCost: 0
   playerDataHandler: {fileID: 0}
+  questHandler: {fileID: 0}
   playerMoneyText: {fileID: 0}
   AllGameobjects: []
   playerPrefab: {fileID: 2901272450876613093, guid: 220e018dd2554014cb63d3d8a630465a,
@@ -1407,27 +1430,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9213437935000080166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2202643537655345851}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3237185332
-  InScenePlacedSourceGlobalObjectIdHash: 3076388177
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
 --- !u!1 &2440010952359731470
 GameObject:
   m_ObjectHideFlags: 0

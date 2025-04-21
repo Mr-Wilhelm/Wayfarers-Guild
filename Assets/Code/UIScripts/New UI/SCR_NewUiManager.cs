@@ -615,6 +615,8 @@ public class SCR_NewUiManager : NetworkBehaviour
     private IEnumerator TypeText(string text)
     {
         dialogueText.text = "";
+        float typingCPS = 20.0f;    //characters per second
+        float delay = 1.0f / typingCPS;
         foreach (char letter in text.ToCharArray()) //convert the text to a char array
         {
             dialogueText.text += letter;    //add each char to the string
@@ -624,7 +626,7 @@ public class SCR_NewUiManager : NetworkBehaviour
                 audioSource.Play(); //play the audio
             }
 
-            yield return new WaitForSeconds(7.5f * Time.deltaTime);    //typing speed (lower value is faster)
+            yield return new WaitForSeconds(delay);    //typing speed (lower value is faster)
         }
         typeTextCoroutine = null;
     }
@@ -633,7 +635,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         Debug.Log("You made your choice");
         currentStory.ChooseChoiceIndex(choiceIndex);
+        cityAnimator.SetBool("HasChoices", false);
         isShowingChoices = false;
+
         ContinueStory();
     }
 
