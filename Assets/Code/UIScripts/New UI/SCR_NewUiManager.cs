@@ -305,7 +305,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void Func_SpoonsBackButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", false);
-        cityAnimator.SetBool("HasChoices", false);
+        //cityAnimator.SetBool("HasChoices", false);
 
         spoonsButton.interactable = true;
    
