@@ -549,6 +549,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
+        cityAnimator.SetBool("SpoonsPressed", false);
         spoonsButton.interactable = true;
     }
 
@@ -637,7 +638,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         currentStory.ChooseChoiceIndex(choiceIndex);
         cityAnimator.SetBool("HasChoices", false);
         isShowingChoices = false;
-
+        npcLocation.SetActive(false);
         ContinueStory();
     }
 
