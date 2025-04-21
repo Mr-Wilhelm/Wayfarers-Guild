@@ -322,6 +322,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void Func_QuestPressed(QuestButton quest)
     {
         questInfoObject.gameObject.SetActive(true);
+        questInfoObject.questStamp.enabled = false;
         questInfoText.text = appleADayText;
         cityAnimator.SetBool("QuestPressed", true);
 
