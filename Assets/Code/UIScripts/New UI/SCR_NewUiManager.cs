@@ -249,14 +249,19 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            if(typeTextCoroutine != null)
-            {  
+            if (typeTextCoroutine != null)
+            {
                 StopCoroutine(typeTextCoroutine);   //stop the current text typing
                 dialogueText.text = currentFullLine;    //set the text to the full line
                 typeTextCoroutine = null;   //set the current coroutine to null to prevent any more typing
+
+                if (currentStory.currentChoices.Count > 0)
+                {
+                    DisplayChoices();   //show choices if there are choices
+                }
             }
 
-            else if(!isShowingChoices)
+            else if (!isShowingChoices)
             {
                 ContinueStory();
             }
@@ -549,25 +554,29 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void ContinueStory()
     {
-        if(currentStory.canContinue)
-        {
-            currentFullLine = currentStory.Continue();  //caching the full text line to display if a click happens
-
-            if(typeTextCoroutine != null)
-            {
-                StopCoroutine(typeTextCoroutine);
-            }
-
-            typeTextCoroutine = StartCoroutine(TypeText(currentFullLine));
-
-            if(dialogueTags.Contains("animate") && !isShowingChoices)   //show choices after the animations
-            {
-                DisplayChoices();
-            }
-        }
-        else
+        if(!currentStory.canContinue)   //check if the dialogue is finished
         {
             StartCoroutine(ExitDialogueMode());
+            return;
+        }
+
+        dialogueTags = currentStory.currentTags;    //gets all the tags
+        currentFullLine = currentStory.Continue();  //getting the full line of text
+
+        if(typeTextCoroutine != null)
+        {
+            StopCoroutine(typeTextCoroutine);
+        }
+
+        typeTextCoroutine = StartCoroutine(TypeText(currentFullLine));  //type out the current full line
+
+        if(currentStory.currentChoices.Count > 0)
+        {
+            DisplayChoices();   //display choices if the count is greater than 0 (if there are choices)
+        }
+        else if(dialogueTags.Contains("animate"))
+        {
+            DisplayChoices();   //also display choices on the animate tag (this and the choices will happen at the same time
         }
     }
 
@@ -617,6 +626,7 @@ public class SCR_NewUiManager : NetworkBehaviour
 
             yield return new WaitForSeconds(7.5f * Time.deltaTime);    //typing speed (lower value is faster)
         }
+        typeTextCoroutine = null;
     }
 
     public void MakeChoice(int choiceIndex)
