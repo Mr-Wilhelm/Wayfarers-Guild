@@ -194,8 +194,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 else if (hitInfo.collider.gameObject.CompareTag("Compendium"))
                 {
                     Debug.Log("Interacting with compendium");
-                    Debug.Log($"bookOpen network var: { hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value } ");
-                    if (hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value == false)
+                    if (bookOpen.Value == false)
                     {
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
                         OpenBookGoBetweenServerRPC();
@@ -281,11 +280,11 @@ public class SCR_NewInteract : NetworkBehaviour
     {
         playerScriptReference.hasItem = false;
         DropItemServerRPC();
-        if(objectBeingHeld == "Ballista Bolt")
+        if (objectBeingHeld == "Ballista Bolt")
         {
             if (!itemBeingDeleted) { SpawnBallistaBoltServerRPC(); }
         }
-        else if(objectBeingHeld == "Engine Food")
+        else if (objectBeingHeld == "Engine Food")
         {
             if (!itemBeingDeleted) { SpawnEngineFoodServerRPC(); }
         }
@@ -294,7 +293,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     private void pickUpItem(string itemToPickUp, bool pickingUpFromGround, GameObject objToPickUp)
     {
-        if(pickingUpFromGround)
+        if (pickingUpFromGround)
         {
             deleteItemServerRPC(objToPickUp.GetComponent<NetworkObject>().NetworkObjectId);
         }
@@ -303,7 +302,7 @@ public class SCR_NewInteract : NetworkBehaviour
             objectBeingHeld = "Ballista Bolt";
             PickUpBallistaBoltServerRPC();
         }
-        else if(itemToPickUp == "Engine Food")
+        else if (itemToPickUp == "Engine Food")
         {
             objectBeingHeld = "Engine Food";
             PickUpEngineFoodServerRPC();
@@ -368,7 +367,7 @@ public class SCR_NewInteract : NetworkBehaviour
     {
         var instance = Instantiate(ballistaBoltPrefab, dropPosition.transform.position, (dropPosition.transform.rotation * Quaternion.Euler(0, 90, 0)));
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
-        instanceNetworkOBJ.Spawn(); 
+        instanceNetworkOBJ.Spawn();
     }
 
     [ServerRpc(RequireOwnership = false)]

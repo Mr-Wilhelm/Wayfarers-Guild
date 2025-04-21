@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+//using static UnityEditor.PlayerSettings;
 
 namespace Gravitas
 {
@@ -76,11 +77,6 @@ namespace Gravitas
             Rigidbody rb = CurrentRigidbody;
             if (rb)
                 rb.AddForce(force, forceMode);
-        }
-
-        public virtual void setProxyPos(Vector3 position)
-        {
-            currentProxy.transform.position = position;
         }
 
         /// <summary>

@@ -1381,13 +1381,10 @@ namespace Unity.Netcode
             {
                 return sceneEventProgress.Status;
             }
-
             // This will be the message we send to everyone when this scene event sceneEventProgress is complete
             sceneEventProgress.SceneEventType = SceneEventType.LoadEventCompleted;
             sceneEventProgress.LoadSceneMode = loadSceneMode;
-
             var sceneEventData = BeginSceneEvent();
-
             // Now set up the current scene event
             sceneEventData.SceneEventProgressId = sceneEventProgress.Guid;
             sceneEventData.SceneEventType = SceneEventType.Load;
@@ -1401,7 +1398,6 @@ namespace Unity.Netcode
                 EndSceneEvent(sceneEventId);
                 return SceneEventProgressStatus.SceneFailedVerification;
             }
-
             if (sceneEventData.LoadSceneMode == LoadSceneMode.Single)
             {
                 // The Condition: While a scene is asynchronously loaded in single loading scene mode, if any new NetworkObjects are spawned
@@ -1423,7 +1419,6 @@ namespace Unity.Netcode
                 // Register the active scene for unload scene event notifications
                 SceneUnloadEventHandler.RegisterScene(this, SceneManager.GetActiveScene(), LoadSceneMode.Single);
             }
-
             // Now start loading the scene
             sceneEventProgress.SceneEventId = sceneEventId;
             sceneEventProgress.OnSceneEventCompleted = OnSceneLoaded;
@@ -1437,9 +1432,7 @@ namespace Unity.Netcode
                 SceneName = sceneName,
                 ClientId = NetworkManager.ServerClientId
             });
-
             OnLoad?.Invoke(NetworkManager.ServerClientId, sceneName, sceneEventData.LoadSceneMode, sceneLoad);
-
             //Return our scene progress instance
             return sceneEventProgress.Status;
         }

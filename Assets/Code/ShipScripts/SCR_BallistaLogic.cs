@@ -55,16 +55,19 @@ public class SCR_BallistaLogic : NetworkBehaviour
         {
 
             ballista.transform.LookAt(occupant.transform.position + (-occupant.transform.forward * 30));
+            ballista.transform.localEulerAngles = new Vector3(ballista.transform.localEulerAngles.x, ballista.transform.localEulerAngles.y, transform.root.transform.localEulerAngles.z);
 
             //ballista.transform.localEulerAngles =  new Vector3(ballista.transform.localEulerAngles.x, occupant.transform.parent.localEulerAngles.y+270, ballista.transform.localEulerAngles.z);
-            if (ballista.transform.localEulerAngles.x < 180)
-            {
-                ballista.transform.localEulerAngles = new Vector3(0.5f, ballista.transform.localEulerAngles.y, 0);
-            }
-            else if (ballista.transform.localEulerAngles.x < 300)
-            {
-                ballista.transform.localEulerAngles = new Vector3(300, ballista.transform.localEulerAngles.y, 0);
-            }
+            //if (ballista.transform.localEulerAngles.x < 180)
+            //{
+            //    ballista.transform.localEulerAngles = new Vector3(0.5f, ballista.transform.localEulerAngles.y, 0);
+            //}
+            //else if (ballista.transform.localEulerAngles.x < 300)
+            //{
+            //    ballista.transform.localEulerAngles = new Vector3(300, ballista.transform.localEulerAngles.y, 0);
+            //}
+
+
 
             ballistaHousing.transform.localEulerAngles = new Vector3(0, ballista.transform.localEulerAngles.y, 0);
 
@@ -118,13 +121,13 @@ public class SCR_BallistaLogic : NetworkBehaviour
 
     private void FireBallista()
     {
-        if(!ballistaLoaded.Value) { Debug.Log("Ballista not loaded"); return; }
+        if (!ballistaLoaded.Value) { Debug.Log("Ballista not loaded"); return; }
         Debug.Log("Attempting to fire ballsita");
         ballistaBolt.SetActive(false);
         BallistaUnLoadServerRPC();
         RaycastHit[] hits = Physics.RaycastAll(ballistaFirePoint.transform.position, occupant.transform.forward, BallistaRange);
         {
-            foreach(var hit in hits)
+            foreach (var hit in hits)
             {
                 Debug.Log("Hit objects layer is: " + LayerMask.LayerToName(hit.collider.gameObject.layer));
 
@@ -142,7 +145,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
 
     private GameObject FindNetworkObject(ulong idOfNetworkObj)
     {
-        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(idOfNetworkObj, out NetworkObject networkOBJ));
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(idOfNetworkObj, out NetworkObject networkOBJ)) ;
         {
             return networkOBJ.gameObject.transform.root.gameObject;
         }

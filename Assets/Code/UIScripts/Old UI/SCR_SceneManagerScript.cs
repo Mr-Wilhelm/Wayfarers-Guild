@@ -50,15 +50,15 @@ public class SCR_SceneManagerScript : MonoBehaviour
             Application.Quit();
         }
 
-        //if(Input.GetKey(KeyCode.L))
-        //{
-        //    LoadCityScene();
-        //}
+        if(Input.GetKey(KeyCode.L))
+        {
+            LoadCityScene();
+        }
 
-        //if(Input.GetKey(KeyCode.R))
-        //{
-        //    LoadMainScene();
-        //}
+        if(Input.GetKey(KeyCode.T))
+        {
+            LoadMainScene();
+        }
     }
 
 }

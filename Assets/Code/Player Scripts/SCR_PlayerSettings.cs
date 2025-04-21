@@ -38,6 +38,7 @@ public class SCR_PlayerSettings : NetworkBehaviour
         if (IsOwner)
         {
             //Gets the input of the input name text box from the UI manager
+            networkPlayerName.Value = GameObject.Find("MainUICanvas").GetComponent<SCR_UIManager>().nameInputField.text;
             if (string.IsNullOrWhiteSpace(networkPlayerName.Value))
             {
                 networkPlayerName.Value = "Player 1";
