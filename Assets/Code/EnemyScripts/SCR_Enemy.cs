@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unity.Netcode;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
@@ -42,6 +44,12 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private float damage = 5;
 
+    [SerializeField]
+    private bool move = true;
+
+    [SerializeField]
+    private GameObject MothSpit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,10 +64,10 @@ public class SCR_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!move) { return; }
         gameObject.transform.LookAt(moveTarget.transform.position);
         frames++;
 
-   
         if(frames % frameOffset == 0)
         {
             UpdatePath();
@@ -103,6 +111,10 @@ public class SCR_Enemy : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.tag == "MothStopZone")
+        {
+            ShootShip();
+        }
         if(other.gameObject.tag == "Ship")
         {
             //other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
@@ -111,4 +123,26 @@ public class SCR_Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "MothStopZone")
+        {
+            Debug.Log("Enabling movement again");
+            move = true;
+        }
+    }
+
+    private void ShootShip()
+    {
+        Debug.Log("Shooting ship");
+        move = false;
+        gameObject.transform.LookAt(moveTarget.transform.position);
+        GameObject mothSpitInstance = Instantiate(MothSpit, gameObject.transform.position, gameObject.transform.rotation);
+        var mothSpitInstanceNetworkOBJ = mothSpitInstance.GetComponent<NetworkObject>();
+        mothSpitInstanceNetworkOBJ.Spawn();
+        mothSpitInstance.GetComponent<SCR_MothProjectile>().MoveTowardsShip(moveTarget);
+    }
+
+    private IEnumerator shootCooldown;
 }
