@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 using Unity.Collections;
+using UnityEngine.InputSystem;
+using Gravitas.Demo;
 
 public class GameUIScript : NetworkBehaviour
 {
@@ -20,6 +22,9 @@ public class GameUIScript : NetworkBehaviour
     private bool questPromptEnabled = false;
 
     public bool showCompendium = false;
+
+    [SerializeField]
+    private GravitasFirstPersonPlayerSubject activePlayer;
 
     //Animation Variables
     [SerializeField]
@@ -62,11 +67,23 @@ public class GameUIScript : NetworkBehaviour
         //UI Object Assigning
         compendium = GameObject.Find("Compendium");
         compendium.SetActive(false);
+
+        if(IsOwner)
+        {
+            activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
+        }
+
+
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (activePlayer == null)
+        {
+            activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             questPromptEnabled = !questPromptEnabled;
         }
@@ -101,6 +118,11 @@ public class GameUIScript : NetworkBehaviour
     {
         if(!hasShownCompendium)
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            activePlayer.enabled = false;
+
             hasShownCompendium = true;
             gameAnimator.SetBool("showCompendium", true);
             yield return new WaitForSeconds(0.1f);
@@ -109,6 +131,11 @@ public class GameUIScript : NetworkBehaviour
     }
     private IEnumerator HideCompendium()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        activePlayer.enabled = true;
+
         hasShownCompendium = false;
         gameAnimator.SetBool("showCompendium", false);
         yield return new WaitForSeconds(3.0f);
