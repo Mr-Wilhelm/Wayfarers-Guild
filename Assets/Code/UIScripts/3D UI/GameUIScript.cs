@@ -46,6 +46,23 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private Button craneButton;
 
+    [SerializeField]
+    private Button prevPage;
+
+    [SerializeField]
+    private TextMeshProUGUI patriciaInfoTitle, patriciaInfoStats, patriciaInfoDesc;
+
+    [SerializeField]
+    private TextMeshProUGUI hubertoInfoTitle, hubertoInfoStats, hubertoInfoDesc;
+
+    [SerializeField]
+    private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc;
+
+    [SerializeField]
+    private Image patriciaImage, hubertoImage, craneImage;
+
+
+
     //Start is called before the first frame update
     void Start()
     {
@@ -80,6 +97,44 @@ public class GameUIScript : NetworkBehaviour
         patriciaButton = GameObject.Find("PatriciaButton").GetComponent<Button>();
         hubertoButton = GameObject.Find("HubertoButton").GetComponent<Button>();
         craneButton = GameObject.Find("CraneButton").GetComponent<Button>();
+
+        prevPage = GameObject.Find("PreviousPage").GetComponent<Button>();
+
+        patriciaInfoTitle = GameObject.Find("PatriciaHeading").GetComponent<TextMeshProUGUI>();
+        patriciaInfoStats = GameObject.Find("PatriciaStats").GetComponent<TextMeshProUGUI>();
+        patriciaInfoDesc = GameObject.Find("PatriciaText").GetComponent<TextMeshProUGUI>();
+
+        hubertoInfoTitle = GameObject.Find("HubertoHeading").GetComponent<TextMeshProUGUI>();
+        hubertoInfoStats = GameObject.Find("HubertoStats").GetComponent<TextMeshProUGUI>();
+        hubertoInfoDesc = GameObject.Find("HubertoText").GetComponent<TextMeshProUGUI>();
+
+        craneInfoTitle = GameObject.Find("CraneHeading").GetComponent<TextMeshProUGUI>();
+        craneInfoStats = GameObject.Find("CraneStats").GetComponent<TextMeshProUGUI>();
+        craneInfoDesc = GameObject.Find("CraneText").GetComponent<TextMeshProUGUI>();
+
+        patriciaImage = GameObject.Find("Patricia Image").GetComponent<Image>();
+        hubertoImage = GameObject.Find("Huberto Image").GetComponent<Image>();
+        craneImage = GameObject.Find("Crane Image").GetComponent<Image>();
+
+
+
+        patriciaInfoTitle.enabled = false;
+        patriciaInfoStats.enabled = false;
+        patriciaInfoDesc.enabled = false;
+
+        hubertoInfoTitle.enabled = false;
+        hubertoInfoStats.enabled = false;
+        hubertoInfoDesc.enabled = false;
+
+        craneInfoTitle.enabled = false;
+        craneInfoStats.enabled = false;
+        craneInfoDesc.enabled = false;
+
+        patriciaImage.enabled = false;
+        hubertoImage.enabled = false;
+        craneImage.enabled = false;
+
+        prevPage.enabled = false;
 
         compendium.SetActive(false);
 
@@ -160,14 +215,89 @@ public class GameUIScript : NetworkBehaviour
 
     public void ShowPatriciaInfo()
     {
-        Debug.Log("Show Patricia Info");
+        patriciaInfoTitle.enabled = true;
+        patriciaInfoStats.enabled = true;
+        patriciaInfoDesc.enabled = true;
+
+        patriciaImage.enabled = true;
+        prevPage.enabled = true;
+
+        hubertoInfoTitle.enabled = false;
+        hubertoInfoStats.enabled = false;
+        hubertoInfoDesc.enabled = false;
+
+        craneInfoTitle.enabled = false;
+        craneInfoStats.enabled = false;
+        craneInfoDesc.enabled = false;
+
+        patriciaButton.gameObject.SetActive(false);
+        hubertoButton.gameObject.SetActive(false);
+        craneButton.gameObject.SetActive(false);
     }
     public void ShowHubertoInfo()
     {
-        Debug.Log("Show Huberto Info");
+        patriciaInfoTitle.enabled = false;
+        patriciaInfoStats.enabled = false;
+        patriciaInfoDesc.enabled = false;
+
+        hubertoInfoTitle.enabled = true;
+        hubertoInfoStats.enabled = true;
+        hubertoInfoDesc.enabled = true;
+
+        hubertoImage.enabled = true;
+        prevPage.enabled = true;
+
+        craneInfoTitle.enabled = false;
+        craneInfoStats.enabled = false;
+        craneInfoDesc.enabled = false;
+
+        patriciaButton.gameObject.SetActive(false);
+        hubertoButton.gameObject.SetActive(false);
+        craneButton.gameObject.SetActive(false);
     }
     public void ShowCraneInfo()
     {
-        Debug.Log("Show Crane Info");
+        patriciaInfoTitle.enabled = false;
+        patriciaInfoStats.enabled = false;
+        patriciaInfoDesc.enabled = false;
+
+        hubertoInfoTitle.enabled = false;
+        hubertoInfoStats.enabled = false;
+        hubertoInfoDesc.enabled = false;
+
+        craneInfoTitle.enabled = true;
+        craneInfoStats.enabled = true;
+        craneInfoDesc.enabled = true;
+
+        craneImage.enabled = true;
+        prevPage.enabled = true;
+
+        patriciaButton.gameObject.SetActive(false);
+        hubertoButton.gameObject.SetActive(false);
+        craneButton.gameObject.SetActive(false);
+    }
+    public void PreviousPage()
+    {
+        patriciaInfoTitle.enabled = false;
+        patriciaInfoStats.enabled = false;
+        patriciaInfoDesc.enabled = false;
+
+        hubertoInfoTitle.enabled = false;
+        hubertoInfoStats.enabled = false;
+        hubertoInfoDesc.enabled = false;
+
+        craneInfoTitle.enabled = false;
+        craneInfoStats.enabled = false;
+        craneInfoDesc.enabled = false;
+
+        patriciaImage.enabled = false;
+        hubertoImage.enabled = false;
+        craneImage.enabled = false;
+
+        prevPage.enabled = false;
+
+        patriciaButton.gameObject.SetActive(true);
+        hubertoButton.gameObject.SetActive(true);
+        craneButton.gameObject.SetActive(true);
     }
 }
