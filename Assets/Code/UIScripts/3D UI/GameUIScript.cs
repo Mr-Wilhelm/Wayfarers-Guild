@@ -21,6 +21,16 @@ public class GameUIScript : NetworkBehaviour
 
     public bool showCompendium = false;
 
+    //Animation Variables
+    [SerializeField]
+    private Animator gameAnimator;
+
+    //UI Objects
+    [SerializeField]
+    private GameObject compendium;
+
+    private bool hasShownCompendium;
+
     //Start is called before the first frame update
     void Start()
     {
@@ -44,6 +54,14 @@ public class GameUIScript : NetworkBehaviour
         questPromptText.gameObject.SetActive(true);
         questPromptHeadingText.gameObject.SetActive(false);
         questPromptTaskText.gameObject.SetActive(false);
+
+        //Animation Assigning
+        gameAnimator = Resources.Load<Animator>("GameUIController");
+        gameAnimator = GetComponent<Animator>();
+
+        //UI Object Assigning
+        compendium = GameObject.Find("Compendium");
+        compendium.SetActive(false);
     }
 
     private void Update()
@@ -57,17 +75,46 @@ public class GameUIScript : NetworkBehaviour
             questPromptEnabled = !questPromptEnabled;
         }
 
-        if(questPromptEnabled)
+        if(questPromptEnabled)  //show elements of the quest prompt
         {
             questPromptText.gameObject.SetActive(false);
             questPromptHeadingText.gameObject.SetActive(true);
             questPromptTaskText.gameObject.SetActive(true);
         }
-        else if(!questPromptEnabled)
+        else if(!questPromptEnabled)    //hide elements of the quest prompt
         {
             questPromptText.gameObject.SetActive(true);
             questPromptHeadingText.gameObject.SetActive(false);
             questPromptTaskText.gameObject.SetActive(false);
         }
+
+        if(Input.GetKeyDown(KeyCode.F) && showCompendium)
+        {
+            StartCoroutine(ShowCompendium());
+        }
+        else if(Input.GetKeyDown(KeyCode.F) && !showCompendium)
+        {
+            StartCoroutine(HideCompendium());
+        }
+    }
+    private IEnumerator ShowCompendium()
+    {
+        if(!hasShownCompendium)
+        {
+            hasShownCompendium = true;
+            gameAnimator.SetBool("showCompendium", true);
+            yield return new WaitForSeconds(0.1f);
+            compendium.SetActive(true);
+        }
+    }
+    private IEnumerator HideCompendium()
+    {
+        hasShownCompendium = false;
+        gameAnimator.SetBool("showCompendium", false);
+        yield return new WaitForSeconds(3.0f);
+        gameAnimator.SetBool("compendiumAnimDone", true);
+        compendium.SetActive(false);
+        yield return new WaitForSeconds(1.0f);
+        gameAnimator.SetBool("compendiumAnimDone", false);
     }
 }

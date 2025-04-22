@@ -66,15 +66,7 @@ public class SCR_NewInteract : NetworkBehaviour
     {
         if (!IsOwner) { enabled = false; return; }
 
-        if (GameObject.Find("MainUICanvas").GetComponent<GameUIScript>())
-        {
-            Debug.Log("GOOD BEANS");
-            gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
-        }
-        else
-        {
-            Debug.Log("BAD BEANS");
-        }
+        gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
 
 
         if (Input.GetKeyDown(InteractKey))
