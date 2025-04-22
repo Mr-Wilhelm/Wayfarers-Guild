@@ -205,14 +205,14 @@ public class SCR_NewInteract : NetworkBehaviour
                     Debug.Log($"bookOpen network var: { hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value } ");
                     if (hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value == false)
                     {
-                        gameUI.showCompendium = true;
+
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
 
                         OpenBookGoBetweenServerRPC();
                     }
                     else
                     {
-                        gameUI.showCompendium = false;
+
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opening")) { Debug.Log("Book opening, please wait"); return; }
 
                         CloseBookGoBetweenServerRPC();
@@ -243,6 +243,7 @@ public class SCR_NewInteract : NetworkBehaviour
         GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
         bookRef.GetComponent<SCR_Book>().bookOpen.Value = true;
         OpenBookClientRPC();
+        gameUI.showCompendium = true;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -251,6 +252,7 @@ public class SCR_NewInteract : NetworkBehaviour
         GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
         bookRef.GetComponent<SCR_Book>().bookOpen.Value = false;
         CloseBookClientRPC();
+        gameUI.showCompendium = false;
     }
 
     [ClientRpc(RequireOwnership = false)]

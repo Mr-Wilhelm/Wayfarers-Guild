@@ -206,7 +206,7 @@ public class GameUIScript : NetworkBehaviour
 
         hasShownCompendium = false;
         gameAnimator.SetBool("showCompendium", false);
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(0.75f);  //how long after the animation starts before the compendium can be interacted with again without bugs happening
         gameAnimator.SetBool("compendiumAnimDone", true);
         compendium.SetActive(false);
         yield return new WaitForSeconds(1.0f);
