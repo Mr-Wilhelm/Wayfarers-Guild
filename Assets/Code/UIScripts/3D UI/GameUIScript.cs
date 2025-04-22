@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Collections;
 using UnityEngine.InputSystem;
 using Gravitas.Demo;
+using UnityEngine.UI;
 
 public class GameUIScript : NetworkBehaviour
 {
@@ -35,6 +36,15 @@ public class GameUIScript : NetworkBehaviour
     private GameObject compendium;
 
     private bool hasShownCompendium;
+
+    [SerializeField]
+    private Button patriciaButton;
+
+    [SerializeField]
+    private Button hubertoButton;
+
+    [SerializeField]
+    private Button craneButton;
 
     //Start is called before the first frame update
     void Start()
@@ -66,14 +76,17 @@ public class GameUIScript : NetworkBehaviour
 
         //UI Object Assigning
         compendium = GameObject.Find("Compendium");
+
+        patriciaButton = GameObject.Find("PatriciaButton").GetComponent<Button>();
+        hubertoButton = GameObject.Find("HubertoButton").GetComponent<Button>();
+        craneButton = GameObject.Find("CraneButton").GetComponent<Button>();
+
         compendium.SetActive(false);
 
-        if(IsOwner)
+        if (IsOwner)
         {
             activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
         }
-
-
     }
 
     private void Update()
@@ -143,5 +156,18 @@ public class GameUIScript : NetworkBehaviour
         compendium.SetActive(false);
         yield return new WaitForSeconds(1.0f);
         gameAnimator.SetBool("compendiumAnimDone", false);
+    }
+
+    public void ShowPatriciaInfo()
+    {
+        Debug.Log("Show Patricia Info");
+    }
+    public void ShowHubertoInfo()
+    {
+        Debug.Log("Show Huberto Info");
+    }
+    public void ShowCraneInfo()
+    {
+        Debug.Log("Show Crane Info");
     }
 }
