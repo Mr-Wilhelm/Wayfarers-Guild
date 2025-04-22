@@ -3,6 +3,7 @@ using Gravitas.Demo;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -261,6 +262,7 @@ public class SCR_NewInteract : NetworkBehaviour
         Debug.Log($"Player: {gameObject.GetComponent<NetworkObject>().NetworkObjectId} trying to open book");
         GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
         bookRef.GetComponent<Animator>().SetTrigger("OpenTrigger");
+        gameUI.showCompendium = true;
     }
 
     [ClientRpc(RequireOwnership = false)]
@@ -269,6 +271,7 @@ public class SCR_NewInteract : NetworkBehaviour
         Debug.Log($"Player: {gameObject.GetComponent<NetworkObject>().NetworkObjectId} trying to close book");
         GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
         bookRef.GetComponent<Animator>().SetTrigger("CloseTrigger");
+        gameUI.showCompendium = false;
     }
 
     [ServerRpc(RequireOwnership = false)]
