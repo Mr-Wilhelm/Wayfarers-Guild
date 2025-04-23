@@ -7,7 +7,7 @@ using Unity.Collections;
 public class QuestHandler : NetworkBehaviour
 {
     public static QuestHandler instance;
-    
+
     //tracking variables
     public NetworkVariable<FixedString128Bytes> activeQuest = new NetworkVariable<FixedString128Bytes>();
     public NetworkVariable<FixedString128Bytes> activeQuestDescription = new NetworkVariable<FixedString128Bytes>();
@@ -42,7 +42,7 @@ public class QuestHandler : NetworkBehaviour
     }
     public override void OnNetworkSpawn()   //happens when network stuff starts
     {
-        
+
         activeQuest.OnValueChanged += OnQuestChanged;   //subscribes OnValueChanged with a delegate by using +=. This tells the code to call the function when OnValueChanged happens
         activeQuestDescription.OnValueChanged += OnQuestDescriptionChanged;
     }

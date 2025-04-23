@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class QuestInfo : MonoBehaviour
 {
-    public enum questTypes {Cargo, Research };
-    public enum npcBroker {None, Jenny, Keegam, Chris, Celia, Matthew };
+    public enum questTypes { Cargo, Research };
+    public enum npcBroker { None, Jenny, Keegan, Chris, Celia, Matthew };
 
-    public enum questHeading {AppleADay, LightbulbMoment };
+    public enum questHeading { AppleADay, LightbulbMoment, Poking, PostHaste };
 
     public string questText;
 
