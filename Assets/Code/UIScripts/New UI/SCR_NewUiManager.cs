@@ -642,8 +642,5 @@ public class SCR_NewUiManager : NetworkBehaviour
         npcLocation.SetActive(false);
         ContinueStory();
     }
-
     #endregion
-
-
 }
