@@ -47,9 +47,6 @@ public class GameUIScript : NetworkBehaviour
     private Button craneButton;
 
     [SerializeField]
-    private Button prevPage;
-
-    [SerializeField]
     private TextMeshProUGUI patriciaInfoTitle, patriciaInfoStats, patriciaInfoDesc, patriciaLeftPageText;
 
     [SerializeField]
@@ -57,9 +54,6 @@ public class GameUIScript : NetworkBehaviour
 
     [SerializeField]
     private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc, craneLeftPageText;
-
-    [SerializeField]
-    private Image patriciaImage, hubertoImage, craneImage;
 
 
 
@@ -102,8 +96,6 @@ public class GameUIScript : NetworkBehaviour
         hubertoLeftPageText = GameObject.Find("HubertoLeftPageText").GetComponent<TextMeshProUGUI>();
         craneLeftPageText = GameObject.Find("CraneLeftPageText").GetComponent<TextMeshProUGUI>();
 
-        prevPage = GameObject.Find("PreviousPage").GetComponent<Button>();
-
         patriciaInfoTitle = GameObject.Find("PatriciaHeading").GetComponent<TextMeshProUGUI>();
         patriciaInfoStats = GameObject.Find("PatriciaStats").GetComponent<TextMeshProUGUI>();
         patriciaInfoDesc = GameObject.Find("PatriciaText").GetComponent<TextMeshProUGUI>();
@@ -116,10 +108,6 @@ public class GameUIScript : NetworkBehaviour
         craneInfoStats = GameObject.Find("CraneStats").GetComponent<TextMeshProUGUI>();
         craneInfoDesc = GameObject.Find("CraneText").GetComponent<TextMeshProUGUI>();
 
-        patriciaImage = GameObject.Find("Patricia Image").GetComponent<Image>();
-        hubertoImage = GameObject.Find("Huberto Image").GetComponent<Image>();
-        craneImage = GameObject.Find("Crane Image").GetComponent<Image>();
-
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
@@ -131,12 +119,6 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
-
-        patriciaImage.enabled = false;
-        hubertoImage.enabled = false;
-        craneImage.enabled = false;
-
-        prevPage.gameObject.SetActive(false);
 
         compendium.SetActive(false);
 
@@ -221,9 +203,6 @@ public class GameUIScript : NetworkBehaviour
         patriciaInfoStats.enabled = true;
         patriciaInfoDesc.enabled = true;
 
-        patriciaImage.enabled = true;
-        prevPage.gameObject.SetActive(true);
-
         hubertoInfoTitle.enabled = false;
         hubertoInfoStats.enabled = false;
         hubertoInfoDesc.enabled = false;
@@ -231,14 +210,6 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
-
-        patriciaButton.gameObject.SetActive(false);
-        hubertoButton.gameObject.SetActive(false);
-        craneButton.gameObject.SetActive(false);
-
-        patriciaLeftPageText.enabled = false;
-        hubertoLeftPageText.enabled = false;
-        craneLeftPageText.enabled = false;
     }
     public void ShowHubertoInfo()
     {
@@ -250,20 +221,9 @@ public class GameUIScript : NetworkBehaviour
         hubertoInfoStats.enabled = true;
         hubertoInfoDesc.enabled = true;
 
-        hubertoImage.enabled = true;
-        prevPage.gameObject.SetActive(true);
-
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
-        craneInfoDesc.enabled = false;
-
-        patriciaButton.gameObject.SetActive(false);
-        hubertoButton.gameObject.SetActive(false);
-        craneButton.gameObject.SetActive(false);
-
-        patriciaLeftPageText.enabled = false;
-        hubertoLeftPageText.enabled = false;
-        craneLeftPageText.enabled = false;
+        craneInfoDesc.enabled = false;;
     }
     public void ShowCraneInfo()
     {
@@ -278,17 +238,6 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = true;
         craneInfoStats.enabled = true;
         craneInfoDesc.enabled = true;
-
-        craneImage.enabled = true;
-        prevPage.gameObject.SetActive(true);
-
-        patriciaButton.gameObject.SetActive(false);
-        hubertoButton.gameObject.SetActive(false);
-        craneButton.gameObject.SetActive(false);
-
-        patriciaLeftPageText.enabled = false;
-        hubertoLeftPageText.enabled = false;
-        craneLeftPageText.enabled = false;
     }
     public void PreviousPage()
     {
@@ -303,19 +252,5 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
-
-        patriciaImage.enabled = false;
-        hubertoImage.enabled = false;
-        craneImage.enabled = false;
-
-        prevPage.gameObject.SetActive(false);
-
-        patriciaButton.gameObject.SetActive(true);
-        hubertoButton.gameObject.SetActive(true);
-        craneButton.gameObject.SetActive(true);
-
-        patriciaLeftPageText.enabled = true;
-        hubertoLeftPageText.enabled = true;
-        craneLeftPageText.enabled = true;
     }
 }
