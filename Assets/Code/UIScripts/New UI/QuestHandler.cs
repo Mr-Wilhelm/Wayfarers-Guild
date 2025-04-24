@@ -19,7 +19,18 @@ public class QuestHandler : NetworkBehaviour
     private FixedString128Bytes pokingQuestTask = "Attract a Tulebreather with the sonar ping";
     private FixedString128Bytes noQuestTask = "You Currently have no active quests, speak to someone at the sky cities to find one!";
 
-    public NetworkVariable<bool> hasCargoQuest = new NetworkVariable<bool>();   //identifies if a cargo quest was activated
+    //quest system bool checks
+    public NetworkVariable<bool> hasQuestActive = new NetworkVariable<bool>();
+    public NetworkVariable<bool> hasCompletedQuest = new NetworkVariable<bool>();
+
+    //what is the quest type?
+    public NetworkVariable<bool> hasCargoQuest = new NetworkVariable<bool>();
+    public NetworkVariable<bool> hasResearchQuest = new NetworkVariable<bool>(); 
+
+    //who does the quest belong to?
+    public NetworkVariable<bool> hasJennyQuest = new NetworkVariable<bool>();   
+    public NetworkVariable<bool> hasMatthewQuest = new NetworkVariable<bool>();
+
 
     public static QuestHandler Instance
     {

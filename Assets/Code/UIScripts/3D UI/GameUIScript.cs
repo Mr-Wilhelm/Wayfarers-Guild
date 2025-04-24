@@ -130,11 +130,13 @@ public class GameUIScript : NetworkBehaviour
 
     private void Update()
     {
+        //assigning which player is looking at stuff
         if (activePlayer == null)
         {
             activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
         }
 
+        //quest prompt stuff
         if (Input.GetKeyDown(KeyCode.Q))
         {
             questPromptEnabled = !questPromptEnabled;
@@ -157,6 +159,7 @@ public class GameUIScript : NetworkBehaviour
             questPromptTaskText.gameObject.SetActive(false);
         }
 
+        //compendium stuff
         if(Input.GetKeyDown(KeyCode.F) && showCompendium)
         {
             StartCoroutine(ShowCompendium());
@@ -166,7 +169,7 @@ public class GameUIScript : NetworkBehaviour
             StartCoroutine(HideCompendium());
         }
     }
-    private IEnumerator ShowCompendium()
+    private IEnumerator ShowCompendium()    //shows the compendium
     {
         if(!hasShownCompendium)
         {
@@ -181,7 +184,7 @@ public class GameUIScript : NetworkBehaviour
             compendium.SetActive(true);
         }
     }
-    private IEnumerator HideCompendium()
+    private IEnumerator HideCompendium()    //hides the compendium
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -197,6 +200,7 @@ public class GameUIScript : NetworkBehaviour
         gameAnimator.SetBool("compendiumAnimDone", false);
     }
 
+    //compendium buttons and appearance stuff
     public void ShowPatriciaInfo()
     {
         patriciaInfoTitle.enabled = true;
