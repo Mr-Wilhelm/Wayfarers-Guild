@@ -49,6 +49,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextAsset scienceNPCDialogue;
 
     [SerializeField]
+    private TextAsset spoonsQuestCompleteDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -181,9 +184,11 @@ public class SCR_NewUiManager : NetworkBehaviour
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
+        spoonsQuestCompleteDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuestComplete");
 
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
         scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
+
 
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
@@ -256,6 +261,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void Update()
     {
+
+        if (questHandler.hasCompletedQuest.Value == false)
+        {
+            npcQuestCompleteLocation.SetActive(false);
+        }
+
         if (!dialogueIsPlaying)
         {
             return;
@@ -281,10 +292,6 @@ public class SCR_NewUiManager : NetworkBehaviour
             }
         }
 
-        if (questHandler.hasCompletedQuest.Value == false)
-        {
-            npcQuestCompleteLocation.SetActive(false);
-        }
     }
 
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
@@ -310,7 +317,9 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
         else if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasCompletedQuest.Value == true)
         {
-            Debug.Log("Output Jenny Quest Complete Quest");
+            EnterDialogueMode(spoonsQuestCompleteDialogue);
+            playerDataHandler.playerMoney.Value += 100;
+            questHandler.hasCargoQuest.Value = false; questHandler.hasJennyQuest.Value = false; questHandler.hasCompletedQuest.Value = false;
         }
         else
         {
