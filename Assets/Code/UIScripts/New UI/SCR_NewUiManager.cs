@@ -332,6 +332,7 @@ public class SCR_NewUiManager : NetworkBehaviour
                 questInfoText.text = "Looking for willing Wayfarers to take Spoony's finest cider to Chicago Contrails. If you're interested, come to The Weathered Spoony McSpoonface for a chat.";
                 questInfoObject.activeQuest = QuestInfo.questHeading.AppleADay; //quest heading
                 questInfoObject.targetNPC = QuestInfo.npcBroker.Jenny;  //quest broker
+                questInfoObject.questType = QuestInfo.questTypes.Cargo;
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = true;  //npc image
                 break;
@@ -339,6 +340,7 @@ public class SCR_NewUiManager : NetworkBehaviour
                 questInfoText.text = "I'd like to obtain data concerning the Tulebreather's fog. Please meet me at The Weathered Spoony McSpoonface for more details.";
                 questInfoObject.targetNPC = QuestInfo.npcBroker.Matthew;  //quest broker
                 questInfoObject.activeQuest = QuestInfo.questHeading.Poking; //quest heading
+                questInfoObject.questType = QuestInfo.questTypes.Research;
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
                 questInfoObject.jennyImage.enabled = false;  //npc image
                 break;
@@ -346,6 +348,7 @@ public class SCR_NewUiManager : NetworkBehaviour
                 questInfoText.text = "Looking for data concerning the Voracious Angel Moth's photosensitivity. Please observe a Voracious Angel Moth in bright light and darkness for me, and bring me the results.";
                 questInfoObject.activeQuest = QuestInfo.questHeading.LightbulbMoment;   //quest heading
                 questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.questType = QuestInfo.questTypes.Research;
                 questInfoObject.researchImage.enabled = true; questInfoObject.deliveryImage.enabled = false;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
@@ -353,6 +356,7 @@ public class SCR_NewUiManager : NetworkBehaviour
                 questInfoText.text = "Need these packages delivered ASAP by any willing Wayfarers. Please take them quickly!";
                 questInfoObject.activeQuest = QuestInfo.questHeading.PostHaste;   //quest heading
                 questInfoObject.targetNPC = QuestInfo.npcBroker.None;   //npc broker
+                questInfoObject.questType = QuestInfo.questTypes.Cargo;
                 questInfoObject.researchImage.enabled = false; questInfoObject.deliveryImage.enabled = true;    //quest type image
                 questInfoObject.jennyImage.enabled = false; //npc image
                 break;
@@ -397,15 +401,7 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
 
-        //checks the type of quest being selected
-        if(questInfoObject.questType == QuestInfo.questTypes.Cargo)
-        {
-            questHandler.hasCargoQuest.Value = true;
-        }
-        else
-        {
-            questHandler.hasCargoQuest.Value = false;
-        }
+        CheckQuestType();
 
         switch (targetNPC)
         {
@@ -425,6 +421,39 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
     }
+
+    private void CheckQuestType()
+    {
+
+        //checks the type of quest being selected
+        if (questInfoObject.questType == QuestInfo.questTypes.Cargo)
+        {
+            questHandler.hasCargoQuest.Value = true;
+            questHandler.hasResearchQuest.Value = false;
+        }
+        else if(questInfoObject.questType == QuestInfo.questTypes.Research)
+        {
+            questHandler.hasCargoQuest.Value = false;
+            questHandler.hasResearchQuest.Value = true;
+        }
+        //check who the quest belongs to
+        if (questInfoObject.targetNPC == QuestInfo.npcBroker.Jenny)
+        {
+            questHandler.hasJennyQuest.Value = true;
+            questHandler.hasMatthewQuest.Value = false;
+        }
+        else if (questInfoObject.targetNPC == QuestInfo.npcBroker.Matthew)
+        {
+            questHandler.hasJennyQuest.Value = false;
+            questHandler.hasMatthewQuest.Value = true;
+        }
+        else
+        {
+            questHandler.hasJennyQuest.Value = false;
+            questHandler.hasMatthewQuest.Value = false;
+        }
+    }
+
     public void DenyQuest()
     {
         Debug.Log("Deny Quest" + questInfoObject.activeQuest);
