@@ -50,10 +50,16 @@ public class SCR_Enemy : MonoBehaviour
     [SerializeField]
     private GameObject MothSpit;
 
+    [SerializeField]
+    private bool readyToSpit = true;
+
+    [SerializeField]
+    private float spitCooldown = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-        moveTarget = GameObject.Find("PRE-Airship");
+        moveTarget = GameObject.Find("MothTargetPoint");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
 
@@ -109,9 +115,9 @@ public class SCR_Enemy : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "MothStopZone")
+        if (other.gameObject.tag == "MothStopZone" && readyToSpit)
         {
             ShootShip();
         }
@@ -136,13 +142,19 @@ public class SCR_Enemy : MonoBehaviour
     private void ShootShip()
     {
         Debug.Log("Shooting ship");
+        StartCoroutine(ShootCooldown());
         move = false;
         gameObject.transform.LookAt(moveTarget.transform.position);
         GameObject mothSpitInstance = Instantiate(MothSpit, gameObject.transform.position, gameObject.transform.rotation);
         var mothSpitInstanceNetworkOBJ = mothSpitInstance.GetComponent<NetworkObject>();
         mothSpitInstanceNetworkOBJ.Spawn();
-        mothSpitInstance.GetComponent<SCR_MothProjectile>().MoveTowardsShip(moveTarget);
+        mothSpitInstance.GetComponent<SCR_MothProjectile>().MoveTowardsShip(moveTarget, gameObject.transform.position);
     }
 
-    private IEnumerator shootCooldown;
+    IEnumerator ShootCooldown()
+    {
+        readyToSpit = false;
+        yield return new WaitForSeconds(spitCooldown);
+        readyToSpit = true;
+    }
 }

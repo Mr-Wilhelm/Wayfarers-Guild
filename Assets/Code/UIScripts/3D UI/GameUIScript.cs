@@ -64,7 +64,7 @@ public class GameUIScript : NetworkBehaviour
         }
         else if(!questPromptEnabled)
         {
-            Debug.Log("Hide Quest");
+            //Debug.Log("Hide Quest");
             questPromptText.gameObject.SetActive(true);
             questPromptHeadingText.gameObject.SetActive(false);
             questPromptTaskText.gameObject.SetActive(false);
