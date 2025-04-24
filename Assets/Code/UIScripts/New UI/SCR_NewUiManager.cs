@@ -52,6 +52,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextAsset spoonsQuestCompleteDialogue;
 
     [SerializeField]
+    private TextAsset researchQuestCompleteDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -184,7 +187,9 @@ public class SCR_NewUiManager : NetworkBehaviour
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
+
         spoonsQuestCompleteDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuestComplete");
+        researchQuestCompleteDialogue = Resources.Load<TextAsset>("InkJsons/ResearchQuestComplete");
 
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
         scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
@@ -256,6 +261,13 @@ public class SCR_NewUiManager : NetworkBehaviour
             npcQuestCompleteLocation.SetActive(true);
             npcQuestCompleteLocation.transform.position = spoonsNPCLocation.transform.position;
         }
+        //has research quest from matthew
+        else if(questHandler.hasResearchQuest.Value == true && questHandler.hasMatthewQuest.Value == true && questHandler.hasJennyQuest.Value == false)
+        {
+            questHandler.hasCompletedQuest.Value = true;
+            npcQuestCompleteLocation.SetActive(true);
+            npcQuestCompleteLocation.transform.position = spoonsNPCLocation.transform.position; //TODO:: CHANGE THIS TO INNOVATORS GUILD?
+        }
 
     }
 
@@ -307,7 +319,7 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //twenty billion else if statements and im not sorry
 
-        if(targetNPC == "Jenny")
+        if (targetNPC == "Jenny")
         {
             EnterDialogueMode(spoonsQuestDialogue);
         }
@@ -320,6 +332,12 @@ public class SCR_NewUiManager : NetworkBehaviour
             EnterDialogueMode(spoonsQuestCompleteDialogue);
             playerDataHandler.playerMoney.Value += 100;
             questHandler.hasCargoQuest.Value = false; questHandler.hasJennyQuest.Value = false; questHandler.hasCompletedQuest.Value = false;
+        }
+        else if(questHandler.hasResearchQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasCompletedQuest.Value == true)
+        {
+            EnterDialogueMode(researchQuestCompleteDialogue);
+            playerDataHandler.playerMoney.Value += 200;
+            questHandler.hasResearchQuest.Value = false; questHandler.hasMatthewQuest.Value = false; questHandler.hasCompletedQuest.Value = false;
         }
         else
         {
