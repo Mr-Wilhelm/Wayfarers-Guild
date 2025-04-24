@@ -112,6 +112,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private GameObject npcLocation;
 
+    [SerializeField]
+    private GameObject npcQuestCompleteLocation;
+
     [Header("Stats")]
     [SerializeField]
     private float repairCost;
@@ -216,6 +219,9 @@ public class SCR_NewUiManager : NetworkBehaviour
         npcLocation = GameObject.Find("NPCLocation");
         npcLocation.SetActive(false);
 
+        npcQuestCompleteLocation = GameObject.Find("NPCQuestCompleteLocation");
+        npcQuestCompleteLocation.SetActive(false);
+
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
@@ -232,12 +238,20 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //Start of scene functions
 
-        //no need to check for any complete conditions, because the complete condition of a cargo quest is getting to the end
-        if(questHandler.hasCargoQuest.Value == true)
+        //has cargo quest with no people attached
+        if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
         {
             questHandler.hasCargoQuest.Value = false;
             playerDataHandler.playerMoney.Value += 100;
         }
+        //has cargo quest from Jenny
+        else if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasMatthewQuest.Value == false)
+        {
+            questHandler.hasCompletedQuest.Value = true;
+            npcQuestCompleteLocation.SetActive(true);
+            npcQuestCompleteLocation.transform.position = spoonsNPCLocation.transform.position;
+        }
+
     }
 
     private void Update()
@@ -266,6 +280,11 @@ public class SCR_NewUiManager : NetworkBehaviour
                 ContinueStory();
             }
         }
+
+        if (questHandler.hasCompletedQuest.Value == false)
+        {
+            npcQuestCompleteLocation.SetActive(false);
+        }
     }
 
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
@@ -279,6 +298,8 @@ public class SCR_NewUiManager : NetworkBehaviour
         cityAnimator.SetBool("SpoonsPressed", true);
         spoonsButton.interactable = false;
 
+        //twenty billion else if statements and im not sorry
+
         if(targetNPC == "Jenny")
         {
             EnterDialogueMode(spoonsQuestDialogue);
@@ -287,9 +308,12 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             EnterDialogueMode(scienceNPCDialogue);
         }
+        else if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasCompletedQuest.Value == true)
+        {
+            Debug.Log("Output Jenny Quest Complete Quest");
+        }
         else
         {
-
             EnterDialogueMode(spoonsNPCDialogue);
         }
 
