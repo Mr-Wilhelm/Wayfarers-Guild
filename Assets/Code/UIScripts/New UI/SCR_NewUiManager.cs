@@ -113,7 +113,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private string targetNPC;
 
-    private GameObject spoonsNPCLocation, thamesNPCLocation;
+    private GameObject spoonsNPCLocation, thamesNPCLocation, spoonsNPCCompleteLocation;
 
     [SerializeField]
     private GameObject npcLocation;
@@ -233,6 +233,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         npcQuestCompleteLocation.SetActive(false);
 
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
+        spoonsNPCCompleteLocation = GameObject.Find("SpoonsCompleteTrackerLocation");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
 
@@ -259,14 +260,14 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             questHandler.hasCompletedQuest.Value = true;
             npcQuestCompleteLocation.SetActive(true);
-            npcQuestCompleteLocation.transform.position = spoonsNPCLocation.transform.position;
+            npcQuestCompleteLocation.transform.position = spoonsNPCCompleteLocation.transform.position;
         }
         //has research quest from matthew
         else if(questHandler.hasResearchQuest.Value == true && questHandler.hasMatthewQuest.Value == true && questHandler.hasJennyQuest.Value == false)
         {
             questHandler.hasCompletedQuest.Value = true;
             npcQuestCompleteLocation.SetActive(true);
-            npcQuestCompleteLocation.transform.position = spoonsNPCLocation.transform.position; //TODO:: CHANGE THIS TO INNOVATORS GUILD?
+            npcQuestCompleteLocation.transform.position = spoonsNPCCompleteLocation.transform.position; //TODO:: CHANGE THIS TO INNOVATORS GUILD?
         }
 
     }
@@ -318,16 +319,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         spoonsButton.interactable = false;
 
         //twenty billion else if statements and im not sorry
-
-        if (targetNPC == "Jenny")
-        {
-            EnterDialogueMode(spoonsQuestDialogue);
-        }
-        else if (targetNPC == "Matthew")
-        {
-            EnterDialogueMode(scienceNPCDialogue);
-        }
-        else if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasCompletedQuest.Value == true)
+        if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasCompletedQuest.Value == true)
         {
             EnterDialogueMode(spoonsQuestCompleteDialogue);
             playerDataHandler.playerMoney.Value += 100;
@@ -338,6 +330,14 @@ public class SCR_NewUiManager : NetworkBehaviour
             EnterDialogueMode(researchQuestCompleteDialogue);
             playerDataHandler.playerMoney.Value += 200;
             questHandler.hasResearchQuest.Value = false; questHandler.hasMatthewQuest.Value = false; questHandler.hasCompletedQuest.Value = false;
+        }
+        else if (targetNPC == "Jenny")
+        {
+            EnterDialogueMode(spoonsQuestDialogue);
+        }
+        else if (targetNPC == "Matthew")
+        {
+            EnterDialogueMode(scienceNPCDialogue);
         }
         else
         {
