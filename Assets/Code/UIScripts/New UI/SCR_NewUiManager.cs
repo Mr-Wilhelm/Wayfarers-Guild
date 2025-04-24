@@ -255,19 +255,24 @@ public class SCR_NewUiManager : NetworkBehaviour
             questHandler.hasCargoQuest.Value = false;
             playerDataHandler.playerMoney.Value += 100;
         }
+        else if(questHandler.hasResearchQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
+        {
+            questHandler.hasResearchQuest.Value = false;
+            playerDataHandler.playerMoney.Value += 200;
+        }
         //has cargo quest from Jenny
         else if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasMatthewQuest.Value == false)
         {
-            questHandler.hasCompletedQuest.Value = true;
+            questHandler.hasCompletedJennyQuest.Value = true;
             npcQuestCompleteLocation.SetActive(true);
             npcQuestCompleteLocation.transform.position = spoonsNPCCompleteLocation.transform.position;
         }
         //has research quest from matthew
         else if(questHandler.hasResearchQuest.Value == true && questHandler.hasMatthewQuest.Value == true && questHandler.hasJennyQuest.Value == false)
         {
-            questHandler.hasCompletedQuest.Value = true;
+            questHandler.hasCompletedMatthewQuest.Value = true;
             npcQuestCompleteLocation.SetActive(true);
-            npcQuestCompleteLocation.transform.position = spoonsNPCCompleteLocation.transform.position; //TODO:: CHANGE THIS TO INNOVATORS GUILD?
+            npcQuestCompleteLocation.transform.position = spoonsNPCCompleteLocation.transform.position;
         }
 
     }
@@ -275,7 +280,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     private void Update()
     {
 
-        if (questHandler.hasCompletedQuest.Value == false)
+        if (questHandler.hasCompletedJennyQuest.Value == false && questHandler.hasCompletedMatthewQuest.Value == false)
         {
             npcQuestCompleteLocation.SetActive(false);
         }
@@ -319,17 +324,18 @@ public class SCR_NewUiManager : NetworkBehaviour
         spoonsButton.interactable = false;
 
         //twenty billion else if statements and im not sorry
-        if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == true && questHandler.hasCompletedQuest.Value == true)
+        //issue where selecting Jenny quest after completing Matthew quest will trigger the dialogue for the Jenny quest completion, and vise versa
+        if (questHandler.hasCompletedJennyQuest.Value == true)
         {
             EnterDialogueMode(spoonsQuestCompleteDialogue);
             playerDataHandler.playerMoney.Value += 100;
-            questHandler.hasCargoQuest.Value = false; questHandler.hasJennyQuest.Value = false; questHandler.hasCompletedQuest.Value = false;
+            questHandler.hasCargoQuest.Value = false; questHandler.hasJennyQuest.Value = false; questHandler.hasCompletedJennyQuest.Value = false;
         }
-        else if(questHandler.hasResearchQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasCompletedQuest.Value == true)
+        else if(questHandler.hasCompletedMatthewQuest.Value == true)
         {
             EnterDialogueMode(researchQuestCompleteDialogue);
             playerDataHandler.playerMoney.Value += 200;
-            questHandler.hasResearchQuest.Value = false; questHandler.hasMatthewQuest.Value = false; questHandler.hasCompletedQuest.Value = false;
+            questHandler.hasResearchQuest.Value = false; questHandler.hasMatthewQuest.Value = false; questHandler.hasCompletedMatthewQuest.Value = false;
         }
         else if (targetNPC == "Jenny")
         {

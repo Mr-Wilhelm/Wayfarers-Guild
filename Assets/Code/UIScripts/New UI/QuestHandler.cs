@@ -22,6 +22,8 @@ public class QuestHandler : NetworkBehaviour
     //quest system bool checks
     public NetworkVariable<bool> hasQuestActive = new NetworkVariable<bool>();
     public NetworkVariable<bool> hasCompletedQuest = new NetworkVariable<bool>();
+    public NetworkVariable<bool> hasCompletedJennyQuest = new NetworkVariable<bool>();
+    public NetworkVariable<bool> hasCompletedMatthewQuest = new NetworkVariable<bool>();
 
     //what is the quest type?
     public NetworkVariable<bool> hasCargoQuest = new NetworkVariable<bool>();
