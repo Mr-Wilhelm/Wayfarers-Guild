@@ -204,6 +204,7 @@ MonoBehaviour:
   onWheel: 0
   ship: {fileID: 0}
   shipMovement: {fileID: 0}
+  wheelAnimator: {fileID: 0}
 --- !u!114 &7428270716508070394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +233,7 @@ MonoBehaviour:
   turnSpeed: 4
   playerOnWheel: 0
   hasItem: 0
+  playerOnBallista: 0
 --- !u!114 &1527291677001032635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +458,10 @@ MonoBehaviour:
   interactionRange: 10
   canInteract:
     m_InternalValue: 1
+  bookOpen:
+    m_InternalValue: 0
   playerCam: {fileID: 5932428688813479342}
+  gameUI: {fileID: 0}
   InteractKey: 102
   DropKey: 103
   Wheel:
@@ -480,6 +485,7 @@ MonoBehaviour:
   craigHoldItemMesh: {fileID: 2830178817817679076}
   engineFoodMesh: {fileID: 3140211177268831199}
   ballistaBoltMesh: {fileID: 8554281036370220279}
+  objectBeingHeld: 
   ballistaBoltPrefab: {fileID: 6297792217455478779, guid: de932182dca60f0468458132a1f56856,
     type: 3}
   engineFoodPrefab: {fileID: 2466757319474592082, guid: 4bd93d0808a4f834ab367b85d872ed4a,
@@ -633,7 +639,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
