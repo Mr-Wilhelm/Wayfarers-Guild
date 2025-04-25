@@ -5,13 +5,14 @@ using Unity.Netcode;
 
 public class TutorialPrompts : NetworkBehaviour
 {
+    [SerializeField]
     private bool playerIsInRange;
 
     private void Start()
     {
+        gameObject.transform.rotation = Quaternion.identity;
         gameObject.GetComponentInChildren<Canvas>().enabled = false;
     }
-
     private void Update()
     {
         if (playerIsInRange)
@@ -20,7 +21,7 @@ public class TutorialPrompts : NetworkBehaviour
             {
                 if (player.GetComponentInChildren<Camera>().enabled)
                 {
-                    transform.LookAt(player.gameObject.transform.position);
+                    gameObject.GetComponentInChildren<Canvas>().transform.LookAt(player.GetComponentInChildren<Camera>().transform.position);
                 }
             }
         }
