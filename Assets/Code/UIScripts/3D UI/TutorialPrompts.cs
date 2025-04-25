@@ -1,18 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class TutorialPrompts : MonoBehaviour
+public class TutorialPrompts : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool playerIsInRange;
+
+    private void Start()
     {
-        
+        gameObject.GetComponentInChildren<Canvas>().enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (playerIsInRange)
+        {
+            foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (player.GetComponentInChildren<Camera>().enabled)
+                {
+                    transform.LookAt(player.gameObject.transform.position);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled)
+        {
+            gameObject.GetComponentInChildren<Canvas>().enabled = true;
+            playerIsInRange = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            gameObject.GetComponentInChildren<Canvas>().enabled = false;
+            playerIsInRange = false;
+        }
     }
 }
