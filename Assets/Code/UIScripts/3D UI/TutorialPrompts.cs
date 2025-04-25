@@ -8,14 +8,41 @@ public class TutorialPrompts : NetworkBehaviour
     [SerializeField]
     private bool playerIsInRange;
 
+    [SerializeField]
+    private SCR_NewInteract interact;
+
     private void Start()
     {
         gameObject.transform.rotation = Quaternion.identity;
         gameObject.GetComponentInChildren<Canvas>().enabled = false;
+
+        if(IsOwner)
+        {
+            interact = GameObject.Find("Player_0").GetComponent<SCR_NewInteract>();
+        }
     }
     private void Update()
     {
-        if (playerIsInRange)
+        if(interact == null)
+        {
+            interact = GameObject.Find("Player_1").GetComponent<SCR_NewInteract>();
+        }
+
+        if (gameObject.tag == "EnginePrompt" && playerIsInRange)
+        {
+            foreach(var player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if(player.GetComponentInChildren<Camera>().enabled && interact.objectBeingHeld == "Engine Food")
+                {
+                    gameObject.GetComponentInChildren<Canvas>().transform.LookAt(player.GetComponentInChildren<Camera>().transform.position);
+                }
+                else
+                {
+                    Debug.Log("Player does not have engine food, do not show prompt");
+                }
+            }
+        }
+        else if (playerIsInRange && gameObject.tag != "EnginePrompt")
         {
             foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
             {
@@ -25,14 +52,33 @@ public class TutorialPrompts : NetworkBehaviour
                 }
             }
         }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled)
+        if(gameObject.tag == "EnginePrompt" && other.gameObject.tag == "Player" && other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled && interact.objectBeingHeld == "Engine Food")
         {
             gameObject.GetComponentInChildren<Canvas>().enabled = true;
             playerIsInRange = true;
+        }
+
+        if(other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled)
+        {
+            if(gameObject.tag == "EnginePrompt" && interact.objectBeingHeld == "Engine Food")
+            {
+                gameObject.GetComponentInChildren<Canvas>().enabled = true;
+                playerIsInRange = true;
+            }
+            else if(gameObject.tag == "EnginePrompt" && interact.objectBeingHeld != "Engine Food")
+            {
+                return;
+            }
+            else
+            {
+                gameObject.GetComponentInChildren<Canvas>().enabled = true;
+                playerIsInRange = true;
+            }
         }
     }
     private void OnTriggerExit(Collider other)
