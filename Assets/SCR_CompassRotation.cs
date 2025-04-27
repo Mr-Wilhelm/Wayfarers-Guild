@@ -4,30 +4,33 @@ using UnityEngine;
 
 public class SCR_CompassRotation : MonoBehaviour
 {
-    [SerializeField] GameObject PortalGO;
-    [SerializeField] Vector3 PortalLocation;
-    [SerializeField] GameObject Crystal;
+    [SerializeField] GameObject PortalObject;
+    [SerializeField] Vector3 portalLocation;
+    [SerializeField] GameObject crystal;
+    [SerializeField] bool crystalParticlesEnabled = true;
 
 
     void Update()
     {
         //All of this is in update rather than start due to networking, Start is not running as intended.
-        if (PortalGO == null)
+        if (PortalObject == null)
         {
-            PortalGO = GameObject.Find("Portal");
-            PortalLocation = PortalGO.transform.position;
+            PortalObject = GameObject.Find("Portal");
+            portalLocation = PortalObject.transform.position;
         }
-        if (Crystal == null)
+        if (crystal == null)
         {
-            Crystal = this.gameObject.transform.GetChild(0).gameObject;
+            crystal = this.gameObject.transform.GetChild(0).gameObject;
         }
+        if (crystalParticlesEnabled) { crystal.transform.GetChild(1).gameObject.SetActive(true); }
+        else { crystal.transform.GetChild(1).gameObject.SetActive(false); }
 
 
 
         //rotates the crystall to face the portal
-        if (PortalLocation != null && Crystal != null)
+        if (portalLocation != null && crystal != null)
         {
-            Crystal.transform.LookAt(PortalLocation);
+            crystal.transform.LookAt(portalLocation);
         }
 
     }
