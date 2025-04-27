@@ -247,6 +247,7 @@ public class SCR_NewInteract : NetworkBehaviour
         gameUI.showCompendium = true;
     }
 
+
     [ServerRpc(RequireOwnership = false)]
     private void CloseBookGoBetweenServerRPC()
     {

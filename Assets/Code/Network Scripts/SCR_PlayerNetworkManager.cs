@@ -1,5 +1,6 @@
 using Gravitas;
 using Gravitas.Demo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,13 +21,13 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] GameObject Ship = null;
 
-    [SerializeField] public GameObject CraigBody;
-
-    [SerializeField] public GameObject CraigClothes;
+    [SerializeField] public GameObject CraigBodyMeshes;
 
     [SerializeField] public GameObject CraigHoldingMesh;
 
     [SerializeField] public LayerMask SelfPlayerMesh;
+
+    [SerializeField] private Animator playerAnimator;
 
     //Tracks the pos and rot of the player
     public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
@@ -57,6 +58,17 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
         bust3ClientRpc();
         bust4();
+    }
+
+    private void MakeSelfPlayerMeshInvisible()
+    {
+        int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+        Transform[] children = CraigBodyMeshes.transform.GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)
+        {
+            Debug.Log("Setting new layer");
+            child.gameObject.layer = SelfPlayerMeshLayer;
+        }
     }
 
 
@@ -92,9 +104,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
-            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
-            CraigBody.layer = SelfPlayerMeshLayer;
-            CraigClothes.layer = SelfPlayerMeshLayer;
+            MakeSelfPlayerMeshInvisible();
         }
         else
         {
@@ -140,10 +150,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
-            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
-            CraigBody.layer = SelfPlayerMeshLayer;
-            CraigClothes.layer = SelfPlayerMeshLayer;
-            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            MakeSelfPlayerMeshInvisible();
         }
         else
         {
@@ -192,10 +199,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
-            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
-            CraigBody.layer = SelfPlayerMeshLayer;
-            CraigClothes.layer = SelfPlayerMeshLayer;
-            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            MakeSelfPlayerMeshInvisible();
         }
         else
         {
@@ -240,11 +244,44 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             //updatePosServerRPC(transform.position);
             //updateRotServerRPC(transform.rotation.eulerAngles);
-
+            GravitasFirstPersonPlayerSubject characterControllerRef = this.gameObject.GetComponent<GravitasFirstPersonPlayerSubject>();
+            if(characterControllerRef.Walking)
+            {
+                SetWalkingTrueServerRPC();
+            }
+            else
+            {
+                SetWalkingFalseServerRPC();
+            }
 
         }
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    private void SetWalkingTrueServerRPC()
+    {
+        SetWalkingTrueClientRPC();
+        playerAnimator.SetBool("Walking", true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SetWalkingFalseServerRPC()
+    {
+        SetWalkingFalseClientRPC();
+        playerAnimator.SetBool("Walking", false);
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void SetWalkingTrueClientRPC()
+    {
+        playerAnimator.SetBool("Walking", true);
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void SetWalkingFalseClientRPC()
+    {
+        playerAnimator.SetBool("Walking", false);
+    }
 
     //Update the playername variable in the network
     [ServerRpc]
@@ -300,5 +337,4 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         var instanceNetworkObject = instance.GetComponent<NetworkObject>();
         instanceNetworkObject.SpawnWithOwnership(Id);
     }
-
 }

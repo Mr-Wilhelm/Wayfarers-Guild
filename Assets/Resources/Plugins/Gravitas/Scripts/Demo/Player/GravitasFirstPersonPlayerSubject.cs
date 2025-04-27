@@ -23,13 +23,17 @@ namespace Gravitas.Demo
         [SerializeField] private float jumpForce = 7f;
         [SerializeField] private float moveSpeed = 8f;
         [SerializeField] private float turnSpeed = 5f;
-
+       
         private bool interact;
 
         public bool playerOnWheel = false;
 
         [SerializeField] public bool hasItem = false;
         [SerializeField] public bool playerOnBallista = false;
+
+        [SerializeField] private Animator playerAnimator;
+
+        public bool Walking = false;
 
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
@@ -262,11 +266,23 @@ namespace Gravitas.Demo
                     //Adding all velocity Vectors together
                     velocity = velocityX + velocityY + velocityZ;
                   
+                    if(keyInput != Vector2.zero)
+                    {
+                        Walking = true;
+                        playerAnimator.SetBool("Walking", true);
+                    }
+                    else
+                    {
+                        Walking = false;
+                        playerAnimator.SetBool("Walking", false);
+                    }
                     return velocity;
 
                 }
                 else
                 {
+                    Walking = false;
+                    playerAnimator.SetBool("Walking", false);
                     return Vector3.zero;
                 }
             }
