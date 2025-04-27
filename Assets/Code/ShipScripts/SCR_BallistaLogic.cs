@@ -123,6 +123,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
         ballistaBolt.SetActive(false);
         BallistaUnLoadServerRPC();
         RaycastHit[] hits = Physics.RaycastAll(ballistaFirePoint.transform.position, occupant.transform.forward, BallistaRange);
+        Debug.Log("Hits length is: " + hits.Length);
         {
             foreach(var hit in hits)
             {
