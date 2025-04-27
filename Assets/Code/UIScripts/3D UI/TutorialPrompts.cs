@@ -28,6 +28,12 @@ public class TutorialPrompts : NetworkBehaviour
             interact = GameObject.Find("Player_1").GetComponent<SCR_NewInteract>();
         }
 
+        if(interact.interacting)
+        {
+            Debug.Log("Hiding Prompt");
+            gameObject.GetComponentInChildren<Canvas>().enabled = false;
+        }
+
         if (gameObject.tag == "EnginePrompt" && playerIsInRange)
         {
             foreach(var player in GameObject.FindGameObjectsWithTag("Player"))
@@ -38,7 +44,7 @@ public class TutorialPrompts : NetworkBehaviour
                 }
                 else
                 {
-                    Debug.Log("Player does not have engine food, do not show prompt");
+                    Debug.Log("No Showy showy");
                 }
             }
         }
@@ -57,20 +63,20 @@ public class TutorialPrompts : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(gameObject.tag == "EnginePrompt" && other.gameObject.tag == "Player" && other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled && interact.objectBeingHeld == "Engine Food")
+        if (gameObject.tag == "EnginePrompt" && other.gameObject.tag == "Player" && other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled && interact.objectBeingHeld == "Engine Food")
         {
             gameObject.GetComponentInChildren<Canvas>().enabled = true;
             playerIsInRange = true;
         }
 
-        if(other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled)
+        if (other.gameObject.tag == "Player" && other.gameObject.GetComponentInChildren<Camera>().enabled)
         {
-            if(gameObject.tag == "EnginePrompt" && interact.objectBeingHeld == "Engine Food")
+            if (gameObject.tag == "EnginePrompt" && interact.objectBeingHeld == "Engine Food")
             {
                 gameObject.GetComponentInChildren<Canvas>().enabled = true;
                 playerIsInRange = true;
             }
-            else if(gameObject.tag == "EnginePrompt" && interact.objectBeingHeld != "Engine Food")
+            else if (gameObject.tag == "EnginePrompt" && interact.objectBeingHeld != "Engine Food")
             {
                 return;
             }
