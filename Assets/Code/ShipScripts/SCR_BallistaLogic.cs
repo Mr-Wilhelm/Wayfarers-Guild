@@ -107,13 +107,46 @@ public class SCR_BallistaLogic : NetworkBehaviour
     private void RemoveBoltFromPlayerServerRPC()
     {
         GameObject playerOnBallista = FindNetworkObject(currentPlayerOnBallistaID);
+        Debug.Log($"Remove ballista bolt from player: {playerOnBallista.gameObject.name}");
+
         SCR_NewInteract interactScriptRef = playerOnBallista.GetComponent<SCR_NewInteract>();
-        FindNetworkObject(currentPlayerOnBallistaID).GetComponent<GravitasFirstPersonPlayerSubject>().hasItem = false;
+        playerOnBallista.GetComponent<GravitasFirstPersonPlayerSubject>().hasItem = false;
         interactScriptRef.objectBeingHeld = "";
         interactScriptRef.craigHoldItemMesh.SetActive(false);
         interactScriptRef.craigBodyMesh.SetActive(true);
         interactScriptRef.craigClothesMesh.SetActive(true);
         interactScriptRef.ballistaBoltMesh.SetActive(false);
+
+        RemoveBoltFromPlayerClientRPC(new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { currentPlayerOnBallistaID }
+            }
+        });
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void RemoveBoltFromPlayerClientRPC(ClientRpcParams clientRpcParams = default)
+    {
+        GameObject player = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().gameObject;
+        if (player != null)
+        {
+            SCR_NewInteract interactScriptRef = player.GetComponent<SCR_NewInteract>();
+            if (interactScriptRef != null)
+            {
+                interactScriptRef.objectBeingHeld = "";
+                interactScriptRef.craigHoldItemMesh.SetActive(false);
+                interactScriptRef.craigBodyMesh.SetActive(true);
+                interactScriptRef.craigClothesMesh.SetActive(true);
+                interactScriptRef.ballistaBoltMesh.SetActive(false);
+            }
+            GravitasFirstPersonPlayerSubject playerSubject = player.GetComponent<GravitasFirstPersonPlayerSubject>();
+            if (playerSubject != null)
+            {
+                playerSubject.hasItem = false;
+            }
+        }
     }
 
     private void FireBallista()
@@ -143,10 +176,11 @@ public class SCR_BallistaLogic : NetworkBehaviour
 
     private GameObject FindNetworkObject(ulong idOfNetworkObj)
     {
-        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(idOfNetworkObj, out NetworkObject networkOBJ));
+        if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(idOfNetworkObj, out NetworkObject networkOBJ))
         {
             return networkOBJ.gameObject.transform.root.gameObject;
         }
+        return null;
     }
 
     [ServerRpc(RequireOwnership = false)]
