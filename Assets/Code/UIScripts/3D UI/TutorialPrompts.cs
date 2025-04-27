@@ -36,9 +36,15 @@ public class TutorialPrompts : NetworkBehaviour
                 {
                     gameObject.GetComponentInChildren<Canvas>().transform.LookAt(player.GetComponentInChildren<Camera>().transform.position);
                 }
+                else if (interact.interacting)
+                {
+                    Debug.Log("Dont show prompt");
+                    gameObject.GetComponentInChildren<Canvas>().enabled = false;
+                }
                 else
                 {
-                    Debug.Log("Player does not have engine food, do not show prompt");
+                    Debug.Log("Dont show prompt");
+                    gameObject.GetComponentInChildren<Canvas>().enabled = false;
                 }
             }
         }
