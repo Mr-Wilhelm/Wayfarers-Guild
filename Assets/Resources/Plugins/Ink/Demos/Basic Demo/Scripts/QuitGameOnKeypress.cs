@@ -5,6 +5,6 @@ public class QuitGameOnKeypress : MonoBehaviour {
 	public KeyCode key = KeyCode.Escape;
 	
 	void Update () {
-		if(Input.GetKeyDown(key)) Application.Quit();
+		if (Input.GetKeyDown(key)) Debug.Log("Dont Quit"); //Application.Quit();
 	}
 }
