@@ -458,6 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af6c5d591a7cd44b86a85d71a0476ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interacting: 0
   interactionRange: 20
   canInteract:
     m_InternalValue: 1
@@ -592,7 +593,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000000
   field of view: 60
   orthographic: 0
