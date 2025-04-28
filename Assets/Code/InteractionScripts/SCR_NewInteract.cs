@@ -61,7 +61,6 @@ public class SCR_NewInteract : NetworkBehaviour
 
     }
 
-
     // Update is called once per frame
     void Update()
     {
@@ -69,6 +68,51 @@ public class SCR_NewInteract : NetworkBehaviour
 
         gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
 
+        Ray lookAtRay = new Ray(playerCam.transform.position, playerCam.transform.forward);
+
+
+        if (Physics.Raycast(lookAtRay, out RaycastHit lookInfo, interactionRange, PickUp))
+        {
+            string lookAtTag = lookInfo.collider.gameObject.tag;
+            Debug.Log("Ray is colliding with: " + lookAtTag);
+
+            gameUI.lookingAtWheel = false;
+            gameUI.lookingAtHatch = false;
+            gameUI.lookingAtBallistaStorage = false;
+            gameUI.lookingAtEngine = false;
+            gameUI.lookingAtFuelStorage = false;
+            gameUI.lookingAtDroppedBallista = false;
+            gameUI.lookingAtDroppedFuel = false;
+            gameUI.lookingAtCompendium = false;
+
+            switch (lookAtTag)
+            {
+                case ("Wheel"):
+                    gameUI.lookingAtWheel = true;
+                    break;
+                case ("BallistaHatch"):
+                    gameUI.lookingAtHatch = true;
+                    break;
+                case ("Ballista Storage"):
+                    gameUI.lookingAtBallistaStorage = true;
+                    break;
+                case ("Engine"):
+                    gameUI.lookingAtEngine = true;
+                    break;
+                case ("Fuel Storage"):
+                    gameUI.lookingAtFuelStorage = true;
+                    break;
+                case ("Ballista Bolt"):
+                    gameUI.lookingAtDroppedBallista = true;
+                    break;
+                case ("Engine Fuel"):
+                    gameUI.lookingAtDroppedFuel = true;
+                    break;
+                case ("Compendium"):
+                    gameUI.lookingAtCompendium = true;
+                    break;
+            }
+        }
 
         if (Input.GetKeyDown(InteractKey))
         {

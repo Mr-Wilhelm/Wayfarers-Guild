@@ -55,6 +55,20 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc, craneLeftPageText;
 
+    //Tutorial UI Objects
+    [SerializeField]
+    private bool playerIsInRange;
+
+    public bool
+        lookingAtWheel,
+        lookingAtCompendium,
+        lookingAtBallistaStorage,
+        lookingAtFuelStorage,
+        lookingAtDroppedBallista,
+        lookingAtDroppedFuel,
+        lookingAtHatch,
+        lookingAtEngine;
+
 
 
     //Start is called before the first frame update
