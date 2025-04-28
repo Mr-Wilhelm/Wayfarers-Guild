@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class SCR_NewInteract : NetworkBehaviour
 {
-
     public bool interacting = false;
 
     [SerializeField] private float interactionRange;

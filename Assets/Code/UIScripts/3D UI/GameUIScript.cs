@@ -55,9 +55,12 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc, craneLeftPageText;
 
+    [SerializeField]
+    private GameObject interactPrompt;
+
     //Tutorial UI Objects
     [SerializeField]
-    private bool playerIsInRange;
+    public bool playerIsInRange;
 
     public bool
         lookingAtWheel,
@@ -68,8 +71,6 @@ public class GameUIScript : NetworkBehaviour
         lookingAtDroppedFuel,
         lookingAtHatch,
         lookingAtEngine;
-
-
 
     //Start is called before the first frame update
     void Start()
@@ -136,6 +137,9 @@ public class GameUIScript : NetworkBehaviour
 
         compendium.SetActive(false);
 
+        interactPrompt = GameObject.Find("InteractPrompt");
+        interactPrompt.SetActive(false);
+
         if (IsOwner)
         {
             activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
@@ -181,6 +185,22 @@ public class GameUIScript : NetworkBehaviour
         else if(Input.GetKeyDown(KeyCode.F) && !showCompendium)
         {
             StartCoroutine(HideCompendium());
+        }
+
+        if (playerIsInRange)
+        {
+            if(lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium || lookingAtBallistaStorage)
+            {
+                interactPrompt.SetActive(true);
+            }
+            else
+            {
+                interactPrompt.SetActive(false);
+            }
+        }
+        else if(!playerIsInRange)
+        {
+            interactPrompt.SetActive(false);
         }
     }
     private IEnumerator ShowCompendium()    //shows the compendium
