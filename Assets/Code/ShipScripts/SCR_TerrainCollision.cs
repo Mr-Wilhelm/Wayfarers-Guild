@@ -20,6 +20,9 @@ public class SCR_TerrainCollision : MonoBehaviour
     private Vector3 collisionNormal;
     private Vector3 collisionPosition;
 
+    //the velocity of the ship before the impact
+    private Vector3 preImpactVelocity;
+
     //private void OnTriggerEnter(Collider collision)
     //{
     //    //Checks if collision was with ship
@@ -57,6 +60,8 @@ public class SCR_TerrainCollision : MonoBehaviour
         //If the ship still in invicible stage then return
         if (shipRecentlyHitTerrain) { return; }
 
+        preImpactVelocity = collision.relativeVelocity.normalized;
+        //Debug.Log(preImpactVelocity);
 
 
         shipRB = collision.gameObject.GetComponent<GravitasBody>();
@@ -64,7 +69,7 @@ public class SCR_TerrainCollision : MonoBehaviour
         //Gets the collision normal and position
         ContactPoint contactPoint = collision.contacts[0];
         Vector3 collisionPoint = contactPoint.point;
-        collisionNormal = contactPoint.normal;
+        collisionNormal = contactPoint.normal.normalized;
         collisionPosition = contactPoint.point;
 
         //reverts the normal if the terrain normals are inverted
@@ -95,22 +100,25 @@ public class SCR_TerrainCollision : MonoBehaviour
     {
         Debug.Log("Bounce triggered");
         //store the ships velocity before the collision
-        Vector3 beforeImpactVelocity = shipRB.Velocity;
         
         //gets the distance from the collision to the point of the ship (to be used as a direction for the reflection since normal can be a bit funky) this will be normalised and used as a direction
         Vector3 distance = shipRB.gameObject.transform.position - colPos;
 
         //calculates the angle of collision to make sure the ship is not pushed into the terrain
-        float collisionDotProduct = Vector3.Dot(beforeImpactVelocity.normalized, colNormal.normalized);
+        float collisionDotProduct = Vector3.Dot(preImpactVelocity.normalized, colNormal.normalized);
         Debug.Log("ColliderNormal: " + collisionNormal.normalized);
-        Debug.Log("Before Impact Velocity: " + beforeImpactVelocity.normalized);
+        Debug.Log("Before Impact Velocity: " + preImpactVelocity.normalized);
         Debug.Log($"{collisionDotProduct}");
         if (collisionDotProduct < 0)
         {
-            shipRB.AddForce(colNormal.normalized * bounceForce *10, ForceMode.Impulse);
-            Debug.Log("Normal Collision angle");
+            //shipRB.AddForce(colNormal.normalized * bounceForce *10, ForceMode.Impulse);
+            //Debug.Log("Normal Collision angle");
             Debug.DrawLine(colPos, colPos + (colNormal * 10), Color.red,50f);
             Debug.DrawLine(colPos +  (colNormal * 10), colPos + (colNormal * 10)+ Vector3.up,Color.red, 50f);
+            
+            Vector3 reflectionDir = Vector3.Reflect(preImpactVelocity.normalized, colNormal.normalized);
+            Debug.Log("Reflection dir: " + reflectionDir);
+            shipRB.AddForce(reflectionDir * bounceForce*100, ForceMode.Impulse);
         }
 
         // if the the reflection is calculated at a weird angle it will use the direction of the ship distance
