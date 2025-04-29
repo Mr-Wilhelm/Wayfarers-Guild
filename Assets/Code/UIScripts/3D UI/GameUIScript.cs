@@ -211,12 +211,17 @@ public class GameUIScript : NetworkBehaviour
             StartCoroutine(HideCompendium());
         }
 
+        if (showCompendium)
+            interactPrompt.SetActive(false);
+        else if (!showCompendium)
+            interactPrompt.SetActive(true);
+
         //checks player range, if they're interacting, and if they're in the engine
         if(!isInEnginePrompt)
         {
             if (playerIsInRange && !isInteracting)
             {
-                if (lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium || lookingAtBallistaStorage)
+                if (lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium && !showCompendium || lookingAtBallistaStorage)
                 {
                     interactPrompt.SetActive(true);
                 }

@@ -253,7 +253,6 @@ public class SCR_NewInteract : NetworkBehaviour
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
 
                         OpenBookGoBetweenServerRPC();
-                        interacting = true;
                     }
                     else
                     {
@@ -270,11 +269,6 @@ public class SCR_NewInteract : NetworkBehaviour
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
-
-                if(gameUI.showCompendium == true)
-                {
-                    CloseBookGoBetweenServerRPC();
-                }
             }
         }
         if (Input.GetKeyDown(DropKey))
