@@ -62,6 +62,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     public bool playerIsInRange;
 
+    [SerializeField]
+    public bool isInEnginePrompt;
+
     public bool
         lookingAtWheel,
         lookingAtCompendium,
@@ -200,20 +203,36 @@ public class GameUIScript : NetworkBehaviour
             StartCoroutine(HideCompendium());
         }
 
-        if (playerIsInRange && !isInteracting)
+        //checks player range, if they're interacting, and if they're in the engine
+        if(!isInEnginePrompt)
         {
-            if(lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium || lookingAtBallistaStorage)
+            if (playerIsInRange && !isInteracting)
             {
-                interactPrompt.SetActive(true);
+                if (lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium || lookingAtBallistaStorage)
+                {
+                    interactPrompt.SetActive(true);
+                }
+                else
+                {
+                    interactPrompt.SetActive(false);
+                }
             }
-            else
+            else if (!playerIsInRange || isInteracting)
             {
                 interactPrompt.SetActive(false);
             }
         }
-        else if(!playerIsInRange || isInteracting)
+        else if(isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
         {
-            interactPrompt.SetActive(false);
+            Debug.Log("Show the prompt maybe?");
+            if(playerIsInRange && lookingAtEngine)
+            {
+                interactPrompt.SetActive(true);
+            }
+            else if(!playerIsInRange || !lookingAtEngine)
+            {
+                interactPrompt.SetActive(false);
+            }
         }
     }
     private IEnumerator ShowCompendium()    //shows the compendium
