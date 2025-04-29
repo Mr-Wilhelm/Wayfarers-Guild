@@ -272,6 +272,7 @@ public class GameUIScript : NetworkBehaviour
         compendium.SetActive(false);
         yield return new WaitForSeconds(1.0f);
         gameAnimator.SetBool("compendiumAnimDone", false);
+
     }
 
     //compendium buttons and appearance stuff
