@@ -149,10 +149,15 @@ public class GameUIScript : NetworkBehaviour
         interactPrompt = GameObject.Find("InteractPrompt");
         interactPrompt.SetActive(false);
 
+        controlsPrompt = GameObject.Find("Controls Prompts");
+
         if (IsOwner)
         {
             activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
         }
+
+        //UI Prompt Function Calling
+        StartCoroutine(ShowMovementControls());
     }
 
     private void Update()
@@ -325,5 +330,13 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+    }
+
+    //prompt functions
+    private IEnumerator ShowMovementControls()
+    {
+        controlsPrompt.SetActive(true);
+        yield return new WaitForSeconds(5);
+        controlsPrompt.SetActive(false);
     }
 }
