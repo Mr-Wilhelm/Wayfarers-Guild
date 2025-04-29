@@ -175,7 +175,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
                     playerScriptReference.playerOnWheel = true;
-                    gameUI.ShowWheelControls();
+                    StartCoroutine(gameUI.ShowWheelControls());
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Ballista Storage"))

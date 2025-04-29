@@ -355,9 +355,12 @@ public class GameUIScript : NetworkBehaviour
     {
         controlsPrompt.SetActive(false);
     }
-    public void ShowWheelControls()
+
+    public IEnumerator ShowWheelControls()
     {
         wheelPrompt.SetActive(true);
+        yield return new WaitForSeconds(5);
+        HideWheelControls();
     }
     public void HideWheelControls()
     {
