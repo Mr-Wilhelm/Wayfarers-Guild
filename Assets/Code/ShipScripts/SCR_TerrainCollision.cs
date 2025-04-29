@@ -1,6 +1,7 @@
 using Gravitas;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
@@ -90,6 +91,21 @@ public class SCR_TerrainCollision : MonoBehaviour
             //calculate the reflection angle and adds force
             Vector3 reflectionDir = Vector3.Reflect(preImpactVelocity.normalized, colNormal.normalized);
             shipRB.AddForce(reflectionDir * bounceForce * preImpactVelocity.magnitude, ForceMode.Impulse);
+
+            TakeShipDamage();
+
+            //TODO make the ship change angle based on how it collided
+
+            ///quaternion CurrentRot = shipRB.transform.rotation;
+            ///Debug.Log(CurrentRot);
+            ///quaternion TargetRot = quaternion.Euler(reflectionDir);
+            ///Debug.Log(TargetRot);
+            ///
+            ///Debug.Log("Lerping");
+            ///Quaternion.Slerp(CurrentRot, TargetRot, 0.2f);
+
+
+
         }
 
 
