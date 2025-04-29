@@ -1,6 +1,7 @@
 using Gravitas;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SCR_TerrainCollision : MonoBehaviour
@@ -9,7 +10,7 @@ public class SCR_TerrainCollision : MonoBehaviour
     [SerializeField] private float bounceForce = 10f;
     [SerializeField] private GravitasBody shipRB;
     [SerializeField] private float invincibilityPeriod = 1.0f; // Time in seconds that the ship is invincible after hitting terrain
-    [SerializeField] bool terrainNormalsInverted = true; // If true, the terrain is considered to have inverted normals
+    [SerializeField] bool terrainNormalsInverted = false; // If true, the terrain is considered to have inverted normals
 
     // Variables to store whether the ship has recently hit terrain
     private bool shipRecentlyHitTerrain;
@@ -19,6 +20,34 @@ public class SCR_TerrainCollision : MonoBehaviour
     private Vector3 collisionNormal;
     private Vector3 collisionPosition;
 
+    //private void OnTriggerEnter(Collider collision)
+    //{
+    //    //Checks if collision was with ship
+    //    if (!collision.gameObject.CompareTag("Ship")) { return; }
+    //    shipInCollider = true;
+    //
+    //    //If the ship still in invicible stage then return
+    //    if (shipRecentlyHitTerrain) { return; }
+    //
+    //
+    //
+    //    shipRB = collision.gameObject.GetComponent<GravitasBody>();
+    //
+    //    //Gets the collision normal and positon
+    //    collisionNormal = contactPoint.normal; HOW DO I GET THIS???
+    //    collisionPosition = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+    //
+    //    //reverts the normal if the terrain normals are inverted
+    //    if (terrainNormalsInverted) { collisionNormal *= -1; }
+    //    //Debug.Log("Hit recently set to : " + shipRecentlyHitTerrain);
+    //
+    //    //triggers the bounce or reflection from the collision
+    //    Bounce(collisionNormal, collisionPosition);
+    //    shipRecentlyHitTerrain = true;
+    //    //Debug.Log("Hit recently set to : " + shipRecentlyHitTerrain);
+    //    //Invoke("ResetShipHitTerrainRecently", invincibilityPeriod);
+    //    StartCoroutine(ResetInvunerability(invincibilityPeriod));
+    //}
     private void OnCollisionEnter(Collision collision)
     {
         // Checks if collision was with ship
@@ -40,11 +69,14 @@ public class SCR_TerrainCollision : MonoBehaviour
 
         //reverts the normal if the terrain normals are inverted
         if (terrainNormalsInverted) { collisionNormal *= -1; }
-        
+        //Debug.Log("Hit recently set to : " + shipRecentlyHitTerrain);
+
         //triggers the bounce or reflection from the collision
-        Bounce(collisionNormal,collisionPosition);
+        Bounce(collisionNormal, collisionPosition);
         shipRecentlyHitTerrain = true;
-        Invoke("ResetShipHitTerrainRecently", invincibilityPeriod);
+        //Debug.Log("Hit recently set to : " + shipRecentlyHitTerrain);
+        //Invoke("ResetShipHitTerrainRecently", invincibilityPeriod);
+        StartCoroutine(ResetInvunerability(invincibilityPeriod));
     }
 
     private void OnCollisionExit(Collision collision)
@@ -61,6 +93,7 @@ public class SCR_TerrainCollision : MonoBehaviour
     /// <param name="colPos">the position of the collision</param>
     private void Bounce(Vector3 colNormal, Vector3 colPos)
     {
+        Debug.Log("Bounce triggered");
         //store the ships velocity before the collision
         Vector3 beforeImpactVelocity = shipRB.Velocity;
         
@@ -68,21 +101,28 @@ public class SCR_TerrainCollision : MonoBehaviour
         Vector3 distance = shipRB.gameObject.transform.position - colPos;
 
         //calculates the angle of collision to make sure the ship is not pushed into the terrain
-        float collisionDotProduct = Vector3.Dot(beforeImpactVelocity, colNormal);
-        if (collisionDotProduct > -0)
+        float collisionDotProduct = Vector3.Dot(beforeImpactVelocity.normalized, colNormal.normalized);
+        Debug.Log("ColliderNormal: " + collisionNormal.normalized);
+        Debug.Log("Before Impact Velocity: " + beforeImpactVelocity.normalized);
+        Debug.Log($"{collisionDotProduct}");
+        if (collisionDotProduct < 0)
         {
-            shipRB.AddForce(colNormal.normalized * bounceForce* 10, ForceMode.Impulse);
+            shipRB.AddForce(colNormal.normalized * bounceForce *10, ForceMode.Impulse);
+            Debug.Log("Normal Collision angle");
+            Debug.DrawLine(colPos, colPos + (colNormal * 10), Color.red,50f);
+            Debug.DrawLine(colPos +  (colNormal * 10), colPos + (colNormal * 10)+ Vector3.up,Color.red, 50f);
         }
 
         // if the the reflection is calculated at a weird angle it will use the direction of the ship distance
         else
         {
-
-            if(beforeImpactVelocity.magnitude < 10) { beforeImpactVelocity = beforeImpactVelocity.normalized * 10; }
-            Vector3 inputDirAndRef = distance.normalized * beforeImpactVelocity.magnitude;
-            Vector3 reflection = Vector3.Reflect(inputDirAndRef*-1, colNormal);
-
-            shipRB.AddForce((reflection * bounceForce), ForceMode.Impulse);
+            Debug.Log("Non normal angle do nothing");
+            //if(beforeImpactVelocity.magnitude < 10) { beforeImpactVelocity = beforeImpactVelocity.normalized * 10; }
+            //Vector3 inputDirAndRef = distance.normalized * beforeImpactVelocity.magnitude;
+            //Vector3 reflection = Vector3.Reflect(inputDirAndRef*-1, colNormal);
+            //
+            //shipRB.AddForce((reflection.normalized * bounceForce), ForceMode.Impulse);
+           
 
         }
     }
@@ -91,15 +131,30 @@ public class SCR_TerrainCollision : MonoBehaviour
     /// <summary>
     /// Resets the ship's recently hit terrain status and checks whether its currently colliding with terrain.
     /// </summary>
-    private void ResetShipHitTerrainRecently()
+    //private void ResetShipHitTerrainRecently()
+    //{
+    //    shipRecentlyHitTerrain = false;
+    //
+    //    if (shipInCollider)
+    //    {
+    //        if (terrainNormalsInverted) { collisionNormal *= -1; }
+    //        Bounce(collisionNormal, collisionPosition);
+    //    }
+    //}
+
+    IEnumerator ResetInvunerability(float Time)
     {
-        shipRecentlyHitTerrain = false;
+        //Debug.Log("Invulerablity on;");
+        yield return new WaitForSeconds(Time);
+        //Debug.Log("Invulnerability turned off");
+        shipRecentlyHitTerrain = false ;
 
         if (shipInCollider)
         {
             if (terrainNormalsInverted) { collisionNormal *= -1; }
             Bounce(collisionNormal, collisionPosition);
         }
+
     }
 
 }
