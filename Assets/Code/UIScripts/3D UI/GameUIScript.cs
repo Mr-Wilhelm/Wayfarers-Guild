@@ -61,6 +61,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private GameObject controlsPrompt;
 
+    [SerializeField]
+    private GameObject wheelPrompt;
+
     //Tutorial UI Objects
     [SerializeField]
     public bool playerIsInRange;
@@ -150,6 +153,9 @@ public class GameUIScript : NetworkBehaviour
         interactPrompt.SetActive(false);
 
         controlsPrompt = GameObject.Find("Controls Prompts");
+
+        wheelPrompt = GameObject.Find("Wheel Prompts");
+        wheelPrompt.SetActive(false);
 
         if (IsOwner)
         {
@@ -343,6 +349,18 @@ public class GameUIScript : NetworkBehaviour
     {
         controlsPrompt.SetActive(true);
         yield return new WaitForSeconds(5);
+        HideMovementControls();
+    }
+    private void HideMovementControls()
+    {
         controlsPrompt.SetActive(false);
+    }
+    public void ShowWheelControls()
+    {
+        wheelPrompt.SetActive(true);
+    }
+    public void HideWheelControls()
+    {
+        wheelPrompt.SetActive(false);
     }
 }
