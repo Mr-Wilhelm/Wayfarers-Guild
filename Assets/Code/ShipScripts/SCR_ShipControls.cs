@@ -85,8 +85,8 @@ public class SCR_ShipControls : NetworkBehaviour
             wheelAnimator.SetBool("TurningRight", false);
             wheelAnimator.SetBool("NotTurning", true);
         }
-        //Roll Right
-        if (Input.GetKey(KeyCode.E) && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit))
+        //Roll Right -  && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit)
+        if (Input.GetKey(KeyCode.E))
         {
 
             if (ship.transform.rotation.eulerAngles.x < 180)
@@ -103,8 +103,8 @@ public class SCR_ShipControls : NetworkBehaviour
             CancelInvoke(nameof(startAutoLevelRoll));
             Invoke(nameof(startAutoLevelRoll), 0.5f);
         }
-        //Roll Left
-        if (Input.GetKey(KeyCode.Q) && !(ship.transform.rotation.eulerAngles.x < 180 && ship.transform.rotation.eulerAngles.x > shipMovement.autoCorrectLimit))
+        //Roll Left -  && !(ship.transform.rotation.eulerAngles.x < 180 && ship.transform.rotation.eulerAngles.x > shipMovement.autoCorrectLimit)
+        if (Input.GetKey(KeyCode.Q))
         {
             if (ship.transform.rotation.eulerAngles.x > 180)
             {
@@ -119,8 +119,8 @@ public class SCR_ShipControls : NetworkBehaviour
             CancelInvoke(nameof(startAutoLevelRoll));
             Invoke(nameof(startAutoLevelRoll), 0.5f);
         }
-        //Pitch up
-        if (Input.GetKey(KeyCode.S) && !(ship.transform.rotation.eulerAngles.z < 180 && ship.transform.rotation.eulerAngles.z > shipMovement.autoCorrectLimit))
+        //Pitch up -  && !(ship.transform.rotation.eulerAngles.z < 180 && ship.transform.rotation.eulerAngles.z > shipMovement.autoCorrectLimit)
+        if (Input.GetKey(KeyCode.S))
         {
             if (ship.transform.rotation.eulerAngles.z > 180)
             {
@@ -135,8 +135,8 @@ public class SCR_ShipControls : NetworkBehaviour
             CancelInvoke(nameof(startAutoLevelPitch));
             Invoke(nameof(startAutoLevelPitch), 0.5f);
         }
-        //Pitch Down
-        if (Input.GetKey(KeyCode.W) && !(ship.transform.rotation.eulerAngles.z > 180 && ship.transform.rotation.eulerAngles.z < 360 - shipMovement.autoCorrectLimit))
+        //Pitch Down -  && !(ship.transform.rotation.eulerAngles.z > 180 && ship.transform.rotation.eulerAngles.z < 360 - shipMovement.autoCorrectLimit)
+        if (Input.GetKey(KeyCode.W))
         {
             if (ship.transform.rotation.eulerAngles.z < 180)
             {

@@ -76,11 +76,11 @@ public class SCR_ShipMovement : NetworkBehaviour
 
         if (autoLevelRollActive)
         {
-            AutoLevelRoll();
+            //AutoLevelRoll();
         }
         if (autoLevelPitchActive)
         {
-            AutoLevelPitch();
+            //AutoLevelPitch();
         }
 
     }
