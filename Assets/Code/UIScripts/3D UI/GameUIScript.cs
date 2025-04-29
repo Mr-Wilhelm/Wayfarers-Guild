@@ -72,6 +72,9 @@ public class GameUIScript : NetworkBehaviour
         lookingAtHatch,
         lookingAtEngine;
 
+    [SerializeField]
+    private bool isInteracting;
+
     //Start is called before the first frame update
     void Start()
     {
@@ -148,6 +151,16 @@ public class GameUIScript : NetworkBehaviour
 
     private void Update()
     {
+        //check to see if the player is interacting
+        if(activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        {
+            isInteracting = true;
+        }
+        else
+        {
+            isInteracting = false;
+        }
+
         //assigning which player is looking at stuff
         if (activePlayer == null)
         {
@@ -187,7 +200,7 @@ public class GameUIScript : NetworkBehaviour
             StartCoroutine(HideCompendium());
         }
 
-        if (playerIsInRange)
+        if (playerIsInRange && !isInteracting)
         {
             if(lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium || lookingAtBallistaStorage)
             {
@@ -198,7 +211,7 @@ public class GameUIScript : NetworkBehaviour
                 interactPrompt.SetActive(false);
             }
         }
-        else if(!playerIsInRange)
+        else if(!playerIsInRange || isInteracting)
         {
             interactPrompt.SetActive(false);
         }

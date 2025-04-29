@@ -73,7 +73,6 @@ public class SCR_NewInteract : NetworkBehaviour
         if (Physics.Raycast(lookAtRay, out RaycastHit lookInfo, interactionRange, PickUp))
         {
             string lookAtTag = lookInfo.collider.gameObject.tag;
-            Debug.Log("Ray is colliding with: " + lookAtTag);
 
             gameUI.lookingAtWheel = false;
             gameUI.lookingAtHatch = false;
