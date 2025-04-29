@@ -58,6 +58,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private GameObject interactPrompt;
 
+    [SerializeField]
+    private GameObject controlsPrompt;
+
     //Tutorial UI Objects
     [SerializeField]
     public bool playerIsInRange;
