@@ -161,7 +161,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     }
                 }
                 gameUI.HideBallistaControls();
-
+                gameUI.HideControlsPrompt();
 
             }
             else if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
@@ -172,6 +172,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+                    gameUI.HideControlsPrompt();
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract && !playerScriptReference.hasItem)
                 {
@@ -187,6 +188,13 @@ public class SCR_NewInteract : NetworkBehaviour
                     if (!hasUsedWheelBefore)
                     {
                         StartCoroutine(gameUI.ShowWheelControls());
+                        gameUI.HideBallistaControls();
+                        gameUI.HideAmmoPrompt();
+                        gameUI.HideFuelPrompt();
+                    }
+                    else if(hasUsedWheelBefore)
+                    {
+                        gameUI.ShowControlsPrompt();
                         gameUI.HideBallistaControls();
                         gameUI.HideAmmoPrompt();
                         gameUI.HideFuelPrompt();
@@ -246,6 +254,13 @@ public class SCR_NewInteract : NetworkBehaviour
                         if (!hasUsedBallistaBefore)
                         {
                             StartCoroutine(gameUI.ShowBallistaControls());
+                            gameUI.HideWheelControls();
+                            gameUI.HideAmmoPrompt();
+                            gameUI.HideFuelPrompt();
+                        }
+                        else if (hasUsedBallistaBefore)
+                        {
+                            gameUI.ShowControlsPrompt();
                             gameUI.HideWheelControls();
                             gameUI.HideAmmoPrompt();
                             gameUI.HideFuelPrompt();
@@ -341,6 +356,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+                gameUI.HideControlsPrompt();
             }
             else if(gameUI.showCompendium == true)
             {
