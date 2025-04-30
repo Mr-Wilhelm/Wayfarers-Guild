@@ -55,7 +55,8 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc, craneLeftPageText;
 
-
+    [SerializeField]
+    private Image patriciaRightImage, hubertoRightImage, craneRightImage;
 
     //Tutorial UI Objects
     [SerializeField]
@@ -146,6 +147,10 @@ public class GameUIScript : NetworkBehaviour
         craneInfoStats = GameObject.Find("CraneStats").GetComponent<TextMeshProUGUI>();
         craneInfoDesc = GameObject.Find("CraneText").GetComponent<TextMeshProUGUI>();
 
+        patriciaRightImage = GameObject.Find("PatriciaRight").GetComponent<Image>();
+        hubertoRightImage = GameObject.Find("HubertoRight").GetComponent<Image>();
+        //add crane image too
+
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
@@ -157,6 +162,9 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+
+        patriciaRightImage.enabled = false;
+        hubertoRightImage.enabled = false;
 
         compendium.SetActive(false);
 
@@ -312,24 +320,30 @@ public class GameUIScript : NetworkBehaviour
         patriciaInfoTitle.enabled = true;
         patriciaInfoStats.enabled = true;
         patriciaInfoDesc.enabled = true;
+        patriciaRightImage.enabled = true;
 
         hubertoInfoTitle.enabled = false;
         hubertoInfoStats.enabled = false;
         hubertoInfoDesc.enabled = false;
+        hubertoRightImage.enabled = false;
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+
+
     }
     public void ShowHubertoInfo()
     {
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
+        patriciaRightImage.enabled = false;
 
         hubertoInfoTitle.enabled = true;
         hubertoInfoStats.enabled = true;
         hubertoInfoDesc.enabled = true;
+        hubertoRightImage.enabled = true;
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
@@ -354,10 +368,12 @@ public class GameUIScript : NetworkBehaviour
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
+        patriciaRightImage.enabled = false;
 
         hubertoInfoTitle.enabled = false;
         hubertoInfoStats.enabled = false;
         hubertoInfoDesc.enabled = false;
+        hubertoRightImage.enabled = false;
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
