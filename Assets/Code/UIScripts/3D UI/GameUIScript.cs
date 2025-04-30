@@ -7,6 +7,7 @@ using Unity.Collections;
 using UnityEngine.InputSystem;
 using Gravitas.Demo;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameUIScript : NetworkBehaviour
 {
@@ -76,6 +77,9 @@ public class GameUIScript : NetworkBehaviour
 
     [SerializeField]
     private GameObject ballistaPrompts;
+
+    [SerializeField]
+    private GameObject stationControlsPrompt;
 
     [SerializeField]
     public bool playerIsInRange;
@@ -185,6 +189,9 @@ public class GameUIScript : NetworkBehaviour
         ballistaPrompts = GameObject.Find("BallistaPrompts");
         ballistaPrompts.SetActive(false);
 
+        stationControlsPrompt = GameObject.Find("StationControlsPrompt");
+        stationControlsPrompt.SetActive(false);
+
         if (IsOwner)
         {
             activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
@@ -217,18 +224,18 @@ public class GameUIScript : NetworkBehaviour
         {
             questPromptEnabled = !questPromptEnabled;
         }
-        if(Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             questPromptEnabled = !questPromptEnabled;
         }
 
-        if(questPromptEnabled)  //show elements of the quest prompt
+        if (questPromptEnabled)  //show elements of the quest prompt
         {
             questPromptText.gameObject.SetActive(false);
             questPromptHeadingText.gameObject.SetActive(true);
             questPromptTaskText.gameObject.SetActive(true);
         }
-        else if(!questPromptEnabled)    //hide elements of the quest prompt
+        else if (!questPromptEnabled)    //hide elements of the quest prompt
         {
             questPromptText.gameObject.SetActive(true);
             questPromptHeadingText.gameObject.SetActive(false);
@@ -236,11 +243,11 @@ public class GameUIScript : NetworkBehaviour
         }
 
         //compendium stuff
-        if(Input.GetKeyDown(KeyCode.F) && showCompendium)
+        if (Input.GetKeyDown(KeyCode.F) && showCompendium)
         {
             StartCoroutine(ShowCompendium());
         }
-        else if(Input.GetKeyDown(KeyCode.F) && !showCompendium)
+        else if (Input.GetKeyDown(KeyCode.F) && !showCompendium)
         {
             StartCoroutine(HideCompendium());
         }
@@ -251,7 +258,7 @@ public class GameUIScript : NetworkBehaviour
             interactPrompt.SetActive(true);
 
         //checks player range, if they're interacting, and if they're in the engine
-        if(!isInEnginePrompt)
+        if (!isInEnginePrompt)
         {
             if (playerIsInRange && !isInteracting)
             {
@@ -269,14 +276,14 @@ public class GameUIScript : NetworkBehaviour
                 interactPrompt.SetActive(false);
             }
         }
-        else if(isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
+        else if (isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
         {
             Debug.Log("Show the prompt maybe?");
-            if(playerIsInRange && lookingAtEngine)
+            if (playerIsInRange && lookingAtEngine)
             {
                 interactPrompt.SetActive(true);
             }
-            else if(!playerIsInRange || !lookingAtEngine)
+            else if (!playerIsInRange || !lookingAtEngine)
             {
                 interactPrompt.SetActive(false);
             }
@@ -284,7 +291,7 @@ public class GameUIScript : NetworkBehaviour
     }
     public IEnumerator ShowCompendium()    //shows the compendium
     {
-        if(!hasShownCompendium)
+        if (!hasShownCompendium)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -347,7 +354,7 @@ public class GameUIScript : NetworkBehaviour
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
-        craneInfoDesc.enabled = false;;
+        craneInfoDesc.enabled = false; ;
     }
     public void ShowCraneInfo()
     {
@@ -398,6 +405,7 @@ public class GameUIScript : NetworkBehaviour
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedWheelBefore = true;
         yield return new WaitForSeconds(10);
         HideWheelControls();
+        ShowControlsPrompt();
     }
     public void HideWheelControls()
     {
@@ -431,10 +439,19 @@ public class GameUIScript : NetworkBehaviour
         ballistaPrompts.SetActive(true);
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
         yield return new WaitForSeconds(10);
-        ballistaPrompts.SetActive(false);
+        HideBallistaControls();
+        ShowControlsPrompt();
     }
     public void HideBallistaControls()
     {
         ballistaPrompts.SetActive(false);
+    }
+    public void ShowControlsPrompt()
+    {
+        stationControlsPrompt.SetActive(true);
+    }
+    public void HideControlsPrompt()
+    {
+        stationControlsPrompt.SetActive(false);
     }
 }
