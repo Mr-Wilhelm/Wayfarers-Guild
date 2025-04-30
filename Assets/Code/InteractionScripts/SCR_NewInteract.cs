@@ -51,6 +51,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     public bool hasHadFuelBefore = false;
     public bool hasHadAmmoBefore = false;
+    public bool hasUsedWheelBefore;
     public bool hasUsedBallistaBefore = false;
 
     private void Start()
@@ -181,8 +182,11 @@ public class SCR_NewInteract : NetworkBehaviour
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
                     playerScriptReference.playerOnWheel = true;
-                    StartCoroutine(gameUI.ShowWheelControls());
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
+                    if(!hasUsedWheelBefore)
+                    {
+                        StartCoroutine(gameUI.ShowWheelControls());
+                    }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Ballista Storage"))
                 {

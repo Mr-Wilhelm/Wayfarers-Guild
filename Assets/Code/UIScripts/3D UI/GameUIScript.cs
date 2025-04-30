@@ -379,6 +379,7 @@ public class GameUIScript : NetworkBehaviour
     public IEnumerator ShowWheelControls()
     {
         wheelPrompt.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasUsedWheelBefore = true;
         yield return new WaitForSeconds(5);
         HideWheelControls();
     }
@@ -407,5 +408,6 @@ public class GameUIScript : NetworkBehaviour
         ballistaPrompts.SetActive(true);
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
         yield return new WaitForSeconds(5);
+        ballistaPrompts.SetActive(false);
     }    
 }
