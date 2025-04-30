@@ -64,6 +64,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private GameObject wheelPrompt;
 
+    [SerializeField]
+    private GameObject fuelPrompt;
+
     //Tutorial UI Objects
     [SerializeField]
     public bool playerIsInRange;
@@ -156,6 +159,9 @@ public class GameUIScript : NetworkBehaviour
 
         wheelPrompt = GameObject.Find("Wheel Prompts");
         wheelPrompt.SetActive(false);
+
+        fuelPrompt = GameObject.Find("FuelPickupText");
+        fuelPrompt.SetActive(false);
 
         if (IsOwner)
         {
@@ -365,5 +371,13 @@ public class GameUIScript : NetworkBehaviour
     public void HideWheelControls()
     {
         wheelPrompt.SetActive(false);
+    }
+
+    public IEnumerator ShowFuelPrompt()
+    {
+        fuelPrompt.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasHadFuelBefore = true;
+        yield return new WaitForSeconds(5);
+        fuelPrompt.SetActive(false);
     }
 }

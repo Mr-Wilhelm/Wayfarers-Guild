@@ -49,6 +49,8 @@ public class SCR_NewInteract : NetworkBehaviour
 
     private bool inBallista = false;
 
+    public bool hasHadFuelBefore = false;
+
     private void Start()
     {
         UpdateCanInteractBoolServerRpc(true);
@@ -230,6 +232,10 @@ public class SCR_NewInteract : NetworkBehaviour
                     {
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
+                        if(!hasHadFuelBefore)
+                        {
+                            StartCoroutine(gameUI.ShowFuelPrompt());
+                        }
                     }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Ballista Bolt"))
