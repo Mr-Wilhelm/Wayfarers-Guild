@@ -13,6 +13,8 @@ public class SCR_TerrainCollision : MonoBehaviour
     [SerializeField] private float invincibilityPeriod = 1.0f; // Time in seconds that the ship is invincible after hitting terrain
     [SerializeField] bool terrainNormalsInverted = false; // If true, the terrain is considered to have inverted normals
 
+    [SerializeField] float collisionDamage = 10f; // Damage taken by the ship on collision
+
     // Variables to store whether the ship has recently hit terrain
     private bool shipRecentlyHitTerrain;
     private bool shipInCollider;
@@ -132,6 +134,7 @@ public class SCR_TerrainCollision : MonoBehaviour
     public void TakeShipDamage()
     {
         //MAKE SHIP TAKE DAMAGE HERE OR
+        GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-collisionDamage);
     }
 
 }
