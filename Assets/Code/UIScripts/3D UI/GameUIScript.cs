@@ -67,6 +67,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private GameObject fuelPrompt;
 
+    [SerializeField]
+    private GameObject ammoPrompt;
+
     //Tutorial UI Objects
     [SerializeField]
     public bool playerIsInRange;
@@ -162,6 +165,9 @@ public class GameUIScript : NetworkBehaviour
 
         fuelPrompt = GameObject.Find("FuelPickupText");
         fuelPrompt.SetActive(false);
+
+        ammoPrompt = GameObject.Find("AmmoPickupText");
+        ammoPrompt.SetActive(false);
 
         if (IsOwner)
         {
@@ -379,5 +385,13 @@ public class GameUIScript : NetworkBehaviour
         activePlayer.GetComponent<SCR_NewInteract>().hasHadFuelBefore = true;
         yield return new WaitForSeconds(5);
         fuelPrompt.SetActive(false);
+    }
+
+    public IEnumerator ShowAmmoPrompt()
+    {
+        ammoPrompt.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasHadAmmoBefore = true;
+        yield return new WaitForSeconds(5);
+        ammoPrompt.SetActive(false);
     }
 }

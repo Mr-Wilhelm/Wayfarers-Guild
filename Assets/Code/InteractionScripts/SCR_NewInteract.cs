@@ -50,6 +50,7 @@ public class SCR_NewInteract : NetworkBehaviour
     private bool inBallista = false;
 
     public bool hasHadFuelBefore = false;
+    public bool hasHadAmmoBefore = false;
 
     private void Start()
     {
@@ -189,6 +190,10 @@ public class SCR_NewInteract : NetworkBehaviour
                         pickUpItem("Ballista Bolt", false, null);
                         Debug.Log(hitInfo.collider.gameObject.name);
                         playerScriptReference.hasItem = true;
+                        if(!hasHadAmmoBefore)
+                        {
+                            StartCoroutine(gameUI.ShowAmmoPrompt());
+                        }
                     }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Engine"))
