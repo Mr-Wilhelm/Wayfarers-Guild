@@ -192,7 +192,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         gameUI.HideAmmoPrompt();
                         gameUI.HideFuelPrompt();
                     }
-                    else if(hasUsedWheelBefore)
+                    else if (hasUsedWheelBefore)
                     {
                         gameUI.ShowControlsPrompt();
                         gameUI.HideBallistaControls();
@@ -358,12 +358,32 @@ public class SCR_NewInteract : NetworkBehaviour
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
                 gameUI.HideControlsPrompt();
             }
-            else if(gameUI.showCompendium == true)
+            else if (gameUI.showCompendium == true)
             {
                 CloseBookGoBetweenServerRPC();
                 StartCoroutine(gameUI.HideCompendium());
             }
         }
+        else if (Input.GetKeyDown(KeyCode.C) && interacting)
+        {
+            if(inBallista)
+            {
+                gameUI.ShowBallistaControls();
+            }
+            else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
+            {
+                gameUI.ShowWheelControls();
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.C) && interacting)
+        {
+            Debug.Log("RELEASE!");
+            gameUI.HideBallistaControls();
+            gameUI.HideWheelControls();
+            gameUI.ShowControlsPrompt();
+        }
+
+
         if (Input.GetKeyDown(DropKey))
         {
             if (playerScriptReference.hasItem == false || inBallista) { Debug.Log("Cannot drop"); }
