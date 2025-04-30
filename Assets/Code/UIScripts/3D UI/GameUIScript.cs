@@ -55,6 +55,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc, craneLeftPageText;
 
+
+
+    //Tutorial UI Objects
     [SerializeField]
     private GameObject interactPrompt;
 
@@ -70,7 +73,9 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private GameObject ammoPrompt;
 
-    //Tutorial UI Objects
+    [SerializeField]
+    private GameObject ballistaPrompts;
+
     [SerializeField]
     public bool playerIsInRange;
 
@@ -168,6 +173,9 @@ public class GameUIScript : NetworkBehaviour
 
         ammoPrompt = GameObject.Find("AmmoPickupText");
         ammoPrompt.SetActive(false);
+
+        ballistaPrompts = GameObject.Find("BallistaPrompts");
+        ballistaPrompts.SetActive(false);
 
         if (IsOwner)
         {
@@ -394,4 +402,10 @@ public class GameUIScript : NetworkBehaviour
         yield return new WaitForSeconds(5);
         ammoPrompt.SetActive(false);
     }
+    public IEnumerator ShowBallistaControls()
+    {
+        ballistaPrompts.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
+        yield return new WaitForSeconds(5);
+    }    
 }

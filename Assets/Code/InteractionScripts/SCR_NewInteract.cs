@@ -51,6 +51,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     public bool hasHadFuelBefore = false;
     public bool hasHadAmmoBefore = false;
+    public bool hasUsedBallistaBefore = false;
 
     private void Start()
     {
@@ -158,6 +159,8 @@ public class SCR_NewInteract : NetworkBehaviour
                         ballistaBoltMesh.SetActive(true);
                     }
                 }
+
+
             }
             else if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
             {
@@ -229,6 +232,10 @@ public class SCR_NewInteract : NetworkBehaviour
                         inBallista = true;
                         playerScriptReference.playerOnBallista = true;
                         interacting = true;
+                        if (!hasUsedBallistaBefore)
+                        {
+                            StartCoroutine(gameUI.ShowBallistaControls());
+                        }
                     }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Fuel Storage"))
