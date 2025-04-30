@@ -274,7 +274,7 @@ public class GameUIScript : NetworkBehaviour
             }
         }
     }
-    private IEnumerator ShowCompendium()    //shows the compendium
+    public IEnumerator ShowCompendium()    //shows the compendium
     {
         if(!hasShownCompendium)
         {
@@ -289,7 +289,7 @@ public class GameUIScript : NetworkBehaviour
             compendium.SetActive(true);
         }
     }
-    private IEnumerator HideCompendium()    //hides the compendium
+    public IEnumerator HideCompendium()    //hides the compendium
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -380,7 +380,7 @@ public class GameUIScript : NetworkBehaviour
     {
         wheelPrompt.SetActive(true);
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedWheelBefore = true;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         HideWheelControls();
     }
     public void HideWheelControls()
@@ -395,7 +395,10 @@ public class GameUIScript : NetworkBehaviour
         yield return new WaitForSeconds(5);
         fuelPrompt.SetActive(false);
     }
-
+    public void HideFuelPrompt()
+    {
+        fuelPrompt.SetActive(false);
+    }
     public IEnumerator ShowAmmoPrompt()
     {
         ammoPrompt.SetActive(true);
@@ -403,11 +406,19 @@ public class GameUIScript : NetworkBehaviour
         yield return new WaitForSeconds(5);
         ammoPrompt.SetActive(false);
     }
+    public void HideAmmoPrompt()
+    {
+        ammoPrompt.SetActive(false);
+    }
     public IEnumerator ShowBallistaControls()
     {
         ballistaPrompts.SetActive(true);
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         ballistaPrompts.SetActive(false);
-    }    
+    }
+    public void HideBallistaControls()
+    {
+        ballistaPrompts.SetActive(false);
+    }
 }

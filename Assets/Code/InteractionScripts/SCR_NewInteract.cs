@@ -160,6 +160,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         ballistaBoltMesh.SetActive(true);
                     }
                 }
+                gameUI.HideBallistaControls();
 
 
             }
@@ -183,9 +184,12 @@ public class SCR_NewInteract : NetworkBehaviour
                     UpdateCanInteractBoolServerRpc(false);
                     playerScriptReference.playerOnWheel = true;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
-                    if(!hasUsedWheelBefore)
+                    if (!hasUsedWheelBefore)
                     {
                         StartCoroutine(gameUI.ShowWheelControls());
+                        gameUI.HideBallistaControls();
+                        gameUI.HideAmmoPrompt();
+                        gameUI.HideFuelPrompt();
                     }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Ballista Storage"))
@@ -197,9 +201,12 @@ public class SCR_NewInteract : NetworkBehaviour
                         pickUpItem("Ballista Bolt", false, null);
                         Debug.Log(hitInfo.collider.gameObject.name);
                         playerScriptReference.hasItem = true;
-                        if(!hasHadAmmoBefore)
+                        if (!hasHadAmmoBefore)
                         {
                             StartCoroutine(gameUI.ShowAmmoPrompt());
+                            gameUI.HideWheelControls();
+                            gameUI.HideBallistaControls();
+                            gameUI.HideFuelPrompt();
                         }
                     }
                 }
@@ -239,6 +246,9 @@ public class SCR_NewInteract : NetworkBehaviour
                         if (!hasUsedBallistaBefore)
                         {
                             StartCoroutine(gameUI.ShowBallistaControls());
+                            gameUI.HideWheelControls();
+                            gameUI.HideAmmoPrompt();
+                            gameUI.HideFuelPrompt();
                         }
                     }
                 }
@@ -248,9 +258,12 @@ public class SCR_NewInteract : NetworkBehaviour
                     {
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
-                        if(!hasHadFuelBefore)
+                        if (!hasHadFuelBefore)
                         {
                             StartCoroutine(gameUI.ShowFuelPrompt());
+                            gameUI.HideBallistaControls();
+                            gameUI.HideWheelControls();
+                            gameUI.HideAmmoPrompt();
                         }
                     }
                 }
@@ -269,7 +282,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 else if (hitInfo.collider.gameObject.CompareTag("Compendium"))
                 {
                     Debug.Log("Interacting with compendium");
-                    Debug.Log($"bookOpen network var: { hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value } ");
+                    Debug.Log($"bookOpen network var: {hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value} ");
                     if (hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value == false)
                     {
 
@@ -292,6 +305,47 @@ public class SCR_NewInteract : NetworkBehaviour
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (inBallista && interacting)
+            {
+                GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
+                Debug.Log("Interact with ballista");
+
+                GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
+
+                GetComponent<GravitasBody>().unLockPosition();
+
+                inBallista = false;
+                playerScriptReference.playerOnBallista = false;
+
+                if (playerScriptReference.hasItem)
+                {
+                    if (objectBeingHeld == "Engine Food")
+                    {
+                        Debug.Log("Give back food");
+                        engineFoodMesh.SetActive(true);
+                    }
+                    else if (objectBeingHeld == "Ballista Bolt")
+                    {
+                        Debug.Log("Give back ballista bolt");
+                        ballistaBoltMesh.SetActive(true);
+                    }
+                }
+            }
+            else if (gameObject.GetComponent<SCR_ShipControls>().onWheel = true && interacting)
+            {
+                gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                UpdateCanInteractBoolServerRpc(true);
+                interacting = false;
+                gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+            }
+            else if(gameUI.showCompendium == true)
+            {
+                CloseBookGoBetweenServerRPC();
+                StartCoroutine(gameUI.HideCompendium());
             }
         }
         if (Input.GetKeyDown(DropKey))
