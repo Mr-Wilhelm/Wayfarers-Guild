@@ -174,20 +174,20 @@ public class GameUIScript : NetworkBehaviour
 
     private void Update()
     {
+        //assigning which player is looking at stuff. This should go first in update
+        if (activePlayer == null)
+        {
+            activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
+        }
+
         //check to see if the player is interacting
-        if(activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
         {
             isInteracting = true;
         }
         else
         {
             isInteracting = false;
-        }
-
-        //assigning which player is looking at stuff
-        if (activePlayer == null)
-        {
-            activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
         }
 
         //quest prompt stuff
