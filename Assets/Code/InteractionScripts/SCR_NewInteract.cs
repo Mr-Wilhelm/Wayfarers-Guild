@@ -113,6 +113,17 @@ public class SCR_NewInteract : NetworkBehaviour
                     break;
             }
         }
+        else
+        {
+            gameUI.lookingAtWheel = false;
+            gameUI.lookingAtHatch = false;
+            gameUI.lookingAtBallistaStorage = false;
+            gameUI.lookingAtEngine = false;
+            gameUI.lookingAtFuelStorage = false;
+            gameUI.lookingAtDroppedBallista = false;
+            gameUI.lookingAtDroppedFuel = false;
+            gameUI.lookingAtCompendium = false;
+        }
 
         if (Input.GetKeyDown(InteractKey))
         {
@@ -232,7 +243,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     {
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
-                        if(!hasHadFuelBefore)
+                        if (!hasHadFuelBefore)
                         {
                             StartCoroutine(gameUI.ShowFuelPrompt());
                         }
@@ -253,7 +264,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 else if (hitInfo.collider.gameObject.CompareTag("Compendium"))
                 {
                     Debug.Log("Interacting with compendium");
-                    Debug.Log($"bookOpen network var: { hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value } ");
+                    Debug.Log($"bookOpen network var: {hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value} ");
                     if (hitInfo.collider.gameObject.GetComponent<SCR_Book>().bookOpen.Value == false)
                     {
 
