@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -87,6 +88,7 @@ public class SCR_NewInteract : NetworkBehaviour
             gameUI.lookingAtDroppedBallista = false;
             gameUI.lookingAtDroppedFuel = false;
             gameUI.lookingAtCompendium = false;
+            gameUI.lookingAtFuseBox = false;
 
             switch (lookAtTag)
             {
@@ -114,6 +116,9 @@ public class SCR_NewInteract : NetworkBehaviour
                 case ("Compendium"):
                     gameUI.lookingAtCompendium = true;
                     break;
+                case ("FuseBox"):
+                    gameUI.lookingAtFuseBox = true;
+                    break;
             }
         }
         else
@@ -126,6 +131,7 @@ public class SCR_NewInteract : NetworkBehaviour
             gameUI.lookingAtDroppedBallista = false;
             gameUI.lookingAtDroppedFuel = false;
             gameUI.lookingAtCompendium = false;
+            gameUI.lookingAtFuseBox = false;
         }
 
         if (Input.GetKeyDown(InteractKey))
@@ -327,6 +333,10 @@ public class SCR_NewInteract : NetworkBehaviour
 
                         CloseBookGoBetweenServerRPC();
                     }
+                }
+                else if (hitInfo.collider.gameObject.CompareTag("FuseBox"))
+                {
+                    Debug.Log("Interacting with fuse box");
                 }
             }
             else if (interacting)

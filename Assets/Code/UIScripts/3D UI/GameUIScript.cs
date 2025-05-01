@@ -95,7 +95,8 @@ public class GameUIScript : NetworkBehaviour
         lookingAtDroppedBallista,
         lookingAtDroppedFuel,
         lookingAtHatch,
-        lookingAtEngine;
+        lookingAtEngine,
+        lookingAtFuseBox;
 
     [SerializeField]
     private bool isInteracting;
@@ -262,7 +263,7 @@ public class GameUIScript : NetworkBehaviour
         {
             if (playerIsInRange && !isInteracting)
             {
-                if (lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium && !showCompendium || lookingAtBallistaStorage)
+                if (lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium && !showCompendium || lookingAtBallistaStorage || lookingAtFuseBox)
                 {
                     interactPrompt.SetActive(true);
                 }
