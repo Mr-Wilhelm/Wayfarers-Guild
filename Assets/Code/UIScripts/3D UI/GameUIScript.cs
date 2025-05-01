@@ -405,7 +405,10 @@ public class GameUIScript : NetworkBehaviour
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedWheelBefore = true;
         yield return new WaitForSeconds(10);
         HideWheelControls();
-        ShowControlsPrompt();
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        {
+            ShowControlsPrompt();
+        }
     }
     public void HideWheelControls()
     {
@@ -440,7 +443,11 @@ public class GameUIScript : NetworkBehaviour
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
         yield return new WaitForSeconds(10);
         HideBallistaControls();
-        ShowControlsPrompt();
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        {
+            ShowControlsPrompt();
+        }
+
     }
     public void HideBallistaControls()
     {
@@ -448,7 +455,8 @@ public class GameUIScript : NetworkBehaviour
     }
     public void ShowControlsPrompt()
     {
-        stationControlsPrompt.SetActive(true);
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
+            stationControlsPrompt.SetActive(true);
     }
     public void HideControlsPrompt()
     {
