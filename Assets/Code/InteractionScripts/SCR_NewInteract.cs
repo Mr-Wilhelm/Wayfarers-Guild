@@ -147,6 +147,10 @@ public class SCR_NewInteract : NetworkBehaviour
                 inBallista = false;
                 playerScriptReference.playerOnBallista = false;
 
+                UpdateCanInteractBoolServerRpc(true);
+
+                interacting = false;
+
                 if (playerScriptReference.hasItem)
                 {
                     if (objectBeingHeld == "Engine Food")
@@ -335,6 +339,10 @@ public class SCR_NewInteract : NetworkBehaviour
 
                 inBallista = false;
                 playerScriptReference.playerOnBallista = false;
+
+                UpdateCanInteractBoolServerRpc(true);
+
+                interacting = false;
 
                 if (playerScriptReference.hasItem)
                 {
