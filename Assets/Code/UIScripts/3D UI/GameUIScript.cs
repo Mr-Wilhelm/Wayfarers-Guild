@@ -7,6 +7,7 @@ using Unity.Collections;
 using UnityEngine.InputSystem;
 using Gravitas.Demo;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class GameUIScript : NetworkBehaviour
 {
@@ -56,6 +57,10 @@ public class GameUIScript : NetworkBehaviour
     private TextMeshProUGUI craneInfoTitle, craneInfoStats, craneInfoDesc, craneLeftPageText;
 
     [SerializeField]
+    private Image patriciaRightImage, hubertoRightImage, craneRightImage;
+
+    //Tutorial UI Objects
+    [SerializeField]
     private GameObject interactPrompt;
 
     [SerializeField]
@@ -67,7 +72,15 @@ public class GameUIScript : NetworkBehaviour
     [SerializeField]
     private GameObject fuelPrompt;
 
-    //Tutorial UI Objects
+    [SerializeField]
+    private GameObject ammoPrompt;
+
+    [SerializeField]
+    private GameObject ballistaPrompts;
+
+    [SerializeField]
+    private GameObject stationControlsPrompt;
+
     [SerializeField]
     public bool playerIsInRange;
 
@@ -138,6 +151,10 @@ public class GameUIScript : NetworkBehaviour
         craneInfoStats = GameObject.Find("CraneStats").GetComponent<TextMeshProUGUI>();
         craneInfoDesc = GameObject.Find("CraneText").GetComponent<TextMeshProUGUI>();
 
+        patriciaRightImage = GameObject.Find("PatriciaRight").GetComponent<Image>();
+        hubertoRightImage = GameObject.Find("HubertoRight").GetComponent<Image>();
+        //add crane image too
+
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
@@ -149,6 +166,9 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+
+        patriciaRightImage.enabled = false;
+        hubertoRightImage.enabled = false;
 
         compendium.SetActive(false);
 
@@ -163,6 +183,15 @@ public class GameUIScript : NetworkBehaviour
         fuelPrompt = GameObject.Find("FuelPickupText");
         fuelPrompt.SetActive(false);
 
+        ammoPrompt = GameObject.Find("AmmoPickupText");
+        ammoPrompt.SetActive(false);
+
+        ballistaPrompts = GameObject.Find("BallistaPrompts");
+        ballistaPrompts.SetActive(false);
+
+        stationControlsPrompt = GameObject.Find("StationControlsPrompt");
+        stationControlsPrompt.SetActive(false);
+
         if (IsOwner)
         {
             activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
@@ -174,8 +203,14 @@ public class GameUIScript : NetworkBehaviour
 
     private void Update()
     {
+        //assigning which player is looking at stuff. This should go first in update
+        if (activePlayer == null)
+        {
+            activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
+        }
+
         //check to see if the player is interacting
-        if(activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
         {
             isInteracting = true;
         }
@@ -184,29 +219,23 @@ public class GameUIScript : NetworkBehaviour
             isInteracting = false;
         }
 
-        //assigning which player is looking at stuff
-        if (activePlayer == null)
-        {
-            activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
-        }
-
         //quest prompt stuff
         if (Input.GetKeyDown(KeyCode.Q))
         {
             questPromptEnabled = !questPromptEnabled;
         }
-        if(Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             questPromptEnabled = !questPromptEnabled;
         }
 
-        if(questPromptEnabled)  //show elements of the quest prompt
+        if (questPromptEnabled)  //show elements of the quest prompt
         {
             questPromptText.gameObject.SetActive(false);
             questPromptHeadingText.gameObject.SetActive(true);
             questPromptTaskText.gameObject.SetActive(true);
         }
-        else if(!questPromptEnabled)    //hide elements of the quest prompt
+        else if (!questPromptEnabled)    //hide elements of the quest prompt
         {
             questPromptText.gameObject.SetActive(true);
             questPromptHeadingText.gameObject.SetActive(false);
@@ -214,11 +243,11 @@ public class GameUIScript : NetworkBehaviour
         }
 
         //compendium stuff
-        if(Input.GetKeyDown(KeyCode.F) && showCompendium)
+        if (Input.GetKeyDown(KeyCode.F) && showCompendium)
         {
             StartCoroutine(ShowCompendium());
         }
-        else if(Input.GetKeyDown(KeyCode.F) && !showCompendium)
+        else if (Input.GetKeyDown(KeyCode.F) && !showCompendium)
         {
             StartCoroutine(HideCompendium());
         }
@@ -229,7 +258,7 @@ public class GameUIScript : NetworkBehaviour
             interactPrompt.SetActive(true);
 
         //checks player range, if they're interacting, and if they're in the engine
-        if(!isInEnginePrompt)
+        if (!isInEnginePrompt)
         {
             if (playerIsInRange && !isInteracting)
             {
@@ -247,22 +276,22 @@ public class GameUIScript : NetworkBehaviour
                 interactPrompt.SetActive(false);
             }
         }
-        else if(isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
+        else if (isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
         {
             Debug.Log("Show the prompt maybe?");
-            if(playerIsInRange && lookingAtEngine)
+            if (playerIsInRange && lookingAtEngine)
             {
                 interactPrompt.SetActive(true);
             }
-            else if(!playerIsInRange || !lookingAtEngine)
+            else if (!playerIsInRange || !lookingAtEngine)
             {
                 interactPrompt.SetActive(false);
             }
         }
     }
-    private IEnumerator ShowCompendium()    //shows the compendium
+    public IEnumerator ShowCompendium()    //shows the compendium
     {
-        if(!hasShownCompendium)
+        if (!hasShownCompendium)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -275,7 +304,7 @@ public class GameUIScript : NetworkBehaviour
             compendium.SetActive(true);
         }
     }
-    private IEnumerator HideCompendium()    //hides the compendium
+    public IEnumerator HideCompendium()    //hides the compendium
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -298,28 +327,34 @@ public class GameUIScript : NetworkBehaviour
         patriciaInfoTitle.enabled = true;
         patriciaInfoStats.enabled = true;
         patriciaInfoDesc.enabled = true;
+        patriciaRightImage.enabled = true;
 
         hubertoInfoTitle.enabled = false;
         hubertoInfoStats.enabled = false;
         hubertoInfoDesc.enabled = false;
+        hubertoRightImage.enabled = false;
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+
+
     }
     public void ShowHubertoInfo()
     {
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
+        patriciaRightImage.enabled = false;
 
         hubertoInfoTitle.enabled = true;
         hubertoInfoStats.enabled = true;
         hubertoInfoDesc.enabled = true;
+        hubertoRightImage.enabled = true;
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
-        craneInfoDesc.enabled = false;;
+        craneInfoDesc.enabled = false; ;
     }
     public void ShowCraneInfo()
     {
@@ -340,10 +375,12 @@ public class GameUIScript : NetworkBehaviour
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
+        patriciaRightImage.enabled = false;
 
         hubertoInfoTitle.enabled = false;
         hubertoInfoStats.enabled = false;
         hubertoInfoDesc.enabled = false;
+        hubertoRightImage.enabled = false;
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
@@ -365,8 +402,13 @@ public class GameUIScript : NetworkBehaviour
     public IEnumerator ShowWheelControls()
     {
         wheelPrompt.SetActive(true);
-        yield return new WaitForSeconds(5);
+        activePlayer.GetComponent<SCR_NewInteract>().hasUsedWheelBefore = true;
+        yield return new WaitForSeconds(10);
         HideWheelControls();
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        {
+            ShowControlsPrompt();
+        }
     }
     public void HideWheelControls()
     {
@@ -379,5 +421,45 @@ public class GameUIScript : NetworkBehaviour
         activePlayer.GetComponent<SCR_NewInteract>().hasHadFuelBefore = true;
         yield return new WaitForSeconds(5);
         fuelPrompt.SetActive(false);
+    }
+    public void HideFuelPrompt()
+    {
+        fuelPrompt.SetActive(false);
+    }
+    public IEnumerator ShowAmmoPrompt()
+    {
+        ammoPrompt.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasHadAmmoBefore = true;
+        yield return new WaitForSeconds(5);
+        ammoPrompt.SetActive(false);
+    }
+    public void HideAmmoPrompt()
+    {
+        ammoPrompt.SetActive(false);
+    }
+    public IEnumerator ShowBallistaControls()
+    {
+        ballistaPrompts.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
+        yield return new WaitForSeconds(10);
+        HideBallistaControls();
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
+        {
+            ShowControlsPrompt();
+        }
+
+    }
+    public void HideBallistaControls()
+    {
+        ballistaPrompts.SetActive(false);
+    }
+    public void ShowControlsPrompt()
+    {
+        if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
+            stationControlsPrompt.SetActive(true);
+    }
+    public void HideControlsPrompt()
+    {
+        stationControlsPrompt.SetActive(false);
     }
 }
