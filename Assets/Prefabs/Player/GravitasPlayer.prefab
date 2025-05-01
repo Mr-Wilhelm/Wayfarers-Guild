@@ -123,7 +123,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.36
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2650615169
+  GlobalObjectIdHash: 3449801546
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -496,6 +496,9 @@ MonoBehaviour:
     type: 3}
   dropPosition: {fileID: 3219785375905633528}
   hasHadFuelBefore: 0
+  hasHadAmmoBefore: 0
+  hasUsedWheelBefore: 0
+  hasUsedBallistaBefore: 0
 --- !u!1 &3219785375905633528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5750,7 +5753,7 @@ PrefabInstance:
     - target: {fileID: 2932142626838536436, guid: 4bd93d0808a4f834ab367b85d872ed4a,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2661593746
+      value: 3449801546
       objectReference: {fileID: 0}
     - target: {fileID: 5469117016779187175, guid: 4bd93d0808a4f834ab367b85d872ed4a,
         type: 3}
@@ -6054,7 +6057,7 @@ PrefabInstance:
     - target: {fileID: 6654616954131353116, guid: de932182dca60f0468458132a1f56856,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3329659842
+      value: 3449801546
       objectReference: {fileID: 0}
     - target: {fileID: 6744135401608610436, guid: de932182dca60f0468458132a1f56856,
         type: 3}
