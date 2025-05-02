@@ -5,6 +5,9 @@ using UnityEngine;
 
 public static class SCR_ScreenShake
 {
+    //Screenshake base functionality from Thomas friday
+    //https://www.youtube.com/watch?v=BQGTdRhGmE4
+
     /// <summary>
     /// A basic screenshake function that shakes the given GO around its starting point
     /// </summary>
