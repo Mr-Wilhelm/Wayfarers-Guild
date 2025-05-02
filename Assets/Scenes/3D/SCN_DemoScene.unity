@@ -863,11 +863,55 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 4294967295
-  bounceForce: 5000
+  bounceForce: 100
   shipRB: {fileID: 0}
   invincibilityPeriod: 1
   terrainNormalsInverted: 1
   collisionDamage: 10
+  collisionScreenShakeStrengthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 5.3922553
+      outSlope: 5.3922553
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.110541925
+      value: 0.5960703
+      inSlope: 2.2399893
+      outSlope: 2.2399893
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.48693255
+      value: 0.25269777
+      inSlope: -0.7014663
+      outSlope: -0.7014663
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0019531
+      value: 0
+      inSlope: -0.49065563
+      outSlope: -0.49065563
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  PlayerCameraObject: {fileID: 0}
+  screenShakeDuration: 1
 --- !u!54 &126397494
 Rigidbody:
   m_ObjectHideFlags: 0
