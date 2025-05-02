@@ -366,6 +366,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     public void Func_PortButtonPressed()
     {
+        cityAnimator.SetBool("PortPressed", true);
         portButton.interactable = false;
         spoonsButton.interactable = false;
         EnterDialogueMode(portNPCDefaultDialogue);
@@ -663,6 +664,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         dialogueTags.Clear();
         isShowingChoices = false;
         cityAnimator.SetBool("SpoonsPressed", false);
+        cityAnimator.SetBool("PortPressed", false);
         spoonsButton.interactable = true;
         portButton.interactable = true;
     }
