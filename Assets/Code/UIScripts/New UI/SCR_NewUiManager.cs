@@ -656,15 +656,16 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
+        cityAnimator.SetBool("SpoonsPressed", false);
+        cityAnimator.SetBool("PortPressed", false);
+        yield return new WaitForSeconds(1.0f);
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
-        cityAnimator.SetBool("SpoonsPressed", false);
-        cityAnimator.SetBool("PortPressed", false);
         spoonsButton.interactable = true;
         portButton.interactable = true;
     }
