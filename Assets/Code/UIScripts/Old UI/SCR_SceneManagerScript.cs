@@ -47,7 +47,7 @@ public class SCR_SceneManagerScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            Debug.Log("No Dont do that");
+            //Debug.Log("No Dont do that");
             //Application.Quit();
         }
 

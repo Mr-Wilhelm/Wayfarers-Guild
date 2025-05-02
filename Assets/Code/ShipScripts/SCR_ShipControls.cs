@@ -48,19 +48,19 @@ public class SCR_ShipControls : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && shipMovement.shipAcceleration.Value < shipMovement.shipAccelerationBound)
         {
             shipMovement.increaseAccelerationServerRPC();
-            Debug.Log("speed up: " + shipMovement.shipAcceleration.Value);
+            //Debug.Log("speed up: " + shipMovement.shipAcceleration.Value);
         }
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && shipMovement.shipAcceleration.Value > -shipMovement.shipAccelerationBound/2)
         {
             shipMovement.decreaseAccelerationServerRPC();
-            Debug.Log("speed down: " + shipMovement.shipAcceleration.Value);
+            //Debug.Log("speed down: " + shipMovement.shipAcceleration.Value);
         }
 
         //Yaw Right
         if (Input.GetKey(KeyCode.D) == true)
         {
-            Debug.Log("Turning right");
+            //Debug.Log("Turning right");
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
             RotateWheelRightServerRPC();
             //wheelAnimator.speed = 1;
@@ -70,7 +70,7 @@ public class SCR_ShipControls : NetworkBehaviour
         //Yaw Left
         if (Input.GetKey(KeyCode.A) == true)
         {
-            Debug.Log("Turning left");
+            //Debug.Log("Turning left");
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
             RotateWheelLeftServerRPC();
             //wheelAnimator.speed = 1;
@@ -159,15 +159,15 @@ public class SCR_ShipControls : NetworkBehaviour
         float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
         if (centreZRotation <= -179)
         {
-            Debug.Log("Stopping wheel rotation to the right");
+            //Debug.Log("Stopping wheel rotation to the right");
             return;
         }
         foreach (GameObject wheelPiece in wheelPiecesToRotate)
         {
-            Debug.Log("Turning wheel pieces right");
+            //Debug.Log("Turning wheel pieces right");
             wheelPiece.transform.Rotate(new Vector3(0, 0, -1), 0.5f);
             Vector3 wheelRotation = wheelCentrePost.transform.eulerAngles;
-            Debug.Log("wheel centre post rotation is: " + wheelRotation);
+            //Debug.Log("wheel centre post rotation is: " + wheelRotation);
         }
         foreach (GameObject wheelRimPiece in wheelRimPieces)
         {
@@ -181,12 +181,12 @@ public class SCR_ShipControls : NetworkBehaviour
         float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
         if (centreZRotation >= 179)
         {
-            Debug.Log("Stopping wheel rotation to the left");
+            //Debug.Log("Stopping wheel rotation to the left");
             return;
         }
         foreach (GameObject wheelPiece in wheelPiecesToRotate)
         {
-            Debug.Log("Turning wheel pieces left");
+            //Debug.Log("Turning wheel pieces left");
             wheelPiece.transform.Rotate(new Vector3(0, 0, 1), 0.5f);
         }
         foreach (GameObject wheelRimPiece in wheelRimPieces)

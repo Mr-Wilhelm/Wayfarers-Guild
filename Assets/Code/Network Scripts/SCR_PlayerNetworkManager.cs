@@ -66,7 +66,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         Transform[] children = CraigBodyMeshes.transform.GetComponentsInChildren<Transform>();
         foreach (Transform child in children)
         {
-            Debug.Log("Setting new layer");
+            //Debug.Log("Setting new layer");
             child.gameObject.layer = SelfPlayerMeshLayer;
         }
     }
