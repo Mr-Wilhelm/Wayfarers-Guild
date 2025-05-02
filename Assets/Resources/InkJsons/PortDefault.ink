@@ -4,8 +4,8 @@ Please come back later for some ship upgrades #animate
 ->Choices
 
 ==Choices==
-* [Buy Upgrades] -> Buy
-* [Equip Upgrades] -> Equip
+* [Purchase] -> Buy
+* [Equip] -> Equip
 
 ==Buy==
 Looking to buy?
