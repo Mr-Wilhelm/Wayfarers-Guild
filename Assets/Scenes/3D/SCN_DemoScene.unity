@@ -836,6 +836,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09b42e016875a8c4691d6f8ebb31bdab, type: 3}
+--- !u!1 &118657661 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 684417944773625273, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &126397491 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9205574260392442448, guid: 5bd4de1bd064fb445bf7e2368c87de9a,
@@ -1151,6 +1157,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdaffaf19206f0b4e8947a117302f5ab, type: 3}
+--- !u!1 &183051462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7546544435667866768, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &186366432 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4088318232914431512, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &199565321
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1224,6 +1242,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c3193fd4df7a2f4c84cea895a0aedfe, type: 3}
+--- !u!1 &232702908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 998233137220358721, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &279850465
 Mesh:
   m_ObjectHideFlags: 0
@@ -2337,6 +2361,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1679618578}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &381842574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1971805454922558414, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &394798749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2695,6 +2725,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 12449363019431315, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightN
+      objectReference: {fileID: 0}
+    - target: {fileID: 12449363019431315, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
     - target: {fileID: 117376098355334954, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -2715,11 +2755,56 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteractBound (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 684417944773625273, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightC
+      objectReference: {fileID: 0}
+    - target: {fileID: 684417944773625273, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
     - target: {fileID: 745154859088344160, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 90c4f1608c1caa242bb3327473f70f7c, type: 2}
+    - target: {fileID: 775075377847729517, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightE
+      objectReference: {fileID: 0}
+    - target: {fileID: 775075377847729517, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 998233137220358721, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightE
+      objectReference: {fileID: 0}
+    - target: {fileID: 998233137220358721, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454248261646345610, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineRoomLightC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454248261646345610, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: EngineRoomLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526133519715437570, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: 'bodyColliders.Array.data[248]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
@@ -2735,15 +2820,75 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3612612465
       objectReference: {fileID: 0}
+    - target: {fileID: 1971805454922558414, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightG
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971805454922558414, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
     - target: {fileID: 1979845591571921886, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.073
       objectReference: {fileID: 0}
+    - target: {fileID: 2091491200020073138, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineRoomLightA
+      objectReference: {fileID: 0}
+    - target: {fileID: 2091491200020073138, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: EngineRoomLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150960950191172097, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.3796102
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150960950191172097, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.036046617
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150960950191172097, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.18980469
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150960950191172097, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 2.3421629e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605597173800679200, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 227442.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672422995038331091, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightF
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672422995038331091, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
     - target: {fileID: 2848348560487390217, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2647963886
+      objectReference: {fileID: 0}
+    - target: {fileID: 2950019104152835154, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldStatusLight
       objectReference: {fileID: 0}
     - target: {fileID: 2950590197001737649, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -2770,25 +2915,150 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 1336706730
       objectReference: {fileID: 0}
+    - target: {fileID: 3273149390043794640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightB
+      objectReference: {fileID: 0}
+    - target: {fileID: 3273149390043794640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
     - target: {fileID: 3365561530335174592, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3870457f92f335f4b916e961b063f13b, type: 2}
+    - target: {fileID: 3481510810982350637, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 227442.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3598092429335629184, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1073178813
+      objectReference: {fileID: 0}
+    - target: {fileID: 3725128819804688241, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 227442.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877272200790455575, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightD
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877272200790455575, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088318232914431512, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineRoomLightB
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088318232914431512, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: EngineRoomLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119812537721874429, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119812537721874429, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136186904686051025, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightF
+      objectReference: {fileID: 0}
+    - target: {fileID: 4136186904686051025, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
       objectReference: {fileID: 0}
     - target: {fileID: 4142791041585342195, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 965562575
       objectReference: {fileID: 0}
+    - target: {fileID: 4323158562220446954, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323158562220446954, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446628695117809807, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineRoomLightD
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446628695117809807, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: EngineRoomLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775147282665101071, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightH
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775147282665101071, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900950310597610874, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightK
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900950310597610874, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959827188433974077, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeStatusLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4965877262682432820, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineRoomLightE
+      objectReference: {fileID: 0}
+    - target: {fileID: 4965877262682432820, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: EngineRoomLight
+      objectReference: {fileID: 0}
     - target: {fileID: 5310508676302650378, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2456871452
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532687039770071286, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightA
+      objectReference: {fileID: 0}
+    - target: {fileID: 5532687039770071286, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
       objectReference: {fileID: 0}
     - target: {fileID: 5741047254938712172, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -2796,6 +3066,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -2432090755550338912, guid: 390fa1623c8f8774fac67ed7f237019d,
         type: 3}
+    - target: {fileID: 5809211421028943286, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightL
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809211421028943286, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106822532371596578, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineRoomLightF
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106822532371596578, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: EngineRoomLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194546017329448967, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightB
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194546017329448967, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
     - target: {fileID: 6319432288994264961, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -2806,6 +3106,26 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ab42c0e4c829b824faf9e74bc9f081da, type: 2}
+    - target: {fileID: 6334707657702603355, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightH
+      objectReference: {fileID: 0}
+    - target: {fileID: 6334707657702603355, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390250517412122120, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightG
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390250517412122120, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
     - target: {fileID: 6582034605051047664, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
@@ -2826,10 +3146,60 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 6920579194612337628, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: EngineStatusLight
+      objectReference: {fileID: 0}
     - target: {fileID: 6922010916072084503, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061317635124850528, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 227442.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.4669784
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.12947907
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.87198526
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.069340535
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264800129506180640, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 236.341
       objectReference: {fileID: 0}
     - target: {fileID: 7424090147308266036, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -2881,10 +3251,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7546544435667866768, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightC
+      objectReference: {fileID: 0}
+    - target: {fileID: 7546544435667866768, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
     - target: {fileID: 7733743821340432128, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1772989626
+      objectReference: {fileID: 0}
+    - target: {fileID: 7792496720812265507, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightM
+      objectReference: {fileID: 0}
+    - target: {fileID: 7792496720812265507, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
       objectReference: {fileID: 0}
     - target: {fileID: 8194954654575355789, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
@@ -2896,17 +3286,48 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.080500595
       objectReference: {fileID: 0}
+    - target: {fileID: 8652173382614646431, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: CargoHoldLightI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652173382614646431, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: CargoHoldLight
+      objectReference: {fileID: 0}
     - target: {fileID: 8771152934577440250, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_Name
       value: InteractBound (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989898844208716957, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightA
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989898844208716957, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
       objectReference: {fileID: 0}
     - target: {fileID: 9142756601675010027, guid: 00b41b74b038dae468603ed3702607b0,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.646001
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9160345906666466497, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_Name
+      value: BridgeLightD
+      objectReference: {fileID: 0}
+    - target: {fileID: 9160345906666466497, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: BridgeLight
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2150960950191172097, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
     m_RemovedGameObjects:
     - {fileID: 170760743229119551, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
     - {fileID: 8870314160812123496, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
@@ -3143,7 +3564,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 450038913}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 285607616232571550, guid: 00b41b74b038dae468603ed3702607b0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 495131095}
   m_SourcePrefab: {fileID: 100100000, guid: 00b41b74b038dae468603ed3702607b0, type: 3}
 --- !u!4 &437485121 stripped
 Transform:
@@ -3670,6 +4095,69 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485600017}
   m_Mesh: {fileID: -2432090755550338912, guid: 4b58e8ddd00a7844c8a71cd26f0accc0, type: 3}
+--- !u!1 &495131094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 285607616232571550, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &495131095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495131094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4bd510a5a2f91439d8ff215f779c5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bridgeStatusLight: {fileID: 944528883}
+  cargoHoldStatusLight: {fileID: 1843353481}
+  engineRoomStatusLight: {fileID: 1071383563}
+  red: {fileID: 2100000, guid: 41f9b81a1c8bff9b2a1208614a204d1d, type: 2}
+  green: {fileID: 2100000, guid: ff1d15e40c15ea0f199078f309e6eed4, type: 2}
+  lightColor: {r: 1, g: 0.78431374, b: 0.5137255, a: 0}
+  lightTemperature: 6570
+  lux: 2.81
+  radius: 2.84
+  emergencyLightColor: {r: 1, g: 0, b: 0, a: 0}
+  emergencyLightTemperature: 1500
+  emergencyLux: 1.4
+  emergencyRadius: 0.7
+  bridgeLights:
+  - {fileID: 1741059670}
+  - {fileID: 1792383721}
+  - {fileID: 183051462}
+  - {fileID: 2139317619}
+  - {fileID: 1824646244}
+  - {fileID: 972842445}
+  - {fileID: 694746289}
+  - {fileID: 943091085}
+  - {fileID: 549118051}
+  cargoHoldLights:
+  - {fileID: 720473997}
+  - {fileID: 1113219984}
+  - {fileID: 118657661}
+  - {fileID: 1829340054}
+  - {fileID: 232702908}
+  - {fileID: 1689310957}
+  - {fileID: 381842574}
+  - {fileID: 608633613}
+  - {fileID: 2087990273}
+  - {fileID: 2029372970}
+  - {fileID: 1235445757}
+  - {fileID: 2141677905}
+  - {fileID: 739061287}
+  - {fileID: 1950911134}
+  engineRoomLights:
+  - {fileID: 2096529923}
+  - {fileID: 186366432}
+  - {fileID: 1989132683}
+  - {fileID: 748678425}
+  - {fileID: 637139476}
+  - {fileID: 1592843793}
 --- !u!1 &499482758
 GameObject:
   m_ObjectHideFlags: 0
@@ -4029,6 +4517,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c3193fd4df7a2f4c84cea895a0aedfe, type: 3}
+--- !u!1 &549118051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4323158562220446954, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &559642987
 Mesh:
   m_ObjectHideFlags: 0
@@ -4529,6 +5023,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607765906}
   m_Mesh: {fileID: -2432090755550338912, guid: 749689eca50407e4993b381a7e3a6ed9, type: 3}
+--- !u!1 &608633613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4775147282665101071, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &637139476 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4965877262682432820, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &674556007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 71206719f47f59c4588b574a9df17c2f,
@@ -4700,6 +5206,24 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &694746289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6390250517412122120, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &720473997 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5532687039770071286, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &739061287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7792496720812265507, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &741495558
 GameObject:
   m_ObjectHideFlags: 0
@@ -4857,6 +5381,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 741495558}
   m_Mesh: {fileID: -2432090755550338912, guid: 22d1a6824347d1b4aa4fe4d4ab9edb19, type: 3}
+--- !u!1 &748678425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4446628695117809807, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &755416590
 GameObject:
   m_ObjectHideFlags: 0
@@ -6383,6 +6913,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 172924766}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &943091085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6334707657702603355, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &944528883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4959827188433974077, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &960080506
 Mesh:
   m_ObjectHideFlags: 0
@@ -6548,6 +7090,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &972842445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2672422995038331091, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &980419355
 GameObject:
   m_ObjectHideFlags: 0
@@ -6655,6 +7203,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 980419355}
   m_Mesh: {fileID: -2432090755550338912, guid: 749689eca50407e4993b381a7e3a6ed9, type: 3}
+--- !u!1 &1071383563 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6920579194612337628, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1113219984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6194546017329448967, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1119733428
 GameObject:
   m_ObjectHideFlags: 0
@@ -7058,6 +7618,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdaffaf19206f0b4e8947a117302f5ab, type: 3}
+--- !u!1 &1235445757 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4900950310597610874, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1243302517
 GameObject:
   m_ObjectHideFlags: 0
@@ -8034,6 +8600,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 459088585}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1592843793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6106822532371596578, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1607569736
 GameObject:
   m_ObjectHideFlags: 0
@@ -8549,6 +9121,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdaffaf19206f0b4e8947a117302f5ab, type: 3}
+--- !u!1 &1689310957 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4136186904686051025, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1714354692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8750,6 +9328,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8450214570418491676, guid: fdaffaf19206f0b4e8947a117302f5ab,
     type: 3}
   m_PrefabInstance: {fileID: 441854569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1741059670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8989898844208716957, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1792383721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3273149390043794640, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1803412481 stripped
 Transform:
@@ -9051,6 +9641,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dbf0d36896f0a741acf2cd50438e644, type: 3}
+--- !u!1 &1824646244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 775075377847729517, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1828865422
 GameObject:
   m_ObjectHideFlags: 0
@@ -9160,6 +9756,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828865422}
   m_Mesh: {fileID: -2432090755550338912, guid: c904762d29fa8bf46b14b79b1cf507b2, type: 3}
+--- !u!1 &1829340054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3877272200790455575, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1843353481 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2950019104152835154, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1892401289 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 09b42e016875a8c4691d6f8ebb31bdab,
@@ -9245,6 +9853,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09b42e016875a8c4691d6f8ebb31bdab, type: 3}
+--- !u!1 &1950911134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 12449363019431315, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1959017863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9494,6 +10108,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 95303922}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1989132683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1454248261646345610, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &2027757850
 Mesh:
   m_ObjectHideFlags: 0
@@ -9659,6 +10279,24 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2029372970 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4119812537721874429, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2087990273 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8652173382614646431, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2096529923 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2091491200020073138, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2102866192 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 09b42e016875a8c4691d6f8ebb31bdab,
@@ -9743,6 +10381,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 784c9bf6dd4497a4cb0c24fe6fdf69d8, type: 3}
+--- !u!1 &2139317619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9160345906666466497, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2141677905 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5809211421028943286, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &205842481679277227
 PrefabInstance:
   m_ObjectHideFlags: 0

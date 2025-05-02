@@ -423,6 +423,14 @@ public class SCR_NewInteract : NetworkBehaviour
                 dropItem();
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            SCR_FuseManager fuseManagerInstance = GameObject.Find("FuseStatusConsole").GetComponent<SCR_FuseManager>();
+            fuseManagerInstance.DisableBridge();
+            fuseManagerInstance.DisableCargoHold();
+            fuseManagerInstance.DisableEngineRoom();
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
