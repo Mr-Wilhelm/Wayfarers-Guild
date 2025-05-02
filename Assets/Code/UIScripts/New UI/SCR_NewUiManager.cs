@@ -388,6 +388,14 @@ public class SCR_NewUiManager : NetworkBehaviour
         portButton.interactable = true;
    
     }
+    public void Func_PortBackButtonPressed()
+    {
+        cityAnimator.SetBool("PortPressed", false);
+
+        spoonsButton.interactable = true;
+        portButton.interactable = true;
+        StartCoroutine(ExitDialogueMode());
+    }
 
     public void Func_QuestButtonPressed()
     {
@@ -656,6 +664,7 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
+        Debug.Log("AAAAAAAAAAAAAAAA");
         //yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
@@ -663,6 +672,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         cityAnimator.SetBool("PortPressed", false);
         yield return new WaitForSeconds(1.0f);
         dialoguePanel.SetActive(false);
+        audioSource.Stop();
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
