@@ -397,18 +397,20 @@ public class SCR_NewInteract : NetworkBehaviour
         {
             if(inBallista)
             {
-                gameUI.ShowBallistaControls();
+                gameUI.ToggleBallistaControlsOn();
+                gameUI.HideControlsPrompt();
             }
             else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
             {
-                gameUI.ShowWheelControls();
+                gameUI.ToggleWheelControlsOn();
+                gameUI.HideControlsPrompt();
             }
         }
         else if (Input.GetKeyUp(KeyCode.C) && interacting)
         {
             Debug.Log("RELEASE!");
-            gameUI.HideBallistaControls();
-            gameUI.HideWheelControls();
+            gameUI.ToggleBallistaControlsOff();
+            gameUI.ToggleWheelControlsOff();
             gameUI.ShowControlsPrompt();
         }
 

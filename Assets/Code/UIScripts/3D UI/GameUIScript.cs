@@ -415,6 +415,14 @@ public class GameUIScript : NetworkBehaviour
     {
         wheelPrompt.SetActive(false);
     }
+    public void ToggleWheelControlsOn()
+    {
+        wheelPrompt.SetActive(true);
+    }
+    public void ToggleWheelControlsOff()
+    {
+        wheelPrompt.SetActive(false);
+    }
 
     public IEnumerator ShowFuelPrompt()
     {
@@ -454,6 +462,14 @@ public class GameUIScript : NetworkBehaviour
     {
         ballistaPrompts.SetActive(false);
     }
+    public void ToggleBallistaControlsOn()
+    {
+        ballistaPrompts.SetActive(true);
+    }
+    public void ToggleBallistaControlsOff()
+    {
+        ballistaPrompts.SetActive(false);
+    }    
     public void ShowControlsPrompt()
     {
         if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
