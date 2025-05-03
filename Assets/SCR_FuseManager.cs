@@ -21,9 +21,8 @@ public class SCR_FuseManager : MonoBehaviour
     [SerializeField] private float emergencyLux;
     [SerializeField] private float emergencyRadius;
 
-    public GameObject[] bridgeLights;
-    public GameObject[] cargoHoldLights;
-    public GameObject[] engineRoomLights;
+    public GameObject[] Lights;
+    private bool lightsOff;
 
     private void SetEmergencyLightValues(Light lightToChange)
     {
@@ -41,67 +40,42 @@ public class SCR_FuseManager : MonoBehaviour
         lightToChange.range = radius;
     }
 
-    private void GetLightsOfType(string lightTag)
+    public void EnableLights()
     {
-        switch (lightTag)
+        Debug.Log("TRYING TO ENABLE LIGHTS");
+        bridgeStatusLight.GetComponent<MeshRenderer>().material = green;
+        cargoHoldStatusLight.GetComponent<MeshRenderer>().material = green;
+        engineRoomStatusLight.GetComponent<MeshRenderer>().material = green;
+
+        foreach (GameObject lightOBJ in Lights)
         {
-            case "bridgeLight":
-                bridgeLights = GameObject.FindGameObjectsWithTag(lightTag);
-                break;
-            case "cargoHoldLight":
-                cargoHoldLights = GameObject.FindGameObjectsWithTag(lightTag);
-                break;
-            case "engineRoomLight":
-                engineRoomLights = GameObject.FindGameObjectsWithTag(lightTag);
-                break;
-            default:
-                Debug.Log("Get lights of type switch statement broken");
-                break;
-        } 
+            SetStandardLightValues(lightOBJ.GetComponent<Light>());
+        }
     }
 
     public void DisableBridge()
     {
         print("Disabling bridge");
-        DisableBridgeLights();
+        DisableLights();
         bridgeStatusLight.GetComponent<MeshRenderer>().material = red;
     }
 
     public void DisableCargoHold()
     {
-        DisableCargoHoldLights();
+        DisableLights();
         cargoHoldStatusLight.GetComponent<MeshRenderer>().material = red;
     }
 
     public void DisableEngineRoom()
     {
-        DisableEngineRoomLights();
+        DisableLights();
         engineRoomStatusLight.GetComponent<MeshRenderer>().material = red;
     }
 
-    private void DisableBridgeLights()
+    private void DisableLights()
     {
-        //GetLightsOfType("BridgeLight");
-        foreach(GameObject lightOBJ in bridgeLights)
-        {
-            SetEmergencyLightValues(lightOBJ.GetComponent<Light>());
-            print("Disabling a bridge light");
-        }
-    }
-
-    private void DisableCargoHoldLights()
-    {
-        //GetLightsOfType("CargoHoldLight");
-        foreach (GameObject lightOBJ in cargoHoldLights)
-        {
-            SetEmergencyLightValues(lightOBJ.GetComponent<Light>());
-        }
-    }
-
-    private void DisableEngineRoomLights()
-    {
-        //GetLightsOfType("EngineRoomLight");
-        foreach (GameObject lightOBJ in engineRoomLights)
+        if (lightsOff) { return; }
+        foreach (GameObject lightOBJ in Lights)
         {
             SetEmergencyLightValues(lightOBJ.GetComponent<Light>());
         }

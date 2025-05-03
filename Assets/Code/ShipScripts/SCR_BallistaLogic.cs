@@ -113,8 +113,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
         playerOnBallista.GetComponent<GravitasFirstPersonPlayerSubject>().hasItem = false;
         interactScriptRef.objectBeingHeld = "";
         interactScriptRef.craigHoldItemMesh.SetActive(false);
-        interactScriptRef.craigBodyMesh.SetActive(true);
-        interactScriptRef.craigClothesMesh.SetActive(true);
+        interactScriptRef.craigStandardMesh.SetActive(true);
         interactScriptRef.ballistaBoltMesh.SetActive(false);
 
         RemoveBoltFromPlayerClientRPC(new ClientRpcParams
@@ -137,8 +136,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
             {
                 interactScriptRef.objectBeingHeld = "";
                 interactScriptRef.craigHoldItemMesh.SetActive(false);
-                interactScriptRef.craigBodyMesh.SetActive(true);
-                interactScriptRef.craigClothesMesh.SetActive(true);
+                interactScriptRef.craigStandardMesh.SetActive(true);
                 interactScriptRef.ballistaBoltMesh.SetActive(false);
             }
             GravitasFirstPersonPlayerSubject playerSubject = player.GetComponent<GravitasFirstPersonPlayerSubject>();
