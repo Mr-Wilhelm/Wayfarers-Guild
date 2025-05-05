@@ -348,7 +348,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         if (objectBeingHeld == "Fuse")
                         {
                             Debug.Log("Fixing fuse");
-                            fuseBoxRef.FixFuse();
+                            fuseBoxRef.FixFuseServerRPC();
                             dropItem(true);
                         }
                         else { Debug.Log("Need fuse to replace this blown one"); }
@@ -458,7 +458,7 @@ public class SCR_NewInteract : NetworkBehaviour
         if(Input.GetKeyDown(KeyCode.Z))
         {
             SCR_FuseBox fuseBoxInstance = GameObject.Find("BridgeFuseBox").GetComponent<SCR_FuseBox>();
-            fuseBoxInstance.BlowFuse();
+            fuseBoxInstance.BlowFuseServerRPC();
         }
     }
 

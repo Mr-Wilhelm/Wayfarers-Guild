@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class SCR_FuseBox : MonoBehaviour
+public class SCR_FuseBox : NetworkBehaviour
 {
     // Start is called before the first frame update
 
@@ -15,7 +16,14 @@ public class SCR_FuseBox : MonoBehaviour
 
     public bool fuseBlown;
 
-    public void FixFuse()
+    [ServerRpc(RequireOwnership = false)]
+    public void FixFuseServerRPC()
+    {
+        FixFuseClientRPC();
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    public void FixFuseClientRPC()
     {
         if (fuseBlown)
         {
@@ -29,7 +37,16 @@ public class SCR_FuseBox : MonoBehaviour
         }
     }
 
-    public void BlowFuse()
+    [ServerRpc(RequireOwnership = false)]
+    public void BlowFuseServerRPC()
+    {
+        BlowFuseClientRPC();
+        //fuseBlown = true;
+        //DisableLights();
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void BlowFuseClientRPC()
     {
         fuseBlown = true;
         DisableLights();

@@ -43,6 +43,7 @@ public class SCR_FuseManager : MonoBehaviour
     public void EnableLights()
     {
         Debug.Log("TRYING TO ENABLE LIGHTS");
+        lightsOff = false;
         bridgeStatusLight.GetComponent<MeshRenderer>().material = green;
         cargoHoldStatusLight.GetComponent<MeshRenderer>().material = green;
         engineRoomStatusLight.GetComponent<MeshRenderer>().material = green;
@@ -75,6 +76,7 @@ public class SCR_FuseManager : MonoBehaviour
     private void DisableLights()
     {
         if (lightsOff) { return; }
+        lightsOff = true;
         foreach (GameObject lightOBJ in Lights)
         {
             SetEmergencyLightValues(lightOBJ.GetComponent<Light>());
