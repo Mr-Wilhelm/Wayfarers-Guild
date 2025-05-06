@@ -27,9 +27,15 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private TextMeshProUGUI repairCostText;
 
+    [SerializeField]
+    private Button portButton;
+
     [Header("Sprites")]
     [SerializeField]
     private GameObject spoonsSprite;
+
+    [SerializeField]
+    private GameObject portSprite;
 
     [Header("Animations")]
     [SerializeField]
@@ -53,6 +59,9 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [SerializeField]
     private TextAsset researchQuestCompleteDialogue;
+
+    [SerializeField]
+    private TextAsset portNPCDefaultDialogue;
 
     [SerializeField]
     private GameObject dialoguePanel;
@@ -171,6 +180,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
+        portButton = GameObject.Find("BUTTON_Port").GetComponent<Button>();
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
 
         repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
@@ -179,6 +189,7 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
+        portSprite = GameObject.Find("SPRITE_PortMan");
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
@@ -193,6 +204,8 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
         scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
+
+        portNPCDefaultDialogue = Resources.Load<TextAsset>("InkJsons/PortDefault");
 
 
         dialoguePanel = GameObject.Find("DialogueBox");
@@ -322,9 +335,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         cityAnimator.SetBool("SpoonsPressed", true);
         spoonsButton.interactable = false;
+        portButton.interactable = false;
 
         //twenty billion else if statements and im not sorry
-        //issue where selecting Jenny quest after completing Matthew quest will trigger the dialogue for the Jenny quest completion, and vise versa
         if (questHandler.hasCompletedJennyQuest.Value == true)
         {
             EnterDialogueMode(spoonsQuestCompleteDialogue);
@@ -351,6 +364,13 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
     }
+    public void Func_PortButtonPressed()
+    {
+        cityAnimator.SetBool("PortPressed", true);
+        portButton.interactable = false;
+        spoonsButton.interactable = false;
+        EnterDialogueMode(portNPCDefaultDialogue);
+    }
 
     public void Func_ExampleButtonPressed()
     {
@@ -365,7 +385,16 @@ public class SCR_NewUiManager : NetworkBehaviour
         //cityAnimator.SetBool("HasChoices", false);
 
         spoonsButton.interactable = true;
+        portButton.interactable = true;
    
+    }
+    public void Func_PortBackButtonPressed()
+    {
+        cityAnimator.SetBool("PortPressed", false);
+
+        spoonsButton.interactable = true;
+        portButton.interactable = true;
+        StartCoroutine(ExitDialogueMode());
     }
 
     public void Func_QuestButtonPressed()
@@ -373,7 +402,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         Debug.Log("Quest Button Pressed");
         cityAnimator.SetBool("QuestBoardPressed", true);
         spoonsButton.interactable = false;
+        portButton.interactable = false;
+
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        portButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
     }
     public void Func_QuestPressed(QuestButton quest)
@@ -427,7 +459,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         cityAnimator.SetBool("HasAcceptedQuest", false);
 
         spoonsButton.interactable = true;
+        portButton.interactable = true;
+
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        portButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         Invoke("delayDespawnQuestInfo", 1.0f);
     }
@@ -629,15 +664,20 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
-        yield return new WaitForSeconds(0.5f);
+        Debug.Log("AAAAAAAAAAAAAAAA");
+        //yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
+        cityAnimator.SetBool("SpoonsPressed", false);
+        cityAnimator.SetBool("PortPressed", false);
+        yield return new WaitForSeconds(1.0f);
         dialoguePanel.SetActive(false);
+        audioSource.Stop();
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
-        cityAnimator.SetBool("SpoonsPressed", false);
         spoonsButton.interactable = true;
+        portButton.interactable = true;
     }
 
     private void ContinueStory()
