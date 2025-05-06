@@ -14,7 +14,7 @@ public class TutorialPrompts : NetworkBehaviour
         gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
