@@ -327,7 +327,6 @@ public class SCR_NewUiManager : NetworkBehaviour
                 ContinueStory();
             }
         }
-
     }
 
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
@@ -660,6 +659,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)    //starts dialogue with the text file as a parameter
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
+
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
         dialoguePanel.SetActive(true);  //activate the dialogue panel
