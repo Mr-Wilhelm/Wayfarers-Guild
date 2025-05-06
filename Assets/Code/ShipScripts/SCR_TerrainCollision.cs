@@ -1,11 +1,13 @@
 using Gravitas;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
+using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
 
-public class SCR_TerrainCollision : MonoBehaviour
+public class SCR_TerrainCollision : NetworkBehaviour
 {
     [SerializeField] public LayerMask terrainLayer;
     [SerializeField] private float bounceForce = 10f;
@@ -89,33 +91,16 @@ public class SCR_TerrainCollision : MonoBehaviour
 
             //calculate the reflection angle and adds force
             Vector3 reflectionDir = Vector3.Reflect(preImpactVelocity.normalized, colNormal.normalized);
-            //shipRB.AddForce(reflectionDir * bounceForce * preImpactVelocity.magnitude, ForceMode.Impulse);
             shipRB.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(reflectionDir * bounceForce * preImpactVelocity.magnitude, colPos, ForceMode.Impulse);
 
-        
-            //SHOULD NOT TESTED
-            //FIND THE ACTIVE CAMERA
-            GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject p in Players) 
+            //Should stopscreenshake from being called twice, THEORETICAL
+            if (IsOwner)
             {
-                GameObject Camera = GameObjectCommon.FindChildwithTagStringLayer(p, "Camera", GameObjectCommon.NameTagLayer.Name);
-                if(Camera != null&& Camera.activeSelf)
-                {
-                    StartCoroutine(SCR_ScreenShake.ScreenshakeLocalCurve(Camera, screenShakeDuration, collisionScreenShakeStrengthCurve, 0.375f));
-                    break;
-                }
-
-            }            
-            
-            
-            
+                CallScreenShakeRpc();
+            }
+ 
+            //Might need to change this so it only gets called once
             TakeShipDamage();
-
-            
-            //TODO make the ship change angle based on how it collided
-
-            
-
 
 
         }
@@ -144,12 +129,43 @@ public class SCR_TerrainCollision : MonoBehaviour
 
 
     /// <summary>
-    /// TODO DamageFunction
+    /// DamageFunction
     /// </summary>
     public void TakeShipDamage()
     {
         //MAKE SHIP TAKE DAMAGE HERE OR
         GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-collisionDamage);
+    }
+
+
+
+
+    /// <summary>
+    /// Function that triggers the screenshake for both players
+    /// </summary>
+    [Rpc(SendTo.Everyone)]
+    public void CallScreenShakeRpc()
+    {
+        ScreenShake();
+    }
+
+    /// <summary>
+    /// function that finds the correct camera and applies a screenshake
+    /// </summary>
+    public void ScreenShake()
+    {
+        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject p in Players)
+        {
+            GameObject Camera = GameObjectCommon.FindChildwithTagStringLayer(p, "Camera", GameObjectCommon.NameTagLayer.Name);
+            if (Camera != null && Camera.activeSelf)
+            {
+                StartCoroutine(SCR_ScreenShake.ScreenshakeLocalCurve(Camera, screenShakeDuration, collisionScreenShakeStrengthCurve, 0.375f));
+            }
+
+        }
+
     }
 
 
