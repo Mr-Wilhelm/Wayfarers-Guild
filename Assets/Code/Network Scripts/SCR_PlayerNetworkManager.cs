@@ -25,6 +25,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] public GameObject CraigHoldingMesh;
 
+    [SerializeField] public GameObject CraigOneHandMesh;
+
     [SerializeField] public LayerMask SelfPlayerMesh;
 
     [SerializeField] private Animator playerAnimator;
@@ -107,6 +109,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             MakeSelfPlayerMeshInvisible();
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
             CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            CraigOneHandMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
@@ -155,6 +158,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             MakeSelfPlayerMeshInvisible();
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
             CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            CraigOneHandMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
@@ -206,6 +210,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             MakeSelfPlayerMeshInvisible();
             int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
             CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            CraigOneHandMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
