@@ -1,18 +1,25 @@
-Welcome To Port Thames!
-This area is currently under construction #animate
-Please come back later for some ship upgrades #animate
+VAR money = 0
+VAR repairCost = 0
+
+Welcome To Port Thames and Fawkes! #animate
+Have at me if you need anything.#animate
+
 ->Choices
 
 ==Choices==
-* [Purchase] -> Buy
-* [Equip] -> Equip
+* [Upgrades] -> Upgrades
+* [Repairs] -> Repair
 
-==Buy==
-Looking to buy?
-Take your pick!
+==Upgrades==
+Take a look, it'll blow your mind, and your enemies' brains out!
 ->END
 
-==Equip==
-Looking to make some modifications?
-Hand over what you got and i'll get it sorted.
+==Repair==
+{money >= repairCost: 
+All fixed up! Now get out there and smash it!
+
+- else:
+Sorry, but you're up short.
+Maybe bring your wallet next time and i'll think about it!
+}
 ->END

@@ -130,6 +130,10 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private GameObject npcQuestCompleteLocation;
 
+    [Header("Upgrades UI")]
+    [SerializeField]
+    private GameObject upgradesUI;
+
     [Header("Stats")]
     [SerializeField]
     private float repairCost;
@@ -207,6 +211,9 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         portNPCDefaultDialogue = Resources.Load<TextAsset>("InkJsons/PortDefault");
 
+        //Choices UI - its up here for whatever reason if its lower then Unity doesn't assign it
+        upgradesUI = GameObject.Find("---UPGRADE UI---");
+        upgradesUI.SetActive(false);
 
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
@@ -229,8 +236,6 @@ public class SCR_NewUiManager : NetworkBehaviour
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
 
         questInfoObject.gameObject.SetActive(false);
-
-        //something from here is not loading correctly in build
 
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
@@ -260,7 +265,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
         questInfoObject.questStamp.enabled = false;
 
-        //Start of scene functions
+
 
         //has cargo quest with no people attached
         if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
