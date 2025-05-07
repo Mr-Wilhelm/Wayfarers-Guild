@@ -400,6 +400,12 @@ public class SCR_NewUiManager : NetworkBehaviour
         StartCoroutine(ExitDialogueMode());
     }
 
+    public void Func_UpgradesBackButtonPressed()
+    {
+        spoonsButton.interactable = true;
+        portButton.interactable = true;
+        upgradesUI.SetActive(false);
+    }
     public void Func_QuestButtonPressed()
     {
         Debug.Log("Quest Button Pressed");
