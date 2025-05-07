@@ -22,12 +22,6 @@ public class SCR_NewUiManager : NetworkBehaviour
     private Button questButton;
 
     [SerializeField]
-    private Button repairButton;
-
-    [SerializeField]
-    private TextMeshProUGUI repairCostText;
-
-    [SerializeField]
     private Button portButton;
 
     [Header("Sprites")]
@@ -89,6 +83,9 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [SerializeField]
     private bool canContinueStory;
+
+    [SerializeField]
+    private bool showUpgrades;
 
     [Header("Choices UI")]
     [SerializeField]
@@ -190,10 +187,6 @@ public class SCR_NewUiManager : NetworkBehaviour
         portButton = GameObject.Find("BUTTON_Port").GetComponent<Button>();
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
 
-        repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
-        repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
-        repairCostText.text = repairCost.ToString();
-
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
         portSprite = GameObject.Find("SPRITE_PortMan");
@@ -262,7 +255,6 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
-        repairCostText.text = repairCost.ToString();
 
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
@@ -297,7 +289,6 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
     }
-
     private void Update()
     {
         canContinueStory = currentStory.canContinue;
@@ -337,7 +328,6 @@ public class SCR_NewUiManager : NetworkBehaviour
             }
         }
     }
-
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
     {
         playerMoneyText.text = newValue.ToString();
@@ -566,12 +556,17 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     public void Func_RepairButtonPress()
     {
+        RepairShip();
+    }
+
+    private void RepairShip()
+    {
         playerDataHandler.playerMoney.Value -= repairCost;
 
         playerDataHandler.shipHealthGlobal.Value = 100.0f;
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
-        repairCostText.text = repairCost.ToString();
     }
+
     public void ShowStamp()
     {
         questInfoObject.questStamp.enabled = true;
@@ -678,6 +673,11 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
+        if(showUpgrades)
+        {
+            upgradesUI.SetActive(true);
+            showUpgrades = false;
+        }
         Debug.Log("AAAAAAAAAAAAAAAA");
         //yield return new WaitForSeconds(0.5f);
 
@@ -710,6 +710,15 @@ public class SCR_NewUiManager : NetworkBehaviour
             StopCoroutine(typeTextCoroutine);
         }
 
+        if (dialogueTags.Contains("repair"))
+        {
+            RepairShip();
+        }
+        else if(dialogueTags.Contains("upgrade"))
+        {
+            showUpgrades = true;
+        }
+
         typeTextCoroutine = StartCoroutine(TypeText(currentFullLine));  //type out the current full line
 
         if(currentStory.currentChoices.Count > 0)
@@ -724,7 +733,6 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void DisplayChoices()
     {
-
         List<Choice> currentChoices = currentStory.currentChoices;  //gets a list of choices from the ink dialogue (Choice class is an ink plugin thing)
 
         if(currentChoices.Count > choices.Length)
@@ -750,8 +758,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
         if (dialogueTags.Contains("animate"))
-            cityAnimator.SetBool("HasChoices", true);
-            
+            cityAnimator.SetBool("HasChoices", true);          
     }
 
     private IEnumerator TypeText(string text)

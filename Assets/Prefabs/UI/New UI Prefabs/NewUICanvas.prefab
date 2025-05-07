@@ -1574,7 +1574,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 5800360941254490564}
   m_Father: {fileID: 6479237392210719641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2182,7 +2183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3237185332
+  GlobalObjectIdHash: 3123205983
   InScenePlacedSourceGlobalObjectIdHash: 3076388177
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -2205,8 +2206,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spoonsButton: {fileID: 0}
   questButton: {fileID: 0}
-  repairButton: {fileID: 0}
-  repairCostText: {fileID: 0}
   portButton: {fileID: 0}
   spoonsSprite: {fileID: 0}
   portSprite: {fileID: 0}
@@ -2225,6 +2224,7 @@ MonoBehaviour:
   textSound: {fileID: 8300000, guid: 7ad32dbcc8ce48b4a83894a5a869f45e, type: 3}
   dialogueTags: []
   currentFullLine: 
+  canContinueStory: 0
   choices:
   - {fileID: 2097914655986618178}
   - {fileID: 4728155318415886834}
@@ -2240,7 +2240,7 @@ MonoBehaviour:
   targetNPC: 
   npcLocation: {fileID: 0}
   npcQuestCompleteLocation: {fileID: 0}
-  choicesUI: {fileID: 0}
+  upgradesUI: {fileID: 0}
   repairCost: 0
   playerDataHandler: {fileID: 0}
   questHandler: {fileID: 0}
@@ -3506,7 +3506,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 4595561572139679386}
   m_Father: {fileID: 6479237392210719641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4374,14 +4375,14 @@ RectTransform:
   m_GameObject: {fileID: 3997284716356762682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6479237392210719641}
+  m_Father: {fileID: 8611586404268046471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -724.9, y: 626.54}
+  m_AnchoredPosition: {x: -10.999878, y: 10.599915}
   m_SizeDelta: {x: 235, y: 196}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2210136623720935247
@@ -6993,14 +6994,14 @@ RectTransform:
   m_GameObject: {fileID: 7028290476224429118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6479237392210719641}
+  m_Father: {fileID: 6599482007309598893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 549.4003, y: -372.39996}
+  m_AnchoredPosition: {x: -13.999817, y: 14.000122}
   m_SizeDelta: {x: 248, y: 211}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7489962456943562279
@@ -9294,13 +9295,11 @@ RectTransform:
   - {fileID: 4122867979959164361}
   - {fileID: 4462194822291534503}
   - {fileID: 924337243694944431}
-  - {fileID: 5800360941254490564}
   - {fileID: 7023361894961868966}
   - {fileID: 8069934880032938588}
   - {fileID: 4670518400968935421}
   - {fileID: 8611586404268046471}
   - {fileID: 9199352086694388476}
-  - {fileID: 4595561572139679386}
   - {fileID: 2731692940575645648}
   - {fileID: 6599482007309598893}
   - {fileID: 7636709376131511058}
