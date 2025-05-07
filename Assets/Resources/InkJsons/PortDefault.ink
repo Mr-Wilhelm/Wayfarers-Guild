@@ -2,7 +2,7 @@ VAR money = 0
 VAR repairCost = 0
 
 Welcome To Port Thames and Fawkes! #animate
-Have at me if you need anything.#animate
+Have at me if you need anything.
 
 ->Choices
 
@@ -11,7 +11,8 @@ Have at me if you need anything.#animate
 * [Repairs] -> Repair
 
 ==Upgrades==
-Take a look, it'll blow your mind, and your enemies' brains out!
+Take a look
+it'll blow your mind, and your enemies' brains out!
 ->END
 
 ==Repair==

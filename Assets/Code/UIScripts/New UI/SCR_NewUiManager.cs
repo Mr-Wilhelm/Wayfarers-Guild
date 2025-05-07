@@ -87,6 +87,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private string currentFullLine;
 
+    [SerializeField]
+    private bool canContinueStory;
+
     [Header("Choices UI")]
     [SerializeField]
     private GameObject[] choices;
@@ -297,6 +300,7 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void Update()
     {
+        canContinueStory = currentStory.canContinue;
 
         if (questHandler.hasCompletedJennyQuest.Value == false && questHandler.hasCompletedMatthewQuest.Value == false)
         {
@@ -325,6 +329,11 @@ public class SCR_NewUiManager : NetworkBehaviour
             else if (!isShowingChoices)
             {
                 ContinueStory();
+            }
+
+            else if(currentStory.canContinue == false && !isShowingChoices)
+            {
+                StartCoroutine(ExitDialogueMode());
             }
         }
     }
@@ -767,8 +776,10 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void MakeChoice(int choiceIndex)
     {
         Debug.Log("You made your choice");
-        currentStory.ChooseChoiceIndex(choiceIndex);
+        cityAnimator = Resources.Load<Animator>("CityAnimController");
+        cityAnimator = GetComponent<Animator>();
         cityAnimator.SetBool("HasChoices", false);
+        currentStory.ChooseChoiceIndex(choiceIndex);
         isShowingChoices = false;
         npcLocation.SetActive(false);
         ContinueStory();
