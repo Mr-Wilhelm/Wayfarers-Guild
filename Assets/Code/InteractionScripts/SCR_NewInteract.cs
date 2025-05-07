@@ -39,6 +39,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
     [SerializeField] public GameObject craigStandardMesh;
     [SerializeField] public GameObject craigHoldItemMesh;
+    [SerializeField] public GameObject craigHoldOneHandMesh;
     [SerializeField] private GameObject engineFoodMesh;
     [SerializeField] public GameObject ballistaBoltMesh;
     [SerializeField] public GameObject fuseMesh;
@@ -606,7 +607,7 @@ public class SCR_NewInteract : NetworkBehaviour
     [ClientRpc]
     private void PickUpFuseClientRPC()
     {
-        craigHoldItemMesh.SetActive(true);
+        craigHoldOneHandMesh.SetActive(true);
         craigStandardMesh.SetActive(false);
         fuseMesh.SetActive(true);
     }
@@ -621,6 +622,7 @@ public class SCR_NewInteract : NetworkBehaviour
     private void DropItemClientRPC()
     {
         craigHoldItemMesh.SetActive(false);
+        craigHoldOneHandMesh.SetActive(false);
         craigStandardMesh.SetActive(true);
         ballistaBoltMesh.SetActive(false);
         engineFoodMesh.SetActive(false);

@@ -58,32 +58,36 @@ public class SCR_ShipControls : NetworkBehaviour
         }
 
         //Yaw Right
-        if (Input.GetKey(KeyCode.D) == true)
+        if (Input.GetKey(KeyCode.D) == true && !Input.GetKey(KeyCode.A))
         {
-            //Debug.Log("Turning right");
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
-            RotateWheelRightServerRPC();
-            //wheelAnimator.speed = 1;
-            //wheelAnimator.SetBool("TurningLeft", false);
-            //wheelAnimator.SetBool("TurningRight", true);
+            //RotateWheelRightServerRPC();
+            if (Input.GetAxis("Horizontal") != 1)
+            {
+                RotateWheelServerRPC();
+            }
+            else
+            {
+                Debug.Log("Wheel already turned");
+            }
         }
         //Yaw Left
-        if (Input.GetKey(KeyCode.A) == true)
+        if (Input.GetKey(KeyCode.A) == true && !Input.GetKey(KeyCode.D))
         {
-            //Debug.Log("Turning left");
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
-            RotateWheelLeftServerRPC();
-            //wheelAnimator.speed = 1;
-            //wheelAnimator.SetBool("TurningLeft", true);
-            //wheelAnimator.SetBool("TurningRight", false);
+            //RotateWheelLeftServerRPC();
+            if(Input.GetAxis("Horizontal") != -1)
+            {
+                RotateWheelServerRPC();
+            }
+            else
+            {
+                Debug.Log("Wheel already turned");
+            }
         }
         if(Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false) 
         {
-            wheelAnimator.SetBool("Turning", false);
             wheelAnimator.speed = 0;
-            wheelAnimator.SetBool("TurningLeft", false);
-            wheelAnimator.SetBool("TurningRight", false);
-            wheelAnimator.SetBool("NotTurning", true);
         }
         //Roll Right -  && !(ship.transform.rotation.eulerAngles.x > 180 && ship.transform.rotation.eulerAngles.x < 360 - shipMovement.autoCorrectLimit)
         if (Input.GetKey(KeyCode.E))
@@ -156,70 +160,97 @@ public class SCR_ShipControls : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void RotateWheelRightServerRPC()
     {
-        float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
-        if (centreZRotation <= -179)
-        {
-            //Debug.Log("Stopping wheel rotation to the right");
-            return;
-        }
-        foreach (GameObject wheelPiece in wheelPiecesToRotate)
-        {
-            //Debug.Log("Turning wheel pieces right");
-            wheelPiece.transform.Rotate(new Vector3(0, 0, -1), 0.5f);
-            Vector3 wheelRotation = wheelCentrePost.transform.eulerAngles;
-            //Debug.Log("wheel centre post rotation is: " + wheelRotation);
-        }
-        foreach (GameObject wheelRimPiece in wheelRimPieces)
-        {
-            wheelRimPiece.transform.Rotate(new Vector3(0, 1, 0), 0.5f);
-        }
+        RotateWheelRightClientRPC();
+        //float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
+        //if (centreZRotation <= -179)
+        //{
+        //    //Debug.Log("Stopping wheel rotation to the right");
+        //    return;
+        //}
+        //foreach (GameObject wheelPiece in wheelPiecesToRotate)
+        //{
+        //    Debug.Log("Turning wheel pieces right");
+        //    wheelPiece.transform.Rotate(new Vector3(0, 0, -1), 0.5f);
+        //    Vector3 wheelRotation = wheelCentrePost.transform.eulerAngles;
+        //    //Debug.Log("wheel centre post rotation is: " + wheelRotation);
+        //}
+        //foreach (GameObject wheelRimPiece in wheelRimPieces)
+        //{
+        //    wheelRimPiece.transform.Rotate(new Vector3(0, 1, 0), 0.5f);
+        //}
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void RotateWheelServerRPC()
+    {
+        RotateWheelClientRPC();
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void RotateWheelClientRPC()
+    {
+        wheelAnimator.speed = 1;
+        wheelAnimator.SetBool("MoveWheel", true);
+        float input = Input.GetAxis("Horizontal");
+        wheelAnimator.SetFloat("SteerDirection", input);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void RotateWheelLeftServerRPC()
     {
-        float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
-        if (centreZRotation >= 179)
-        {
-            //Debug.Log("Stopping wheel rotation to the left");
-            return;
-        }
-        foreach (GameObject wheelPiece in wheelPiecesToRotate)
-        {
-            //Debug.Log("Turning wheel pieces left");
-            wheelPiece.transform.Rotate(new Vector3(0, 0, 1), 0.5f);
-        }
-        foreach (GameObject wheelRimPiece in wheelRimPieces)
-        {
-            wheelRimPiece.transform.Rotate(new Vector3(0, -1, 0), 0.5f);
-        }
+        RotateWheelLeftClientRPC();
+
+        //float centreZRotation = NormalizeAngle(wheelCentrePost.transform.eulerAngles.z);
+        //if (centreZRotation >= 179)
+        //{
+        //    Debug.Log("Stopping wheel rotation to the left");
+        //    return;
+        //}
+        //foreach (GameObject wheelPiece in wheelPiecesToRotate)
+        //{
+        //    //Debug.Log("Turning wheel pieces left");
+        //    wheelPiece.transform.Rotate(new Vector3(0, 0, 1), 0.5f);
+        //}
+        //foreach (GameObject wheelRimPiece in wheelRimPieces)
+        //{
+        //    wheelRimPiece.transform.Rotate(new Vector3(0, -1, 0), 0.5f);
+        //}
     }
 
-    //[ClientRpc]
-    //private void RotateWheelLeftClientRPC()
-    //{
-    //    foreach (GameObject wheelPiece in wheelPiecesToRotate)
-    //    {
-    //        wheelPiece.transform.Rotate(new Vector3(0, 0, 1), 0.5f);
-    //    }
-    //    foreach (GameObject wheelRimPiece in wheelRimPieces)
-    //    {
-    //        wheelRimPiece.transform.Rotate(new Vector3(0, -1, 0), 0.5f);
-    //    }
-    //}
+    [ClientRpc(RequireOwnership = false)]
+    private void RotateWheelLeftClientRPC()
+    {
+        wheelAnimator.speed = -1;
+        wheelAnimator.SetBool("MoveWheel", true);
 
-    //[ClientRpc]
-    //private void RotateWheelRightClientRPC()
-    //{
-    //    foreach (GameObject wheelPiece in wheelPiecesToRotate)
-    //    {
-    //        wheelPiece.transform.Rotate(new Vector3(0, 0, -1), 0.5f);
-    //    }
-    //    foreach (GameObject wheelRimPiece in wheelRimPieces)
-    //    {
-    //        wheelRimPiece.transform.Rotate(new Vector3(0, 1, 0), 0.5f);
-    //    }
-    //}
+        //foreach (GameObject wheelPiece in wheelPiecesToRotate)
+        //{
+        //    wheelPiece.transform.Rotate(new Vector3(0, 0, 1), 0.5f);
+        //}
+        //foreach (GameObject wheelRimPiece in wheelRimPieces)
+        //{
+        //    wheelRimPiece.transform.Rotate(new Vector3(0, -1, 0), 0.5f);
+        //}
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void RotateWheelRightClientRPC()
+    {
+        wheelAnimator.speed = 1;
+        wheelAnimator.SetBool("MoveWheel", true);
+
+        //wheelAnimator.SetBool("TurnRight", true);
+        //wheelAnimator.SetBool("TurnLeft", false);
+
+        //foreach (GameObject wheelPiece in wheelPiecesToRotate)
+        //{
+        //    wheelPiece.transform.Rotate(new Vector3(0, 0, -1), 0.5f);
+        //}
+        //foreach (GameObject wheelRimPiece in wheelRimPieces)
+        //{
+        //    wheelRimPiece.transform.Rotate(new Vector3(0, 1, 0), 0.5f);
+        //}
+    }
 
     private float NormalizeAngle(float angle)
     {
