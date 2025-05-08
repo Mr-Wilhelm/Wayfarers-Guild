@@ -1,11 +1,13 @@
 using Gravitas;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
+using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
 
-public class SCR_TerrainCollision : MonoBehaviour
+public class SCR_TerrainCollision : NetworkBehaviour
 {
     [SerializeField] public LayerMask terrainLayer;
     [SerializeField] private float bounceForce = 10f;
@@ -15,6 +17,9 @@ public class SCR_TerrainCollision : MonoBehaviour
 
     [SerializeField] float collisionDamage = 10f; // Damage taken by the ship on collision
 
+    [SerializeField] AnimationCurve collisionScreenShakeStrengthCurve;
+    [SerializeField] GameObject PlayerCameraObject;
+    [SerializeField] float screenShakeDuration = 0.8f;
     // Variables to store whether the ship has recently hit terrain
     private bool shipRecentlyHitTerrain;
     private bool shipInCollider;
@@ -79,28 +84,23 @@ public class SCR_TerrainCollision : MonoBehaviour
         //calculates the angle of collision to make sure the ship is not pushed into the terrain
         float collisionDotProduct = Vector3.Dot(preImpactVelocity.normalized, colNormal.normalized);
 
-        //Debug.Log("Before Impact Velocity: " + preImpactVelocity.normalized);
-        //Debug.Log("ColliderNormal: " + collisionNormal.normalized);
-        //Debug.Log($"{collisionDotProduct}");
 
         //calculates if the ship is heading towards or away from the colliding normal
         if (collisionDotProduct < 0)
         {
-            //debug Functions that draw the normal of the colliding surface
-            //Debug.DrawLine(colPos, colPos + (colNormal * 10), Color.red,50f);
-            //Debug.DrawLine(colPos +  (colNormal * 10), colPos + (colNormal * 10)+ Vector3.up,Color.red, 50f);
 
             //calculate the reflection angle and adds force
             Vector3 reflectionDir = Vector3.Reflect(preImpactVelocity.normalized, colNormal.normalized);
-            //shipRB.AddForce(reflectionDir * bounceForce * preImpactVelocity.magnitude, ForceMode.Impulse);
-            shipRB.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(reflectionDir * bounceForce * preImpactVelocity.magnitude, colPos,ForceMode.Impulse);
+            shipRB.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(reflectionDir * bounceForce * preImpactVelocity.magnitude, colPos, ForceMode.Impulse);
 
+            //Should stopscreenshake from being called twice, THEORETICAL
+            if (IsOwner)
+            {
+                CallScreenShakeRpc();
+            }
+ 
+            //Might need to change this so it only gets called once
             TakeShipDamage();
-
-            //TODO make the ship change angle based on how it collided
-
-            
-
 
 
         }
@@ -129,12 +129,44 @@ public class SCR_TerrainCollision : MonoBehaviour
 
 
     /// <summary>
-    /// TODO DamageFunction
+    /// DamageFunction
     /// </summary>
     public void TakeShipDamage()
     {
         //MAKE SHIP TAKE DAMAGE HERE OR
         GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-collisionDamage);
     }
+
+
+
+
+    /// <summary>
+    /// Function that triggers the screenshake for both players
+    /// </summary>
+    [Rpc(SendTo.Everyone)]
+    public void CallScreenShakeRpc()
+    {
+        ScreenShake();
+    }
+
+    /// <summary>
+    /// function that finds the correct camera and applies a screenshake
+    /// </summary>
+    public void ScreenShake()
+    {
+        GameObject[] Players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject p in Players)
+        {
+            GameObject Camera = GameObjectCommon.FindChildwithTagStringLayer(p, "Camera", GameObjectCommon.NameTagLayer.Name);
+            if (Camera != null && Camera.activeSelf)
+            {
+                StartCoroutine(SCR_ScreenShake.ScreenshakeLocalCurve(Camera, screenShakeDuration, collisionScreenShakeStrengthCurve, 0.375f));
+            }
+
+        }
+
+    }
+
 
 }

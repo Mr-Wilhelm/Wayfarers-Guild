@@ -37,15 +37,17 @@ public class SCR_NewInteract : NetworkBehaviour
     [SerializeField] private LayerMask ActualPickUp;
     [SerializeField] private GravitasFirstPersonPlayerSubject playerScriptReference;
 
-    [SerializeField] public GameObject craigBodyMesh;
-    [SerializeField] public GameObject craigClothesMesh;
+    [SerializeField] public GameObject craigStandardMesh;
     [SerializeField] public GameObject craigHoldItemMesh;
+    [SerializeField] public GameObject craigHoldOneHandMesh;
     [SerializeField] private GameObject engineFoodMesh;
     [SerializeField] public GameObject ballistaBoltMesh;
+    [SerializeField] public GameObject fuseMesh;
     public string objectBeingHeld = string.Empty;
 
     [SerializeField] private GameObject ballistaBoltPrefab;
     [SerializeField] private GameObject engineFoodPrefab;
+    [SerializeField] private GameObject fusePrefab;
     [SerializeField] private GameObject dropPosition;
 
     private bool inBallista = false;
@@ -89,6 +91,7 @@ public class SCR_NewInteract : NetworkBehaviour
             gameUI.lookingAtDroppedFuel = false;
             gameUI.lookingAtCompendium = false;
             gameUI.lookingAtFuseBox = false;
+            gameUI.lookingAtFuseShelf = false;
 
             switch (lookAtTag)
             {
@@ -119,6 +122,9 @@ public class SCR_NewInteract : NetworkBehaviour
                 case ("FuseBox"):
                     gameUI.lookingAtFuseBox = true;
                     break;
+                case ("Fuse Storage"):
+                    gameUI.lookingAtFuseShelf = true;
+                    break;
             }
         }
         else
@@ -132,6 +138,7 @@ public class SCR_NewInteract : NetworkBehaviour
             gameUI.lookingAtDroppedFuel = false;
             gameUI.lookingAtCompendium = false;
             gameUI.lookingAtFuseBox = false;
+            gameUI.lookingAtFuseShelf = false;
         }
 
         if (Input.GetKeyDown(InteractKey))
@@ -336,7 +343,27 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("FuseBox"))
                 {
-                    Debug.Log("Interacting with fuse box");
+                    SCR_FuseBox fuseBoxRef = hitInfo.collider.gameObject.GetComponent<SCR_FuseBox>();
+                    if(hitInfo.collider.gameObject.GetComponent<SCR_FuseBox>().fuseBlown)
+                    {
+                        if (objectBeingHeld == "Fuse")
+                        {
+                            Debug.Log("Fixing fuse");
+                            fuseBoxRef.FixFuseServerRPC();
+                            dropItem(true);
+                        }
+                        else { Debug.Log("Need fuse to replace this blown one"); }
+                    }
+                    else
+                    {
+                        Debug.Log("Fuse is fine");
+                    }
+                }
+                else if (hitInfo.collider.gameObject.CompareTag("Fuse Storage"))
+                {
+                    Debug.Log("Trying to grab fuse");
+                    pickUpItem("Fuse", false, null);
+                    playerScriptReference.hasItem = true;
                 }
             }
             else if (interacting)
@@ -376,6 +403,11 @@ public class SCR_NewInteract : NetworkBehaviour
                     {
                         Debug.Log("Give back ballista bolt");
                         ballistaBoltMesh.SetActive(true);
+                    }
+                    else if (objectBeingHeld == "Fuse")
+                    {
+                        Debug.Log("Give back fuse");
+                        fuseMesh.SetActive(true);
                     }
                 }
             }
@@ -422,6 +454,12 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 dropItem();
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            SCR_FuseBox fuseBoxInstance = GameObject.Find("BridgeFuseBox").GetComponent<SCR_FuseBox>();
+            fuseBoxInstance.BlowFuseServerRPC();
         }
     }
 
@@ -477,7 +515,7 @@ public class SCR_NewInteract : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void UpdateCanInteractBoolServerRpc(bool newValue)
+    private void UpdateCanInteractBoolServerRpc(bool newValue) 
     {
         canInteract.Value = newValue;
         gameUI.HideWheelControls();
@@ -494,6 +532,10 @@ public class SCR_NewInteract : NetworkBehaviour
         else if(objectBeingHeld == "Engine Food")
         {
             if (!itemBeingDeleted) { SpawnEngineFoodServerRPC(); }
+        }
+        if(objectBeingHeld == "Fuse")
+        {
+            if(!itemBeingDeleted) { SpawnFuseServerRPC(); }
         }
         objectBeingHeld = "";
     }
@@ -514,6 +556,11 @@ public class SCR_NewInteract : NetworkBehaviour
             objectBeingHeld = "Engine Food";
             PickUpEngineFoodServerRPC();
         }
+        else if(itemToPickUp == "Fuse")
+        {
+            objectBeingHeld = "Fuse";
+            PickUpFuseServerRPC();
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -533,8 +580,7 @@ public class SCR_NewInteract : NetworkBehaviour
     private void PickUpBallistaBoltClientRPC()
     {
         craigHoldItemMesh.SetActive(true);
-        craigBodyMesh.SetActive(false);
-        craigClothesMesh.SetActive(false);
+        craigStandardMesh.SetActive(false);
         ballistaBoltMesh.SetActive(true);
     }
 
@@ -548,9 +594,22 @@ public class SCR_NewInteract : NetworkBehaviour
     private void PickUpEngineFoodClientRPC()
     {
         craigHoldItemMesh.SetActive(true);
-        craigBodyMesh.SetActive(false);
-        craigClothesMesh.SetActive(false);
+        craigStandardMesh.SetActive(false);
         engineFoodMesh.SetActive(true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void PickUpFuseServerRPC()
+    {
+        PickUpFuseClientRPC();
+    }
+
+    [ClientRpc]
+    private void PickUpFuseClientRPC()
+    {
+        craigHoldOneHandMesh.SetActive(true);
+        craigStandardMesh.SetActive(false);
+        fuseMesh.SetActive(true);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -563,10 +622,11 @@ public class SCR_NewInteract : NetworkBehaviour
     private void DropItemClientRPC()
     {
         craigHoldItemMesh.SetActive(false);
-        craigBodyMesh.SetActive(true);
-        craigClothesMesh.SetActive(true);
+        craigHoldOneHandMesh.SetActive(false);
+        craigStandardMesh.SetActive(true);
         ballistaBoltMesh.SetActive(false);
         engineFoodMesh.SetActive(false);
+        fuseMesh.SetActive(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -581,6 +641,14 @@ public class SCR_NewInteract : NetworkBehaviour
     private void SpawnEngineFoodServerRPC()
     {
         var instance = Instantiate(engineFoodPrefab, dropPosition.transform.position, dropPosition.transform.rotation);
+        var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
+        instanceNetworkOBJ.Spawn();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void SpawnFuseServerRPC()
+    {
+        var instance = Instantiate(fusePrefab, dropPosition.transform.position, dropPosition.transform.rotation);
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn();
     }

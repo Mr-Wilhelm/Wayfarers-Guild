@@ -1,5 +1,5 @@
 Oi!#animate
-If y'want a drink, you'd better pay, mate! #animate
+If y'want a drink, you'd better pay, mate!
 ->Choices
 
 ==Choices==

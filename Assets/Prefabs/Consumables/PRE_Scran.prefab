@@ -116,7 +116,13 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 0a03e929f9c32f84d98e11dfa2e68755, type: 2}
+      objectReference: {fileID: 2100000, guid: c36750045315a7b448fd37672250002a, type: 2}
+    - target: {fileID: -5754084199372789682, guid: a6197c9efb2986240a70fe962c966a72,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: 504d3dbd368fefc4aaf3f17c40653c47,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: a6197c9efb2986240a70fe962c966a72,
         type: 3}
       propertyPath: m_Name
@@ -175,7 +181,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 3921568967233161584, guid: a6197c9efb2986240a70fe962c966a72, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 504d3dbd368fefc4aaf3f17c40653c47, type: 3}
 --- !u!54 &96115139878554041
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -222,8 +228,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4, y: 0.4, z: 0.4}
-  m_Center: {x: 0, y: 0.1875, z: 0}
+  m_Size: {x: 0.55, y: 0.4, z: 0.55}
+  m_Center: {x: 0, y: 0.1875, z: 0.02}
 --- !u!114 &2722064390721224101
 MonoBehaviour:
   m_ObjectHideFlags: 0

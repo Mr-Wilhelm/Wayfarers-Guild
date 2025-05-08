@@ -25,6 +25,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] public GameObject CraigHoldingMesh;
 
+    [SerializeField] public GameObject CraigOneHandMesh;
+
     [SerializeField] public LayerMask SelfPlayerMesh;
 
     [SerializeField] private Animator playerAnimator;
@@ -66,7 +68,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         Transform[] children = CraigBodyMeshes.transform.GetComponentsInChildren<Transform>();
         foreach (Transform child in children)
         {
-            Debug.Log("Setting new layer");
+            //Debug.Log("Setting new layer");
             child.gameObject.layer = SelfPlayerMeshLayer;
         }
     }
@@ -105,6 +107,9 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
             MakeSelfPlayerMeshInvisible();
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            CraigOneHandMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
@@ -151,6 +156,9 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
             MakeSelfPlayerMeshInvisible();
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            CraigOneHandMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {
@@ -200,6 +208,9 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
             //Set each player's body mesh to self player mesh so they are not rendered by the player that owns them's camera
             MakeSelfPlayerMeshInvisible();
+            int SelfPlayerMeshLayer = LayerMask.NameToLayer("SelfPlayerMesh");
+            CraigHoldingMesh.layer = SelfPlayerMeshLayer;
+            CraigOneHandMesh.layer = SelfPlayerMeshLayer;
         }
         else
         {

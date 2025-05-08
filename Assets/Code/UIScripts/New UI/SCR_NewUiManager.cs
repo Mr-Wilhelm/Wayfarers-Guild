@@ -22,14 +22,14 @@ public class SCR_NewUiManager : NetworkBehaviour
     private Button questButton;
 
     [SerializeField]
-    private Button repairButton;
-
-    [SerializeField]
-    private TextMeshProUGUI repairCostText;
+    private Button portButton;
 
     [Header("Sprites")]
     [SerializeField]
     private GameObject spoonsSprite;
+
+    [SerializeField]
+    private GameObject portSprite;
 
     [Header("Animations")]
     [SerializeField]
@@ -55,6 +55,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextAsset researchQuestCompleteDialogue;
 
     [SerializeField]
+    private TextAsset portNPCDefaultDialogue;
+
+    [SerializeField]
     private GameObject dialoguePanel;
 
     [SerializeField]
@@ -77,6 +80,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [SerializeField]
     private string currentFullLine;
+
+    [SerializeField]
+    private bool canContinueStory;
+
+    [SerializeField]
+    private bool showUpgrades;
 
     [Header("Choices UI")]
     [SerializeField]
@@ -120,6 +129,10 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [SerializeField]
     private GameObject npcQuestCompleteLocation;
+
+    [Header("Upgrades UI")]
+    [SerializeField]
+    private GameObject upgradesUI;
 
     [Header("Stats")]
     [SerializeField]
@@ -171,14 +184,12 @@ public class SCR_NewUiManager : NetworkBehaviour
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
+        portButton = GameObject.Find("BUTTON_Port").GetComponent<Button>();
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
-
-        repairButton = GameObject.Find("BUTTON_RepairShip").GetComponent<Button>();
-        repairCostText = GameObject.Find("RepairCost").GetComponent<TextMeshProUGUI>();
-        repairCostText.text = repairCost.ToString();
 
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
+        portSprite = GameObject.Find("SPRITE_PortMan");
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
@@ -194,6 +205,11 @@ public class SCR_NewUiManager : NetworkBehaviour
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
         scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
 
+        portNPCDefaultDialogue = Resources.Load<TextAsset>("InkJsons/PortDefault");
+
+        //Choices UI - its up here for whatever reason if its lower then Unity doesn't assign it
+        upgradesUI = GameObject.Find("---UPGRADE UI---");
+        upgradesUI.SetActive(false);
 
         dialoguePanel = GameObject.Find("DialogueBox");
         dialoguePanel.SetActive(false);
@@ -217,8 +233,6 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         questInfoObject.gameObject.SetActive(false);
 
-        //something from here is not loading correctly in build
-
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
@@ -241,13 +255,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
-        repairCostText.text = repairCost.ToString();
 
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
         questInfoObject.questStamp.enabled = false;
 
-        //Start of scene functions
+
 
         //has cargo quest with no people attached
         if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
@@ -276,9 +289,9 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
     }
-
     private void Update()
     {
+        canContinueStory = currentStory.canContinue;
 
         if (questHandler.hasCompletedJennyQuest.Value == false && questHandler.hasCompletedMatthewQuest.Value == false)
         {
@@ -308,10 +321,13 @@ public class SCR_NewUiManager : NetworkBehaviour
             {
                 ContinueStory();
             }
+
+            else if(currentStory.canContinue == false && !isShowingChoices)
+            {
+                StartCoroutine(ExitDialogueMode());
+            }
         }
-
     }
-
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
     {
         playerMoneyText.text = newValue.ToString();
@@ -322,9 +338,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         cityAnimator.SetBool("SpoonsPressed", true);
         spoonsButton.interactable = false;
+        portButton.interactable = false;
 
         //twenty billion else if statements and im not sorry
-        //issue where selecting Jenny quest after completing Matthew quest will trigger the dialogue for the Jenny quest completion, and vise versa
         if (questHandler.hasCompletedJennyQuest.Value == true)
         {
             EnterDialogueMode(spoonsQuestCompleteDialogue);
@@ -351,6 +367,13 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
     }
+    public void Func_PortButtonPressed()
+    {
+        cityAnimator.SetBool("PortPressed", true);
+        portButton.interactable = false;
+        spoonsButton.interactable = false;
+        EnterDialogueMode(portNPCDefaultDialogue);
+    }
 
     public void Func_ExampleButtonPressed()
     {
@@ -365,15 +388,33 @@ public class SCR_NewUiManager : NetworkBehaviour
         //cityAnimator.SetBool("HasChoices", false);
 
         spoonsButton.interactable = true;
+        portButton.interactable = true;
    
     }
+    public void Func_PortBackButtonPressed()
+    {
+        cityAnimator.SetBool("PortPressed", false);
 
+        spoonsButton.interactable = true;
+        portButton.interactable = true;
+        StartCoroutine(ExitDialogueMode());
+    }
+
+    public void Func_UpgradesBackButtonPressed()
+    {
+        spoonsButton.interactable = true;
+        portButton.interactable = true;
+        upgradesUI.SetActive(false);
+    }
     public void Func_QuestButtonPressed()
     {
         Debug.Log("Quest Button Pressed");
         cityAnimator.SetBool("QuestBoardPressed", true);
         spoonsButton.interactable = false;
+        portButton.interactable = false;
+
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        portButton.GetComponent<CanvasGroup>().blocksRaycasts = false;
 
     }
     public void Func_QuestPressed(QuestButton quest)
@@ -427,7 +468,10 @@ public class SCR_NewUiManager : NetworkBehaviour
         cityAnimator.SetBool("HasAcceptedQuest", false);
 
         spoonsButton.interactable = true;
+        portButton.interactable = true;
+
         spoonsButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        portButton.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         Invoke("delayDespawnQuestInfo", 1.0f);
     }
@@ -518,12 +562,17 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     public void Func_RepairButtonPress()
     {
+        RepairShip();
+    }
+
+    private void RepairShip()
+    {
         playerDataHandler.playerMoney.Value -= repairCost;
 
         playerDataHandler.shipHealthGlobal.Value = 100.0f;
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
-        repairCostText.text = repairCost.ToString();
     }
+
     public void ShowStamp()
     {
         questInfoObject.questStamp.enabled = true;
@@ -620,6 +669,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)    //starts dialogue with the text file as a parameter
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
+
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
         dialoguePanel.SetActive(true);  //activate the dialogue panel
@@ -629,15 +679,25 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private IEnumerator ExitDialogueMode()  //stops the dialogue
     {
-        yield return new WaitForSeconds(0.5f);
+        if(showUpgrades)
+        {
+            upgradesUI.SetActive(true);
+            showUpgrades = false;
+        }
+        Debug.Log("AAAAAAAAAAAAAAAA");
+        //yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
+        cityAnimator.SetBool("SpoonsPressed", false);
+        cityAnimator.SetBool("PortPressed", false);
+        yield return new WaitForSeconds(1.0f);
         dialoguePanel.SetActive(false);
+        audioSource.Stop();
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
-        cityAnimator.SetBool("SpoonsPressed", false);
         spoonsButton.interactable = true;
+        portButton.interactable = true;
     }
 
     private void ContinueStory()
@@ -656,6 +716,15 @@ public class SCR_NewUiManager : NetworkBehaviour
             StopCoroutine(typeTextCoroutine);
         }
 
+        if (dialogueTags.Contains("repair"))
+        {
+            RepairShip();
+        }
+        else if(dialogueTags.Contains("upgrade"))
+        {
+            showUpgrades = true;
+        }
+
         typeTextCoroutine = StartCoroutine(TypeText(currentFullLine));  //type out the current full line
 
         if(currentStory.currentChoices.Count > 0)
@@ -670,7 +739,6 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void DisplayChoices()
     {
-
         List<Choice> currentChoices = currentStory.currentChoices;  //gets a list of choices from the ink dialogue (Choice class is an ink plugin thing)
 
         if(currentChoices.Count > choices.Length)
@@ -696,8 +764,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         }
 
         if (dialogueTags.Contains("animate"))
-            cityAnimator.SetBool("HasChoices", true);
-            
+            cityAnimator.SetBool("HasChoices", true);          
     }
 
     private IEnumerator TypeText(string text)
@@ -722,8 +789,10 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void MakeChoice(int choiceIndex)
     {
         Debug.Log("You made your choice");
-        currentStory.ChooseChoiceIndex(choiceIndex);
+        cityAnimator = Resources.Load<Animator>("CityAnimController");
+        cityAnimator = GetComponent<Animator>();
         cityAnimator.SetBool("HasChoices", false);
+        currentStory.ChooseChoiceIndex(choiceIndex);
         isShowingChoices = false;
         npcLocation.SetActive(false);
         ContinueStory();
