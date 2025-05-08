@@ -43,8 +43,8 @@ public class SCR_ButtonUpgrade : MonoBehaviour
             case "SonarUpgradeButton":
                 upgradeDescription = "In the vast, unknowable expanses of The Outer Realms, it's imperative to know where you're going." +
                     " That's why we've made the GSS, or Geosonar system, to help you find your way!" +
-                    " Simply press the button to send out a sonar ping, and watch a map of the local area come to life" +
-                    " (By purchasing this product you waive rights to sue us for any monster attacks caused by use of sonar equipment.)";
+                    " Simply press the button to send out a sonar ping (By purchasing this product you waive rights"+
+                    " to sue us for any monster attacks caused by use of sonar equipment.)";
                 upgradeCost = 100.0f;
                 upgradeImage = GameObject.Find("SonarUpgradeIcon").GetComponent<Image>();
                 break;

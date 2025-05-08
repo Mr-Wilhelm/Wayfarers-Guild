@@ -7,6 +7,7 @@ using TMPro;
 
 public class SCR_Upgrades : NetworkBehaviour
 {
+    [Header("ChosenUpgradeStats")]
     [SerializeField]
     private SCR_ButtonUpgrade buttonUpgrade;
 
@@ -17,6 +18,16 @@ public class SCR_Upgrades : NetworkBehaviour
     public TextMeshProUGUI upgradeCostToShow;
 
     public Image imageToShow;
+
+    [Header("Pages")]
+    [SerializeField]
+    private Image RepairsPage;
+
+    [SerializeField]
+    private Image UpgradeInfoPage;
+
+    [SerializeField]
+    private Image UpgradeListPage;
 
     private void Start()
     {
