@@ -19,14 +19,17 @@ public class SCR_ShipControls : NetworkBehaviour
     public SCR_ShipMovement shipMovement;
 
     [SerializeField] private Animator wheelAnimator;
-    private GameObject[] wheelPiecesToRotate;
-    private GameObject[] wheelRimPieces;
     public GameObject shipWheel;
-    private GameObject wheelCentrePost;
 
-    [SerializeField] float maxInput = 1f;
-    [SerializeField] float smoothTime = 5f;
-    [SerializeField] float currentSteer = 0f;
+    private float maxInput = 1f;
+    private float smoothTime = 5f;
+    private float currentSteer = 0f;
+
+    [SerializeField] float wheelTurnSpeed = 100f;
+    [SerializeField] float wheelAutoCentreSpeed = 60f;
+    [SerializeField] float wheelStopThreshold = 0.1f;
+
+    
 
     public override void OnNetworkSpawn()
     {
@@ -47,6 +50,14 @@ public class SCR_ShipControls : NetworkBehaviour
         if (ship == null) { LoadShip(); return; }
         if (shipMovement == null) { if (ship != null) { LoadShip(); } }
         if (!IsOwner) { return; }
+
+        //Auto Centre Wheel
+        float currentZ = NormalizeAngle(shipWheel.transform.localEulerAngles.z);
+        if ((Mathf.Abs(currentZ) > wheelStopThreshold) && !onWheel)
+        {
+            CentreWheelServerRPC();
+        }
+
         if (!onWheel) { return; }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && shipMovement.shipAcceleration.Value < shipMovement.shipAccelerationBound)
@@ -161,8 +172,24 @@ public class SCR_ShipControls : NetworkBehaviour
     [ClientRpc(RequireOwnership = false)]
     private void CentreWheelClientRPC()
     {
-        Vector3 desiredRotation = new Vector3(shipWheel.transform.localEulerAngles.x, shipWheel.transform.localEulerAngles.y, 0);
-        shipWheel.transform.localEulerAngles = Vector3.Lerp(shipWheel.transform.localEulerAngles, desiredRotation, Time.deltaTime);
+        float currentZ = NormalizeAngle(shipWheel.transform.localEulerAngles.z);
+
+        if(Mathf.Abs(currentZ) > wheelStopThreshold)
+        {
+            //Deciding which direction to spin based on if the value is negative or positive
+            float direction = (currentZ > 0f) ? -1f : 1f;
+            //How much to rotate each frame
+            float deltaZ = direction * wheelAutoCentreSpeed * Time.deltaTime;
+
+            //Stops overshooting past the wheel centre
+            if(Mathf.Abs(deltaZ) > Mathf.Abs(currentZ))
+            {
+                deltaZ = -currentZ;
+            }
+
+            //Rotate the wheel around its own axis, not the worlds
+            shipWheel.transform.Rotate(0f, 0f, deltaZ, Space.Self);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -174,7 +201,6 @@ public class SCR_ShipControls : NetworkBehaviour
     [ClientRpc(RequireOwnership = false)]
     private void RotateWheelLeftClientRPC()
     {
-        float rotationSpeed = 100f;
         float z = shipWheel.transform.localEulerAngles.z;
         //179
         if(z > 180) { z -= 360; }
@@ -183,13 +209,12 @@ public class SCR_ShipControls : NetworkBehaviour
             shipWheel.transform.localEulerAngles = new Vector3(0, 90, 145);
             return;
         }
-        shipWheel.transform.Rotate(0,0, rotationSpeed * Time.deltaTime);
+        shipWheel.transform.Rotate(0,0, wheelTurnSpeed * Time.deltaTime);
     }
 
     [ClientRpc(RequireOwnership = false)]
     private void RotateWheelRightClientRPC()
     {
-        float rotationSpeed = -100f;
         float z = shipWheel.transform.localEulerAngles.z;
         if (z > 180) { z -= 360; }
         if (z <= -145)
@@ -197,12 +222,14 @@ public class SCR_ShipControls : NetworkBehaviour
             shipWheel.transform.localEulerAngles = new Vector3(0, 90, -145);
             return;
         }
-        shipWheel.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+        shipWheel.transform.Rotate(0, 0, -wheelTurnSpeed * Time.deltaTime);
     }
 
-    private float NormalizeAngle(float angle)
+    //Converts angles from 0 to 360 into values from -180 to 180
+    float NormalizeAngle(float angle)
     {
-        if (angle > 180) angle -= 360;
+        angle %= 360f;
+        if (angle > 180f) angle -= 360f;
         return angle;
     }
 
