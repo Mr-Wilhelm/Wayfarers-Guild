@@ -305,7 +305,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -23.006645}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1625,6 +1625,143 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1701855624979232221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5777977130499210809}
+  - component: {fileID: 3017719848225770762}
+  - component: {fileID: 782647182044786595}
+  m_Layer: 5
+  m_Name: UpgradeText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5777977130499210809
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701855624979232221}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1080046716185931009}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 18}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3017719848225770762
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701855624979232221}
+  m_CullTransparentMesh: 1
+--- !u!114 &782647182044786595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701855624979232221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: cdb2661bf4589ed468c40bf0073ce072, type: 2}
+  m_sharedMaterial: {fileID: 1058936486334977727, guid: cdb2661bf4589ed468c40bf0073ce072,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: -226.05316, y: -191.95088, z: -308.78412, w: -282.3446}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1733137750584267482
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,8 +3278,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 402798989067044875}
+  m_Children: []
   m_Father: {fileID: 7415520812282407905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4141,6 +4277,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1096581682775041725}
+  - {fileID: 402798989067044875}
   m_Father: {fileID: 6479237392210719641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -6509,6 +6646,7 @@ GameObject:
   - component: {fileID: 6291144769023108134}
   - component: {fileID: 8856218009985296964}
   - component: {fileID: 4066024552636527670}
+  - component: {fileID: 343523849137830122}
   m_Layer: 5
   m_Name: SpeedUpgradeButton
   m_TagString: Untagged
@@ -6617,6 +6755,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &343523849137830122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5799409160767454230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &5974542446330472516
 GameObject:
   m_ObjectHideFlags: 0
@@ -6781,6 +6935,7 @@ GameObject:
   - component: {fileID: 7157282560316691974}
   - component: {fileID: 6030008499051540911}
   - component: {fileID: 8041065126377785267}
+  - component: {fileID: 5708814513284630276}
   m_Layer: 5
   m_Name: SonarUpgradeButton
   m_TagString: Untagged
@@ -6889,6 +7044,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5708814513284630276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6207605942806132307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &6609579825742666352
 GameObject:
   m_ObjectHideFlags: 0
@@ -8268,6 +8439,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3216f1204a1e2524d93a5cbb8ef2164f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  descriptionString: 
+  descriptionToShow: {fileID: 0}
+  upgradeCostToShow: {fileID: 0}
+  imageToShow: {fileID: 0}
 --- !u!1 &7631769845595625012
 GameObject:
   m_ObjectHideFlags: 0
@@ -9330,6 +9505,7 @@ GameObject:
   - component: {fileID: 3568127127074116715}
   - component: {fileID: 7486761554504865426}
   - component: {fileID: 829987104060996232}
+  - component: {fileID: 3488366027746360514}
   m_Layer: 5
   m_Name: ArmourUpgradeButton
   m_TagString: Untagged
@@ -9437,7 +9613,35 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7486761554504865426}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3306145263975352983}
+        m_TargetAssemblyTypeName: SCR_Upgrades, Assembly-CSharp
+        m_MethodName: PressUpgradeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3488366027746360514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149987854211724753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &8195860641711491273
 GameObject:
   m_ObjectHideFlags: 0
@@ -9643,6 +9847,7 @@ RectTransform:
   - {fileID: 5572926641309392265}
   - {fileID: 4771211338034711539}
   - {fileID: 2667455044263902785}
+  - {fileID: 5777977130499210809}
   m_Father: {fileID: 2429072123272614197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -10080,8 +10285,9 @@ GameObject:
   - component: {fileID: 1743706127306465063}
   - component: {fileID: 5463135915089827402}
   - component: {fileID: 8448061691253788158}
+  - component: {fileID: 7143910924216561453}
   m_Layer: 5
-  m_Name: HealthUpgradeButton
+  m_Name: LightUpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10094,12 +10300,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8435765827541081535}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1096581682775041725}
+  m_Father: {fileID: 7415520812282407905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10188,6 +10394,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7143910924216561453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435765827541081535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &8647138087489753840
 GameObject:
   m_ObjectHideFlags: 0
@@ -10238,6 +10460,7 @@ GameObject:
   - component: {fileID: 29863551518997936}
   - component: {fileID: 801902427646461739}
   - component: {fileID: 3466457154434914084}
+  - component: {fileID: 8116676473144615614}
   m_Layer: 5
   m_Name: AmmoUpgradeButton
   m_TagString: Untagged
@@ -10346,6 +10569,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8116676473144615614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8671100449802208886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &8702442198625242415
 GameObject:
   m_ObjectHideFlags: 0
@@ -10510,6 +10749,7 @@ GameObject:
   - component: {fileID: 4076593182826174097}
   - component: {fileID: 5181202580607011014}
   - component: {fileID: 1254803532696252168}
+  - component: {fileID: 1437472650004843615}
   m_Layer: 5
   m_Name: ScopeUpgradeButton
   m_TagString: Untagged
@@ -10618,6 +10858,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1437472650004843615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928658110075497015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &8937797670105334389
 GameObject:
   m_ObjectHideFlags: 0
@@ -10630,6 +10886,7 @@ GameObject:
   - component: {fileID: 9176612869994837949}
   - component: {fileID: 3606379512588773761}
   - component: {fileID: 2122984619937672015}
+  - component: {fileID: 5103362704185919051}
   m_Layer: 5
   m_Name: HealthUpgradeButton
   m_TagString: Untagged
@@ -10738,6 +10995,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5103362704185919051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937797670105334389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fed5a62b75c834ba10b9a23655090d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: 
+  upgradeDescription: 
+  upgradeCost: 0
+  upgradeImage: {fileID: 0}
 --- !u!1 &9039445702870318932
 GameObject:
   m_ObjectHideFlags: 0

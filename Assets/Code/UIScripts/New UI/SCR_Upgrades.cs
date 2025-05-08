@@ -8,31 +8,21 @@ using TMPro;
 public class SCR_Upgrades : NetworkBehaviour
 {
     [SerializeField]
-    private string descriptionString;
+    private SCR_ButtonUpgrade buttonUpgrade;
 
-    [SerializeField]
-    private TextMeshProUGUI descriptionToShow;
+    public string descriptionString;
 
-    [SerializeField]
-    private TextMeshProUGUI upgradeCostToShow;
+    public TextMeshProUGUI descriptionToShow;
 
-    [SerializeField]
-    private Image imageToShow;
+    public TextMeshProUGUI upgradeCostToShow;
+
+    public Image imageToShow;
 
     private void Start()
     {
+        buttonUpgrade = GameObject.Find("LightUpgradeButton").GetComponent<SCR_ButtonUpgrade>();
         imageToShow = GameObject.Find("Icon").GetComponent<Image>();
         descriptionToShow = GameObject.Find("UpgradeText").GetComponent<TextMeshProUGUI>();
         upgradeCostToShow = GameObject.Find("UpgradePrice").GetComponent<TextMeshProUGUI>();
-    }
-
-    public void PressUpgradeButton()
-    {
-        
-    }
-
-    public void GetUpgradeInfo(string upgradeDescription, float upgradeCost, Image upgradeImage)
-    {
-
     }
 }
