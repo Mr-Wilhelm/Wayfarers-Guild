@@ -13,10 +13,13 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
 
     public NetworkVariable<float> shipHealthGlobal = new NetworkVariable<float>(100);
     public NetworkVariable<float> playerMoney = new NetworkVariable<float>(200);
+    public NetworkVariable<float> shipArmour = new NetworkVariable<float>(0);   //TODO: Get ship overall armour and start health
 
     public int armourUpgradesBought = 0;
+    public int healthUpgradesBought = 0;
 
     public float armourUpgradeIncrement = 0.5f;
+    public float healthUpgradeIncrement = 10.0f;
 
     //public NetworkVariable<TextMeshProUGUI> playerMoneyText = new NetworkVariable<TextMeshProUGUI>();
 
@@ -40,6 +43,7 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     {
         Debug.Log("New Scene Loaded: " + scene.name);
         Debug.Log("Decrease value from armour is " + GetDecreaseFromArmour().Value);
+
     }
 
     public struct NetworkString : INetworkSerializeByMemcpy
@@ -92,5 +96,9 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public NetworkVariable<float> GetDecreaseFromArmour()
     {
         return new NetworkVariable<float>(armourUpgradesBought * armourUpgradeIncrement);
+    }
+    public NetworkVariable<float> GetTotalHealth()
+    {
+        return new NetworkVariable<float>(shipHealthGlobal.Value + (healthUpgradeIncrement * healthUpgradesBought));
     }
 }
