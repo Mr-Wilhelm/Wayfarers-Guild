@@ -31,6 +31,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] private Animator playerAnimator;
 
+    public AudioListener playerAudioListener;
+
     //Tracks the pos and rot of the player
     public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
     public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
@@ -114,6 +116,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            playerAudioListener.enabled = false;
             playerCollider.enabled = false;
             gameObject.GetComponent<GravitasBody>().DestroyProxy();
             gameObject.GetComponent<GravitasBody>().enabled = false;

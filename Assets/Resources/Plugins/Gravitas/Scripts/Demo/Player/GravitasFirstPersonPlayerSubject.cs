@@ -34,6 +34,7 @@ namespace Gravitas.Demo
         [SerializeField] private Animator playerAnimator;
 
         public bool Walking = false;
+        public bool Jumping = false;
 
         /// <summary>
         /// Convenience method to instantly set player position, orientation, and stop all velocity.
@@ -121,11 +122,10 @@ namespace Gravitas.Demo
             //sets the players velocity and adds a jump force
             if (isLanded)
             {
+                Jumping = false;
                 //Normalises the Horizontal velocity to fix walking at diagnoals speeds
                 Vector2 horizontalComponent = new Vector2(inputVelocity.x, inputVelocity.z).normalized;
                 horizontalComponent *= moveSpeed;
-
-
 
                 //We dont want the jump to be normalised
                 //Set the player velocity
@@ -137,6 +137,7 @@ namespace Gravitas.Demo
             //Controlls the velocity and force when in air
             if (!isLanded)
             {
+                Jumping = true;
                 //clamps the velocity
                 if (Mathf.Abs(gravitasBody.Velocity.x) > moveSpeed || Mathf.Abs(gravitasBody.Velocity.z) > moveSpeed)
                 {
