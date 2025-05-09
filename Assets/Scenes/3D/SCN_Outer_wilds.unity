@@ -223466,6 +223466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1484179644}
   - component: {fileID: 1484179643}
+  - component: {fileID: 1484179645}
   m_Layer: 0
   m_Name: Vine_49
   m_TagString: Untagged
@@ -223568,6 +223569,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1484179645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484179642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 1484179643}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 1463963939306701585, guid: 1fff4ded549b74541965fa36d7a1931d,
+      type: 3}
+    probability: 0
+    Probability: 50
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 5032846637171057472, guid: 8acfb2d0cb193514aa7dabd8ebe16fac,
+      type: 3}
+    probability: 0
+    Probability: 50
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 100, y: 100}
+  m_Up: 1
+  m_Forward: 2
+  m_PositionOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 1
+    min: {x: 0, y: 0, z: -81.15}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -102242
 --- !u!1001 &1484834384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -261960,6 +262017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1738136465}
   - component: {fileID: 1738136464}
+  - component: {fileID: 1738136466}
   m_Layer: 0
   m_Name: Vine_50
   m_TagString: Untagged
@@ -262014,9 +262072,9 @@ MonoBehaviour:
           z: 0.5680313
           w: 0.59949994
     - Position:
-        x: 328.32538
-        y: -616.73096
-        z: 448.01746
+        x: 363.93958
+        y: -616.7069
+        z: 438.04037
       TangentIn:
         x: 0
         y: 0
@@ -262027,10 +262085,10 @@ MonoBehaviour:
         z: 82.99845
       Rotation:
         value:
-          x: -0.06284393
-          y: 0.5362486
+          x: -0.06284415
+          y: 0.5362479
           z: 0.75439537
-          w: 0.37333047
+          w: 0.37333152
     m_MetaData:
     - Mode: 3
       Tension: 0.5
@@ -262062,6 +262120,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1738136466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738136463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b74686beb0670a4ea61325c0acf4411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Container: {fileID: 1738136464}
+  m_ItemsToInstantiate:
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 1463963939306701585, guid: 1fff4ded549b74541965fa36d7a1931d,
+      type: 3}
+    probability: 0
+    Probability: 50
+  - prefab: {fileID: 0}
+    Prefab: {fileID: 5032846637171057472, guid: 8acfb2d0cb193514aa7dabd8ebe16fac,
+      type: 3}
+    probability: 0
+    Probability: 50
+  m_Method: 1
+  m_Space: 0
+  m_Spacing: {x: 100, y: 100}
+  m_Up: 1
+  m_Forward: 2
+  m_PositionOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_RotationOffset:
+    setup: 1
+    min: {x: 0, y: 0, z: -98.69}
+    max: {x: 0, y: 0, z: 9.54}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_ScaleOffset:
+    setup: 0
+    min: {x: 0, y: 0, z: 0}
+    max: {x: 0, y: 0, z: 0}
+    randomX: 0
+    randomY: 0
+    randomZ: 0
+    space: 0
+  m_DeprecatedInstances: []
+  m_AutoRefresh: 1
+  m_Seed: -102238
 --- !u!1001 &1738594248
 PrefabInstance:
   m_ObjectHideFlags: 0
