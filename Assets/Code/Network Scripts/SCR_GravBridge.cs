@@ -1,6 +1,7 @@
 using Gravitas.Demo;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
     }
     protected override void OnSubjectUpdate()
     {
+        Debug.Log(_clientVel + "PickedUP");
         if (_transform == null)
         {
             _transform = GetComponent<NetworkTransform>();
@@ -32,7 +34,8 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         }
         else
         {
-            // replaceWithRPCSend(base.GetInputVelocity());
+
+           // replaceWithRPCSend(base.GetInputVelocity());
         }
     }
 
@@ -64,11 +67,16 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         }
     }
 
-    //void replaceWithRPCSend(Vector3 myPos);
-
-    //void replaceWithRPCRecv(Vector3 theirVel)
+    //[Rpc(SendTo.Server)]
+    //void replaceWithRPCSend(Vector3 myPos) 
     //{
-    //    _clientVel = theirVel; 
+
     //}
+    public void RecieveClientVelocity(Vector3 clientVel)
+    {
+        _clientVel = clientVel;
+    }
+
+
 
 }
