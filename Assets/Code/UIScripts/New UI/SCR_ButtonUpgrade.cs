@@ -23,6 +23,10 @@ public class SCR_ButtonUpgrade : NetworkBehaviour
 
     public NetworkVariable<bool> upgradeBought = new NetworkVariable<bool>();
 
+    public bool isOneTimeUpgrade;
+
+    public int amountPurchased;
+
     private void Start()
     {
         upgradeDisplay = GameObject.Find("---UPGRADE UI---").GetComponent<SCR_Upgrades>();

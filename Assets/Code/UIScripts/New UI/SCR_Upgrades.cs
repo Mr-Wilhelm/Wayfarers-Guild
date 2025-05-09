@@ -23,8 +23,6 @@ public class SCR_Upgrades : NetworkBehaviour
 
     public Image selectedUpgrade;
 
-
-
     [Header("Pages")]
     [SerializeField]
     private Image repairsPage;
@@ -101,11 +99,19 @@ public class SCR_Upgrades : NetworkBehaviour
 
     public void PurchaseSelectedUpgrade()
     {
-        if(playerDataHandler.playerMoney.Value >= upgradeCost && !buttonUpgrade.upgradeBought.Value)
+        if(playerDataHandler.playerMoney.Value >= upgradeCost)
         {
-            playerDataHandler.playerMoney.Value -= upgradeCost;
-            buttonUpgrade.upgradeBought.Value = true;
-            Debug.Log("Upgrade Cost, " + upgradeCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
+            if(buttonUpgrade.isOneTimeUpgrade && buttonUpgrade.upgradeBought.Value == false)    //if its a one time upgrade and hasn't been bought
+            {
+                playerDataHandler.playerMoney.Value -= upgradeCost;
+                buttonUpgrade.upgradeBought.Value = true;
+                Debug.Log("Upgrade Cost, " + upgradeCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
+            }
+            else if(!buttonUpgrade.isOneTimeUpgrade && buttonUpgrade.amountPurchased < 3)    //if its not a one time upgrade and has bought less than three times
+            {
+                playerDataHandler.playerMoney.Value -= upgradeCost;
+                buttonUpgrade.amountPurchased += 1;
+            }
         }
         else
         {
