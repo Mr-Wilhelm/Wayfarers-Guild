@@ -9,6 +9,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
 {
     private NetworkTransform _transform;
     private Vector3 _clientVel;
+    private float turnspeed = 1f;
 
     private void Update()
     {
@@ -42,7 +43,42 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         else
         {
 
-           // replaceWithRPCSend(base.GetInputVelocity());
+            //////TODOD FINISH HERE
+            SCR_ClientMovementInputs ClientInputValues = this.GetComponent<SCR_ClientMovementInputs>();
+
+            Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
+
+            // Movement input processing
+            Vector2 keyInput = ClientInputValues.ClientInputHorizontal.Value;
+
+            // Player rotating
+            Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+            t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnspeed, Vector3.up);
+
+            // Camera pitching
+            angleX += -mouseInput.y * turnSpeed;
+
+            if (playerOnBallista)
+            {
+                angleX = Mathf.Clamp(angleX, 0, 60);
+            }
+            else if (gravitasBody.IsLanded)
+            {
+                angleX = Mathf.Clamp(angleX, -90, 90);
+            }
+
+            playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
+
+            // Vertical input
+            if (Input.GetKey(KeyCode.Space))
+                verticalInput = 1; // Up
+            else
+                verticalInput = 0; // None
+
+            // Interaction input
+            if (!interact)
+                interact = Input.GetKeyDown(KeyCode.E);
+            // replaceWithRPCSend(base.GetInputVelocity());
         }
     }
 

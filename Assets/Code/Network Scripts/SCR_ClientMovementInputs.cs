@@ -10,12 +10,14 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
     Vector3 TESTVEL = Vector3.left;
     float moveSpeed = 1f;
     float jumpForce = 10f;
+
     Vector2 keyInput;
     float verticalInput;
-
+    Vector2 mouseInput;
 
     public NetworkVariable<Vector2> ClientInputHorizontal = new NetworkVariable<Vector2>();
     public NetworkVariable<float> ClientInputVertical = new NetworkVariable<float>();
+    public NetworkVariable<Vector2> ClientInputMouse = new NetworkVariable<Vector2>();
 
     SCR_GravBridge ServerGravBridge;
     bool foundNetworking = false;
@@ -36,6 +38,9 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
                 //    verticalInput = 0; // None
 
                 keyInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+                mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+
 
                 // Vertical input
                 if (Input.GetKey(KeyCode.Space))
@@ -72,6 +77,7 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
                 //velocity = velocityX + velocityY + velocityZ;
                 SetCLientVelServerRpc(keyInput);
                 SetClientInputVerticalServerRpc(verticalInput);
+                SetClientInputMouseServerRpc(mouseInput);
             }
 
         }
@@ -92,6 +98,13 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
     void SetClientInputVerticalServerRpc(float ClientVertInput)
     {
         ClientInputVertical.Value = ClientVertInput;
+    }
+
+
+    [Rpc(SendTo.Server)]
+    void SetClientInputMouseServerRpc(Vector2 ClientMouseInput)
+    {
+        ClientInputMouse.Value = ClientMouseInput;
     }
 
 

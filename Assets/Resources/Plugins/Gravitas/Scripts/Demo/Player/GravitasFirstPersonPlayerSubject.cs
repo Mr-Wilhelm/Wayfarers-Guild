@@ -107,8 +107,10 @@ namespace Gravitas.Demo
             if (!interact)
                 interact = Input.GetKeyDown(KeyCode.E);
 
+
         }
 
+     
 
         protected override void OnSubjectFixedUpdate()
         {
