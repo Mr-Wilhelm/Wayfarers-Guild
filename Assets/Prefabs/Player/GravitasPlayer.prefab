@@ -16,11 +16,11 @@ GameObject:
   - component: {fileID: 5089495323612287736}
   - component: {fileID: -3273300779194110752}
   - component: {fileID: 1446695601757579563}
-  - component: {fileID: 7428270716508070394}
-  - component: {fileID: 1527291677001032635}
-  - component: {fileID: -7635383097292173331}
   - component: {fileID: 8938185879831433393}
   - component: {fileID: 6677807439807493320}
+  - component: {fileID: 8197618995583135133}
+  - component: {fileID: 2070347769850200282}
+  - component: {fileID: 8280070072947271047}
   m_Layer: 2
   m_Name: GravitasPlayer
   m_TagString: Player
@@ -212,80 +212,6 @@ MonoBehaviour:
   wheelTurnSpeed: 100
   wheelAutoCentreSpeed: 60
   wheelStopThreshold: 0.1
---- !u!114 &7428270716508070394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901272450876613093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb1bbecc8f370129c92b2b03a3790293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fieldChangeDelay: 0.5
-  orientSpeed: 80
-  reorientDelay: 2.5
-  autoOrient: 0
-  willReorient: 1
-  playerCamera: {fileID: 5932428688813479342}
-  interactableLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  playerParticleSystem: {fileID: 0}
-  jetpackForce: 15
-  jumpForce: 5
-  moveSpeed: 7.5
-  turnSpeed: 4
-  playerOnWheel: 0
-  hasItem: 0
-  playerOnBallista: 0
-  playerAnimator: {fileID: 133989240848567938}
-  Walking: 0
---- !u!114 &1527291677001032635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901272450876613093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57e098a497849ea44a3ff373ad10fcb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  Interpolate: 1
-  SlerpPosition: 0
---- !u!114 &-7635383097292173331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901272450876613093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8938185879831433393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,7 +416,7 @@ MonoBehaviour:
   ActualPickUp:
     serializedVersion: 2
     m_Bits: 131072
-  playerScriptReference: {fileID: 7428270716508070394}
+  playerScriptReference: {fileID: 0}
   craigStandardMesh: {fileID: 3351868268523732187}
   craigHoldItemMesh: {fileID: 6542352860531190845}
   craigHoldOneHandMesh: {fileID: 7125991269090390487}
@@ -509,6 +435,80 @@ MonoBehaviour:
   hasHadAmmoBefore: 0
   hasUsedWheelBefore: 0
   hasUsedBallistaBefore: 0
+--- !u!114 &8197618995583135133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.00001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 0
+  SlerpPosition: 0
+--- !u!114 &2070347769850200282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8280070072947271047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 391df3185cc28254b8b14f0d8a36fced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldChangeDelay: 0.5
+  orientSpeed: 80
+  reorientDelay: 2
+  autoOrient: 0
+  willReorient: 0
+  playerCamera: {fileID: 5932428688813479342}
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 524275
+  playerParticleSystem: {fileID: 0}
+  jetpackForce: 15
+  jumpForce: 7
+  moveSpeed: 8
+  turnSpeed: 5
+  playerOnWheel: 0
+  hasItem: 0
+  playerOnBallista: 0
+  playerAnimator: {fileID: 133989240848567938}
+  Walking: 0
 --- !u!1 &3219785375905633528
 GameObject:
   m_ObjectHideFlags: 0
