@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Netcode;
 
-public class SCR_ButtonUpgrade : MonoBehaviour
+public class SCR_ButtonUpgrade : NetworkBehaviour
 {
     [SerializeField]
     public string upgradeName;
@@ -12,14 +13,15 @@ public class SCR_ButtonUpgrade : MonoBehaviour
     [SerializeField]
     private string upgradeDescription;
 
-    [SerializeField]
-    private float upgradeCost;
+    public float upgradeCost;
 
     [SerializeField]
     private Image upgradeImage;
 
     [SerializeField]
     private SCR_Upgrades upgradeDisplay;
+
+    public NetworkVariable<bool> upgradeBought = new NetworkVariable<bool>();
 
     private void Start()
     {
@@ -75,12 +77,13 @@ public class SCR_ButtonUpgrade : MonoBehaviour
                 break;
             default:
                 return;
-
         }
     }
 
     public void GetButtonUpgrade()
     {
+        upgradeDisplay.upgradeCost = upgradeCost;
+        upgradeDisplay.buttonUpgrade = gameObject.GetComponent<SCR_ButtonUpgrade>();
         upgradeDisplay.ShowUpgradesDescription();
         upgradeDisplay.descriptionToShow.text = upgradeDescription;
         upgradeDisplay.upgradeCostToShow.text = upgradeCost.ToString();

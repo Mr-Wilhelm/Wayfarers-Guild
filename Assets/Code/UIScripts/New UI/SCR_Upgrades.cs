@@ -8,8 +8,8 @@ using TMPro;
 public class SCR_Upgrades : NetworkBehaviour
 {
     [Header("ChosenUpgradeStats")]
-    [SerializeField]
-    private SCR_ButtonUpgrade buttonUpgrade;
+
+    public SCR_ButtonUpgrade buttonUpgrade;
 
     public string descriptionString;
 
@@ -17,9 +17,13 @@ public class SCR_Upgrades : NetworkBehaviour
 
     public TextMeshProUGUI upgradeCostToShow;
 
+    public float upgradeCost;
+
     public Image imageToShow;
 
     public Image selectedUpgrade;
+
+
 
     [Header("Pages")]
     [SerializeField]
@@ -34,8 +38,13 @@ public class SCR_Upgrades : NetworkBehaviour
     [SerializeField]
     private GameObject purchaseButton;
 
+    [SerializeField]
+    private SCR_PlayerDataHandler playerDataHandler;
+
     private void Start()
     {
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+
         buttonUpgrade = GameObject.Find("LightUpgradeButton").GetComponent<SCR_ButtonUpgrade>();
         imageToShow = GameObject.Find("Icon").GetComponent<Image>();
         descriptionToShow = GameObject.Find("UpgradeText").GetComponent<TextMeshProUGUI>();
@@ -88,5 +97,19 @@ public class SCR_Upgrades : NetworkBehaviour
         upgradeCostToShow.enabled = false;
         selectedUpgrade.enabled = false;
         purchaseButton.SetActive(false);
+    }
+
+    public void PurchaseSelectedUpgrade()
+    {
+        if(playerDataHandler.playerMoney.Value >= upgradeCost && !buttonUpgrade.upgradeBought.Value)
+        {
+            playerDataHandler.playerMoney.Value -= upgradeCost;
+            buttonUpgrade.upgradeBought.Value = true;
+            Debug.Log("Upgrade Cost, " + upgradeCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
+        }
+        else
+        {
+            Debug.Log("Did not purchase");
+        }
     }
 }
