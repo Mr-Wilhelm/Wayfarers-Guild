@@ -81,6 +81,7 @@ public class SCR_ButtonUpgrade : MonoBehaviour
 
     public void GetButtonUpgrade()
     {
+        upgradeDisplay.ShowUpgradesDescription();
         upgradeDisplay.descriptionToShow.text = upgradeDescription;
         upgradeDisplay.upgradeCostToShow.text = upgradeCost.ToString();
         upgradeDisplay.imageToShow.sprite = upgradeImage.sprite;

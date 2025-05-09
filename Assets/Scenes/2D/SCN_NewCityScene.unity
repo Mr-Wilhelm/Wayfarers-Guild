@@ -332,7 +332,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 322278342}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 636639955}
+        m_TargetAssemblyTypeName: SCR_Upgrades, Assembly-CSharp
+        m_MethodName: ShowRepairsPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &322278342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +383,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322278339}
   m_CullTransparentMesh: 1
+--- !u!114 &636639955 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3306145263975352983, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8522280660864739538}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3216f1204a1e2524d93a5cbb8ef2164f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &710285891
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +476,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 710285894}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 636639955}
+        m_TargetAssemblyTypeName: SCR_Upgrades, Assembly-CSharp
+        m_MethodName: ShowUpgradesList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &710285894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,7 +1465,7 @@ PrefabInstance:
     - target: {fileID: 844581515205610279, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1080046716185931009, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
@@ -1706,6 +1742,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1094277347}
+    - target: {fileID: 7175446954034455745, guid: 776de0d16056bd448ae0e85c58e2ffa2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8041065126377785267, guid: 776de0d16056bd448ae0e85c58e2ffa2,
         type: 3}
       propertyPath: m_Colors.m_SelectedColor.a
