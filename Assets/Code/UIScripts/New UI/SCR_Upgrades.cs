@@ -107,10 +107,10 @@ public class SCR_Upgrades : NetworkBehaviour
                 buttonUpgrade.upgradeBought.Value = true;
                 Debug.Log("Upgrade Cost, " + upgradeCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
             }
-            else if(!buttonUpgrade.isOneTimeUpgrade && buttonUpgrade.amountPurchased < 3)    //if its not a one time upgrade and has bought less than three times
+            else if(!buttonUpgrade.isOneTimeUpgrade && playerDataHandler.armourUpgradesBought < 3)    //if its not a one time upgrade and has bought less than three times
             {
                 playerDataHandler.playerMoney.Value -= upgradeCost;
-                buttonUpgrade.amountPurchased += 1;
+                playerDataHandler.armourUpgradesBought += 1;
             }
         }
         else
