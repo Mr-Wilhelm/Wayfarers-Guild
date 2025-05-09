@@ -25,7 +25,8 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
             return;
         }
 
-        if (_transform.IsServer)
+        //if (_transform.IsServer)  server makes the cleint rotate to the hosts inputs
+        if (_transform.IsOwner)
         {
             base.OnSubjectUpdate();
         }
