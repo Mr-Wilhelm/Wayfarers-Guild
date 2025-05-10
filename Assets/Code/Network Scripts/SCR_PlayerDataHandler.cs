@@ -11,6 +11,9 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public NetworkVariable<NetworkString> player1Name = new NetworkVariable<NetworkString>("Host", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<NetworkString> player2Name = new NetworkVariable<NetworkString>("Client", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    public NetworkVariable<float> baselineMaxHealth = new NetworkVariable<float>(100);
+    public NetworkVariable<float> baselineShipHealth = new NetworkVariable<float>(100);
+
     public NetworkVariable<float> shipMaxHealth = new NetworkVariable<float>(100);
     public NetworkVariable<float> shipHealthGlobal = new NetworkVariable<float>(100);
     public NetworkVariable<float> playerMoney = new NetworkVariable<float>(200);
@@ -44,10 +47,8 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     //Does stuff when the scene loads
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("New Scene Loaded: " + scene.name);
         damageReduction.Value = GetDecreaseFromArmour().Value;
         shipMaxHealth.Value = GetMaxHealth().Value;
-        shipHealthGlobal.Value = GetTotalHealth().Value;
     }
 
     public struct NetworkString : INetworkSerializeByMemcpy
@@ -101,12 +102,8 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     {
         return new NetworkVariable<float>(armourUpgradesBought * armourUpgradeIncrement);
     }
-    public NetworkVariable<float> GetTotalHealth()
-    {
-        return new NetworkVariable<float>(shipHealthGlobal.Value + (healthUpgradeIncrement * healthUpgradesBought));
-    }
     public NetworkVariable<float> GetMaxHealth()
     {
-        return new NetworkVariable<float>(shipMaxHealth.Value + (healthUpgradeIncrement * healthUpgradesBought));
+        return new NetworkVariable<float>(baselineMaxHealth.Value + (healthUpgradeIncrement * healthUpgradesBought));
     }
 }

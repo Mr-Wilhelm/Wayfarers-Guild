@@ -569,8 +569,8 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         playerDataHandler.playerMoney.Value -= repairCost;
 
-        playerDataHandler.shipHealthGlobal.Value = 100.0f;
-        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        playerDataHandler.shipHealthGlobal.Value = playerDataHandler.shipMaxHealth.Value;
+        repairCost = (playerDataHandler.shipMaxHealth.Value - playerDataHandler.shipHealthGlobal.Value);
     }
 
     public void ShowStamp()
