@@ -18,12 +18,15 @@ public class SCR_ShipMovement : NetworkBehaviour
     //[SerializeField] public float shipAcceleration;
     //[SerializeField] public float shipTurnSpeed;
 
-    [SerializeField] public NetworkVariable<float> shipMaxSpeed = new NetworkVariable<float>(25f);
+    [SerializeField] public NetworkVariable<float> shipBaselineMaxSpeed = new NetworkVariable<float>(300f);
+    [SerializeField] public NetworkVariable<float> shipMaxSpeed = new NetworkVariable<float>(300f);
 
     [SerializeField] public NetworkVariable<float> shipAcceleration;
+    [SerializeField] public NetworkVariable<float> shipBaselineAccelIncrement = new NetworkVariable<float>(150f);
     [SerializeField] public float shipAccelerationIncrement;
     [SerializeField] public float shipAccelerationBound;
 
+    [SerializeField] public NetworkVariable<float> shipBaselineTurnSpeed = new NetworkVariable<float>(15f);
     [SerializeField] public NetworkVariable<float> shipTurnSpeed;
 
     public float shipHealth = 10.0f;
@@ -51,6 +54,9 @@ public class SCR_ShipMovement : NetworkBehaviour
     private Vector3 rotation;
 
     private NetworkVariable<ulong> controllingPlayer = new NetworkVariable<ulong>(ulong.MaxValue, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    [SerializeField]
+    private SCR_PlayerDataHandler playerDataHandler;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -85,7 +91,14 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     }
 
+    private void Start()
+    {
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
 
+        shipAccelerationIncrement = shipBaselineAccelIncrement.Value + (playerDataHandler.GetSpeedIncrease() * 4);
+        shipMaxSpeed.Value = shipBaselineMaxSpeed.Value + playerDataHandler.GetSpeedIncrease() * 10;
+        shipTurnSpeed.Value = shipBaselineTurnSpeed.Value + playerDataHandler.GetSpeedIncrease();
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void SetControllingPlayerServerRPC(ulong playerID)

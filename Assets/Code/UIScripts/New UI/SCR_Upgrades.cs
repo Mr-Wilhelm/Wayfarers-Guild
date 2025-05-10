@@ -119,7 +119,11 @@ public class SCR_Upgrades : NetworkBehaviour
                     playerDataHandler.playerMoney.Value -= upgradeCost;
                     playerDataHandler.healthUpgradesBought += 1;
                 }
-
+                else if(buttonUpgrade.upgradeName == "SpeedUpgradeButton" && playerDataHandler.speedUpgradesBought < 3)
+                {
+                    playerDataHandler.playerMoney.Value -= upgradeCost;
+                    playerDataHandler.speedUpgradesBought += 1;
+                }
             }
         }
         else

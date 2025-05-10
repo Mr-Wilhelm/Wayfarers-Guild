@@ -23,9 +23,11 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
 
     public int armourUpgradesBought = 0;
     public int healthUpgradesBought = 0;
+    public int speedUpgradesBought = 0;
 
     public float armourUpgradeIncrement = 0.5f;
     public float healthUpgradeIncrement = 10.0f;
+    public float speedUpgradeIncrement = 15.0f;
 
     //public NetworkVariable<TextMeshProUGUI> playerMoneyText = new NetworkVariable<TextMeshProUGUI>();
 
@@ -109,5 +111,9 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public float GetMaxHealth()
     {
         return baselineMaxHealth.Value + (healthUpgradeIncrement * healthUpgradesBought);
+    }
+    public float GetSpeedIncrease()
+    {
+        return speedUpgradesBought * speedUpgradeIncrement;
     }
 }
