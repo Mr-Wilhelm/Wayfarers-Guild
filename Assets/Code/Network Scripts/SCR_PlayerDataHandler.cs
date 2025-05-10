@@ -47,8 +47,11 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     //Does stuff when the scene loads
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        damageReduction.Value = GetDecreaseFromArmour().Value;
-        shipMaxHealth.Value = GetMaxHealth().Value;
+        if(IsServer)
+        {
+            damageReduction.Value = GetDamageReduction();
+            shipMaxHealth.Value = GetMaxHealth();
+        }
     }
 
     public struct NetworkString : INetworkSerializeByMemcpy
@@ -98,12 +101,13 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     }
 
     //calculate the damage reduction from total armour
-    public NetworkVariable<float> GetDecreaseFromArmour()
+    public float GetDamageReduction()
     {
-        return new NetworkVariable<float>(armourUpgradesBought * armourUpgradeIncrement);
+        return armourUpgradesBought * armourUpgradeIncrement;
     }
-    public NetworkVariable<float> GetMaxHealth()
+
+    public float GetMaxHealth()
     {
-        return new NetworkVariable<float>(baselineMaxHealth.Value + (healthUpgradeIncrement * healthUpgradesBought));
+        return baselineMaxHealth.Value + (healthUpgradeIncrement * healthUpgradesBought);
     }
 }
