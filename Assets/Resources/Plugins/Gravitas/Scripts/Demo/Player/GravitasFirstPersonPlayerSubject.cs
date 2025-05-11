@@ -16,13 +16,13 @@ namespace Gravitas.Demo
         [SerializeField] private LayerMask interactableLayers = Physics.DefaultRaycastLayers;
         [SerializeField] private ParticleSystem playerParticleSystem; // Jetpack particle system to play on movement
         private Vector2 keyInput;
-        private float
+        internal float
             angleX, // Stored camera pitch value
             verticalInput; // Stored vertical input from jumping or jetpack thrust
-        [SerializeField] private float jetpackForce = 15f;
-        [SerializeField] private float jumpForce = 7f;
-        [SerializeField] private float moveSpeed = 8f;
-        [SerializeField] private float turnSpeed = 5f;
+        [SerializeField] internal float jetpackForce = 15f;
+        [SerializeField] internal float jumpForce = 7f;
+        [SerializeField] internal float moveSpeed = 8f;
+        [SerializeField] internal float turnSpeed = 5f;
 
         private bool interact;
 

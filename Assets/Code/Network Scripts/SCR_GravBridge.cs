@@ -9,7 +9,14 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
 {
     private NetworkTransform _transform;
     private Vector3 _clientVel;
-    private float turnspeed = 1f;
+
+    public Camera PlayerCamera => playerCamera;
+    [SerializeField] private Camera playerCamera; // The camera used by the player, typically a child of the player
+
+
+    private float angleX; // Stored camera pitch value
+    private float turnSpeed = 1f;
+  
 
     private void Update()
     {
@@ -50,10 +57,11 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
 
             // Movement input processing
             Vector2 keyInput = ClientInputValues.ClientInputHorizontal.Value;
+            float verticalInput = ClientInputValues.ClientInputVertical.Value;
 
             // Player rotating
-            Vector2 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-            t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnspeed, Vector3.up);
+            Vector2 mouseInput = ClientInputValues.ClientInputMouse.Value;
+            t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnSpeed, Vector3.up);
 
             // Camera pitching
             angleX += -mouseInput.y * turnSpeed;
@@ -76,8 +84,8 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
                 verticalInput = 0; // None
 
             // Interaction input
-            if (!interact)
-                interact = Input.GetKeyDown(KeyCode.E);
+            //if (!interact)
+            //    interact = Input.GetKeyDown(KeyCode.E);
             // replaceWithRPCSend(base.GetInputVelocity());
         }
     }
