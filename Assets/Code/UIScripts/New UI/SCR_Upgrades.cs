@@ -7,6 +7,9 @@ using TMPro;
 
 public class SCR_Upgrades : NetworkBehaviour
 {
+    [SerializeField]
+    private SCR_NewUiManager uiManager;
+
     [Header("ChosenUpgradeStats")]
 
     public SCR_ButtonUpgrade buttonUpgrade;
@@ -46,8 +49,12 @@ public class SCR_Upgrades : NetworkBehaviour
     [SerializeField]
     public TextMeshProUGUI maxShipHealthText;
 
+    [SerializeField]
+    public TextMeshProUGUI repairCostText;
+
     private void Start()
     {
+        uiManager = GameObject.Find("NewUICanvas").GetComponent<SCR_NewUiManager>();
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
 
         buttonUpgrade = GameObject.Find("LightUpgradeButton").GetComponent<SCR_ButtonUpgrade>();
@@ -63,12 +70,14 @@ public class SCR_Upgrades : NetworkBehaviour
 
         currentShipHealthText = GameObject.Find("CurrentShipHealthText").GetComponent<TextMeshProUGUI>();
         maxShipHealthText = GameObject.Find("ShipMaxHealthText").GetComponent<TextMeshProUGUI>();
+        repairCostText = GameObject.Find("RepairCostText").GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
     {
         currentShipHealthText.text = playerDataHandler.shipHealthGlobal.Value.ToString();
         maxShipHealthText.text = playerDataHandler.GetMaxHealth().ToString();
+        repairCostText.text = uiManager.repairCost.ToString();
     }
 
     //button functions
@@ -170,4 +179,8 @@ public class SCR_Upgrades : NetworkBehaviour
             Debug.Log("Did not purchase");
         }
     }
+    public void PurchaseRepairs()
+    {
+        uiManager.RepairShip();
+    }    
 }

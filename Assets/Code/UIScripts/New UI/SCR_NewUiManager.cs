@@ -135,8 +135,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     private GameObject upgradesUI;
 
     [Header("Stats")]
-    [SerializeField]
-    private float repairCost;
+    public float repairCost;
 
     [Header("DDOL Objects")]
     [SerializeField]
@@ -565,7 +564,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         RepairShip();
     }
 
-    private void RepairShip()
+    public void RepairShip()
     {
         if (playerDataHandler.playerMoney.Value >= repairCost)
         {
