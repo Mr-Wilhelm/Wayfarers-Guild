@@ -29,6 +29,11 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public float healthUpgradeIncrement = 10.0f;
     public float speedUpgradeIncrement = 15.0f;
 
+    public NetworkVariable<bool> SonarUpgradeBought = new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> AmmoUpgradeBought = new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> ScopeUpgradeBought = new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> LightUpgradeBought = new NetworkVariable<bool>(false);
+
     //public NetworkVariable<TextMeshProUGUI> playerMoneyText = new NetworkVariable<TextMeshProUGUI>();
 
     private void Awake()

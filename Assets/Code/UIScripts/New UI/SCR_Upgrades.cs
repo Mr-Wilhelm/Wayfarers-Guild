@@ -39,6 +39,13 @@ public class SCR_Upgrades : NetworkBehaviour
     [SerializeField]
     private SCR_PlayerDataHandler playerDataHandler;
 
+    [Header("RepairsPage")]
+    [SerializeField]
+    public TextMeshProUGUI currentShipHealthText;
+
+    [SerializeField]
+    public TextMeshProUGUI maxShipHealthText;
+
     private void Start()
     {
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
@@ -53,6 +60,15 @@ public class SCR_Upgrades : NetworkBehaviour
         repairsPage = GameObject.Find("ShipRepairsPage").GetComponent<Image>();
         upgradeInfoPage = GameObject.Find("UpgradesDescription").GetComponent<Image>();
         upgradeListPage = GameObject.Find("UpgradesListPage").GetComponent<Image>();
+
+        currentShipHealthText = GameObject.Find("CurrentShipHealthText").GetComponent<TextMeshProUGUI>();
+        maxShipHealthText = GameObject.Find("ShipMaxHealthText").GetComponent<TextMeshProUGUI>();
+    }
+
+    private void Update()
+    {
+        currentShipHealthText.text = playerDataHandler.shipHealthGlobal.Value.ToString();
+        maxShipHealthText.text = playerDataHandler.GetMaxHealth().ToString();
     }
 
     //button functions
@@ -103,9 +119,32 @@ public class SCR_Upgrades : NetworkBehaviour
         {
             if(buttonUpgrade.isOneTimeUpgrade && buttonUpgrade.upgradeBought.Value == false)    //if its a one time upgrade and hasn't been bought
             {
+                switch(buttonUpgrade.upgradeName)
+                {
+                    case "SonarUpgradeButton":
+                        Debug.Log("Sonar Upgrade Bought");
+                        playerDataHandler.SonarUpgradeBought.Value = true;
+                        break;
+                    case "AmmoUpgradeButton":
+                        playerDataHandler.AmmoUpgradeBought.Value = true;
+                        Debug.Log("Ammo Upgrade Bought");
+                        break;
+                    case "ScopeUpgradeButton":
+                        playerDataHandler.ScopeUpgradeBought.Value = true;
+                        Debug.Log("Scope Upgrade Bought");
+                        break;
+                    case "LightUpgradeButton":
+                        playerDataHandler.LightUpgradeBought.Value = true;
+                        Debug.Log("Light Upgrade Bought");
+                        break;
+                    default:
+                        break;
+                }
+
                 playerDataHandler.playerMoney.Value -= upgradeCost;
                 buttonUpgrade.upgradeBought.Value = true;
                 Debug.Log("Upgrade Cost, " + upgradeCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
+
             }
             else if(!buttonUpgrade.isOneTimeUpgrade)    //if its not a one time upgrade and has bought less than three times
             {
