@@ -567,10 +567,17 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     private void RepairShip()
     {
-        playerDataHandler.playerMoney.Value -= repairCost;
+        if (playerDataHandler.playerMoney.Value >= repairCost)
+        {
+            playerDataHandler.playerMoney.Value -= repairCost;
 
-        playerDataHandler.shipHealthGlobal.Value = playerDataHandler.shipMaxHealth.Value;
-        repairCost = (playerDataHandler.shipMaxHealth.Value - playerDataHandler.shipHealthGlobal.Value);
+            playerDataHandler.shipHealthGlobal.Value = playerDataHandler.shipMaxHealth.Value;
+            repairCost = (playerDataHandler.shipMaxHealth.Value - playerDataHandler.shipHealthGlobal.Value);
+        }
+        else
+        {
+            Debug.Log("Not enough money to repair");
+        }
     }
 
     public void ShowStamp()
@@ -669,6 +676,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)    //starts dialogue with the text file as a parameter
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
+
+        if(inkJSON.name == "PortDefault")
+        {
+            currentStory.variablesState["money"] = playerDataHandler.playerMoney.Value;
+            currentStory.variablesState["repairCost"] = repairCost;
+        }
 
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
