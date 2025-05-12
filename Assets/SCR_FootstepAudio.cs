@@ -26,7 +26,6 @@ public class SCR_FootstepAudio : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        // Replace this with your real walking condition
         bool isWalking = true;
 
         if (!gravitasPlayerControllerRef.Walking || gravitasPlayerControllerRef.Jumping && footstepPlaying)
