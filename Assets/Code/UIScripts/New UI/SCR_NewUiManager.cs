@@ -645,12 +645,28 @@ public class SCR_NewUiManager : NetworkBehaviour
         switch(buttonName)
         {
             case "Airship":
+                cityAnimator.SetBool("ShowUpgradesAirship", true);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
                 break;
             case "Move":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", true);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", false); ;
                 break;
             case "Ballista":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", true);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
                 break;
             case "Light":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", true);
                 break;
 
         }
