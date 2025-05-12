@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -24,15 +24,15 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private Button portButton;
 
-    [SerializeField]
-    private GameObject spoonsBlackouts;
-
     [Header("Sprites")]
     [SerializeField]
     private GameObject spoonsSprite;
 
     [SerializeField]
     private GameObject portSprite;
+
+    [SerializeField]
+    private Image cloudBackground, cityBackground;
 
     [Header("Animations")]
     [SerializeField]
@@ -195,12 +195,12 @@ public class SCR_NewUiManager : NetworkBehaviour
         portButton = GameObject.Find("BUTTON_Port").GetComponent<Button>();
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
 
-        spoonsBlackouts = GameObject.Find("SpoonsBlackouts");
-        spoonsBlackouts.SetActive(false);
-
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
         portSprite = GameObject.Find("SPRITE_PortMan");
+
+        cloudBackground = GameObject.Find("CityClouds").GetComponent<Image>();
+        cityBackground = GameObject.Find("CityCity").GetComponent<Image>();
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
@@ -303,31 +303,40 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
-        spoonsBlackouts.SetActive(isInSpoons || isHoveringSpoons);
-
-        if(Input.GetMouseButtonDown(0))
+        if(!dialogueIsPlaying)
         {
-            if (typeTextCoroutine != null)
-            {
-                StopCoroutine(typeTextCoroutine);   //stop the current text typing
-                dialogueText.text = currentFullLine;    //set the text to the full line
-                typeTextCoroutine = null;   //set the current coroutine to null to prevent any more typing
+            return;
+        }
+        if (!Input.GetMouseButtonDown(0))
+        {
+            return;
+        }
 
-                if (currentStory.currentChoices.Count > 0)
-                {
-                    DisplayChoices();   //show choices if there are choices
-                }
-            }
+        if(typeTextCoroutine != null)
+        {
+            StopCoroutine(typeTextCoroutine);
+            dialogueText.text = currentFullLine;
+            typeTextCoroutine = null;
 
-            else if (!isShowingChoices)
+            if(currentStory.currentChoices.Count > 0)
             {
-                ContinueStory();
+                DisplayChoices();
             }
+            return;
+        }
 
-            else if(currentStory.canContinue == false && !isShowingChoices)
-            {
-                StartCoroutine(ExitDialogueMode());
-            }
+        if(isShowingChoices)
+        {
+            return;
+        }
+
+        if(currentStory.canContinue)
+        {
+            ContinueStory();
+        }
+        else
+        {
+            StartCoroutine(ExitDialogueMode());
         }
     }
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
@@ -387,18 +396,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void Func_SpoonsBackButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", false);
-        //cityAnimator.SetBool("HasChoices", false);
-
-        spoonsButton.interactable = true;
-        portButton.interactable = true;
+        StartCoroutine(ExitDialogueMode());
    
     }
     public void Func_PortBackButtonPressed()
     {
         cityAnimator.SetBool("PortPressed", false);
-
-        spoonsButton.interactable = true;
-        portButton.interactable = true;
         StartCoroutine(ExitDialogueMode());
     }
 
@@ -710,19 +713,22 @@ public class SCR_NewUiManager : NetworkBehaviour
             upgradesUI.SetActive(true);
             showUpgrades = false;
         }
-        Debug.Log("AAAAAAAAAAAAAAAA");
         //yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
         cityAnimator.SetBool("SpoonsPressed", false);
         cityAnimator.SetBool("PortPressed", false);
-        yield return new WaitForSeconds(1.0f);
+        cityAnimator.SetBool("HasChoices", false);
+
+        yield return new WaitForSeconds(0.9f);
         isInSpoons = false;
         dialoguePanel.SetActive(false);
         audioSource.Stop();
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
+
+        yield return new WaitForSeconds(0.5f);
         spoonsButton.interactable = true;
         portButton.interactable = true;
 
@@ -732,6 +738,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         if(!currentStory.canContinue)   //check if the dialogue is finished
         {
+            Debug.Log("Story cannot continue");
             StartCoroutine(ExitDialogueMode());
             return;
         }
