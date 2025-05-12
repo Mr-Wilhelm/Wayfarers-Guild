@@ -639,6 +639,23 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         isHoveringPort = false;
     }
+
+    public void Func_ShowAirshipUpgrades(string buttonName)
+    {
+        switch(buttonName)
+        {
+            case "Airship":
+                break;
+            case "Move":
+                break;
+            case "Ballista":
+                break;
+            case "Light":
+                break;
+
+        }
+    }
+
     #endregion Button Functions
 
     #region ReadyOperationsFunctions
