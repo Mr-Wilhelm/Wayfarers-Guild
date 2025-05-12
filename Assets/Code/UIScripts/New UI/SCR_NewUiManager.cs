@@ -132,6 +132,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     private GameObject questTrackerBackground;
 
     [SerializeField]
+    private GameObject questTrackerObject;
+
+    [SerializeField]
     private string targetNPC;
 
     private GameObject spoonsNPCLocation, thamesNPCLocation, spoonsNPCCompleteLocation;
@@ -257,6 +260,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
         questTrackerScroll = GameObject.Find("QuestTrackerScroll");
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
+        questTrackerObject = GameObject.Find("QuestTrackerObject");
 
         questTrackerInfo.enabled = false;
 
@@ -780,6 +784,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         moneyCountUI.SetActive(false);
         readyUpUI.SetActive(false);
         questTrackerScroll.SetActive(false);
+        questTrackerObject.SetActive(false);
 
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
@@ -815,6 +820,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         moneyCountUI.SetActive(true);
         readyUpUI.SetActive(true);
         questTrackerScroll.SetActive(true);
+        questTrackerObject.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
         spoonsButton.interactable = true;
