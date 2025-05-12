@@ -24,6 +24,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private Button portButton;
 
+    [SerializeField]
+    private GameObject spoonsBlackouts;
+
     [Header("Sprites")]
     [SerializeField]
     private GameObject spoonsSprite;
@@ -87,6 +90,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private bool showUpgrades;
 
+    [SerializeField]
+    private bool isInSpoons;
+
+    [SerializeField]
+    private bool isHoveringSpoons;
+
     [Header("Choices UI")]
     [SerializeField]
     private GameObject[] choices;
@@ -135,8 +144,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     private GameObject upgradesUI;
 
     [Header("Stats")]
-    [SerializeField]
-    private float repairCost;
+    public float repairCost;
 
     [Header("DDOL Objects")]
     [SerializeField]
@@ -186,6 +194,9 @@ public class SCR_NewUiManager : NetworkBehaviour
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
         portButton = GameObject.Find("BUTTON_Port").GetComponent<Button>();
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
+
+        spoonsBlackouts = GameObject.Find("SpoonsBlackouts");
+        spoonsBlackouts.SetActive(false);
 
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
@@ -260,7 +271,8 @@ public class SCR_NewUiManager : NetworkBehaviour
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
         questInfoObject.questStamp.enabled = false;
 
-
+        isInSpoons = false;
+        isHoveringSpoons = false;
 
         //has cargo quest with no people attached
         if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
@@ -291,17 +303,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
-        canContinueStory = currentStory.canContinue;
-
-        if (questHandler.hasCompletedJennyQuest.Value == false && questHandler.hasCompletedMatthewQuest.Value == false)
-        {
-            npcQuestCompleteLocation.SetActive(false);
-        }
-
-        if (!dialogueIsPlaying)
-        {
-            return;
-        }
+        spoonsBlackouts.SetActive(isInSpoons || isHoveringSpoons);
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -565,12 +567,19 @@ public class SCR_NewUiManager : NetworkBehaviour
         RepairShip();
     }
 
-    private void RepairShip()
+    public void RepairShip()
     {
-        playerDataHandler.playerMoney.Value -= repairCost;
+        if (playerDataHandler.playerMoney.Value >= repairCost)
+        {
+            playerDataHandler.playerMoney.Value -= repairCost;
 
-        playerDataHandler.shipHealthGlobal.Value = 100.0f;
-        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+            playerDataHandler.shipHealthGlobal.Value = playerDataHandler.shipMaxHealth.Value;
+            repairCost = (playerDataHandler.shipMaxHealth.Value - playerDataHandler.shipHealthGlobal.Value);
+        }
+        else
+        {
+            Debug.Log("Not enough money to repair");
+        }
     }
 
     public void ShowStamp()
@@ -586,7 +595,14 @@ public class SCR_NewUiManager : NetworkBehaviour
         Debug.Log("BEEP");
     }
 
-
+    public void Func_AddSpoonsDarken()
+    {
+        isHoveringSpoons = true;
+    }
+    public void Func_RemoveSpoonsDarken()
+    {
+        isHoveringSpoons = false;
+    }
     #endregion Button Functions
 
     #region ReadyOperationsFunctions
@@ -670,6 +686,16 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
 
+        if(inkJSON.name == "PortDefault")
+        {
+            currentStory.variablesState["money"] = playerDataHandler.playerMoney.Value;
+            currentStory.variablesState["repairCost"] = repairCost;
+        }
+        else if(inkJSON.name == "NPC1" || inkJSON.name == "SpoonsQuest" || inkJSON.name == "ResearchQuest")
+        {
+            isInSpoons = true;
+        }
+
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
         dialoguePanel.SetActive(true);  //activate the dialogue panel
@@ -691,6 +717,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         cityAnimator.SetBool("SpoonsPressed", false);
         cityAnimator.SetBool("PortPressed", false);
         yield return new WaitForSeconds(1.0f);
+        isInSpoons = false;
         dialoguePanel.SetActive(false);
         audioSource.Stop();
         dialogueText.text = "";
@@ -698,6 +725,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         isShowingChoices = false;
         spoonsButton.interactable = true;
         portButton.interactable = true;
+
     }
 
     private void ContinueStory()
