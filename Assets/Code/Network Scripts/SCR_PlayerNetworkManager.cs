@@ -50,7 +50,6 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         SceneManager.sceneLoaded -= test;
     }
 
-
     public void bust()
     {
         StartCoroutine(bust2());
@@ -168,6 +167,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
             playerCollider.enabled = false;
             gameObject.GetComponent<GravitasBody>().DestroyProxy();
+            playerAudioListener.enabled = false;
             gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
@@ -219,6 +219,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
             playerCollider.enabled = false;
+            playerAudioListener.enabled = false;
             gameObject.GetComponent<GravitasBody>().DestroyProxy();
             gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");

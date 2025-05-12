@@ -7,98 +7,86 @@ using UnityEngine;
 
 public class SCR_FootstepAudio : NetworkBehaviour
 {
-    [SerializeField] AudioSource playerAudioSource;
+    public enum FootstepType { Wood1, Wood2, Wood3, Wood4 }
 
-    [SerializeField] AudioClip metalWalk1;
-    [SerializeField] AudioClip metalWalk2;
-    [SerializeField] AudioClip metalWalk3;
-    [SerializeField] AudioClip metalWalk4;
-
-    [SerializeField] AudioClip woodWalk1;
-    [SerializeField] AudioClip woodWalk2;
-    [SerializeField] AudioClip woodWalk3;
-    [SerializeField] AudioClip woodWalk4;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip wood1;
+    [SerializeField] private AudioClip wood2;
+    [SerializeField] private AudioClip wood3;
+    [SerializeField] private AudioClip wood4;
 
     public GravitasFirstPersonPlayerSubject gravitasPlayerControllerRef;
     public SCR_ShipControls shipControlsRef;
     private bool footstepPlaying;
 
+    private float footstepCooldown = 0.5f;
+    private float lastFootstepTime;
+
     private void Update()
     {
+        if (!IsOwner) return;
+
+        // Replace this with your real walking condition
+        bool isWalking = true;
+
         if (!gravitasPlayerControllerRef.Walking || gravitasPlayerControllerRef.Jumping && footstepPlaying)
         {
-            playerAudioSource.Stop();
+            audioSource.Stop();
         }
         if (gravitasPlayerControllerRef.Walking && !shipControlsRef.onWheel && !gravitasPlayerControllerRef.Jumping)
         {
-            SelectFootstep("Wood");
-        }
-    }
-
-    public void SelectFootstep(string typeOfMaterial)
-    {
-        float footstepToUse = Random.Range(1, 5);
-        if(typeOfMaterial == "Wood")
-        {
-            switch (footstepToUse)
-            {
-                case 1:
-                    PlayFootStepAudio(woodWalk1);
-                    break;
-                case 2:
-                    PlayFootStepAudio(woodWalk2);
-                    break;
-                case 3:
-                    PlayFootStepAudio(woodWalk3);
-                    break;
-                case 4:
-                    PlayFootStepAudio(woodWalk4);
-                    break;
-                default:
-                    Debug.Log("Footstep switch statement glitched");
-                    break;
-            }
+            isWalking = true;
         }
         else
         {
-            switch (footstepToUse)
-            {
-                case 1:
-                    PlayFootStepAudio(metalWalk1);
-                    break;
-                case 2:
-                    PlayFootStepAudio(metalWalk2);
-                    break;
-                case 3:
-                    PlayFootStepAudio(metalWalk3);
-                    break;
-                case 4:
-                    PlayFootStepAudio(metalWalk4);
-                    break;
-                default:
-                    Debug.Log("Footstep switch statement glitched");
-                    break;
-            }
+            isWalking = false;
+        }
+
+        if (isWalking && Time.time > lastFootstepTime + footstepCooldown)
+        {
+            lastFootstepTime = Time.time;
+            var type = GetRandomFootstep();
+            PlayFootstepServerRpc(type);
         }
     }
 
-    private void PlayFootStepAudio(AudioClip footstepToPlay)
+    private FootstepType GetRandomFootstep()
     {
-        if(!footstepPlaying)
-        {
-            playerAudioSource.PlayOneShot(footstepToPlay);
-            footstepPlaying = true;
-            Invoke(nameof(SetFootStepPlayingToFalse), footstepToPlay.length);
-        }
-        else
-        {
-            Debug.Log("footstep already playing");
-        }
-        
+        return (FootstepType)Random.Range(0, 4);
     }
 
-    private void SetFootStepPlayingToFalse()
+    [ServerRpc]
+    private void PlayFootstepServerRpc(FootstepType footstep)
     {
-        footstepPlaying = false;
+        // Play on host
+        PlayFootstep(footstep);
+
+        // Tell all other clients to play at this object's position
+        PlayFootstepClientRpc(footstep);
+    }
+
+    [ClientRpc]
+    private void PlayFootstepClientRpc(FootstepType footstep)
+    {
+        //if (IsOwner) return; // Don't double-play
+
+        PlayFootstep(footstep);
+    }
+
+    private void PlayFootstep(FootstepType type)
+    {
+        if (!audioSource) return;
+
+        AudioClip clip = type switch
+        {
+            FootstepType.Wood1 => wood1,
+            FootstepType.Wood2 => wood2,
+            FootstepType.Wood3 => wood3,
+            FootstepType.Wood4 => wood4,
+            _ => null
+        };
+
+        if (clip != null)
+            audioSource.PlayOneShot(clip);
     }
 }
