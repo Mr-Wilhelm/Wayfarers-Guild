@@ -434,6 +434,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         spoonsButton.interactable = true;
         portButton.interactable = true;
+        cityAnimator.SetBool("ShowUpgradesAirship", false);
+        cityAnimator.SetBool("ShowUpgradesMove", false);
+        cityAnimator.SetBool("ShowUpgradesBallista", false);
+        cityAnimator.SetBool("ShowUpgradesLight", false);
+        cityAnimator.SetBool("UpgradesActive", true);
+        cityAnimator.SetBool("UpgradesActive", false);
         upgradesUI.SetActive(false);
     }
     public void Func_QuestButtonPressed()
@@ -649,24 +655,28 @@ public class SCR_NewUiManager : NetworkBehaviour
                 cityAnimator.SetBool("ShowUpgradesMove", false);
                 cityAnimator.SetBool("ShowUpgradesBallista", false);
                 cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
                 break;
             case "Move":
                 cityAnimator.SetBool("ShowUpgradesAirship", false);
                 cityAnimator.SetBool("ShowUpgradesMove", true);
                 cityAnimator.SetBool("ShowUpgradesBallista", false);
-                cityAnimator.SetBool("ShowUpgradesLight", false); ;
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
                 break;
             case "Ballista":
                 cityAnimator.SetBool("ShowUpgradesAirship", false);
                 cityAnimator.SetBool("ShowUpgradesMove", false);
                 cityAnimator.SetBool("ShowUpgradesBallista", true);
                 cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
                 break;
             case "Light":
                 cityAnimator.SetBool("ShowUpgradesAirship", false);
                 cityAnimator.SetBool("ShowUpgradesMove", false);
                 cityAnimator.SetBool("ShowUpgradesBallista", false);
                 cityAnimator.SetBool("ShowUpgradesLight", true);
+                cityAnimator.SetBool("UpgradesActive", true);
                 break;
 
         }
