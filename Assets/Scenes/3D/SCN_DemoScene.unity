@@ -35732,6 +35732,12 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &992434704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1648404852908797345, guid: 00b41b74b038dae468603ed3702607b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 437485120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1239768344
 GameObject:
   m_ObjectHideFlags: 0
@@ -36038,9 +36044,9 @@ MonoBehaviour:
     m_Bits: 4096
   debugPrefab: {fileID: 2374186273311428324, guid: bdd589f03e2fe23479e1db7144b24607,
     type: 3}
-  nodeDebugColourPassable: {x: 0, y: 0, z: 0, w: 0}
-  nodeDebugColourImpassable: {x: 0, y: 0, z: 0, w: 0}
-  airship: {fileID: 0}
+  nodeDebugColourPassable: {x: 0, y: 1, z: 0, w: 1}
+  nodeDebugColourImpassable: {x: 1, y: 0, z: 0, w: 1}
+  airship: {fileID: 992434704}
 --- !u!4 &1822672177
 Transform:
   m_ObjectHideFlags: 0

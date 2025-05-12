@@ -1,9 +1,11 @@
+using GLTFast.Schema;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,6 +65,18 @@ public class SCR_Pathfinding : MonoBehaviour
                         if (x != 0 || y != 0 || z != 0)
                             list.Add(new Vector3(x, y, z) + index);
             return list.ToArray();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is GridNode other)
+                return index == other.index; // assuming index uniquely identifies a node
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return index.GetHashCode();
         }
 
     }
@@ -157,9 +171,9 @@ public class SCR_Pathfinding : MonoBehaviour
                         position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize),
                         index = new Vector3(i, j, k),
                         passable = !Physics.CheckBox(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), Vector3.one * (nodeSize / 2f), Quaternion.identity, layerMask),
-                        gCost = 0,
-                        hCost = 0,
-                        previousNodeIndex = Vector3.zero
+                        //gCost = 0,
+                        //hCost = 0,
+                        //previousNodeIndex = Vector3.zero
                     };
                 }
             }
@@ -180,7 +194,9 @@ public class SCR_Pathfinding : MonoBehaviour
 
         //Setting the g and h cost of the start node by getting the distance between the positions of the start and end nodes.
         startNode.gCost = 0;
-        startNode.hCost = (int)Vector3.Distance(startNode.position, endNode.position);
+        startNode.hCost = Mathf.Abs((int)(startNode.position.x - endNode.position.x)) +
+                  Mathf.Abs((int)(startNode.position.y - endNode.position.y)) +
+                  Mathf.Abs((int)(startNode.position.z - endNode.position.z));
         startNode.previousNodeIndex = startNode.index;
 
         var sortedOpenList = new SortedSet<GridNode>(new NodeComparer());  //using a sorted queue is more efficient, better time complexity (O(n))
@@ -215,14 +231,20 @@ public class SCR_Pathfinding : MonoBehaviour
                     continue;
                 }
 
-                //otherwise get the estimated gCost to reach the neighbour node from the start node
-                int estimatedGCost = currentNode.gCost + (int)Vector3.Distance(currentNode.position, neighbourNode.position);
+
+                //otherwise get the estimated gCost to reach the neighbour node from the start node ---> (int)Vector3.Distance(currentNode.position, neighbourNode.position);
+                int estimatedGCost = currentNode.gCost + 
+                    Mathf.Abs((int)(currentNode.position.x - neighbourNode.position.x)) + 
+                    Mathf.Abs((int)(currentNode.position.y - neighbourNode.position.y)) + 
+                    Mathf.Abs((int)(currentNode.position.z - neighbourNode.position.z));
 
                 //if the neighbour is not already in the open list, or if the estimated cost is lower than the current gCost
                 if (!sortedOpenList.Contains(neighbourNode) || estimatedGCost < neighbourNode.gCost)
                 {
                     neighbourNode.gCost = estimatedGCost; //update the gCost of the neighbour
-                    neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);//get the hcost of the new neighbour
+                    neighbourNode.hCost = Mathf.Abs((int)(neighbourNode.position.x - endNode.position.x)) +
+                  Mathf.Abs((int)(neighbourNode.position.y - endNode.position.y)) +
+                  Mathf.Abs((int)(neighbourNode.position.z - endNode.position.z));//get the hcost of the new neighbour
 
                     neighbourNode.previousNodeIndex = currentNode.index;//update the previous node position to that of the current one
 
@@ -275,7 +297,9 @@ public class SCR_Pathfinding : MonoBehaviour
     //{
     //    if (navigationMatrix != null)
     //    {
-    //        foreach (gridNode node in navigationMatrix)
+
+
+    //        foreach (GridNode node in navigationMatrix)
     //        {
 
     //            if (Vector3.Distance(airship.transform.position, node.position) < 500)
@@ -289,7 +313,7 @@ public class SCR_Pathfinding : MonoBehaviour
     //                    Gizmos.color = nodeDebugColourImpassable;
     //                }
 
-    //                Gizmos.DrawSphere(node.position, 1);
+    //                Gizmos.DrawSphere(node.position, 5);
     //            }
 
     //        }
