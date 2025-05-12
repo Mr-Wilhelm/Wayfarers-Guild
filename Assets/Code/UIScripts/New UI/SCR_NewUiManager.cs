@@ -303,7 +303,18 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
-        if(!dialogueIsPlaying)
+        if(isHoveringSpoons || isInSpoons)
+        {
+            cloudBackground.color = new Color(0.75f, 0.75f, 0.75f);
+            cityBackground.color = new Color(0.75f, 0.75f, 0.75f);
+        }
+        else
+        {
+            cloudBackground.color = new Color(1.0f, 1.0f, 1.0f);
+            cityBackground.color = new Color(1.0f, 1.0f, 1.0f);
+        }
+
+        if (!dialogueIsPlaying)
         {
             return;
         }
