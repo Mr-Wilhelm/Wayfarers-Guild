@@ -16,7 +16,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
 
 
     private float angleX; // Stored camera pitch value
-    private float turnSpeed = 1f;
+    private float turnSpeed = 2f;
   
 
     private void Update()
@@ -50,16 +50,21 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         }
         else
         {
-
+            //playerCamera = GameObject.Find("Player_1").transform.Find("Camera").GetComponent<Camera>();
+            //playerCamera.transform.localRotation = Quaternion.identity;
+            //base.OnSubjectUpdate();
             //////TODOD FINISH HERE
             SCR_ClientMovementInputs ClientInputValues = this.GetComponent<SCR_ClientMovementInputs>();
-            Vector2 keyInput = ClientInputValues.ClientInputHorizontal.Value;
-            float verticalInput = ClientInputValues.ClientInputVertical.Value;
+            //Vector2 keyInput = ClientInputValues.ClientInputHorizontal.Value;
+            //float verticalInput = ClientInputValues.ClientInputVertical.Value;
             Vector2 mouseInput = ClientInputValues.ClientInputMouse.Value;
 
             Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
+            t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnSpeed, Vector3.up);
 
-            Debug.Log(mouseInput+" Key 1");
+            
+            
+            //Debug.Log(mouseInput + " Key 1");
 
             //Movement input processing
             //keyInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -67,27 +72,27 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
 
 
 
-            t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnSpeed, Vector3.up);
 
             // Camera pitching
-            angleX += -mouseInput.y * turnSpeed;
+            //angleX += -mouseInput.y * turnSpeed;
 
-            if (playerOnBallista)
-            {
-                angleX = Mathf.Clamp(angleX, 0, 60);
-            }
-            else if (gravitasBody.IsLanded)
-            {
-                angleX = Mathf.Clamp(angleX, -90, 90);
-            }
-            
-            playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
+            //if (playerOnBallista)
+            //{
+            //    angleX = Mathf.Clamp(angleX, 0, 60);
+            //}
+            //else if (gravitasBody.IsLanded)
+            //{
+            //    angleX = Mathf.Clamp(angleX, -90, 90);
+            //}
 
-            // Vertical input
-            if (Input.GetKey(KeyCode.Space))
-                verticalInput = 1; // Up
-            else
-                verticalInput = 0; // None
+            //playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0 , 0);
+            //Debug.Log(playerCamera.transform.localRotation + " Key 2");
+
+            //// Vertical input
+            //if (Input.GetKey(KeyCode.Space))
+            //    verticalInput = 1; // Up
+            //else
+            //    verticalInput = 0; // None
 
 
         }
