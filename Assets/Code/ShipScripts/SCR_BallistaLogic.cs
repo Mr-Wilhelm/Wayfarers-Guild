@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SCR_BallistaLogic : NetworkBehaviour
 {
@@ -27,6 +28,9 @@ public class SCR_BallistaLogic : NetworkBehaviour
     public GameObject ballistaHousing;
     public GameObject ballistaFirePoint;
     public GameObject ballistaBolt;
+
+    [Header("Audio source and clips")]
+    public SCR_AudioHelper audioHelper;
 
     public void setOccupant(Camera playerCam)
     {
@@ -83,8 +87,8 @@ public class SCR_BallistaLogic : NetworkBehaviour
 
     private void ReloadBallista()
     {
-        Debug.Log("Attempting ballista reload");
         if (!playerHasBolt) { Debug.Log("Player does not have bolt"); return; }
+        audioHelper.PlayAudioClipAcrossNetwork("ballistaReload");
         playerHasBolt = false;
         BallistaLoadServerRPC();
         ballistaBolt.SetActive(true);
@@ -150,6 +154,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
     private void FireBallista()
     {
         if(!ballistaLoaded.Value) { Debug.Log("Ballista not loaded"); return; }
+        audioHelper.PlayAudioClipAcrossNetwork("ballistaFire");
         Debug.Log("Attempting to fire ballsita");
         ballistaBolt.SetActive(false);
         BallistaUnLoadServerRPC();
