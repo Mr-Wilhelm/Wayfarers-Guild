@@ -10,6 +10,8 @@ using UnityEngine;
 
 public class SCR_NewInteract : NetworkBehaviour
 {
+    //WILHELM TODO NOTE: SOMETHING GOES FUCKY WITH THE CLIENT HERE ON THE COMPENDIUM...FIX IT FELIX
+
     public bool interacting = false;
 
     [SerializeField] private float interactionRange;

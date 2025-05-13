@@ -91,10 +91,10 @@ public class SCR_NewUiManager : NetworkBehaviour
     private bool showUpgrades;
 
     [SerializeField]
-    private bool isInSpoons;
+    private bool isInSpoons, isInPort;
 
     [SerializeField]
-    private bool isHoveringSpoons;
+    private bool isHoveringSpoons, isHoveringPort;
 
     [Header("Choices UI")]
     [SerializeField]
@@ -126,7 +126,13 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextMeshProUGUI questTrackerInfo;
 
     [SerializeField]
+    private GameObject questTrackerScroll;
+
+    [SerializeField]
     private GameObject questTrackerBackground;
+
+    [SerializeField]
+    private GameObject questTrackerObject;
 
     [SerializeField]
     private string targetNPC;
@@ -145,6 +151,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [Header("Stats")]
     public float repairCost;
+
+    [SerializeField]
+    private GameObject moneyCountUI;
+
+    [SerializeField]
+    private GameObject readyUpUI;
 
     [Header("DDOL Objects")]
     [SerializeField]
@@ -246,9 +258,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
+        questTrackerScroll = GameObject.Find("QuestTrackerScroll");
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
+        questTrackerObject = GameObject.Find("QuestTrackerObject");
 
         questTrackerInfo.enabled = false;
+
         questTrackerBackground.SetActive(false);
 
         npcLocation = GameObject.Find("NPCLocation");
@@ -267,9 +282,12 @@ public class SCR_NewUiManager : NetworkBehaviour
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
 
+        moneyCountUI = GameObject.Find("PlayerMoneyCount");
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
         questInfoObject.questStamp.enabled = false;
+
+        readyUpUI = GameObject.Find("BUTTON_ReadyUp");
 
         isInSpoons = false;
         isHoveringSpoons = false;
@@ -303,7 +321,18 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
-        if(!dialogueIsPlaying)
+        if(isHoveringSpoons || isInSpoons || isHoveringPort || isInPort)
+        {
+            cloudBackground.color = new Color(0.75f, 0.75f, 0.75f);
+            cityBackground.color = new Color(0.75f, 0.75f, 0.75f);
+        }
+        else
+        {
+            cloudBackground.color = new Color(1.0f, 1.0f, 1.0f);
+            cityBackground.color = new Color(1.0f, 1.0f, 1.0f);
+        }
+
+        if (!dialogueIsPlaying)
         {
             return;
         }
@@ -409,6 +438,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         spoonsButton.interactable = true;
         portButton.interactable = true;
+        cityAnimator.SetBool("ShowUpgradesAirship", false);
+        cityAnimator.SetBool("ShowUpgradesMove", false);
+        cityAnimator.SetBool("ShowUpgradesBallista", false);
+        cityAnimator.SetBool("ShowUpgradesLight", false);
+        cityAnimator.SetBool("UpgradesActive", true);
+        cityAnimator.SetBool("UpgradesActive", false);
         upgradesUI.SetActive(false);
     }
     public void Func_QuestButtonPressed()
@@ -606,6 +641,51 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         isHoveringSpoons = false;
     }
+    public void Func_AddPortDarken()
+    {
+        isHoveringPort = true;
+    }
+    public void Func_RemovePortDarken()
+    {
+        isHoveringPort = false;
+    }
+
+    public void Func_ShowAirshipUpgrades(string buttonName)
+    {
+        switch(buttonName)
+        {
+            case "Airship":
+                cityAnimator.SetBool("ShowUpgradesAirship", true);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+            case "Move":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", true);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+            case "Ballista":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", true);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+            case "Light":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", true);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+
+        }
+    }
+
     #endregion Button Functions
 
     #region ReadyOperationsFunctions
@@ -693,11 +773,18 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             currentStory.variablesState["money"] = playerDataHandler.playerMoney.Value;
             currentStory.variablesState["repairCost"] = repairCost;
+            isInPort = true;
         }
         else if(inkJSON.name == "NPC1" || inkJSON.name == "SpoonsQuest" || inkJSON.name == "ResearchQuest")
         {
             isInSpoons = true;
         }
+
+        questButton.gameObject.SetActive(false);
+        moneyCountUI.SetActive(false);
+        readyUpUI.SetActive(false);
+        questTrackerScroll.SetActive(false);
+        questTrackerObject.SetActive(false);
 
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
@@ -722,11 +809,18 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         yield return new WaitForSeconds(0.9f);
         isInSpoons = false;
+        isInPort = false;
         dialoguePanel.SetActive(false);
         audioSource.Stop();
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
+
+        questButton.gameObject.SetActive(true);
+        moneyCountUI.SetActive(true);
+        readyUpUI.SetActive(true);
+        questTrackerScroll.SetActive(true);
+        questTrackerObject.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
         spoonsButton.interactable = true;
