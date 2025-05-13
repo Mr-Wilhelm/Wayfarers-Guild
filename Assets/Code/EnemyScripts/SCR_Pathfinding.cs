@@ -1,9 +1,11 @@
+using GLTFast.Schema;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,7 +15,11 @@ public class SCR_Pathfinding : MonoBehaviour
     /// Makes a 3d array (matrix) of structs, with a vector3 of their position.
     /// Allows for functions to be called on each independent struct object in the matrix.
     /// </summary>
-    public gridNode[,,] navigationMatrix;
+    public GridNode[,,] navigationMatrix;
+
+    int xLength;
+    int yLength;
+    int zLength;
 
     public Vector3 startPos;
     public Vector3 endPos;
@@ -31,77 +37,62 @@ public class SCR_Pathfinding : MonoBehaviour
     [SerializeField]
     private Vector4 nodeDebugColourImpassable;
 
+    [SerializeField]
+    private GameObject airship;
 
 
-    //public GameObject target;
-    public struct gridNode
+    public class GridNode
     {
         public Vector3 position;
-
         public int gCost, hCost;
-
-        //public int fCost;
-
         public Vector3 previousNodeIndex;
         public Vector3 index;
         public bool passable;
-
-        public Vector3[,,] neighbour;
-
-        //absolute chonker of a struct constructor
-        public gridNode(Vector3 Position, int GCost, int HCost, Vector3 PreviousNodeIndex, Vector3 Index, bool Passable, Vector3[,,] Neighbour)
-        {
-            this.position = Position;
-            this.gCost = GCost;
-            this.hCost = HCost;
-            //this.fCost = gCost + hCost;
-            this.previousNodeIndex = PreviousNodeIndex;
-            this.index = Index;
-            this.passable = Passable;
-
-            this.neighbour = Neighbour;
-        }
 
         public int GetFCost()
         {
             return gCost + hCost;
         }
-        public gridNode assignNeighbours(int x, int y, int z, int x_length, int y_length, int z_length)
+
+
+
+        public Vector3[] GetNeighbours()
         {
-            Vector3[,,] assignedNeighbours = new Vector3[3, 3, 3];
-
-            for (int offsetX = -1; offsetX <= 1; offsetX++)
-            {
-                for (int offsetY = -1; offsetY <= 1; offsetY++)
-                {
-                    for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
-                    {
-                        int newX = x + offsetX;
-                        int newY = y + offsetY;
-                        int newZ = z + offsetZ;
-
-                        //checks if the new position is in the matrix
-                        if (newX >= 0 && newX < x_length && newY >= 0 && newY < y_length && newZ >= 0 && newZ < z_length)
-                        {
-                            //store the position
-                            assignedNeighbours[offsetX + 1, offsetY + 1, offsetZ + 1] = new Vector3(newX, newY, newZ);
-                        }
-                        else
-                        {
-                            assignedNeighbours[offsetX + 1, offsetY + 1, offsetZ + 1] = new Vector3(-1, -1, -1);
-                        }                        
-                    }
-                }
-            }
-            assignedNeighbours[1, 1, 1] = new Vector3(-1, -1, -1);
-
-            return new gridNode(this.position, this.gCost, this.hCost, this.previousNodeIndex, this.index, this.passable, assignedNeighbours);
+            var list = new List<Vector3>();
+            for (float x = -1; x <= 1; x++)
+                for (int y = -1; y <= 1; y++)
+                    for (int z = -1; z <= 1; z++)
+                        if (x != 0 || y != 0 || z != 0)
+                            list.Add(new Vector3(x, y, z) + index);
+            return list.ToArray();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is GridNode other)
+                return index == other.index; // assuming index uniquely identifies a node
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return index.GetHashCode();
+        }
+
     }
+
+    public bool IsWithinBounds(Vector3 index, int x, int y, int z)
+    {
+        return index.x >= 0 && index.x < x &&
+               index.y >= 0 && index.y < y &&
+               index.z >= 0 && index.z < z;
+    }
+
+
 
     private void Awake()
     {
-        PopulateWorld(500, 100, 500);
+        PopulateWorld(endPos.x, endPos.y, endPos.z);
         Debug.Log("World Populated.");
     }
 
@@ -114,10 +105,14 @@ public class SCR_Pathfinding : MonoBehaviour
     /// <param name="nodeSpacing"></param>
     private void PopulateWorld(float x, float y, float z)
     {
-        navigationMatrix = new gridNode
-            [(int)Mathf.Floor(x / nodeSize),    //gets the number of nodes for the worlds width, x
-            (int)Mathf.Floor(y / nodeSize),    //get the number of nodes for the worlds height, y
-            (int)Mathf.Floor(z / nodeSize)];    //get the number of nodes for the worlds depth, z
+        xLength = Mathf.FloorToInt(x / nodeSize);
+        yLength = Mathf.FloorToInt(y / nodeSize);
+        zLength = Mathf.FloorToInt(z / nodeSize);
+
+        navigationMatrix = new GridNode
+            [xLength,    //gets the number of nodes for the worlds width, x
+            yLength,    //get the number of nodes for the worlds height, y
+            zLength];    //get the number of nodes for the worlds depth, z
 
         Vector3[] directions = new Vector3[]
         {
@@ -165,60 +160,21 @@ public class SCR_Pathfinding : MonoBehaviour
         };
 
         //iterate through the three dimensional array, going through width, then height, then depth (x, y ,z)
-        for (int i = 0; i < navigationMatrix.GetLength(0); i++)            
+        for (int i = 0; i < navigationMatrix.GetLength(0); i++)
         {
             for (int j = 0; j < navigationMatrix.GetLength(1); j++)
             {
                 for (int k = 0; k < navigationMatrix.GetLength(2); k++)
                 {
-                    navigationMatrix[i, j, k].position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize);
-                    navigationMatrix[i, j, k].index = new Vector3(i, j, k);
-
-                    navigationMatrix[i, j, k].passable = true;
-
-                    //ray cast to the neighbours of the node.
-                    //if the ray cast collides with terrain, set passable to false
-                    foreach (Vector3 dir in directions) //iterate through all directions
+                    navigationMatrix[i, j, k] = new GridNode
                     {
-                        RaycastHit hit;
-
-                        float rayLength = Mathf.Sqrt(Mathf.Pow(nodeSize, 2) + Mathf.Pow(nodeSize, 2) + (Mathf.Pow(nodeSize, 2)));
-
-
-
-
-                        //if (Physics.Raycast(
-                        //    navigationMatrix[i, j, k].position,
-                        //    dir, out hit,
-                        //    rayLength / 2,
-                        //    layerMask))  //fire a ray in that direction, with a length of nodesize / 2
-                        //{
-                        //    Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
-                        //    navigationMatrix[i, j, k].passable = false; 
-                        //}
-                        if (Physics.Raycast(
-                            navigationMatrix[i, j, k].position + (dir * (rayLength)),
-                            -dir, out hit,
-                            rayLength,
-                            layerMask))  //fire a ray in that direction, with a length of nodesize / 2
-                        {
-                            //Debug.DrawRay(navigationMatrix[i, j, k].position, dir * rayLength / 2, nodeDebugColourImpassable, 100000.0f);
-                            navigationMatrix[i, j, k].passable = false;
-                        }
-
-                    }
-
-
-                    //if (Physics.CheckSphere(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), nodeSize/2, layerMask))
-                    //{
-                    //    navigationMatrix[i, j, k].passable = false;
-                    //}
-                    //else
-                    //{
-                    //    navigationMatrix[i, j, k].passable = true;
-                    //}
-
-                    navigationMatrix[i, j, k] = navigationMatrix[i, j, k].assignNeighbours(i, j, k, (int)Mathf.Floor(x / nodeSize), (int)Mathf.Floor(y / nodeSize), (int)Mathf.Floor(z / nodeSize));
+                        position = new Vector3(i * nodeSize, j * nodeSize, k * nodeSize),
+                        index = new Vector3(i, j, k),
+                        passable = !Physics.CheckBox(new Vector3(i * nodeSize, j * nodeSize, k * nodeSize), Vector3.one * (nodeSize / 2f), Quaternion.identity, layerMask),
+                        //gCost = 0,
+                        //hCost = 0,
+                        //previousNodeIndex = Vector3.zero
+                    };
                 }
             }
         }
@@ -226,63 +182,72 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
     {
+
         //get the start and end points via the parameters passed.
-        gridNode startNode = navigationMatrix[(int)MathF.Round(startPoint.x / nodeSize), (int)MathF.Round(startPoint.y / nodeSize), (int)MathF.Round(startPoint.z / nodeSize)];
-        gridNode endNode = navigationMatrix[(int)MathF.Round(endPoint.x / nodeSize), (int)MathF.Round(endPoint.y / nodeSize), (int)MathF.Round(endPoint.z / nodeSize)];
+        GridNode startNode = navigationMatrix[(int)MathF.Round(startPoint.x / nodeSize), (int)MathF.Round(startPoint.y / nodeSize), (int)MathF.Round(startPoint.z / nodeSize)];
+        GridNode endNode = navigationMatrix[(int)MathF.Round(endPoint.x / nodeSize), (int)MathF.Round(endPoint.y / nodeSize), (int)MathF.Round(endPoint.z / nodeSize)];
 
         //cleaning lists
         //openList.Clear();
-        var sortedClosedList = new SortedSet<gridNode>(new NodeComparer());
+        var sortedClosedList = new SortedSet<GridNode>(new NodeComparer());
         sortedClosedList.Clear();
 
         //Setting the g and h cost of the start node by getting the distance between the positions of the start and end nodes.
         startNode.gCost = 0;
-        startNode.hCost = (int)Vector3.Distance(startNode.position, endNode.position);
+        startNode.hCost = Mathf.Abs((int)(startNode.position.x - endNode.position.x)) +
+                  Mathf.Abs((int)(startNode.position.y - endNode.position.y)) +
+                  Mathf.Abs((int)(startNode.position.z - endNode.position.z));
         startNode.previousNodeIndex = startNode.index;
 
-        var sortedOpenList = new SortedSet<gridNode>(new NodeComparer());  //using a sorted queue is more efficient, better time complexity (O(n))
+        var sortedOpenList = new SortedSet<GridNode>(new NodeComparer());  //using a sorted queue is more efficient, better time complexity (O(n))
         sortedOpenList.Add(startNode); //add the start node to the openlist
 
         while (sortedOpenList.Count > 0)  //while there are nodes in the open list
         {
             //gridNode currentNode = navigationMatrix[(int)openList[0].x, (int)openList[0].y, (int)openList[0].z]; //current node is the first entry in the list (currently the only one, and the one it is at
-            gridNode currentNode = sortedOpenList.Min;
+            GridNode currentNode = sortedOpenList.Min;
             sortedOpenList.Remove(currentNode);
 
             //remove the current node from the open list and add it to the closed list, since it has now been visited
             sortedClosedList.Add(currentNode);
 
-            if(currentNode.position == endNode.position)
+            if (currentNode.position == endNode.position)
             {
                 return RemakePath(currentNode, startNode.index); //remake the path when you reach the next node                
             }
 
-            foreach (Vector3 neighbourPos in currentNode.neighbour)
+            foreach (Vector3 neighbourPos in currentNode.GetNeighbours())
             {
                 //gets the neighbour node
-                if ((int)neighbourPos.x == -1)
+                if (!IsWithinBounds(neighbourPos, xLength, yLength, zLength))
                 {
                     continue;
                 }
-                
-                gridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
+
+                GridNode neighbourNode = navigationMatrix[(int)(neighbourPos.x), (int)(neighbourPos.y), (int)(neighbourPos.z)];
 
                 if (!neighbourNode.passable || sortedClosedList.Contains(neighbourNode))
                 {
                     continue;
                 }
 
-                //otherwise get the estimated gCost to reach the neighbour node from the start node
-                int estimatedGCost = currentNode.gCost + (int)Vector3.Distance(currentNode.position, neighbourNode.position);
-                
+
+                //otherwise get the estimated gCost to reach the neighbour node from the start node ---> (int)Vector3.Distance(currentNode.position, neighbourNode.position);
+                int estimatedGCost = currentNode.gCost + 
+                    Mathf.Abs((int)(currentNode.position.x - neighbourNode.position.x)) + 
+                    Mathf.Abs((int)(currentNode.position.y - neighbourNode.position.y)) + 
+                    Mathf.Abs((int)(currentNode.position.z - neighbourNode.position.z));
+
                 //if the neighbour is not already in the open list, or if the estimated cost is lower than the current gCost
                 if (!sortedOpenList.Contains(neighbourNode) || estimatedGCost < neighbourNode.gCost)
                 {
                     neighbourNode.gCost = estimatedGCost; //update the gCost of the neighbour
-                    neighbourNode.hCost = (int)Vector3.Distance(neighbourNode.position, endNode.position);//get the hcost of the new neighbour
-                   
+                    neighbourNode.hCost = Mathf.Abs((int)(neighbourNode.position.x - endNode.position.x)) +
+                  Mathf.Abs((int)(neighbourNode.position.y - endNode.position.y)) +
+                  Mathf.Abs((int)(neighbourNode.position.z - endNode.position.z));//get the hcost of the new neighbour
+
                     neighbourNode.previousNodeIndex = currentNode.index;//update the previous node position to that of the current one
-                    
+
                     navigationMatrix[(int)neighbourNode.index.x, (int)neighbourNode.index.y, (int)neighbourNode.index.z] = neighbourNode;
 
                     if (!sortedOpenList.Contains(neighbourNode))    //if the node isn't already in the list, add it
@@ -291,14 +256,20 @@ public class SCR_Pathfinding : MonoBehaviour
                     }
                 }
             }
+            iterator++;
+            if (iterator >= 500000)
+            {
+                Debug.Log("Break at 1st while loop");
+                break;
+            }
         }
         return null;    //No Path found
     }
 
-    private List<Vector3> RemakePath(gridNode currentNode, Vector3 originalNode)
+    private List<Vector3> RemakePath(GridNode currentNode, Vector3 originalNode)
     {
         List<Vector3> newPath = new List<Vector3>();    //make a new list for the new path
-        List<gridNode> testing = new List<gridNode>();
+        List<GridNode> testing = new List<GridNode>();
 
         iterator2 = 0;
         while (currentNode.index != originalNode)    //iterate through the path from end to start (backwards)
@@ -309,7 +280,7 @@ public class SCR_Pathfinding : MonoBehaviour
             testing.Add(currentNode);
             currentNode = navigationMatrix[(int)(currentNode.previousNodeIndex.x), (int)(currentNode.previousNodeIndex.y), (int)(currentNode.previousNodeIndex.z)];   //move to the previous node
 
-            if(iterator2 >= 1000)
+            if (iterator2 >= 1000)
             {
                 Debug.Log("Break at 2nd while loop");
                 break;
@@ -326,28 +297,35 @@ public class SCR_Pathfinding : MonoBehaviour
     //{
     //    if (navigationMatrix != null)
     //    {
-    //        foreach (gridNode node in navigationMatrix)
+
+
+    //        foreach (GridNode node in navigationMatrix)
     //        {
-    //            if (node.passable)
+
+    //            if (Vector3.Distance(airship.transform.position, node.position) < 500)
     //            {
-    //                Gizmos.color = nodeDebugColourPassable;
+    //                if (node.passable)
+    //                {
+    //                    Gizmos.color = nodeDebugColourPassable;
+    //                }
+    //                else
+    //                {
+    //                    Gizmos.color = nodeDebugColourImpassable;
+    //                }
+
+    //                Gizmos.DrawSphere(node.position, 5);
     //            }
-    //            else
-    //            {
-    //                Gizmos.color = nodeDebugColourImpassable;
-    //            }
-                
-    //            Gizmos.DrawSphere(node.position, 1);
+
     //        }
     //    }
-        
+
     //}
 
-    
+
     //This entire class is heavily AI assisted.
-    public class NodeComparer : IComparer<gridNode> //uses an IComparer (a built in c# thing), helps sort things in order
+    public class NodeComparer : IComparer<GridNode> //uses an IComparer (a built in c# thing), helps sort things in order
     {
-        public int Compare(gridNode x, gridNode y)
+        public int Compare(GridNode x, GridNode y)
         {
             int fCostComparison = x.GetFCost().CompareTo(y.GetFCost());     //compare x and y fcost, and check to see if one preceeds the other
 
