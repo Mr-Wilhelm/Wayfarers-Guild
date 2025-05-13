@@ -2476,6 +2476,7 @@ GameObject:
   - component: {fileID: 153491479}
   - component: {fileID: 153491481}
   - component: {fileID: 153491480}
+  - component: {fileID: 153491482}
   m_Layer: 0
   m_Name: Crane model with texture and animations (2)
   m_TagString: Untagged
@@ -2543,6 +2544,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &153491482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153491478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe792f57c255e5e44980592b35859cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &154391524
 GameObject:
   m_ObjectHideFlags: 0
@@ -44976,6 +44990,7 @@ GameObject:
   - component: {fileID: 946058921}
   - component: {fileID: 946058923}
   - component: {fileID: 946058922}
+  - component: {fileID: 946058924}
   m_Layer: 0
   m_Name: Crane model with texture and animations (1)
   m_TagString: Untagged
@@ -45043,6 +45058,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &946058924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946058920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe792f57c255e5e44980592b35859cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &956331558
 GameObject:
   m_ObjectHideFlags: 0
@@ -49471,6 +49499,7 @@ MonoBehaviour:
   move: 1
   wanderRadius: 500
   wanderLocation: {x: 0, y: 0, z: 0}
+  startPosition: {x: 0, y: 0, z: 0}
 --- !u!54 &1435115735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -62698,6 +62727,7 @@ GameObject:
   - component: {fileID: 5722912022106175514}
   - component: {fileID: 5722912022106175516}
   - component: {fileID: 5722912022106175517}
+  - component: {fileID: 5722912022106175518}
   m_Layer: 0
   m_Name: Crane model with texture and animations
   m_TagString: Untagged
@@ -64632,6 +64662,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5722912022106175518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4357118447091090417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe792f57c255e5e44980592b35859cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!23 &5740168888339930838
 MeshRenderer:
   m_ObjectHideFlags: 0
