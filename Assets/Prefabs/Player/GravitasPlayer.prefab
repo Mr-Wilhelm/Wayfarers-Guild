@@ -245,6 +245,7 @@ MonoBehaviour:
   playerOnBallista: 0
   playerAnimator: {fileID: 133989240848567938}
   Walking: 0
+  Jumping: 0
 --- !u!114 &1527291677001032635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,9 +536,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -570,7 +571,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -622,15 +623,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbaba06c77eb1014aa5028e0593fa25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAudioSource: {fileID: 5743300723694460035}
-  metalWalk1: {fileID: 8300000, guid: 187d1f49bb2456c468b9ebfaeafc5dcd, type: 3}
-  metalWalk2: {fileID: 8300000, guid: 58fae4fc1b2fbc44091a4c47517aa7a0, type: 3}
-  metalWalk3: {fileID: 8300000, guid: 698a0aaa9cb76f24e99ed8245c0331ca, type: 3}
-  metalWalk4: {fileID: 8300000, guid: 3af98e0aa4548894f8e459543e6d3efb, type: 3}
-  woodWalk1: {fileID: 8300000, guid: 36b17c6be3d534040806d3468fa3823f, type: 3}
-  woodWalk2: {fileID: 8300000, guid: 082a184e411d542468521ab103a47d5d, type: 3}
-  woodWalk3: {fileID: 8300000, guid: 8d72609415f415649a7c7a09e393d047, type: 3}
-  woodWalk4: {fileID: 8300000, guid: 84a16d1f284193247904642dbbb2a6c0, type: 3}
+  audioSource: {fileID: 5743300723694460035}
+  wood1: {fileID: 8300000, guid: 36b17c6be3d534040806d3468fa3823f, type: 3}
+  wood2: {fileID: 8300000, guid: 082a184e411d542468521ab103a47d5d, type: 3}
+  wood3: {fileID: 8300000, guid: 8d72609415f415649a7c7a09e393d047, type: 3}
+  wood4: {fileID: 8300000, guid: 84a16d1f284193247904642dbbb2a6c0, type: 3}
   gravitasPlayerControllerRef: {fileID: 7428270716508070394}
   shipControlsRef: {fileID: 1446695601757579563}
 --- !u!1 &3219785375905633528
