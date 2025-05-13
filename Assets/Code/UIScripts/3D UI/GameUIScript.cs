@@ -76,6 +76,9 @@ public class GameUIScript : NetworkBehaviour
     private GameObject ammoPrompt;
 
     [SerializeField]
+    private GameObject fusePrompt;
+
+    [SerializeField]
     private GameObject ballistaPrompts;
 
     [SerializeField]
@@ -188,6 +191,9 @@ public class GameUIScript : NetworkBehaviour
 
         ammoPrompt = GameObject.Find("AmmoPickupText");
         ammoPrompt.SetActive(false);
+
+        fusePrompt = GameObject.Find("FusePickupText");
+        fusePrompt.SetActive(false);
 
         ballistaPrompts = GameObject.Find("BallistaPrompts");
         ballistaPrompts.SetActive(false);
@@ -454,6 +460,17 @@ public class GameUIScript : NetworkBehaviour
     public void HideAmmoPrompt()
     {
         ammoPrompt.SetActive(false);
+    }
+    public IEnumerator ShowFusePrompt()
+    {
+        fusePrompt.SetActive(true);
+        activePlayer.GetComponent<SCR_NewInteract>().hasHadFuseBefore = true;
+        yield return new WaitForSeconds(5);
+        fusePrompt.SetActive(false);
+    }
+    public void HideFusePrompt()
+    {
+        fusePrompt.SetActive(false);
     }
     public IEnumerator ShowBallistaControls()
     {
