@@ -124,11 +124,12 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         {
             //// TODO sync from client
             SCR_ClientMovementInputs ClientInputValue = this.GetComponent<SCR_ClientMovementInputs>();
+            SCR_NewInteract clientOnWheelStatus = this.GetComponent<SCR_NewInteract>();
             //return Scripty.ClientVelocity.Value;
 
             Transform t = gravitasBody.CurrentTransform;
             Debug.Log(playerOnWheel + " Key 3");
-            if (!playerOnWheel)
+            if (!clientOnWheelStatus.clientOnWheel.Value)
             {
                 Vector3 velocity = Vector3.zero;
 

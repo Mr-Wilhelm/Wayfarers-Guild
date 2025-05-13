@@ -16,6 +16,8 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
     Vector2 mouseInput;
     float angleX;
 
+    bool onWheel= false;
+
     public NetworkVariable<Vector2> ClientInputHorizontal = new NetworkVariable<Vector2>();
     public NetworkVariable<float> ClientInputVertical = new NetworkVariable<float>();
     public NetworkVariable<float> ClientInputMouseX = new NetworkVariable<float>();
@@ -99,6 +101,13 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
         }
     }
 
+    public bool OnWheel
+    {
+        get { return onWheel; }
+        set { onWheel = value; }
+
+    }
+
     private void Awake()
     {
         foundNetworking = true;
@@ -132,7 +141,6 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
     {
         ClientInputMouseX.Value = ClientMouseInput;
     }
-
 
 
 

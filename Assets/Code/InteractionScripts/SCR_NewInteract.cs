@@ -20,6 +20,25 @@ public class SCR_NewInteract : NetworkBehaviour
     NetworkVariableReadPermission.Everyone,
     NetworkVariableWritePermission.Server
 );
+    //Variable that checks when the client is on the wheel, this is because the server needs to know if the player should be allowed to move or not
+    public NetworkVariable<bool> clientOnWheel = new NetworkVariable<bool>();
+    //GetSet for Player on wheel so we can edit both the client and server status
+    public bool playerOnWheel 
+    {
+        get { return clientOnWheel.Value; }
+        set
+        {
+            if (IsServer&&IsOwner)
+            {
+                playerScriptReference.playerOnWheel = value;
+            }
+            else
+            {
+                ClientOnWheelStatusServerRpc(value);
+            }
+        }
+    }
+
     bool otherPlayerCanInteract = false;
 
     public Camera playerCam;
@@ -196,7 +215,9 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 if (interacting)
                 {
-                    playerScriptReference.playerOnWheel = false;
+                    //playerScriptReference.playerOnWheel = false;
+                    playerOnWheel = false;
+
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
@@ -211,7 +232,8 @@ public class SCR_NewInteract : NetworkBehaviour
                     gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
-                    playerScriptReference.playerOnWheel = true;
+                    //playerScriptReference.playerOnWheel = true;
+                    playerOnWheel = true;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
                     if (!hasUsedWheelBefore)
                     {
@@ -651,6 +673,12 @@ public class SCR_NewInteract : NetworkBehaviour
         var instance = Instantiate(fusePrefab, dropPosition.transform.position, dropPosition.transform.rotation);
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn();
+    }
+
+    [Rpc(SendTo.Server)]
+    void ClientOnWheelStatusServerRpc(bool clientOnWheelValue)
+    {
+        clientOnWheel.Value = clientOnWheelValue;
     }
 
 }
