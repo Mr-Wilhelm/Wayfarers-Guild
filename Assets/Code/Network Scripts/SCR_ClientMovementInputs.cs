@@ -16,14 +16,12 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
     Vector2 mouseInput;
     float angleX;
 
-    bool onWheel= false;
 
     public NetworkVariable<Vector2> ClientInputHorizontal = new NetworkVariable<Vector2>();
     public NetworkVariable<float> ClientInputVertical = new NetworkVariable<float>();
     public NetworkVariable<float> ClientInputMouseX = new NetworkVariable<float>();
 
     SCR_GravBridge ServerGravBridge;
-    bool foundNetworking = false;
     // Update is called once per frame
     void Update()
     {
@@ -101,16 +99,8 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
         }
     }
 
-    public bool OnWheel
-    {
-        get { return onWheel; }
-        set { onWheel = value; }
-
-    }
-
     private void Awake()
     {
-        foundNetworking = true;
 
         if (!IsServer)
         {

@@ -25,7 +25,17 @@ public class SCR_NewInteract : NetworkBehaviour
     //GetSet for Player on wheel so we can edit both the client and server status
     public bool playerOnWheel 
     {
-        get { return clientOnWheel.Value; }
+        get 
+        {
+            if (IsServer&&IsOwner)
+            {
+                return playerScriptReference.playerOnWheel;
+            }
+            else
+            {
+                return clientOnWheel.Value;
+            }
+        }
         set
         {
             if (IsServer&&IsOwner)
@@ -93,6 +103,7 @@ public class SCR_NewInteract : NetworkBehaviour
         if (!IsOwner) { enabled = false; return; }
 
         gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
+        Debug.Log(gameUI.lookingAtWheel + "Key 4");
 
         Ray lookAtRay = new Ray(playerCam.transform.position, playerCam.transform.forward);
 
@@ -390,7 +401,9 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             else if (interacting)
             {
-                gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                //gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                playerOnWheel = false;
+
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
@@ -435,7 +448,8 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             else if (gameObject.GetComponent<SCR_ShipControls>().onWheel = true && interacting)
             {
-                gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                //gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                playerOnWheel = false;
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
@@ -454,9 +468,10 @@ public class SCR_NewInteract : NetworkBehaviour
                 gameUI.ToggleBallistaControlsOn();
                 gameUI.HideControlsPrompt();
             }
-            else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
+            //else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
+            else if (playerOnWheel)
             {
-                gameUI.ToggleWheelControlsOn();
+                        gameUI.ToggleWheelControlsOn();
                 gameUI.HideControlsPrompt();
             }
         }
