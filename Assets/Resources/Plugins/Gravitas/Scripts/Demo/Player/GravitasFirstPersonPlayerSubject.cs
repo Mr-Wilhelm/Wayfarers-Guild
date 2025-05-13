@@ -31,7 +31,7 @@ namespace Gravitas.Demo
         [SerializeField] public bool hasItem = false;
         [SerializeField] public bool playerOnBallista = false;
 
-        [SerializeField] private Animator playerAnimator;
+        [SerializeField] public Animator playerAnimator;
 
         public bool Walking = false;
 

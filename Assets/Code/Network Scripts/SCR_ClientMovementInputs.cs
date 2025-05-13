@@ -9,8 +9,7 @@ using UnityEngine.UIElements;
 public class SCR_ClientMovementInputs : NetworkBehaviour
 {
     Vector3 TESTVEL = Vector3.left;
-    float moveSpeed = 1f;
-    float jumpForce = 10f;
+    float clientTurnspeed = 100f;
 
     Vector2 keyInput;
     float verticalInput;
@@ -19,7 +18,7 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
 
     public NetworkVariable<Vector2> ClientInputHorizontal = new NetworkVariable<Vector2>();
     public NetworkVariable<float> ClientInputVertical = new NetworkVariable<float>();
-    public NetworkVariable<Vector2> ClientInputMouse = new NetworkVariable<Vector2>();
+    public NetworkVariable<float> ClientInputMouseX = new NetworkVariable<float>();
 
     SCR_GravBridge ServerGravBridge;
     bool foundNetworking = false;
@@ -81,16 +80,14 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
                 //velocity = velocityX + velocityY + velocityZ;
                 SetCLientVelServerRpc(keyInput);
                 SetClientInputVerticalServerRpc(verticalInput);
-                SetClientInputMouseServerRpc(mouseInput);
+                SetClientInputMouseServerRpc(mouseInput.x);
 
 
 
 
                 Camera playerCamera = GameObject.Find("Player_1").transform.Find("Camera").GetComponent<Camera>();
 
-                angleX += -mouseInput.y * 1;
-
-                angleX += -mouseInput.y * 1;
+                angleX += -mouseInput.y * clientTurnspeed *Time.deltaTime;
                 angleX = Mathf.Clamp(angleX, -90, 90);
                 playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
 
@@ -111,6 +108,10 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
             //Capping FPS because uncapped FPS causes a visual jitter or teleportation when ship is moving, due to how the networking and gravitas are fighting
             Application.targetFrameRate = 60;
         }
+        else if (IsServer)
+        {
+            Application.targetFrameRate = 120;
+        }
     }
 
     [Rpc(SendTo.Server)]
@@ -127,9 +128,9 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
 
 
     [Rpc(SendTo.Server)]
-    void SetClientInputMouseServerRpc(Vector2 ClientMouseInput)
+    void SetClientInputMouseServerRpc(float ClientMouseInput)
     {
-        ClientInputMouse.Value = ClientMouseInput;
+        ClientInputMouseX.Value = ClientMouseInput;
     }
 
 

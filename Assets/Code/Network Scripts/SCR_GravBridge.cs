@@ -16,7 +16,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
 
 
     private float angleX; // Stored camera pitch value
-    private float turnSpeed = 2f;
+    private float turnSpeed = 5f;
   
 
     private void Update()
@@ -50,6 +50,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         }
         else
         {
+            turnSpeed = 100f;
             //playerCamera = GameObject.Find("Player_1").transform.Find("Camera").GetComponent<Camera>();
             //playerCamera.transform.localRotation = Quaternion.identity;
             //base.OnSubjectUpdate();
@@ -57,13 +58,13 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
             SCR_ClientMovementInputs ClientInputValues = this.GetComponent<SCR_ClientMovementInputs>();
             //Vector2 keyInput = ClientInputValues.ClientInputHorizontal.Value;
             //float verticalInput = ClientInputValues.ClientInputVertical.Value;
-            Vector2 mouseInput = ClientInputValues.ClientInputMouse.Value;
+            float mouseInput = ClientInputValues.ClientInputMouseX.Value;
 
             Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
-            t.rotation *= Quaternion.AngleAxis(mouseInput.x * turnSpeed, Vector3.up);
+            t.rotation *= Quaternion.AngleAxis(mouseInput * turnSpeed * Time.deltaTime, Vector3.up);
 
-            
-            
+
+
             //Debug.Log(mouseInput + " Key 1");
 
             //Movement input processing
@@ -126,6 +127,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
             //return Scripty.ClientVelocity.Value;
 
             Transform t = gravitasBody.CurrentTransform;
+            Debug.Log(playerOnWheel + " Key 3");
             if (!playerOnWheel)
             {
                 Vector3 velocity = Vector3.zero;
@@ -156,16 +158,16 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
                 //Adding all velocity Vectors together
                 velocity = velocityX + velocityY + velocityZ;
 
-                //if (keyInput != Vector2.zero)
-                //{
-                //    Walking = true;
-                //    playerAnimator.SetBool("Walking", true);
-                //}
-                //else
-                //{
-                //    Walking = false;
-                //    playerAnimator.SetBool("Walking", false);
-                //}
+                if (ClientInputValue.ClientInputHorizontal.Value != Vector2.zero)
+                {
+                    Walking = true;
+                    playerAnimator.SetBool("Walking", true);
+                }
+                else
+                {
+                    Walking = false;
+                    playerAnimator.SetBool("Walking", false);
+                }
                 return velocity;
 
 
