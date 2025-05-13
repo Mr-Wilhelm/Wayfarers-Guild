@@ -58,6 +58,7 @@ public class SCR_NewInteract : NetworkBehaviour
     public bool hasHadAmmoBefore = false;
     public bool hasUsedWheelBefore;
     public bool hasUsedBallistaBefore = false;
+    public bool hasHadFuseBefore = false;
 
     private void Start()
     {
@@ -245,6 +246,7 @@ public class SCR_NewInteract : NetworkBehaviour
                             gameUI.HideWheelControls();
                             gameUI.HideBallistaControls();
                             gameUI.HideFuelPrompt();
+                            gameUI.HideFusePrompt();
                         }
                     }
                 }
@@ -309,6 +311,7 @@ public class SCR_NewInteract : NetworkBehaviour
                             gameUI.HideBallistaControls();
                             gameUI.HideWheelControls();
                             gameUI.HideAmmoPrompt();
+                            gameUI.HideFusePrompt();
                         }
                     }
                 }
@@ -366,6 +369,14 @@ public class SCR_NewInteract : NetworkBehaviour
                     Debug.Log("Trying to grab fuse");
                     pickUpItem("Fuse", false, null);
                     playerScriptReference.hasItem = true;
+                    if(!hasHadFuseBefore)
+                    {
+                        StartCoroutine(gameUI.ShowFusePrompt());
+                        gameUI.HideBallistaControls();
+                        gameUI.HideWheelControls();
+                        gameUI.HideAmmoPrompt();
+                        gameUI.HideFuelPrompt();
+                    }
                 }
             }
             else if (interacting)
