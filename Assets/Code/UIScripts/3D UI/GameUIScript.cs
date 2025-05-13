@@ -11,6 +11,8 @@ using Unity.VisualScripting;
 
 public class GameUIScript : NetworkBehaviour
 {
+    public SCR_PlayerDataHandler playerDataHandler;
+
     public QuestHandler questHandlerObject;
 
     public NetworkVariable<FixedString128Bytes> questPrompt = new NetworkVariable<FixedString128Bytes>();
@@ -82,6 +84,9 @@ public class GameUIScript : NetworkBehaviour
     private GameObject ballistaPrompts;
 
     [SerializeField]
+    private GameObject ballistaZoomPrompt;
+
+    [SerializeField]
     private GameObject stationControlsPrompt;
 
     [SerializeField]
@@ -108,6 +113,8 @@ public class GameUIScript : NetworkBehaviour
     //Start is called before the first frame update
     void Start()
     {
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+
         questHandlerObject = GameObject.Find("PlayerQuestHandler").GetComponent<QuestHandler>();
 
         //getting the variables
@@ -194,6 +201,9 @@ public class GameUIScript : NetworkBehaviour
 
         fusePrompt = GameObject.Find("FusePickupText");
         fusePrompt.SetActive(false);
+
+        ballistaZoomPrompt = GameObject.Find("ScopePrompt");
+        //ballistaZoomPrompt.SetActive(false);
 
         ballistaPrompts = GameObject.Find("BallistaPrompts");
         ballistaPrompts.SetActive(false);
@@ -475,6 +485,18 @@ public class GameUIScript : NetworkBehaviour
     public IEnumerator ShowBallistaControls()
     {
         ballistaPrompts.SetActive(true);
+        if(ballistaZoomPrompt == null)
+        {
+            ballistaZoomPrompt = GameObject.Find("ScopePrompt");
+        }
+        if(playerDataHandler.ScopeUpgradeBought.Value == false)
+        {
+            ballistaZoomPrompt.SetActive(false);
+        }
+        else
+        {
+            ballistaZoomPrompt.SetActive(true);
+        }
         activePlayer.GetComponent<SCR_NewInteract>().hasUsedBallistaBefore = true;
         yield return new WaitForSeconds(10);
         HideBallistaControls();
