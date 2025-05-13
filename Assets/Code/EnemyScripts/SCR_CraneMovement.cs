@@ -54,6 +54,9 @@ public class SCR_CraneMovement : MonoBehaviour
     [SerializeField]
     private Vector3 startPosition;
 
+    [SerializeField]
+    private SphereCollider attackRadius;
+
     private void Start()
     {
         moveTarget = GameObject.Find("MothTargetPoint");
@@ -131,5 +134,12 @@ public class SCR_CraneMovement : MonoBehaviour
         {
             enemyPath.Enqueue(nodePos);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //TODO: Make crane target airship
+        //      Stop the random wandering
+        //      Set destination to airship until death or trigger exit
     }
 }

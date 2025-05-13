@@ -176,7 +176,8 @@ public class SCR_Pathfinding : MonoBehaviour
 
     public List<Vector3> FindPath(Vector3 startPoint, Vector3 endPoint)
     {
-
+        iterator = 0;
+        iterator2 = 0;
         //get the start and end points via the parameters passed.
         GridNode startNode = navigationMatrix[(int)MathF.Round(startPoint.x / nodeSize), (int)MathF.Round(startPoint.y / nodeSize), (int)MathF.Round(startPoint.z / nodeSize)];
         GridNode endNode = navigationMatrix[(int)MathF.Round(endPoint.x / nodeSize), (int)MathF.Round(endPoint.y / nodeSize), (int)MathF.Round(endPoint.z / nodeSize)];
@@ -251,9 +252,11 @@ public class SCR_Pathfinding : MonoBehaviour
                 }
             }
             iterator++;
-            if (iterator >= 500000)
+            if (iterator >= 100000)
             {
                 Debug.Log("Break at 1st while loop");
+                iterator = 0;
+                iterator2 = 0;
                 break;
             }
         }
@@ -276,6 +279,8 @@ public class SCR_Pathfinding : MonoBehaviour
             if (iterator2 >= 1000)
             {
                 Debug.Log("Break at 2nd while loop");
+                iterator = 0;
+                iterator2 = 0;
                 break;
             }
         }
