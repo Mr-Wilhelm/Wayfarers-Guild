@@ -245,15 +245,16 @@ public class GameUIScript : NetworkBehaviour
             questPromptTaskText.gameObject.SetActive(false);
         }
 
+        //SO APPARENTLY REMOVING CODE TO INTERACT MAKES INTERACTIONS WORK!????? IDK BUT THIS MAKES IT SO THE CLIENT CAN INTERACT FINE? THIS IS SOME BIZARRE SORCERY RIGHT HERE
         //compendium stuff
-        if (Input.GetKeyDown(KeyCode.F) && showCompendium)
-        {
-            StartCoroutine(ShowCompendium());
-        }
-        else if (Input.GetKeyDown(KeyCode.F) && !showCompendium)
-        {
-            StartCoroutine(HideCompendium());
-        }
+        //if (Input.GetKeyDown(KeyCode.F) && showCompendium)
+        //{
+        //    StartCoroutine(ShowCompendium());
+        //}
+        //else if (Input.GetKeyDown(KeyCode.F) && !showCompendium)
+        //{
+        //    StartCoroutine(HideCompendium());
+        //}
 
         if (showCompendium)
             interactPrompt.SetActive(false);

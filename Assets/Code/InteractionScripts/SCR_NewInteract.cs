@@ -488,9 +488,11 @@ public class SCR_NewInteract : NetworkBehaviour
     private void OpenBookClientRPC()
     {
         Debug.Log($"Player: {gameObject.GetComponent<NetworkObject>().NetworkObjectId} trying to open book");
-        GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
+        GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");    //triggers the animation
         bookRef.GetComponent<Animator>().SetTrigger("OpenTrigger");
         gameUI.showCompendium = true;
+
+        gameUI.StartCoroutine(gameUI.ShowCompendium()); //show UI on client immediately, run coroutine locally
     }
 
     [ClientRpc(RequireOwnership = false)]
@@ -500,6 +502,8 @@ public class SCR_NewInteract : NetworkBehaviour
         GameObject bookRef = GameObject.FindGameObjectWithTag("Compendium");
         bookRef.GetComponent<Animator>().SetTrigger("CloseTrigger");
         gameUI.showCompendium = false;
+
+        gameUI.StartCoroutine(gameUI.HideCompendium()); //hide compendium immediately (for host-client animation syncing)
     }
 
     [ServerRpc(RequireOwnership = false)]
