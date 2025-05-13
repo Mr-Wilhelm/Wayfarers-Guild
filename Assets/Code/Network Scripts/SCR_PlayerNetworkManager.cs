@@ -31,6 +31,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] private Animator playerAnimator;
 
+    public AudioListener playerAudioListener;
+
     //Tracks the pos and rot of the player
     public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
     public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
@@ -47,7 +49,6 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         base.OnDestroy();
         SceneManager.sceneLoaded -= test;
     }
-
 
     public void bust()
     {
@@ -114,6 +115,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         else
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
+            playerAudioListener.enabled = false;
             playerCollider.enabled = false;
             gameObject.GetComponent<GravitasBody>().DestroyProxy();
             gameObject.GetComponent<GravitasBody>().enabled = false;
@@ -165,6 +167,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
             playerCollider.enabled = false;
             gameObject.GetComponent<GravitasBody>().DestroyProxy();
+            playerAudioListener.enabled = false;
             gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
@@ -216,6 +219,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
         {
             gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().enabled = false;
             playerCollider.enabled = false;
+            playerAudioListener.enabled = false;
             gameObject.GetComponent<GravitasBody>().DestroyProxy();
             gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");

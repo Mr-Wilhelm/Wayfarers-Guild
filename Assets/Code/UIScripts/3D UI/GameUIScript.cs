@@ -155,7 +155,7 @@ public class GameUIScript : NetworkBehaviour
 
         patriciaRightImage = GameObject.Find("PatriciaRight").GetComponent<Image>();
         hubertoRightImage = GameObject.Find("HubertoRight").GetComponent<Image>();
-        //add crane image too
+        craneRightImage = GameObject.Find("CraneRight").GetComponent<Image>();
 
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
@@ -171,6 +171,7 @@ public class GameUIScript : NetworkBehaviour
 
         patriciaRightImage.enabled = false;
         hubertoRightImage.enabled = false;
+        craneRightImage.enabled = false;
 
         compendium.SetActive(false);
 
@@ -339,6 +340,7 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+        craneRightImage.enabled = false;
 
 
     }
@@ -356,21 +358,25 @@ public class GameUIScript : NetworkBehaviour
 
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
-        craneInfoDesc.enabled = false; ;
+        craneInfoDesc.enabled = false;
+        craneRightImage.enabled = false;
     }
     public void ShowCraneInfo()
     {
         patriciaInfoTitle.enabled = false;
         patriciaInfoStats.enabled = false;
         patriciaInfoDesc.enabled = false;
+        patriciaRightImage.enabled = false;
 
         hubertoInfoTitle.enabled = false;
         hubertoInfoStats.enabled = false;
         hubertoInfoDesc.enabled = false;
+        hubertoRightImage.enabled = false;
 
         craneInfoTitle.enabled = true;
         craneInfoStats.enabled = true;
         craneInfoDesc.enabled = true;
+        craneRightImage.enabled = true;
     }
     public void PreviousPage()
     {
@@ -387,6 +393,7 @@ public class GameUIScript : NetworkBehaviour
         craneInfoTitle.enabled = false;
         craneInfoStats.enabled = false;
         craneInfoDesc.enabled = false;
+        craneRightImage.enabled = false;
     }
 
     //prompt functions

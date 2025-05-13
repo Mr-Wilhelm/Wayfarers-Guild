@@ -3,26 +3,18 @@ If y'want a drink, you'd better pay, mate!
 ->Choices
 
 ==Choices==
-* [Buy Drink] -> Menu
+* [Info] -> Info
 * [Jobs] -> Jobs
-*[3rd] -> Other
 
-==Menu==
-
-Choose a drink 
-* [Rum] -> Drink
-* [Whiskey] -> Drink
-
-==Drink==
-No going overboard with that a'right?
-It'll be you cleaning up the mess if y' do!
--> END
+==Info==
+This 'ere is The Weathered Spoony McSpoonface- 
+don't ask about the name, the customers voted for it.
+First Wayfarer's Guild site ever built, and still the greatest in the sky!
+I guess y' could say this place is the one that keeps the ships goin', in a way. 
+I mean, who else's gonna make sure youse all get a warm meal 
+and a place to come quest-huntin'?
+->END
 
 ==Jobs==
 Lookin' for jobs? Check the board, not me - I just do the drinks.
 -> END
-
-==Other==
-This dialogue might not be added
-It's just here to show that three choices can exist
-->END

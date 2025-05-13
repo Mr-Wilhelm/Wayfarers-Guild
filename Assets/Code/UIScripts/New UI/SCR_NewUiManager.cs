@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -30,6 +30,9 @@ public class SCR_NewUiManager : NetworkBehaviour
 
     [SerializeField]
     private GameObject portSprite;
+
+    [SerializeField]
+    private Image cloudBackground, cityBackground;
 
     [Header("Animations")]
     [SerializeField]
@@ -87,6 +90,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private bool showUpgrades;
 
+    [SerializeField]
+    private bool isInSpoons, isInPort;
+
+    [SerializeField]
+    private bool isHoveringSpoons, isHoveringPort;
+
     [Header("Choices UI")]
     [SerializeField]
     private GameObject[] choices;
@@ -117,7 +126,13 @@ public class SCR_NewUiManager : NetworkBehaviour
     private TextMeshProUGUI questTrackerInfo;
 
     [SerializeField]
+    private GameObject questTrackerScroll;
+
+    [SerializeField]
     private GameObject questTrackerBackground;
+
+    [SerializeField]
+    private GameObject questTrackerObject;
 
     [SerializeField]
     private string targetNPC;
@@ -135,8 +150,13 @@ public class SCR_NewUiManager : NetworkBehaviour
     private GameObject upgradesUI;
 
     [Header("Stats")]
+    public float repairCost;
+
     [SerializeField]
-    private float repairCost;
+    private GameObject moneyCountUI;
+
+    [SerializeField]
+    private GameObject readyUpUI;
 
     [Header("DDOL Objects")]
     [SerializeField]
@@ -191,6 +211,9 @@ public class SCR_NewUiManager : NetworkBehaviour
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
         portSprite = GameObject.Find("SPRITE_PortMan");
 
+        cloudBackground = GameObject.Find("CityClouds").GetComponent<Image>();
+        cityBackground = GameObject.Find("CityCity").GetComponent<Image>();
+
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
         cityAnimator = GetComponent<Animator>();
@@ -235,9 +258,12 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
+        questTrackerScroll = GameObject.Find("QuestTrackerScroll");
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
+        questTrackerObject = GameObject.Find("QuestTrackerObject");
 
         questTrackerInfo.enabled = false;
+
         questTrackerBackground.SetActive(false);
 
         npcLocation = GameObject.Find("NPCLocation");
@@ -256,11 +282,15 @@ public class SCR_NewUiManager : NetworkBehaviour
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
 
+        moneyCountUI = GameObject.Find("PlayerMoneyCount");
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
         questInfoObject.questStamp.enabled = false;
 
+        readyUpUI = GameObject.Find("BUTTON_ReadyUp");
 
+        isInSpoons = false;
+        isHoveringSpoons = false;
 
         //has cargo quest with no people attached
         if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
@@ -291,41 +321,51 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
-        canContinueStory = currentStory.canContinue;
-
-        if (questHandler.hasCompletedJennyQuest.Value == false && questHandler.hasCompletedMatthewQuest.Value == false)
+        if(isHoveringSpoons || isInSpoons || isHoveringPort || isInPort)
         {
-            npcQuestCompleteLocation.SetActive(false);
+            cloudBackground.color = new Color(0.75f, 0.75f, 0.75f);
+            cityBackground.color = new Color(0.75f, 0.75f, 0.75f);
+        }
+        else
+        {
+            cloudBackground.color = new Color(1.0f, 1.0f, 1.0f);
+            cityBackground.color = new Color(1.0f, 1.0f, 1.0f);
         }
 
         if (!dialogueIsPlaying)
         {
             return;
         }
-
-        if(Input.GetMouseButtonDown(0))
+        if (!Input.GetMouseButtonDown(0))
         {
-            if (typeTextCoroutine != null)
-            {
-                StopCoroutine(typeTextCoroutine);   //stop the current text typing
-                dialogueText.text = currentFullLine;    //set the text to the full line
-                typeTextCoroutine = null;   //set the current coroutine to null to prevent any more typing
+            return;
+        }
 
-                if (currentStory.currentChoices.Count > 0)
-                {
-                    DisplayChoices();   //show choices if there are choices
-                }
-            }
+        if(typeTextCoroutine != null)
+        {
+            StopCoroutine(typeTextCoroutine);
+            dialogueText.text = currentFullLine;
+            typeTextCoroutine = null;
 
-            else if (!isShowingChoices)
+            if(currentStory.currentChoices.Count > 0)
             {
-                ContinueStory();
+                DisplayChoices();
             }
+            return;
+        }
 
-            else if(currentStory.canContinue == false && !isShowingChoices)
-            {
-                StartCoroutine(ExitDialogueMode());
-            }
+        if(isShowingChoices)
+        {
+            return;
+        }
+
+        if(currentStory.canContinue)
+        {
+            ContinueStory();
+        }
+        else
+        {
+            StartCoroutine(ExitDialogueMode());
         }
     }
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
@@ -385,18 +425,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void Func_SpoonsBackButtonPressed()
     {
         cityAnimator.SetBool("SpoonsPressed", false);
-        //cityAnimator.SetBool("HasChoices", false);
-
-        spoonsButton.interactable = true;
-        portButton.interactable = true;
+        StartCoroutine(ExitDialogueMode());
    
     }
     public void Func_PortBackButtonPressed()
     {
         cityAnimator.SetBool("PortPressed", false);
-
-        spoonsButton.interactable = true;
-        portButton.interactable = true;
         StartCoroutine(ExitDialogueMode());
     }
 
@@ -404,6 +438,12 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         spoonsButton.interactable = true;
         portButton.interactable = true;
+        cityAnimator.SetBool("ShowUpgradesAirship", false);
+        cityAnimator.SetBool("ShowUpgradesMove", false);
+        cityAnimator.SetBool("ShowUpgradesBallista", false);
+        cityAnimator.SetBool("ShowUpgradesLight", false);
+        cityAnimator.SetBool("UpgradesActive", true);
+        cityAnimator.SetBool("UpgradesActive", false);
         upgradesUI.SetActive(false);
     }
     public void Func_QuestButtonPressed()
@@ -565,12 +605,19 @@ public class SCR_NewUiManager : NetworkBehaviour
         RepairShip();
     }
 
-    private void RepairShip()
+    public void RepairShip()
     {
-        playerDataHandler.playerMoney.Value -= repairCost;
+        if (playerDataHandler.playerMoney.Value >= repairCost)
+        {
+            playerDataHandler.playerMoney.Value -= repairCost;
 
-        playerDataHandler.shipHealthGlobal.Value = 100.0f;
-        repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+            playerDataHandler.shipHealthGlobal.Value = playerDataHandler.shipMaxHealth.Value;
+            repairCost = (playerDataHandler.shipMaxHealth.Value - playerDataHandler.shipHealthGlobal.Value);
+        }
+        else
+        {
+            Debug.Log("Not enough money to repair");
+        }
     }
 
     public void ShowStamp()
@@ -586,6 +633,58 @@ public class SCR_NewUiManager : NetworkBehaviour
         Debug.Log("BEEP");
     }
 
+    public void Func_AddSpoonsDarken()
+    {
+        isHoveringSpoons = true;
+    }
+    public void Func_RemoveSpoonsDarken()
+    {
+        isHoveringSpoons = false;
+    }
+    public void Func_AddPortDarken()
+    {
+        isHoveringPort = true;
+    }
+    public void Func_RemovePortDarken()
+    {
+        isHoveringPort = false;
+    }
+
+    public void Func_ShowAirshipUpgrades(string buttonName)
+    {
+        switch(buttonName)
+        {
+            case "Airship":
+                cityAnimator.SetBool("ShowUpgradesAirship", true);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+            case "Move":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", true);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+            case "Ballista":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", true);
+                cityAnimator.SetBool("ShowUpgradesLight", false);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+            case "Light":
+                cityAnimator.SetBool("ShowUpgradesAirship", false);
+                cityAnimator.SetBool("ShowUpgradesMove", false);
+                cityAnimator.SetBool("ShowUpgradesBallista", false);
+                cityAnimator.SetBool("ShowUpgradesLight", true);
+                cityAnimator.SetBool("UpgradesActive", true);
+                break;
+
+        }
+    }
 
     #endregion Button Functions
 
@@ -670,6 +769,23 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         currentStory = new Story(inkJSON.text); //gets a story object (this is an ink plugin thing)
 
+        if(inkJSON.name == "PortDefault")
+        {
+            currentStory.variablesState["money"] = playerDataHandler.playerMoney.Value;
+            currentStory.variablesState["repairCost"] = repairCost;
+            isInPort = true;
+        }
+        else if(inkJSON.name == "NPC1" || inkJSON.name == "SpoonsQuest" || inkJSON.name == "ResearchQuest")
+        {
+            isInSpoons = true;
+        }
+
+        questButton.gameObject.SetActive(false);
+        moneyCountUI.SetActive(false);
+        readyUpUI.SetActive(false);
+        questTrackerScroll.SetActive(false);
+        questTrackerObject.SetActive(false);
+
         dialogueTags = currentStory.currentTags;
         dialogueIsPlaying = true;   
         dialoguePanel.SetActive(true);  //activate the dialogue panel
@@ -684,26 +800,39 @@ public class SCR_NewUiManager : NetworkBehaviour
             upgradesUI.SetActive(true);
             showUpgrades = false;
         }
-        Debug.Log("AAAAAAAAAAAAAAAA");
         //yield return new WaitForSeconds(0.5f);
 
         dialogueIsPlaying = false;
         cityAnimator.SetBool("SpoonsPressed", false);
         cityAnimator.SetBool("PortPressed", false);
-        yield return new WaitForSeconds(1.0f);
+        cityAnimator.SetBool("HasChoices", false);
+
+        yield return new WaitForSeconds(0.9f);
+        isInSpoons = false;
+        isInPort = false;
         dialoguePanel.SetActive(false);
         audioSource.Stop();
         dialogueText.text = "";
         dialogueTags.Clear();
         isShowingChoices = false;
+
+        questButton.gameObject.SetActive(true);
+        moneyCountUI.SetActive(true);
+        readyUpUI.SetActive(true);
+        questTrackerScroll.SetActive(true);
+        questTrackerObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
         spoonsButton.interactable = true;
         portButton.interactable = true;
+
     }
 
     private void ContinueStory()
     {
         if(!currentStory.canContinue)   //check if the dialogue is finished
         {
+            Debug.Log("Story cannot continue");
             StartCoroutine(ExitDialogueMode());
             return;
         }

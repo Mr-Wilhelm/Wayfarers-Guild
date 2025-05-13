@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: -7635383097292173331}
   - component: {fileID: 8938185879831433393}
   - component: {fileID: 6677807439807493320}
+  - component: {fileID: 5743300723694460035}
+  - component: {fileID: 7608221955551164275}
   m_Layer: 2
   m_Name: GravitasPlayer
   m_TagString: Player
@@ -208,6 +210,10 @@ MonoBehaviour:
   ship: {fileID: 0}
   shipMovement: {fileID: 0}
   wheelAnimator: {fileID: 0}
+  shipWheel: {fileID: 0}
+  wheelTurnSpeed: 100
+  wheelAutoCentreSpeed: 60
+  wheelStopThreshold: 0.1
 --- !u!114 &7428270716508070394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +245,7 @@ MonoBehaviour:
   playerOnBallista: 0
   playerAnimator: {fileID: 133989240848567938}
   Walking: 0
+  Jumping: 0
 --- !u!114 &1527291677001032635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +312,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerAnimator: {fileID: 133989240848567938}
+  playerAudioListener: {fileID: 2842655203003949463}
   playerPos:
     m_InternalValue: {x: 0, y: 0, z: 0}
   playerRot:
@@ -505,6 +513,123 @@ MonoBehaviour:
   hasHadAmmoBefore: 0
   hasUsedWheelBefore: 0
   hasUsedBallistaBefore: 0
+--- !u!82 &5743300723694460035
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 03cabca2815ee6b43af90cc1ff52419a,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 20
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &7608221955551164275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901272450876613093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbaba06c77eb1014aa5028e0593fa25a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 5743300723694460035}
+  wood1: {fileID: 8300000, guid: 36b17c6be3d534040806d3468fa3823f, type: 3}
+  wood2: {fileID: 8300000, guid: 082a184e411d542468521ab103a47d5d, type: 3}
+  wood3: {fileID: 8300000, guid: 8d72609415f415649a7c7a09e393d047, type: 3}
+  wood4: {fileID: 8300000, guid: 84a16d1f284193247904642dbbb2a6c0, type: 3}
+  gravitasPlayerControllerRef: {fileID: 7428270716508070394}
+  shipControlsRef: {fileID: 1446695601757579563}
 --- !u!1 &3219785375905633528
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,7 +755,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4691975859331995007}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!114 &7643573214687324318
 MonoBehaviour:
   m_ObjectHideFlags: 0
