@@ -49436,7 +49436,7 @@ Transform:
   m_GameObject: {fileID: 1435115732}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11578, y: 12759.05, z: 12931}
+  m_LocalPosition: {x: 8510, y: 12759.05, z: 12931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49469,6 +49469,8 @@ MonoBehaviour:
   shipVariables: {fileID: 0}
   damage: 5
   move: 1
+  wanderRadius: 500
+  wanderLocation: {x: 0, y: 0, z: 0}
 --- !u!54 &1435115735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -53640,7 +53642,7 @@ PrefabInstance:
     - target: {fileID: 3166420471325625398, guid: 6dbf0d36896f0a741acf2cd50438e644,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3233046479789276469, guid: 6dbf0d36896f0a741acf2cd50438e644,
         type: 3}

@@ -45,6 +45,15 @@ public class SCR_CraneMovement : MonoBehaviour
     [SerializeField]
     private bool move = true;
 
+    [SerializeField]
+    private float wanderRadius;
+
+    [SerializeField]
+    private Vector3 wanderLocation;
+
+    [SerializeField]
+    private Vector3 startPosition;
+
     private void Start()
     {
         moveTarget = GameObject.Find("MothTargetPoint");
@@ -52,6 +61,8 @@ public class SCR_CraneMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
+
+        startPosition = gameObject.transform.position;
     }
 
     private void Update()
@@ -64,25 +75,46 @@ public class SCR_CraneMovement : MonoBehaviour
         {
             UpdatePath();
         }
-        if(enemyPath.Count > 0)
+        if(enemyPath.Count == 0)
         {
-            currentPos = gameObject.transform.position; //get current position
-            currentDestination = enemyPath.Peek();  //set current destination to first object in queue
-            if(Vector3.Distance(currentPos, currentDestination) > navTolerance) //if not at destination
-            {
-                gameObject.transform.position = Vector3.MoveTowards(currentPos, currentDestination, moveSpeed * Time.deltaTime);    //move towards first element in list
-            }
-            else //if at destination
-            {
-                enemyPath.Dequeue();
-            }
+            //get a new destination to wander to when reaching the wander destination
+            GetWanderDestination();
+            UpdatePath();
+            return;
         }
+
+        Vector3 currentPos = transform.position;
+        Vector3 destination = enemyPath.Peek();
+
+        //pretty much same movement code as before
+        if (Vector3.Distance(currentPos, destination) > navTolerance)
+        {
+            transform.position = Vector3.MoveTowards(currentPos, destination, moveSpeed * Time.deltaTime);
+            transform.LookAt(destination);
+
+        }
+        else
+        {
+            enemyPath.Dequeue();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(startPosition, wanderRadius);
+    }
+
+    private void GetWanderDestination()
+    {
+        Vector3 wanderOffset = Random.insideUnitSphere * wanderRadius;  //get random vec3 within a set radius
+        wanderLocation = startPosition + wanderOffset; //set wander location to the random position relative to start position
+        Debug.DrawLine(transform.position, wanderLocation, Color.yellow, 2f);
     }
 
     private void UpdatePath()
     {
-        var pathNodes = enemyPathFinder.FindPath(transform.position, moveTarget.transform.position);
-        Vector3 prevPos = transform.position;
+        var pathNodes = enemyPathFinder.FindPath(transform.position, wanderLocation);
+        Vector3 prevPos = startPosition + transform.position;
         if(pathNodes == null)
         {
             return;
