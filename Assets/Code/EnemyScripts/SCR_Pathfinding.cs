@@ -256,7 +256,6 @@ public class SCR_Pathfinding : MonoBehaviour
             {
                 Debug.Log("Break at 1st while loop");
                 iterator = 0;
-                iterator2 = 0;
                 break;
             }
         }
@@ -267,7 +266,6 @@ public class SCR_Pathfinding : MonoBehaviour
         List<Vector3> newPath = new List<Vector3>();    //make a new list for the new path
         List<GridNode> testing = new List<GridNode>();
 
-        iterator2 = 0;
         while (currentNode.index != originalNode)    //iterate through the path from end to start (backwards)
         {
 
@@ -279,7 +277,6 @@ public class SCR_Pathfinding : MonoBehaviour
             if (iterator2 >= 1000)
             {
                 Debug.Log("Break at 2nd while loop");
-                iterator = 0;
                 iterator2 = 0;
                 break;
             }
