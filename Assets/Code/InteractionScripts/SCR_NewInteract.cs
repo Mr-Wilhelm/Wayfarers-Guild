@@ -22,6 +22,7 @@ public class SCR_NewInteract : NetworkBehaviour
 );
     //Variable that checks when the client is on the wheel, this is because the server needs to know if the player should be allowed to move or not
     public NetworkVariable<bool> clientOnWheel = new NetworkVariable<bool>();
+    public NetworkVariable<bool> ClientOnBallista = new NetworkVariable<bool>();
     //GetSet for Player on wheel so we can edit both the client and server status
     public bool playerOnWheel 
     {
@@ -45,6 +46,34 @@ public class SCR_NewInteract : NetworkBehaviour
             else
             {
                 ClientOnWheelStatusServerRpc(value);
+            }
+        }
+    }
+
+    public bool playerOnBallista
+    {
+        get
+        {
+            if (IsServer && IsOwner)
+            {
+                return inBallista;
+                //return playerScriptReference.playerOnBallista;
+            }
+            else
+            {
+                return ClientOnBallista.Value;
+            }
+        }
+        set
+        {
+            if (IsServer && IsOwner)
+            {
+                inBallista = value;
+                playerScriptReference.playerOnBallista = value;
+            }
+            else
+            {
+                ClientOnBallistaStatusServerRpc(value);
             }
         }
     }
@@ -103,7 +132,8 @@ public class SCR_NewInteract : NetworkBehaviour
         if (!IsOwner) { enabled = false; return; }
 
         gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
-        Debug.Log(gameUI.lookingAtWheel + "Key 4");
+        //Debug.Log(gameUI.lookingAtWheel + "Key 4");
+        //Debug.Log(gameUI.lookingAtWheel + "Key 4");
 
         Ray lookAtRay = new Ray(playerCam.transform.position, playerCam.transform.forward);
 
@@ -189,17 +219,20 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 otherPlayerCanInteract = true;
             }
-            if (inBallista)
+            if (playerOnBallista)
             {
+                //FINE
                 GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
                 Debug.Log("Interact with ballista");
-
                 GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
+               
 
+
+                //NOT FINE
                 GetComponent<GravitasBody>().unLockPosition();
 
-                inBallista = false;
-                playerScriptReference.playerOnBallista = false;
+                playerOnBallista = false;
+                //playerScriptReference.playerOnBallista = false;
 
                 UpdateCanInteractBoolServerRpc(true);
 
@@ -694,6 +727,13 @@ public class SCR_NewInteract : NetworkBehaviour
     void ClientOnWheelStatusServerRpc(bool clientOnWheelValue)
     {
         clientOnWheel.Value = clientOnWheelValue;
+    }
+
+
+    [Rpc(SendTo.Server)]
+    void ClientOnBallistaStatusServerRpc(bool clientOnBallistaValue)
+    {
+        ClientOnBallista.Value = clientOnBallistaValue;
     }
 
 }
