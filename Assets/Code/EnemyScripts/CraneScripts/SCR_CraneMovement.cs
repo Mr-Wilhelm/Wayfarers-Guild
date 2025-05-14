@@ -22,7 +22,7 @@ public class SCR_CraneMovement : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField]
-    private float moveSpeed = 10.0f;
+    private float moveSpeed = 50.0f;
 
     [SerializeField]
     private Vector3 currentDestination;
@@ -66,6 +66,7 @@ public class SCR_CraneMovement : MonoBehaviour
         moveTarget = GameObject.Find("MothTargetPoint");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
+        moveSpeed = 50.0f;
 
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
 
