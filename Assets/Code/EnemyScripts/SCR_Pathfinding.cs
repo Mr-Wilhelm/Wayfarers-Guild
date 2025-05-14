@@ -252,9 +252,9 @@ public class SCR_Pathfinding : MonoBehaviour
                 }
             }
             iterator++;
-            if (iterator >= 100000)
+            if (iterator >= 10000)
             {
-                Debug.Log("Break at 1st while loop");
+                Debug.Log("Break at 1st while loop (essentially timed out while trying to search through nodes)");
                 iterator = 0;
                 break;
             }
