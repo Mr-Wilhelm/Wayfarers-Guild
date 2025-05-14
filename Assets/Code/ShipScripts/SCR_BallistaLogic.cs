@@ -51,10 +51,13 @@ public class SCR_BallistaLogic : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(occupant.transform.name);
         if (occupant != null)
         {
+        
+           // ballista.transform.LookAt(occupant.transform.position + (-occupant.transform.forward * 30));
 
-            ballista.transform.LookAt(occupant.transform.position + (-occupant.transform.forward * 30));
+            ballista.transform.forward = (occupant.transform.forward*-1);
 
             //ballista.transform.localEulerAngles =  new Vector3(ballista.transform.localEulerAngles.x, occupant.transform.parent.localEulerAngles.y+270, ballista.transform.localEulerAngles.z);
             if (ballista.transform.localEulerAngles.x < 180)
