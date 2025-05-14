@@ -54,8 +54,6 @@ public class SCR_Pathfinding : MonoBehaviour
             return gCost + hCost;
         }
 
-
-
         public Vector3[] GetNeighbours()
         {
             var list = new List<Vector3>();
@@ -78,7 +76,6 @@ public class SCR_Pathfinding : MonoBehaviour
         {
             return index.GetHashCode();
         }
-
     }
 
     public bool IsWithinBounds(Vector3 index, int x, int y, int z)
@@ -87,9 +84,6 @@ public class SCR_Pathfinding : MonoBehaviour
                index.y >= 0 && index.y < y &&
                index.z >= 0 && index.z < z;
     }
-
-
-
     private void Awake()
     {
         PopulateWorld(endPos.x, endPos.y, endPos.z);
@@ -265,7 +259,6 @@ public class SCR_Pathfinding : MonoBehaviour
         }
         return null;    //No Path found
     }
-
     private List<Vector3> RemakePath(GridNode currentNode, Vector3 originalNode)
     {
         List<Vector3> newPath = new List<Vector3>();    //make a new list for the new path
