@@ -177,7 +177,14 @@ public class SCR_BallistaLogic : NetworkBehaviour
 
                 if(hitObj != null)
                 {
-                    KillEnemyServerRPC(hitObj.NetworkObjectId);
+                    if (hitObj.gameObject.tag == "Huberto")
+                    {
+                        hitObj.GetComponent<SCR_HubertoLogic>().takeDamageServerRPC();
+                    }
+                    else
+                    {
+                        KillEnemyServerRPC(hitObj.NetworkObjectId);
+                    }
                 }
                 else
                 {

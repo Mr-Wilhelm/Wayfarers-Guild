@@ -13,8 +13,11 @@ public class SCR_HubertoLogic : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10.0f;
 
+    private float unboostedSpeed;
+
     [SerializeField]
     private float health = 3;
+
 
     [Header("Other")]
 
@@ -53,15 +56,11 @@ public class SCR_HubertoLogic : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         worldSize = new Bounds(new Vector3(enemyPathFinder.endPos.x / 2, enemyPathFinder.endPos.y / 2, enemyPathFinder.endPos.z / 2), new Vector3(enemyPathFinder.endPos.x / 2, enemyPathFinder.endPos.y / 2, enemyPathFinder.endPos.z / 2));
         animations = GetComponentInChildren<Animator>();
+        unboostedSpeed = moveSpeed;
         if (!GetComponent<NetworkTransform>().IsServer)
         {
             enabled = false;
         }
-
-        Invoke("takeDamage", 3);
-        Invoke("takeDamage", 5);
-        Invoke("takeDamage", 8);
-
     }
 
     // Update is called once per frame
@@ -131,21 +130,29 @@ public class SCR_HubertoLogic : MonoBehaviour
         return new Vector3(-1, -1, -1);
     }
 
-    public void takeDamage()
+    [ServerRpc(RequireOwnership = false)]
+    public void takeDamageServerRPC()
     {
+        Debug.Log("Huberto taking damage.");
         health -= 1;
         if (health <= 0)
         {
-            Debug.Log("Take Damage");
             animations.Play("Swim death");
+            GetComponent<NetworkObject>().Despawn();
         }
         else
         {
-            Debug.Log("Die");
+            moveSpeed = unboostedSpeed*3f;
             animations.Play("Swim damage");
+            Invoke(nameof(setHubertoSpeed), 4);
         }
         
     }
 
+
+    private void setHubertoSpeed()
+    {
+        moveSpeed = unboostedSpeed;
+    }
 
 }

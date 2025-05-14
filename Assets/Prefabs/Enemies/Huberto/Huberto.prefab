@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2516174681681879668}
   - component: {fileID: 1672753920978328227}
   - component: {fileID: 7161393386353743373}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FogTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4850,7 +4850,7 @@ GameObject:
   - component: {fileID: 4680831465120525559}
   m_Layer: 0
   m_Name: Huberto
-  m_TagString: Untagged
+  m_TagString: Huberto
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5044,6 +5044,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1567492286929679073}
     m_Modifications:
+    - target: {fileID: -7840867231617242486, guid: cd2cc1573a371384c8e8bff84137f761,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3095d6206cb3bdc4bb6bc26a67049418, type: 2}
     - target: {fileID: -3500460014136483016, guid: cd2cc1573a371384c8e8bff84137f761,
         type: 3}
       propertyPath: m_LocalScale.x
