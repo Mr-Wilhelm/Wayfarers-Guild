@@ -8,6 +8,16 @@ public class SCR_HubertoLogic : MonoBehaviour
 {
     private SCR_Pathfinding enemyPathFinder;
 
+    [Header("Creature Stats")]
+
+    [SerializeField]
+    private float moveSpeed = 10.0f;
+
+    [SerializeField]
+    private float health = 3;
+
+    [Header("Other")]
+
     [SerializeField]
     private Vector3 moveTarget;
 
@@ -21,8 +31,9 @@ public class SCR_HubertoLogic : MonoBehaviour
 
     private Rigidbody rb;
 
-    [SerializeField]
-    private float moveSpeed = 10.0f;
+    private Animator animations;
+
+    
 
     [SerializeField]
     private Vector3 currentDestination;
@@ -41,10 +52,16 @@ public class SCR_HubertoLogic : MonoBehaviour
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
         worldSize = new Bounds(new Vector3(enemyPathFinder.endPos.x / 2, enemyPathFinder.endPos.y / 2, enemyPathFinder.endPos.z / 2), new Vector3(enemyPathFinder.endPos.x / 2, enemyPathFinder.endPos.y / 2, enemyPathFinder.endPos.z / 2));
+        animations = GetComponentInChildren<Animator>();
         if (!GetComponent<NetworkTransform>().IsServer)
         {
             enabled = false;
         }
+
+        Invoke("takeDamage", 3);
+        Invoke("takeDamage", 5);
+        Invoke("takeDamage", 8);
+
     }
 
     // Update is called once per frame
@@ -113,5 +130,22 @@ public class SCR_HubertoLogic : MonoBehaviour
         }
         return new Vector3(-1, -1, -1);
     }
+
+    public void takeDamage()
+    {
+        health -= 1;
+        if (health <= 0)
+        {
+            Debug.Log("Take Damage");
+            animations.Play("Swim death");
+        }
+        else
+        {
+            Debug.Log("Die");
+            animations.Play("Swim damage");
+        }
+        
+    }
+
 
 }
