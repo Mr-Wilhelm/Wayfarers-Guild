@@ -54,6 +54,10 @@ public class SCR_CraneMovement : MonoBehaviour
     [SerializeField]
     private Vector3 startPosition;
 
+    [Header("Attack Mode Variables")]
+    [SerializeField]
+    private bool airshipTargeted;
+
     [SerializeField]
     private SphereCollider attackRadius;
 
@@ -66,6 +70,7 @@ public class SCR_CraneMovement : MonoBehaviour
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
 
         startPosition = gameObject.transform.position;
+        attackRadius = GetComponent<SphereCollider>();
     }
 
     private void Update()
@@ -116,23 +121,47 @@ public class SCR_CraneMovement : MonoBehaviour
 
     private void UpdatePath()
     {
-        var pathNodes = enemyPathFinder.FindPath(transform.position, wanderLocation);
-        Vector3 prevPos = startPosition + transform.position;
-        if(pathNodes == null)
+        if(!airshipTargeted)
         {
-            return;
-        }
-        foreach(var node in pathNodes)
-        {
-            Debug.DrawLine(prevPos, node, Color.red, 0.5f);
-            prevPos = node;
-        }
+            var pathNodes = enemyPathFinder.FindPath(transform.position, wanderLocation);
+            Vector3 prevPos = startPosition + transform.position;
+            if(pathNodes == null)
+            {
+                return;
+            }
+            foreach(var node in pathNodes)
+            {
+                Debug.DrawLine(prevPos, node, Color.red, 0.5f);
+                prevPos = node;
+            }
 
-        enemyPath.Clear();
+            enemyPath.Clear();
 
-        foreach(var nodePos in pathNodes)
+            foreach(var nodePos in pathNodes)
+            {
+                enemyPath.Enqueue(nodePos);
+            }
+        }
+        else   //assuming the airship is targeted
         {
-            enemyPath.Enqueue(nodePos);
+            var pathNodes = enemyPathFinder.FindPath(transform.position, moveTarget.transform.position);
+            Vector3 prevPos = transform.position;
+            if (pathNodes == null)
+            {
+                return;
+            }
+            foreach (var node in pathNodes)
+            {
+                Debug.DrawLine(prevPos, node, Color.red, 0.5f);
+                prevPos = node;
+            }
+
+            enemyPath.Clear();
+
+            foreach (var nodePos in pathNodes)
+            {
+                enemyPath.Enqueue(nodePos);
+            }
         }
     }
 
@@ -141,5 +170,17 @@ public class SCR_CraneMovement : MonoBehaviour
         //TODO: Make crane target airship
         //      Stop the random wandering
         //      Set destination to airship until death or trigger exit
+
+        if(other.gameObject.tag == "Ship")
+        {
+            airshipTargeted = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Ship")
+        {
+            airshipTargeted = false;
+        }
     }
 }
