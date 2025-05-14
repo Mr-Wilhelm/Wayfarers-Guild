@@ -189,57 +189,88 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             player.GetComponentInChildren<Camera>().enabled = false;
             Debug.Log("aaaaa");
+            Debug.Log("bbbbb");
         }
 
+        Debug.Log("PRIOR INIT");
         // existing initialization...
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        Debug.LogWarning("1");
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        Debug.Log("2");
 
         // Subscribe to network variable changes
         playerDataHandler.playerMoney.OnValueChanged += OnPlayerMoneyChanged;
+        Debug.Log("3");
 
         // Set the initial text value
         OnPlayerMoneyChanged(playerDataHandler.playerMoney.Value, playerDataHandler.playerMoney.Value);
+        Debug.Log("4");
 
         //button variables
         spoonsButton = GameObject.Find("BUTTON_Spoons").GetComponent<Button>();
+        Debug.Log("5");
         questButton = GameObject.Find("BUTTON_Quests").GetComponent<Button>();
+        Debug.Log("6");
         portButton = GameObject.Find("BUTTON_Port").GetComponent<Button>();
+        Debug.Log("7");
         QuestButton questButtonClass = questButton.gameObject.GetComponent<QuestButton>();
+        Debug.Log("8");
 
         //character sprites
         spoonsSprite = GameObject.Find("SPRITE_SpoonsLady");
+        Debug.Log("9");
         portSprite = GameObject.Find("SPRITE_PortMan");
+        Debug.Log("10");
 
         cloudBackground = GameObject.Find("CityClouds").GetComponent<Image>();
+        Debug.Log("11");
         cityBackground = GameObject.Find("CityCity").GetComponent<Image>();
+        Debug.Log("12");
 
         //animator variables
         cityAnimator = Resources.Load<Animator>("CityAnimController");
+        Debug.Log("13");
         cityAnimator = GetComponent<Animator>();
+        Debug.Log("14");
 
         //dialogue variables
         spoonsNPCDialogue = Resources.Load<TextAsset>("InkJsons/NPC1");
+        Debug.Log("15");
         spoonsQuestDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuest");
+        Debug.Log("16");
 
         spoonsQuestCompleteDialogue = Resources.Load<TextAsset>("InkJsons/SpoonsQuestComplete");
+        Debug.Log("17");
         researchQuestCompleteDialogue = Resources.Load<TextAsset>("InkJsons/ResearchQuestComplete");
+        Debug.Log("18");
 
         exampleNPCDialogue = Resources.Load<TextAsset>("InkJsons/ExampleNPC");
+        Debug.Log("19");
         scienceNPCDialogue = Resources.Load<TextAsset>("InkJsons/PokingTheWhale_start");
+        Debug.Log("20");
 
         portNPCDefaultDialogue = Resources.Load<TextAsset>("InkJsons/PortDefault");
+        Debug.Log("21");
 
         //Choices UI - its up here for whatever reason if its lower then Unity doesn't assign it
         upgradesUI = GameObject.Find("---UPGRADE UI---");
+        Debug.Log("22");
         upgradesUI.SetActive(false);
+        Debug.Log("23");
 
         dialoguePanel = GameObject.Find("DialogueBox");
+        Debug.Log("24");
         dialoguePanel.SetActive(false);
+        Debug.Log("25");
         dialogueIsPlaying = false;
+        Debug.Log("26");
         dialogueText = dialoguePanel.GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Log("27");
         choicesText = new TextMeshProUGUI[choices.Length];
+        Debug.Log("28");
         int index = 0;
+        Debug.Log("29");
 
         foreach (GameObject choice in choices)
         {
@@ -249,51 +280,78 @@ public class SCR_NewUiManager : NetworkBehaviour
 
         //audio variables
         audioSource = GetComponent<AudioSource>();
+        Debug.Log("30");
 
         //quest info variables
         questInfoObject = GameObject.Find("QuestInfo").GetComponent<QuestInfo>();
+        Debug.Log("31");
         questInfoText = questInfoObject.GetComponentInChildren<TextMeshProUGUI>();
+        Debug.Log("32");
 
         questInfoObject.gameObject.SetActive(false);
+        Debug.Log("33");
 
         questTrackerTitle = GameObject.Find("QuestTrackerTitle").GetComponent<TextMeshProUGUI>();
+        Debug.Log("34");
         questTrackerInfo = GameObject.Find("QuestTrackerInfo").GetComponent<TextMeshProUGUI>();
+        Debug.Log("35");
         questTrackerScroll = GameObject.Find("QuestTrackerScroll");
+        Debug.Log("36");
         questTrackerBackground = GameObject.Find("QuestTrackerBackground");
+        Debug.Log("37");
         questTrackerObject = GameObject.Find("QuestTrackerObject");
+        Debug.Log("38");
 
         questTrackerInfo.enabled = false;
+        Debug.Log("39");
 
         questTrackerBackground.SetActive(false);
+        Debug.Log("40");
 
         npcLocation = GameObject.Find("NPCLocation");
+        Debug.Log("41");
         npcLocation.SetActive(false);
+        Debug.Log("42");
 
         npcQuestCompleteLocation = GameObject.Find("NPCQuestCompleteLocation");
+        Debug.Log("43");
         npcQuestCompleteLocation.SetActive(false);
+        Debug.Log("44");
 
         spoonsNPCLocation = GameObject.Find("SpoonsNPCTrackerLoc");
+        Debug.Log("45");
         spoonsNPCCompleteLocation = GameObject.Find("SpoonsCompleteTrackerLocation");
+        Debug.Log("46");
 
         playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        Debug.Log("47");
 
         questHandler = GameObject.Find("PlayerQuestHandler").GetComponent<QuestHandler>();
+        Debug.Log("48");
 
         //player/ship stat variables
         repairCost = (100.0f - playerDataHandler.shipHealthGlobal.Value);
+        Debug.Log("49");
 
         moneyCountUI = GameObject.Find("PlayerMoneyCount");
+        Debug.Log("50");
         playerMoneyText = GameObject.Find("PlayerMoneyText").GetComponent<TextMeshProUGUI>();
+        Debug.Log("51");
         playerMoneyText.text = playerDataHandler.playerMoney.Value.ToString();
-        questInfoObject.questStamp.enabled = false;
-
+        Debug.Log("52");
         readyUpUI = GameObject.Find("BUTTON_ReadyUp");
-
+        Debug.Log("54");
         isInSpoons = false;
+        Debug.Log("55");
         isHoveringSpoons = false;
+        Debug.Log("56");
+        questInfoObject.questStamp.enabled = false; //ITS THE FUCKING STAMP AGAIN ITS CAUSING ISSUES AGAIN AAAAHHHHHHHH
+        Debug.Log("53");
+
+
 
         //has cargo quest with no people attached
-        if(questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
+        if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
         {
             questHandler.hasCargoQuest.Value = false;
             playerDataHandler.playerMoney.Value += 100;
@@ -321,6 +379,7 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
+
         if(isHoveringSpoons || isInSpoons || isHoveringPort || isInPort)
         {
             cloudBackground.color = new Color(0.75f, 0.75f, 0.75f);
