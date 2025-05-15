@@ -1467,6 +1467,16 @@ namespace Unity.Netcode.Components
                 m_LocalAuthoritativeNetworkState.IsSynchronizing = false;
             }
         }
+        private void LateUpdate()
+        {
+            if (IsServer)
+            {
+                Transform newtransform = transform;
+                TryCommitTransform(ref newtransform);
+
+            }
+        }
+
 
         /// <summary>
         /// This will try to send/commit the current transform delta states (if any)
