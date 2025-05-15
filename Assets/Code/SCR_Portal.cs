@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class SCR_Portal : MonoBehaviour
 {
+    [SerializeField]
+    private float rotationSpeed = 90.0f;
+
     public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Ship")
@@ -17,5 +20,10 @@ public class SCR_Portal : MonoBehaviour
             }
             GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SCR_SceneManagerScript>().LoadCityScene();
         }
+    }
+
+    private void Update()
+    {
+        transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime);
     }
 }
