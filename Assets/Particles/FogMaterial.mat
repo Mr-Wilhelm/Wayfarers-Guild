@@ -24,7 +24,7 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: b1257f6f16144fa4590bbb5fca9d9f2c,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 43f71394cc58ed34c939277e0d3706de, type: 2}
-  m_ModifiedSerializedProperties: 16
+  m_ModifiedSerializedProperties: 24
   m_ValidKeywords:
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
@@ -46,7 +46,21 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _CullMode: 2
+    - _CullModeForward: 2
+    - _DoubleSidedEnable: 0
+    - _EnableFogOnTransparent: 0
+    - _ExcludeFromTUAndAA: 0
+    - _StencilRef: 0
+    - _StencilRefDepth: 1
+    - _StencilWriteMaskDepth: 9
+    - _TransparentCullMode: 2
     - _TransparentSortPriority: -6
+    - _TransparentWritingMotionVec: 0
+    - _TransparentZWrite: 0
+    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestTransparent: 4
+    - _ZWrite: 0
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

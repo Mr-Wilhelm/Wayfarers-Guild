@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class SCR_Portal : MonoBehaviour
 {
     [SerializeField]
-    private float rotationSpeed = 90.0f;
+    private float rotationSpeed = 360.0f;
 
     public void OnTriggerEnter(Collider other)
     {

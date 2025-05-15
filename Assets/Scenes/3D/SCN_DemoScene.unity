@@ -1879,6 +1879,92 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
+--- !u!1 &840717604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 840717605}
+  - component: {fileID: 840717606}
+  m_Layer: 0
+  m_Name: portal texture (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &840717605
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840717604}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.42, y: 0, z: 0}
+  m_LocalScale: {x: 1.097, y: 1.097, z: 1.097}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 205842481679277236}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!212 &840717606
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840717604}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 21300000, guid: 4bdbd8ddbd1114b449cbcc7302fe7151, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1001 &907078301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36067,8 +36153,8 @@ Transform:
   m_GameObject: {fileID: 1100573640}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.55, y: 0, z: 0}
+  m_LocalScale: {x: 1.097, y: 1.097, z: 1.097}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 205842481679277236}
@@ -36115,7 +36201,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 4bdbd8ddbd1114b449cbcc7302fe7151, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -37533,7 +37619,7 @@ PrefabInstance:
     - target: {fileID: 325710051904972617, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 325710051904972617, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
@@ -37558,22 +37644,22 @@ PrefabInstance:
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10626
+      value: 7054
       objectReference: {fileID: 0}
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10876
+      value: 12523
       objectReference: {fileID: 0}
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16369
+      value: 15178
       objectReference: {fileID: 0}
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.80876046
       objectReference: {fileID: 0}
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
@@ -37583,7 +37669,7 @@ PrefabInstance:
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.5881383
       objectReference: {fileID: 0}
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
@@ -37598,7 +37684,7 @@ PrefabInstance:
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -72.05
       objectReference: {fileID: 0}
     - target: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
@@ -37631,6 +37717,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1100573641}
+    - targetCorrespondingSourceObject: {fileID: 1606432298208542479, guid: 8d92c15c861560d47b84d9827147917c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 840717605}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6848282211845530301, guid: 8d92c15c861560d47b84d9827147917c,
         type: 3}
@@ -37659,6 +37749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e87d55313e2ab84e9ead601a8439323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: -360
 --- !u!65 &205842481679277233
 BoxCollider:
   m_ObjectHideFlags: 0
