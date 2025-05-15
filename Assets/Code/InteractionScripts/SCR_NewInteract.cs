@@ -225,11 +225,11 @@ public class SCR_NewInteract : NetworkBehaviour
                 GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
                 Debug.Log("Interact with ballista");
                 GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
-               
 
 
-                //NOT FINE
-                GetComponent<GravitasBody>().unLockPosition();
+
+                UnlockPlayerToBallistaServerRpc();
+                //GetComponent<GravitasBody>().unLockPosition();
 
                 playerOnBallista = false;
                 //playerScriptReference.playerOnBallista = false;
@@ -328,7 +328,11 @@ public class SCR_NewInteract : NetworkBehaviour
                     Debug.Log("Interact with ballista hatch");
                     if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
                     {
-                        GetComponent<GravitasBody>().lockPosition(ballista);
+
+                        ////TODO 
+                        LockPlayerToBallistaServerRpc();
+                        ///
+                        //GetComponent<GravitasBody>().lockPosition(ballista);
                         if (objectBeingHeld == "Ballista Bolt")
                         {
                             Debug.Log("Entering with bolt, YIPEEEEEEEEEE");
@@ -451,7 +455,8 @@ public class SCR_NewInteract : NetworkBehaviour
 
                 GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
 
-                GetComponent<GravitasBody>().unLockPosition();
+                UnlockPlayerToBallistaServerRpc();
+                //GetComponent<GravitasBody>().unLockPosition();
 
                 inBallista = false;
                 playerScriptReference.playerOnBallista = false;
@@ -734,6 +739,25 @@ public class SCR_NewInteract : NetworkBehaviour
     void ClientOnBallistaStatusServerRpc(bool clientOnBallistaValue)
     {
         ClientOnBallista.Value = clientOnBallistaValue;
+
     }
+
+    [Rpc(SendTo.Server)]
+    void LockPlayerToBallistaServerRpc()
+    {
+        GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
+
+        GetComponent<GravitasBody>().lockPosition(ballista);
+
+    }
+
+    [Rpc(SendTo.Server)]
+    void UnlockPlayerToBallistaServerRpc()
+    {
+        GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
+        GetComponent<GravitasBody>().unLockPosition();
+
+    }
+
 
 }
