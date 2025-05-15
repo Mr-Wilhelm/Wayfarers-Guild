@@ -244,15 +244,7 @@ public class GameUIScript : NetworkBehaviour
             questPromptTaskText.gameObject.SetActive(false);
         }
 
-        //compendium stuff
-        if (Input.GetKeyDown(KeyCode.F) && showCompendium)
-        {
-            StartCoroutine(ShowCompendium());
-        }
-        else if (Input.GetKeyDown(KeyCode.F) && !showCompendium)
-        {
-            StartCoroutine(HideCompendium());
-        }
+        ///WHEN MERGE CONFLICT ITS FINE BECAUSE WILL ALREADY DELETED THIS
 
         if (showCompendium)
             interactPrompt.SetActive(false);

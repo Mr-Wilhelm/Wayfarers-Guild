@@ -398,6 +398,10 @@ MonoBehaviour:
     m_InternalValue: 1
   bookOpen:
     m_InternalValue: 0
+  clientOnWheel:
+    m_InternalValue: 0
+  ClientOnBallista:
+    m_InternalValue: 0
   playerCam: {fileID: 5932428688813479342}
   gameUI: {fileID: 0}
   InteractKey: 102
@@ -510,6 +514,7 @@ MonoBehaviour:
   playerOnBallista: 0
   playerAnimator: {fileID: 133989240848567938}
   Walking: 0
+  playerCamera: {fileID: 5932428688813479342}
 --- !u!114 &8025103746296842607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +527,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc883cc7b120f84cbe0716ab995b022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ClientInputHorizontal:
+    m_InternalValue: {x: 0, y: 0}
+  ClientInputVertical:
+    m_InternalValue: 0
+  ClientInputMouseX:
+    m_InternalValue: 0
 --- !u!1 &3219785375905633528
 GameObject:
   m_ObjectHideFlags: 0
@@ -5855,6 +5866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 96115139878554041, guid: 4bd93d0808a4f834ab367b85d872ed4a, type: 3}
+    - {fileID: 2932142626838536436, guid: 4bd93d0808a4f834ab367b85d872ed4a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -6002,6 +6014,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3320037505322025384, guid: de932182dca60f0468458132a1f56856,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535500277883105306, guid: de932182dca60f0468458132a1f56856,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4535500277883105306, guid: de932182dca60f0468458132a1f56856,
         type: 3}
       propertyPath: gravitasBodyRigidbody
@@ -6080,7 +6102,7 @@ PrefabInstance:
     - target: {fileID: 6297792217455478779, guid: de932182dca60f0468458132a1f56856,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6654616954131353116, guid: de932182dca60f0468458132a1f56856,
         type: 3}
@@ -6119,6 +6141,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5937954942293425777, guid: de932182dca60f0468458132a1f56856, type: 3}
+    - {fileID: 6654616954131353116, guid: de932182dca60f0468458132a1f56856, type: 3}
+    - {fileID: 4535500277883105306, guid: de932182dca60f0468458132a1f56856, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
