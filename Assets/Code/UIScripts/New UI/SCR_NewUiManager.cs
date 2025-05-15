@@ -591,32 +591,54 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     public void AcceptQuest()
     {
-        Debug.Log("Accept Quest" + questInfoObject.activeQuest);
-        questTrackerTitle.text = questInfoObject.activeQuest.ToString();
-        questHandler.activeQuest.Value = questInfoObject.activeQuest.ToString();
+        //Data to sync
+        string networkHeading = questInfoObject.activeQuest.ToString();
+        string networkInfo = questInfoText.text;
+        string networkTargetNpc = questInfoObject.targetNPC.ToString();
 
-        questTrackerInfo.text = questInfoText.text;
-        targetNPC = questInfoObject.targetNPC.ToString();
+        if (IsServer) //if host
+        {
+            SyncAcceptQuestClientRpc(networkHeading, networkInfo, networkTargetNpc);
+            Debug.Log("Host Selected Quest");
+        }
+        else //if client
+        {
+            AcceptQuestServerRpc(networkHeading, networkInfo, networkTargetNpc);
+            Debug.Log("Client Selected Quest");
+        }
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void AcceptQuestServerRpc(string networkHeading, string networkInfo, string networkTargetNpc)    //server rpc version of the function
+    {
+        SyncAcceptQuestClientRpc(networkHeading, networkInfo, networkTargetNpc);
+    }
+
+    [ClientRpc]
+    private void SyncAcceptQuestClientRpc(string networkHeading, string networkInfo, string networkTargetNpc)
+    {
+        //updates values
+        questTrackerTitle.text = networkHeading;
+        questTrackerInfo.text = networkInfo;
+        targetNPC = networkTargetNpc;
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
         StartCoroutine(ResetQuestAccepted());
 
         CheckQuestType();
-        
-        switch (targetNPC)
+
+        //get npc marker
+        switch (networkTargetNpc)
         {
             case "Jenny":
-                npcLocation.SetActive(true);    //sets the mark above the area to visible
+                npcLocation.SetActive(true);
                 npcLocation.transform.position = spoonsNPCLocation.transform.position;
                 break;
             case "Matthew":
                 npcLocation.SetActive(true);
                 npcLocation.transform.position = spoonsNPCLocation.transform.position;
                 break;
-
-            case "None":
-                Debug.Log("No NPC to track");
-                npcLocation.SetActive(false);   //disable again just in case it is active from a quest
+            default:
+                npcLocation.SetActive(false);
                 break;
         }
     }
