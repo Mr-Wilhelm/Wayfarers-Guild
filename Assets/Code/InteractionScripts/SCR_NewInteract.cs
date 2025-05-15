@@ -447,17 +447,20 @@ public class SCR_NewInteract : NetworkBehaviour
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Fuse Storage"))
                 {
-                    Debug.Log("Trying to grab fuse");
-                    pickUpItem("Fuse", false, null);
-                    audioHelper.PlayAudioClipAcrossNetwork("PickUpFuse");
-                    playerScriptReference.hasItem = true;
-                    if(!hasHadFuseBefore)
+                    if (playerScriptReference.hasItem == false)
                     {
-                        StartCoroutine(gameUI.ShowFusePrompt());
-                        gameUI.HideBallistaControls();
-                        gameUI.HideWheelControls();
-                        gameUI.HideAmmoPrompt();
-                        gameUI.HideFuelPrompt();
+                        Debug.Log("Trying to grab fuse");
+                        pickUpItem("Fuse", false, null);
+                        audioHelper.PlayAudioClipAcrossNetwork("PickUpFuse");
+                        playerScriptReference.hasItem = true;
+                        if (!hasHadFuseBefore)
+                        {
+                            StartCoroutine(gameUI.ShowFusePrompt());
+                            gameUI.HideBallistaControls();
+                            gameUI.HideWheelControls();
+                            gameUI.HideAmmoPrompt();
+                            gameUI.HideFuelPrompt();
+                        }
                     }
                 }
             }
