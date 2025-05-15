@@ -213,6 +213,8 @@ MonoBehaviour:
   wheelTurnSpeed: 100
   wheelAutoCentreSpeed: 60
   wheelStopThreshold: 0.1
+  audioHelper: {fileID: 0}
+  wheelAudioSource: {fileID: 0}
 --- !u!114 &8938185879831433393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +442,8 @@ MonoBehaviour:
   hasHadAmmoBefore: 0
   hasUsedWheelBefore: 0
   hasUsedBallistaBefore: 0
+  hasHadFuseBefore: 0
+  audioHelper: {fileID: 0}
 --- !u!114 &8197618995583135133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +518,7 @@ MonoBehaviour:
   playerOnBallista: 0
   playerAnimator: {fileID: 133989240848567938}
   Walking: 0
+  Jumping: 0
   playerCamera: {fileID: 5932428688813479342}
 --- !u!114 &8025103746296842607
 MonoBehaviour:
@@ -658,7 +663,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4691975859331995007}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!114 &7643573214687324318
 MonoBehaviour:
   m_ObjectHideFlags: 0
