@@ -600,6 +600,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         targetNPC = questInfoObject.targetNPC.ToString();
 
         cityAnimator.SetBool("HasAcceptedQuest", true);
+        StartCoroutine(ResetQuestAccepted());
 
         CheckQuestType();
 
@@ -619,7 +620,12 @@ public class SCR_NewUiManager : NetworkBehaviour
                 npcLocation.SetActive(false);   //disable again just in case it is active from a quest
                 break;
         }
+    }
 
+    private IEnumerator ResetQuestAccepted()
+    {
+        yield return new WaitForSeconds(0.5f);
+        cityAnimator.SetBool("HasAcceptedQuest", false);
     }
 
     private void CheckQuestType()
