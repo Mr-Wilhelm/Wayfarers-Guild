@@ -31,7 +31,7 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     public float shipHealth = 10.0f;
 
-    [SerializeField] public float boostedShipAcceleration;
+    private float boostedMultiplier = 1.0f;
     [SerializeField] public float boostedShipMaxSpeed;
     [SerializeField] public float boostedShipTurnSpeed;
 
@@ -68,7 +68,7 @@ public class SCR_ShipMovement : NetworkBehaviour
         shipRb.AddRelativeTorque(rotation, ForceMode.Acceleration);
         rotation = Vector3.zero;
 
-        Vector3 forceToAdd = (gameObject.transform.right * shipAcceleration.Value);
+        Vector3 forceToAdd = (gameObject.transform.right * shipAcceleration.Value * boostedMultiplier);
         shipRb.AddForce(forceToAdd, ForceMode.Acceleration);
         //updatePosServerRPC(gameObject.transform.position);
         Vector3 currentSpeed = shipRb.Velocity;
@@ -257,8 +257,8 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     private void boostSpeed()
     {
+        boostedMultiplier = 1.8f;
         Debug.Log("Boosting speed");
-        shipAcceleration.Value = boostedShipAcceleration;
         shipMaxSpeed.Value = boostedShipMaxSpeed;
         shipTurnSpeed.Value = boostedShipTurnSpeed;
         CancelInvoke(nameof(unBoostSpeed));
@@ -267,8 +267,8 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     public void unBoostSpeed()
     {
+        boostedMultiplier = 1f;
         Debug.Log("UnBoosting speed");
-        shipAcceleration.Value = unBoostedShipAcceleration;
         shipMaxSpeed.Value = unBoostedShipMaxSpeed;
         shipTurnSpeed.Value = unBoostedShipTurnSpeed;
     }
