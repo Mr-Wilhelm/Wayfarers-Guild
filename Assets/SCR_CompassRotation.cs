@@ -15,11 +15,13 @@ public class SCR_CompassRotation : MonoBehaviour
         //All of this is in update rather than start due to networking, Start is not running as intended.
         if (PortalObject == null)
         {
+            Debug.Log("PortalObject aint doing it");
             PortalObject = GameObject.Find("Portal");
             portalLocation = PortalObject.transform.position;
         }
         if (crystal == null)
         {
+            Debug.Log("Crystal no");
             crystal = this.gameObject.transform.GetChild(0).gameObject;
         }
         if (crystalParticlesEnabled) { crystal.transform.GetChild(1).gameObject.SetActive(true); }
