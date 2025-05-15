@@ -519,9 +519,8 @@ public class SCR_NewUiManager : NetworkBehaviour
     public void Func_QuestPressed(QuestButton quest)
     {
         questInfoObject.gameObject.SetActive(true);
-        questInfoObject.questStamp.enabled = false;
-        questInfoText.text = appleADayText;
         cityAnimator.SetBool("QuestPressed", true);
+        StartCoroutine(DelayHideStamp());
 
         switch (quest.questName)
         {
@@ -603,7 +602,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         StartCoroutine(ResetQuestAccepted());
 
         CheckQuestType();
-
+        
         switch (targetNPC)
         {
             case "Jenny":
@@ -626,6 +625,11 @@ public class SCR_NewUiManager : NetworkBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         cityAnimator.SetBool("HasAcceptedQuest", false);
+    }
+    private IEnumerator DelayHideStamp()
+    {
+        yield return new WaitForSeconds(0.2f);
+        questInfoObject.questStamp.enabled = false;
     }
 
     private void CheckQuestType()
