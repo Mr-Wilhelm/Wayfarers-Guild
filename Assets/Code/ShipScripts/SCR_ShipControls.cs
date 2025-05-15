@@ -29,17 +29,21 @@ public class SCR_ShipControls : NetworkBehaviour
     [SerializeField] float wheelAutoCentreSpeed = 60f;
     [SerializeField] float wheelStopThreshold = 0.1f;
 
-    
+    public SCR_AudioHelper audioHelper;
+    public AudioSource wheelAudioSource;
+    private bool wheelAutoCentering;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        audioHelper = GameObject.Find("AudioHelperOBJ").GetComponent<SCR_AudioHelper>();
         LoadShip();
     }
 
     private void LoadShip()
     {
         shipWheel = GameObject.Find("ShipWheel");
+        wheelAudioSource = shipWheel.GetComponent<AudioSource>();
         ship = GameObject.Find("PRE-Airship");
         shipMovement = ship.GetComponent<SCR_ShipMovement>();
     }
@@ -55,7 +59,7 @@ public class SCR_ShipControls : NetworkBehaviour
         float currentZ = NormalizeAngle(shipWheel.transform.localEulerAngles.z);
         if ((Mathf.Abs(currentZ) > wheelStopThreshold) && !onWheel)
         {
-            CentreWheelServerRPC();
+            CenterWheelCall();
         }
 
         if (!onWheel) { return; }
@@ -76,6 +80,8 @@ public class SCR_ShipControls : NetworkBehaviour
         if (Input.GetKey(KeyCode.D) == true && !Input.GetKey(KeyCode.A))
         {
             shipMovement.updateYawRotServerRPC("Right", OwnerClientId);
+            wheelAudioSource.pitch = 1;
+            if (!wheelAudioSource.isPlaying) { audioHelper.PlayAudioClipAcrossNetwork("WheelTurn"); }
             RotateWheelRightServerRPC();
             //RotateWheelServerRPC();
         }
@@ -83,12 +89,15 @@ public class SCR_ShipControls : NetworkBehaviour
         if (Input.GetKey(KeyCode.A) == true && !Input.GetKey(KeyCode.D))
         {
             shipMovement.updateYawRotServerRPC("Left", OwnerClientId);
+            wheelAudioSource.pitch = 1;
+            if (!wheelAudioSource.isPlaying) { audioHelper.PlayAudioClipAcrossNetwork("WheelTurn"); }
             RotateWheelLeftServerRPC();
             //RotateWheelServerRPC();
         }
         if(Input.GetKey(KeyCode.D) == false && Input.GetKey(KeyCode.A) == false) 
         {
-            CentreWheelServerRPC();
+            if(!wheelAudioSource.isPlaying) { audioHelper.PlayAudioClipAcrossNetwork("WheelTurn"); }
+            CenterWheelCall();
         }
         if (Input.GetKey(KeyCode.E))
         {
@@ -161,6 +170,21 @@ public class SCR_ShipControls : NetworkBehaviour
     private void RotateWheelRightServerRPC()
     {
         RotateWheelRightClientRPC();
+    }
+
+    private void CenterWheelCall()
+    {
+        float currentZ = NormalizeAngle(shipWheel.transform.localEulerAngles.z);
+        if ((Mathf.Abs(currentZ) > wheelStopThreshold))
+        {
+            wheelAudioSource.pitch = 0.5f;
+            CentreWheelServerRPC();
+        }
+        else
+        {
+            wheelAudioSource.Stop();
+        }
+        
     }
 
     [ServerRpc(RequireOwnership = false)]

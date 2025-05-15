@@ -37,8 +37,11 @@ public class SCR_AudioHelper : NetworkBehaviour
     [SerializeField] AudioSource BoltStorageAudioSource;
     [SerializeField] AudioClip pickUpBolt;
 
-    public static SCR_AudioHelper instance;
+    [Header("Wheel")]
+    [SerializeField] AudioSource wheelAudioSource;
+    [SerializeField] AudioClip wheelTurn;
 
+    public static SCR_AudioHelper instance;
     public static SCR_AudioHelper Instance
     {
         get { return instance; }    //intellisense is a literal god, it did all of this automatically
@@ -92,6 +95,11 @@ public class SCR_AudioHelper : NetworkBehaviour
         if(clipType == "PickUpFuse" && FuseStorageAudioSource == null)
         {
             FuseStorageAudioSource = GameObject.Find("FuseShelf").GetComponent<AudioSource>();
+        }
+
+        if(clipType == "WheelTurn" || clipType == "WheelCenter" && wheelAudioSource == null)
+        {
+            wheelAudioSource = GameObject.Find("ShipWheel").GetComponent<AudioSource>();
         }
     }
 
@@ -157,6 +165,12 @@ public class SCR_AudioHelper : NetworkBehaviour
             case "PickUpFuse":
                 FuseStorageAudioSource.PlayOneShot(pickUpFuse);
                 Debug.Log("Playing fuse pickup");
+                break;
+            case "WheelTurn":
+                wheelAudioSource.PlayOneShot(wheelTurn);
+                break;
+            case "WheelCenter":
+                wheelAudioSource.PlayOneShot(wheelTurn);
                 break;
             default:
                 Debug.LogWarning("clip type not found");
