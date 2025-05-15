@@ -32,6 +32,11 @@ public class SCR_BallistaLogic : NetworkBehaviour
     [Header("Audio source and clips")]
     public SCR_AudioHelper audioHelper;
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        audioHelper = GameObject.Find("AudioHelperOBJ").GetComponent<SCR_AudioHelper>();
+    }
     public void setOccupant(Camera playerCam)
     {
         occupant = playerCam;
@@ -177,7 +182,14 @@ public class SCR_BallistaLogic : NetworkBehaviour
 
                 if(hitObj != null)
                 {
-                    KillEnemyServerRPC(hitObj.NetworkObjectId);
+                    if (hitObj.gameObject.tag == "Huberto")
+                    {
+                        hitObj.GetComponent<SCR_HubertoLogic>().takeDamageServerRPC();
+                    }
+                    else
+                    {
+                        KillEnemyServerRPC(hitObj.NetworkObjectId);
+                    }
                 }
                 else
                 {

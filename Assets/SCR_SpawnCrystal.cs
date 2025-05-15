@@ -16,6 +16,8 @@ public class SCR_SpawnCrystal : StateMachineBehaviour
         animator.gameObject.GetComponent<SCR_Book>().EnableCrystal();
     }
 
+
+
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
