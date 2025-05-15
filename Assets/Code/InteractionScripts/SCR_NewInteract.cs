@@ -346,7 +346,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         engineFoodMesh.SetActive(false);
                         ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
                         ballista.GetComponent<SCR_BallistaLogic>().currentPlayerOnBallistaID = gameObject.GetComponent<NetworkObject>().NetworkObjectId;
-                        inBallista = true;
+                        playerOnBallista = true;
                         playerScriptReference.playerOnBallista = true;
                         interacting = true;
                         if (!hasUsedBallistaBefore)
@@ -448,7 +448,7 @@ public class SCR_NewInteract : NetworkBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (inBallista && interacting)
+            if (playerOnBallista && interacting)
             {
                 GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
                 Debug.Log("Interact with ballista");
@@ -458,7 +458,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 UnlockPlayerToBallistaServerRpc();
                 //GetComponent<GravitasBody>().unLockPosition();
 
-                inBallista = false;
+                playerOnBallista = false;
                 playerScriptReference.playerOnBallista = false;
 
                 UpdateCanInteractBoolServerRpc(true);
@@ -501,7 +501,7 @@ public class SCR_NewInteract : NetworkBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.C) && interacting)
         {
-            if(inBallista)
+            if(playerOnBallista)
             {
                 gameUI.ToggleBallistaControlsOn();
                 gameUI.HideControlsPrompt();
@@ -524,7 +524,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
         if (Input.GetKeyDown(DropKey))
         {
-            if (playerScriptReference.hasItem == false || inBallista) { Debug.Log("Cannot drop"); }
+            if (playerScriptReference.hasItem == false || playerOnBallista) { Debug.Log("Cannot drop"); }
             else
             {
                 dropItem();
@@ -754,7 +754,7 @@ public class SCR_NewInteract : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void UnlockPlayerToBallistaServerRpc()
     {
-        GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
+        Debug.Log("RANNING");
         GetComponent<GravitasBody>().unLockPosition();
 
     }
