@@ -22,6 +22,64 @@ public class SCR_NewInteract : NetworkBehaviour
     NetworkVariableReadPermission.Everyone,
     NetworkVariableWritePermission.Server
 );
+    //Variable that checks when the client is on the wheel, this is because the server needs to know if the player should be allowed to move or not
+    public NetworkVariable<bool> clientOnWheel = new NetworkVariable<bool>();
+    public NetworkVariable<bool> ClientOnBallista = new NetworkVariable<bool>();
+    //GetSet for Player on wheel so we can edit both the client and server status
+    public bool playerOnWheel 
+    {
+        get 
+        {
+            if (IsServer&&IsOwner)
+            {
+                return playerScriptReference.playerOnWheel;
+            }
+            else
+            {
+                return clientOnWheel.Value;
+            }
+        }
+        set
+        {
+            if (IsServer&&IsOwner)
+            {
+                playerScriptReference.playerOnWheel = value;
+            }
+            else
+            {
+                ClientOnWheelStatusServerRpc(value);
+            }
+        }
+    }
+
+    public bool playerOnBallista
+    {
+        get
+        {
+            if (IsServer && IsOwner)
+            {
+                return inBallista;
+                //return playerScriptReference.playerOnBallista;
+            }
+            else
+            {
+                return ClientOnBallista.Value;
+            }
+        }
+        set
+        {
+            if (IsServer && IsOwner)
+            {
+                inBallista = value;
+                playerScriptReference.playerOnBallista = value;
+            }
+            else
+            {
+                ClientOnBallistaStatusServerRpc(value);
+            }
+        }
+    }
+
     bool otherPlayerCanInteract = false;
 
     public Camera playerCam;
@@ -83,6 +141,8 @@ public class SCR_NewInteract : NetworkBehaviour
         if (!IsOwner) { enabled = false; return; }
 
         gameUI = GameObject.Find("MainUICanvas").GetComponent<GameUIScript>();
+        //Debug.Log(gameUI.lookingAtWheel + "Key 4");
+        //Debug.Log(gameUI.lookingAtWheel + "Key 4");
 
         Ray lookAtRay = new Ray(playerCam.transform.position, playerCam.transform.forward);
 
@@ -168,17 +228,20 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 otherPlayerCanInteract = true;
             }
-            if (inBallista)
+            if (playerOnBallista)
             {
+                //FINE
                 GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
                 Debug.Log("Interact with ballista");
-
                 GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
 
-                GetComponent<GravitasBody>().unLockPosition();
 
-                inBallista = false;
-                playerScriptReference.playerOnBallista = false;
+
+                UnlockPlayerToBallistaServerRpc();
+                //GetComponent<GravitasBody>().unLockPosition();
+
+                playerOnBallista = false;
+                //playerScriptReference.playerOnBallista = false;
 
                 UpdateCanInteractBoolServerRpc(true);
 
@@ -205,7 +268,9 @@ public class SCR_NewInteract : NetworkBehaviour
             {
                 if (interacting)
                 {
-                    playerScriptReference.playerOnWheel = false;
+                    //playerScriptReference.playerOnWheel = false;
+                    playerOnWheel = false;
+
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
@@ -220,7 +285,8 @@ public class SCR_NewInteract : NetworkBehaviour
                     gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
-                    playerScriptReference.playerOnWheel = true;
+                    //playerScriptReference.playerOnWheel = true;
+                    playerOnWheel = true;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = true;
                     if (!hasUsedWheelBefore)
                     {
@@ -274,7 +340,11 @@ public class SCR_NewInteract : NetworkBehaviour
                     Debug.Log("Interact with ballista hatch");
                     if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
                     {
-                        GetComponent<GravitasBody>().lockPosition(ballista);
+
+                        ////TODO 
+                        LockPlayerToBallistaServerRpc();
+                        ///
+                        //GetComponent<GravitasBody>().lockPosition(ballista);
                         if (objectBeingHeld == "Ballista Bolt")
                         {
                             Debug.Log("Entering with bolt, YIPEEEEEEEEEE");
@@ -288,7 +358,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         engineFoodMesh.SetActive(false);
                         ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
                         ballista.GetComponent<SCR_BallistaLogic>().currentPlayerOnBallistaID = gameObject.GetComponent<NetworkObject>().NetworkObjectId;
-                        inBallista = true;
+                        playerOnBallista = true;
                         playerScriptReference.playerOnBallista = true;
                         interacting = true;
                         if (!hasUsedBallistaBefore)
@@ -393,7 +463,9 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             else if (interacting)
             {
-                gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                //gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                playerOnWheel = false;
+
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
@@ -401,16 +473,17 @@ public class SCR_NewInteract : NetworkBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (inBallista && interacting)
+            if (playerOnBallista && interacting)
             {
                 GameObject ballistaHatch = GameObject.FindGameObjectWithTag("BallistaHatch");
                 Debug.Log("Interact with ballista");
 
                 GameObject.FindGameObjectWithTag("Ballista").GetComponent<SCR_BallistaLogic>().leaveServerRPC();
 
-                GetComponent<GravitasBody>().unLockPosition();
+                UnlockPlayerToBallistaServerRpc();
+                //GetComponent<GravitasBody>().unLockPosition();
 
-                inBallista = false;
+                playerOnBallista = false;
                 playerScriptReference.playerOnBallista = false;
 
                 UpdateCanInteractBoolServerRpc(true);
@@ -438,7 +511,8 @@ public class SCR_NewInteract : NetworkBehaviour
             }
             else if (gameObject.GetComponent<SCR_ShipControls>().onWheel = true && interacting)
             {
-                gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                //gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel = false;
+                playerOnWheel = false;
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
@@ -452,14 +526,15 @@ public class SCR_NewInteract : NetworkBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.C) && interacting)
         {
-            if(inBallista)
+            if(playerOnBallista)
             {
                 gameUI.ToggleBallistaControlsOn();
                 gameUI.HideControlsPrompt();
             }
-            else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
+            //else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
+            else if (playerOnWheel)
             {
-                gameUI.ToggleWheelControlsOn();
+                        gameUI.ToggleWheelControlsOn();
                 gameUI.HideControlsPrompt();
             }
         }
@@ -474,7 +549,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
         if (Input.GetKeyDown(DropKey))
         {
-            if (playerScriptReference.hasItem == false || inBallista) { Debug.Log("Cannot drop"); }
+            if (playerScriptReference.hasItem == false || playerOnBallista) { Debug.Log("Cannot drop"); }
             else
             {
                 dropItem();
@@ -681,5 +756,37 @@ public class SCR_NewInteract : NetworkBehaviour
         var instanceNetworkOBJ = instance.GetComponent<NetworkObject>();
         instanceNetworkOBJ.Spawn();
     }
+
+    [Rpc(SendTo.Server)]
+    void ClientOnWheelStatusServerRpc(bool clientOnWheelValue)
+    {
+        clientOnWheel.Value = clientOnWheelValue;
+    }
+
+
+    [Rpc(SendTo.Server)]
+    void ClientOnBallistaStatusServerRpc(bool clientOnBallistaValue)
+    {
+        ClientOnBallista.Value = clientOnBallistaValue;
+
+    }
+
+    [Rpc(SendTo.Server)]
+    void LockPlayerToBallistaServerRpc()
+    {
+        GameObject ballista = GameObject.FindGameObjectWithTag("Ballista");
+
+        GetComponent<GravitasBody>().lockPosition(ballista);
+
+    }
+
+    [Rpc(SendTo.Server)]
+    void UnlockPlayerToBallistaServerRpc()
+    {
+        Debug.Log("RANNING");
+        GetComponent<GravitasBody>().unLockPosition();
+
+    }
+
 
 }
