@@ -170,13 +170,30 @@ public class SCR_BallistaLogic : NetworkBehaviour
             {
                 Debug.Log("Hit objects layer is: " + LayerMask.LayerToName(hit.collider.gameObject.layer));
 
-                if ((mothHitBoxLayer & (1 << hit.collider.gameObject.layer)) != 0)
+                //if ((mothHitBoxLayer & (1 << hit.collider.gameObject.layer)) != 0)
+                //{
+                //    Debug.Log("Hit: " + hit.collider.gameObject.name);
+                //    ulong enemyID = hit.collider.gameObject.transform.root.GetComponent<NetworkObject>().NetworkObjectId;
+                //    KillEnemyServerRPC(enemyID);
+                //    Debug.Log("Hit enemy with ID: " + enemyID);
+                //}
+
+                NetworkObject hitObj = hit.collider.GetComponentInParent<NetworkObject>();
+
+                if(hitObj != null)
                 {
-                    Debug.Log("Hit: " + hit.collider.gameObject.name);
-                    ulong enemyID = hit.collider.gameObject.transform.root.GetComponent<NetworkObject>().NetworkObjectId;
-                    KillEnemyServerRPC(enemyID);
-                    Debug.Log("Hit enemy");
-                    return;
+                    if (hitObj.gameObject.tag == "Huberto")
+                    {
+                        hitObj.GetComponent<SCR_HubertoLogic>().takeDamageServerRPC();
+                    }
+                    else
+                    {
+                        KillEnemyServerRPC(hitObj.NetworkObjectId);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Nothing Hit");
                 }
             }
         }
@@ -186,7 +203,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
     {
         if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(idOfNetworkObj, out NetworkObject networkOBJ))
         {
-            return networkOBJ.gameObject.transform.root.gameObject;
+            return networkOBJ.gameObject;
         }
         return null;
     }
@@ -194,9 +211,14 @@ public class SCR_BallistaLogic : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void KillEnemyServerRPC(ulong enemyToDestryID)
     {
-        Debug.Log("Murking enemy lol");
-        GameObject enemy = FindNetworkObject(enemyToDestryID);
-        enemy.GetComponent<NetworkObject>().Despawn();
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(enemyToDestryID, out NetworkObject networkOBJ))
+        {
+            networkOBJ.Despawn();
+        }
+        else
+        {
+            Debug.Log("Nothing FOund");
+        }
     }
 
 }

@@ -22,7 +22,7 @@ public class SCR_CraneMovement : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField]
-    private float moveSpeed = 10.0f;
+    private float moveSpeed = 50.0f;
 
     [SerializeField]
     private Vector3 currentDestination;
@@ -66,6 +66,7 @@ public class SCR_CraneMovement : MonoBehaviour
         moveTarget = GameObject.Find("MothTargetPoint");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
+        moveSpeed = 50.0f;
 
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
 
@@ -79,11 +80,11 @@ public class SCR_CraneMovement : MonoBehaviour
         gameObject.transform.LookAt(moveTarget.transform.position);
         frames++;
 
-        if(frames % frameOffset == 0)
+        if (frames % frameOffset == 0)
         {
             UpdatePath();
         }
-        if(enemyPath.Count == 0)
+        if (enemyPath.Count == 0)
         {
             //get a new destination to wander to when reaching the wander destination
             GetWanderDestination();
@@ -121,15 +122,15 @@ public class SCR_CraneMovement : MonoBehaviour
 
     private void UpdatePath()
     {
-        if(!airshipTargeted)
+        if (!airshipTargeted)
         {
             var pathNodes = enemyPathFinder.FindPath(transform.position, wanderLocation);
             Vector3 prevPos = startPosition + transform.position;
-            if(pathNodes == null)
+            if (pathNodes == null)
             {
                 return;
             }
-            foreach(var node in pathNodes)
+            foreach (var node in pathNodes)
             {
                 Debug.DrawLine(prevPos, node, Color.red, 0.5f);
                 prevPos = node;
@@ -137,7 +138,7 @@ public class SCR_CraneMovement : MonoBehaviour
 
             enemyPath.Clear();
 
-            foreach(var nodePos in pathNodes)
+            foreach (var nodePos in pathNodes)
             {
                 enemyPath.Enqueue(nodePos);
             }
@@ -171,14 +172,14 @@ public class SCR_CraneMovement : MonoBehaviour
         //      Stop the random wandering
         //      Set destination to airship until death or trigger exit
 
-        if(other.gameObject.tag == "Ship")
+        if (other.gameObject.tag == "Ship")
         {
             airshipTargeted = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag == "Ship")
+        if (other.gameObject.tag == "Ship")
         {
             airshipTargeted = false;
         }
