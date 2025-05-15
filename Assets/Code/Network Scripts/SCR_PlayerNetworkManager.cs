@@ -31,6 +31,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] private Animator playerAnimator;
 
+    private bool testsceneload = false;
+
     //Tracks the pos and rot of the player
     public NetworkVariable<Vector3> playerPos = new NetworkVariable<Vector3>();
     public NetworkVariable<Vector3> playerRot = new NetworkVariable<Vector3>();
@@ -56,7 +58,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     IEnumerator bust2()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(20f);
 
         bust3ClientRpc();
         bust4();
@@ -179,6 +181,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     /// 
     public override void OnNetworkSpawn()
     {
+        //bust();
+        Debug.Log("Chickenspoon");
         if (SceneManager.GetActiveScene().name == "SCN_NewCityScene")
         {
             test(SceneManager.GetActiveScene(), LoadSceneMode.Single);
@@ -264,6 +268,28 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
     //Late update happpens at the end of a frame
     private void Update()
     {
+        //this make sure that the gravitas stuff happens even when the loading is delatyed for example loading into second scene
+        if (SceneManager.GetActiveScene().name == "SCN_DemoScene" && !testsceneload)
+        {
+            Debug.Log("BEANSTICKS Key 14");
+            if (!IsServer)
+            {
+                gameObject.GetComponent<SCR_GravBridge>().enabled = false;
+                playerCollider.enabled = false;
+                gameObject.GetComponent<GravitasBody>().DestroyProxy();
+                gameObject.GetComponent<GravitasBody>().enabled = false;
+            }
+            else if (!IsOwner)
+            {
+                GameObject airship = GameObject.Find("PRE-Airship");
+                var thing = airship.GetComponent<GravitasField>();
+                thing.AddSubjectToField(gameObject.GetComponent<SCR_GravBridge>());
+            }
+            testsceneload = true;
+        }
+
+
+
         //Update the network variables of pos and rot
         if (IsOwner)
         {
@@ -278,6 +304,12 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             {
                 SetWalkingFalseServerRPC();
             }
+
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            bust3ClientRpc();
+            bust4();
 
         }
     }
