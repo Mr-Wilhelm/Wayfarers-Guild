@@ -17,19 +17,19 @@ MonoBehaviour:
   - prefab: {fileID: 425381998076613711, guid: cbd95b5c6ce65ad4e9a8296f3511e1b9, type: 3}
     selected: 1
   paintType: 0
-  brushSize: 59.7
+  brushSize: 1000
   minBrushSize: 0.1
-  maxBrushSize: 100
-  paintDeltaDistance: 0.6
+  maxBrushSize: 1000
+  paintDeltaDistance: 2.275
   maxPaintDeltaDistance: 3
   minPaintDeltaDistance: 0.1
-  prefabsPerStroke: 11
+  prefabsPerStroke: 1
   maxprefabsPerStroke: 20
   minprefabsPerStroke: 1
   spawnHeight: 10
   addRigidbodyToPaintedPrefab: 1
   physicsIterations: 100
-  checkLayer: 0
+  checkLayer: 1
   checkTag: 0
   checkSlope: 1
   ignorePaintedPrefabs: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
   chainPivotAxis: 0
   chainDirection: 0
   requiredTagMask: 0
-  requiredLayerMask: 0
+  requiredLayerMask: 262144
   minRequiredSlope: 0
   maxRequiredSlope: 30
   prefabOriginOffset: {x: 0, y: 0, z: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   draggingAction: 0
   rotationAxis: 0
   rotationSensitivity: 10
-  parentingStyle: 1
+  parentingStyle: 0
   parent: {fileID: 0}
   rotateToMatchSurface: 0
   rotateSurfaceDirection: 0
