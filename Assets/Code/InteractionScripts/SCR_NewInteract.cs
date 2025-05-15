@@ -60,6 +60,8 @@ public class SCR_NewInteract : NetworkBehaviour
     public bool hasUsedBallistaBefore = false;
     public bool hasHadFuseBefore = false;
 
+    public SCR_AudioHelper audioHelper;
+
     private void Start()
     {
         UpdateCanInteractBoolServerRpc(true);
@@ -67,8 +69,12 @@ public class SCR_NewInteract : NetworkBehaviour
         craigHoldItemMesh.SetActive(false);
         engineFoodMesh.SetActive(false);
         ballistaBoltMesh.SetActive(false);
+    }
 
-
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        audioHelper = GameObject.Find("AudioHelperOBJ").GetComponent<SCR_AudioHelper>();
     }
 
     // Update is called once per frame
@@ -237,6 +243,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     if (playerScriptReference.hasItem == false)
                     {
                         //Picks up ballista bolt from storage
+                        audioHelper.PlayAudioClipAcrossNetwork("PickUpBolt");
                         pickUpItem("Ballista Bolt", false, null);
                         Debug.Log(hitInfo.collider.gameObject.name);
                         playerScriptReference.hasItem = true;
@@ -258,6 +265,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         dropItem(true);
                         if (ship == null) { ship = GameObject.Find("PRE-Airship"); }
                         ship.GetComponent<SCR_ShipMovement>().boostSpeedServerRPC();
+                        GameObject.Find("Engine model with animations no clock hands").gameObject.GetComponent<SCR_Engine>().PlayBoostedEngineSound();
                     }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("BallistaHatch"))
@@ -303,6 +311,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 {
                     if (playerScriptReference.hasItem == false)
                     {
+                        audioHelper.PlayAudioClipAcrossNetwork("PickUpFuel");
                         pickUpItem("Engine Food", false, null);
                         playerScriptReference.hasItem = true;
                         if (!hasHadFuelBefore)
@@ -336,6 +345,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Closing")) { Debug.Log("Book closing, please wait"); return; }
 
+                        audioHelper.PlayAudioClipAcrossNetwork("OpenBook");
                         OpenBookGoBetweenServerRPC();
                     }
                     else
@@ -343,6 +353,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
                         if (hitInfo.collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Opening")) { Debug.Log("Book opening, please wait"); return; }
 
+                        audioHelper.PlayAudioClipAcrossNetwork("CloseBook");
                         CloseBookGoBetweenServerRPC();
                     }
                 }
@@ -368,6 +379,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 {
                     Debug.Log("Trying to grab fuse");
                     pickUpItem("Fuse", false, null);
+                    audioHelper.PlayAudioClipAcrossNetwork("PickUpFuse");
                     playerScriptReference.hasItem = true;
                     if(!hasHadFuseBefore)
                     {

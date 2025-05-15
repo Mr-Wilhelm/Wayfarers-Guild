@@ -32,6 +32,11 @@ public class SCR_BallistaLogic : NetworkBehaviour
     [Header("Audio source and clips")]
     public SCR_AudioHelper audioHelper;
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        audioHelper = GameObject.Find("AudioHelperOBJ").GetComponent<SCR_AudioHelper>();
+    }
     public void setOccupant(Camera playerCam)
     {
         occupant = playerCam;
