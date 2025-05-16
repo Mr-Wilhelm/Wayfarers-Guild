@@ -91,7 +91,7 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
                 angleX = Mathf.Clamp(angleX, -90, 90);
                 playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
 
-                Debug.Log(playerCamera.transform.localRotation + " Key 2");
+                //Debug.Log(playerCamera.transform.localRotation + " Key 2");
 
 
             }

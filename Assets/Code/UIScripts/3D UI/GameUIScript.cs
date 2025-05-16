@@ -186,7 +186,8 @@ public class GameUIScript : NetworkBehaviour
         compendium.SetActive(false);
 
         interactPrompt = GameObject.Find("InteractPrompt");
-        interactPrompt.SetActive(false);
+        //interactPrompt.SetActive(false);
+        SetInteractPromptDebug(false, "190");
 
         controlsPrompt = GameObject.Find("Controls Prompts");
 
@@ -273,9 +274,11 @@ public class GameUIScript : NetworkBehaviour
         //}
 
         if (showCompendium)
-            interactPrompt.SetActive(false);
+            SetInteractPromptDebug(false, "277");
+        //interactPrompt.SetActive(false);
         else if (!showCompendium)
-            interactPrompt.SetActive(true);
+            //SetInteractPromptDebug(true, "280");
+            //interactPrompt.SetActive(true);
 
         //checks player range, if they're interacting, and if they're in the engine
         if (!isInEnginePrompt)
@@ -284,16 +287,20 @@ public class GameUIScript : NetworkBehaviour
             {
                 if (lookingAtWheel || lookingAtHatch || lookingAtFuelStorage || lookingAtEngine || lookingAtDroppedFuel || lookingAtDroppedBallista || lookingAtCompendium && !showCompendium || lookingAtBallistaStorage || lookingAtFuseBox || lookingAtFuseShelf)
                 {
-                    interactPrompt.SetActive(true);
+                    SetInteractPromptDebug(true, "290");
+                    //interactPrompt.SetActive(true);
                 }
                 else
                 {
-                    interactPrompt.SetActive(false);
+                    Debug.Log(lookingAtWheel + "Key 1");
+                    SetInteractPromptDebug(false, "295");
+                    //interactPrompt.SetActive(false);
                 }
             }
             else if (!playerIsInRange || isInteracting)
             {
-                interactPrompt.SetActive(false);
+                SetInteractPromptDebug(false, "301");
+                //interactPrompt.SetActive(false);
             }
         }
         else if (isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
@@ -301,11 +308,13 @@ public class GameUIScript : NetworkBehaviour
             Debug.Log("Show the prompt maybe?");
             if (playerIsInRange && lookingAtEngine)
             {
-                interactPrompt.SetActive(true);
+                SetInteractPromptDebug(true, "310");
+                //interactPrompt.SetActive(true);
             }
             else if (!playerIsInRange || !lookingAtEngine)
             {
-                interactPrompt.SetActive(false);
+                SetInteractPromptDebug(false, "315");
+                //interactPrompt.SetActive(false);
             }
         }
     }
@@ -485,11 +494,11 @@ public class GameUIScript : NetworkBehaviour
     public IEnumerator ShowBallistaControls()
     {
         ballistaPrompts.SetActive(true);
-        if(ballistaZoomPrompt == null)
+        if (ballistaZoomPrompt == null)
         {
             ballistaZoomPrompt = GameObject.Find("ScopePrompt");
         }
-        if(playerDataHandler.ScopeUpgradeBought.Value == false)
+        if (playerDataHandler.ScopeUpgradeBought.Value == false)
         {
             ballistaZoomPrompt.SetActive(false);
         }
@@ -517,7 +526,7 @@ public class GameUIScript : NetworkBehaviour
     public void ToggleBallistaControlsOff()
     {
         ballistaPrompts.SetActive(false);
-    }    
+    }
     public void ShowControlsPrompt()
     {
         if (activePlayer.GetComponent<SCR_NewInteract>().interacting)
@@ -526,5 +535,15 @@ public class GameUIScript : NetworkBehaviour
     public void HideControlsPrompt()
     {
         stationControlsPrompt.SetActive(false);
+    }
+
+    public void SetInteractPromptDebug(bool Value) 
+    {
+        interactPrompt.SetActive(Value);
+    }
+    public void SetInteractPromptDebug(bool Value,string DebugMSG)
+    {
+        interactPrompt.SetActive(Value);
+        Debug.Log(Value +" "+ DebugMSG + " Key 1");
     }
 }

@@ -13,6 +13,7 @@ public class SCR_NewInteract : NetworkBehaviour
     //WILHELM TODO NOTE: SOMETHING GOES FUCKY WITH THE CLIENT HERE ON THE COMPENDIUM...FIX IT FELIX
 
     public bool interacting = false;
+    public bool fPress = false;
 
     [SerializeField] private float interactionRange;
     [SerializeField] public NetworkVariable<bool> canInteract;
@@ -80,6 +81,8 @@ public class SCR_NewInteract : NetworkBehaviour
         }
     }
 
+    bool CoroutineRunning = false;
+
     bool otherPlayerCanInteract = false;
 
     public Camera playerCam;
@@ -146,21 +149,20 @@ public class SCR_NewInteract : NetworkBehaviour
 
         Ray lookAtRay = new Ray(playerCam.transform.position, playerCam.transform.forward);
 
-
         if (Physics.Raycast(lookAtRay, out RaycastHit lookInfo, interactionRange, PickUp))
         {
             string lookAtTag = lookInfo.collider.gameObject.tag;
 
-            gameUI.lookingAtWheel = false;
-            gameUI.lookingAtHatch = false;
-            gameUI.lookingAtBallistaStorage = false;
-            gameUI.lookingAtEngine = false;
-            gameUI.lookingAtFuelStorage = false;
-            gameUI.lookingAtDroppedBallista = false;
-            gameUI.lookingAtDroppedFuel = false;
-            gameUI.lookingAtCompendium = false;
-            gameUI.lookingAtFuseBox = false;
-            gameUI.lookingAtFuseShelf = false;
+            //gameUI.lookingAtWheel = false;
+            //gameUI.lookingAtHatch = false;
+            //gameUI.lookingAtBallistaStorage = false;
+            //gameUI.lookingAtEngine = false;
+            //gameUI.lookingAtFuelStorage = false;
+            //gameUI.lookingAtDroppedBallista = false;
+            //gameUI.lookingAtDroppedFuel = false;
+            //gameUI.lookingAtCompendium = false;
+            //gameUI.lookingAtFuseBox = false;
+            //gameUI.lookingAtFuseShelf = false;
 
             switch (lookAtTag)
             {
@@ -198,20 +200,26 @@ public class SCR_NewInteract : NetworkBehaviour
         }
         else
         {
-            gameUI.lookingAtWheel = false;
-            gameUI.lookingAtHatch = false;
-            gameUI.lookingAtBallistaStorage = false;
-            gameUI.lookingAtEngine = false;
-            gameUI.lookingAtFuelStorage = false;
-            gameUI.lookingAtDroppedBallista = false;
-            gameUI.lookingAtDroppedFuel = false;
-            gameUI.lookingAtCompendium = false;
-            gameUI.lookingAtFuseBox = false;
-            gameUI.lookingAtFuseShelf = false;
+
+            if (!CoroutineRunning)
+            {
+                //UI TIMER
+                StartCoroutine(disableInteracting(0.25f));
+                CoroutineRunning = true;
+            }
         }
 
         if (Input.GetKeyDown(InteractKey))
         {
+            fPress = true;
+            StartCoroutine(FalseInteract(0.25f));
+            
+            
+        }
+        if (fPress)
+        {
+
+            
 
             if (GameObject.FindGameObjectsWithTag("Player").Length != 1)
             {
@@ -246,6 +254,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 UpdateCanInteractBoolServerRpc(true);
 
                 interacting = false;
+                fPress = false;
 
                 if (playerScriptReference.hasItem)
                 {
@@ -260,12 +269,17 @@ public class SCR_NewInteract : NetworkBehaviour
                         ballistaBoltMesh.SetActive(true);
                     }
                 }
+                //Debug.Log(interacting + "Key 1");
                 gameUI.HideBallistaControls();
                 gameUI.HideControlsPrompt();
 
+
             }
+
+
             else if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out RaycastHit hitInfo, interactionRange, PickUp))
             {
+                //Debug.Log(interacting + "Key 1");
                 if (interacting)
                 {
                     //playerScriptReference.playerOnWheel = false;
@@ -274,6 +288,8 @@ public class SCR_NewInteract : NetworkBehaviour
                     UpdateCanInteractBoolServerRpc(true);
                     interacting = false;
                     gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+                    //Debug.Log(interacting + "Key 1");
+                    fPress = false;
                     gameUI.HideControlsPrompt();
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("Wheel") && !interacting && otherPlayerCanInteract && !playerScriptReference.hasItem)
@@ -282,6 +298,7 @@ public class SCR_NewInteract : NetworkBehaviour
                     {
                         ship = GameObject.Find("PRE-Airship");
                     }
+                    fPress = false;
                     gameObject.transform.position = GameObject.Find("WheelPos").transform.position;
                     interacting = true;
                     UpdateCanInteractBoolServerRpc(false);
@@ -361,6 +378,7 @@ public class SCR_NewInteract : NetworkBehaviour
                         playerOnBallista = true;
                         playerScriptReference.playerOnBallista = true;
                         interacting = true;
+                        fPress = false;
                         if (!hasUsedBallistaBefore)
                         {
                             StartCoroutine(gameUI.ShowBallistaControls());
@@ -430,7 +448,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 else if (hitInfo.collider.gameObject.CompareTag("FuseBox"))
                 {
                     SCR_FuseBox fuseBoxRef = hitInfo.collider.gameObject.GetComponent<SCR_FuseBox>();
-                    if(hitInfo.collider.gameObject.GetComponent<SCR_FuseBox>().fuseBlown)
+                    if (hitInfo.collider.gameObject.GetComponent<SCR_FuseBox>().fuseBlown)
                     {
                         if (objectBeingHeld == "Fuse")
                         {
@@ -471,6 +489,8 @@ public class SCR_NewInteract : NetworkBehaviour
 
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
+                fPress = false;
+
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
             }
         }
@@ -492,6 +512,7 @@ public class SCR_NewInteract : NetworkBehaviour
                 UpdateCanInteractBoolServerRpc(true);
 
                 interacting = false;
+
 
                 if (playerScriptReference.hasItem)
                 {
@@ -519,6 +540,8 @@ public class SCR_NewInteract : NetworkBehaviour
                 UpdateCanInteractBoolServerRpc(true);
                 interacting = false;
                 gameObject.GetComponent<SCR_ShipControls>().onWheel = false;
+                //Debug.Log(interacting + "Key 1");
+
                 gameUI.HideControlsPrompt();
             }
             else if (gameUI.showCompendium == true)
@@ -532,12 +555,16 @@ public class SCR_NewInteract : NetworkBehaviour
             if(playerOnBallista)
             {
                 gameUI.ToggleBallistaControlsOn();
+                //Debug.Log(interacting + "Key 1");
+
                 gameUI.HideControlsPrompt();
             }
             //else if(gameObject.GetComponent<GravitasFirstPersonPlayerSubject>().playerOnWheel)
             else if (playerOnWheel)
             {
-                        gameUI.ToggleWheelControlsOn();
+                gameUI.ToggleWheelControlsOn();
+                //Debug.Log(interacting + "Key 1");
+
                 gameUI.HideControlsPrompt();
             }
         }
@@ -789,6 +816,32 @@ public class SCR_NewInteract : NetworkBehaviour
         Debug.Log("RANNING");
         GetComponent<GravitasBody>().unLockPosition();
 
+    }
+
+
+    IEnumerator disableInteracting(float time)
+    {
+        yield return new WaitForSeconds(time);
+        gameUI.lookingAtWheel = false;
+        gameUI.lookingAtHatch = false;
+        gameUI.lookingAtBallistaStorage = false;
+        gameUI.lookingAtEngine = false;
+        gameUI.lookingAtFuelStorage = false;
+        gameUI.lookingAtDroppedBallista = false;
+        gameUI.lookingAtDroppedFuel = false;
+        gameUI.lookingAtCompendium = false;
+        gameUI.lookingAtFuseBox = false;
+        gameUI.lookingAtFuseShelf = false;
+
+        CoroutineRunning = false;
+
+    }
+
+
+    IEnumerator FalseInteract(float time)
+    {
+        yield return new WaitForSeconds(time);
+        fPress = false;
     }
 
 
