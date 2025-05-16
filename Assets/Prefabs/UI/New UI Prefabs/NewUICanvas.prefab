@@ -2211,10 +2211,10 @@ RectTransform:
   - {fileID: 8627607286924775249}
   - {fileID: 3769451128515503173}
   - {fileID: 4043840236130907976}
-  - {fileID: 8628711304078687126}
   - {fileID: 3489920989487704265}
   - {fileID: 665234468211445974}
   - {fileID: 3276599282041197384}
+  - {fileID: 8628711304078687126}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2297,7 +2297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3237185332
+  GlobalObjectIdHash: 3123205983
   InScenePlacedSourceGlobalObjectIdHash: 3076388177
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -2359,6 +2359,7 @@ MonoBehaviour:
   questTrackerInfo: {fileID: 0}
   questTrackerScroll: {fileID: 0}
   questTrackerBackground: {fileID: 0}
+  questTrackerObject: {fileID: 0}
   targetNPC: 
   npcLocation: {fileID: 0}
   npcQuestCompleteLocation: {fileID: 0}
@@ -2420,7 +2421,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7ad32dbcc8ce48b4a83894a5a869f45e, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 7ad32dbcc8ce48b4a83894a5a869f45e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -10091,6 +10092,13 @@ MonoBehaviour:
   currentShipHealthText: {fileID: 0}
   maxShipHealthText: {fileID: 0}
   repairCostText: {fileID: 0}
+  healthCost: 100
+  armourCost: 100
+  speedCost: 50
+  lightCost: 50
+  sonarCost: 100
+  scopeCost: 100
+  ammoCost: 100
 --- !u!1 &7631769845595625012
 GameObject:
   m_ObjectHideFlags: 0

@@ -1094,7 +1094,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939067608104465196}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.2864397, y: 3.2864397, z: 3.2864397}
   m_ConstrainProportionsScale: 1
@@ -1103,7 +1103,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -729, y: 443}
+  m_AnchoredPosition: {x: -729, y: 442.99997}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2148258759136217200
@@ -1156,7 +1156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2590059744
+  GlobalObjectIdHash: 3612888970
   InScenePlacedSourceGlobalObjectIdHash: 3605353152
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -4880,7 +4880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4264075371
+  GlobalObjectIdHash: 3612888970
   InScenePlacedSourceGlobalObjectIdHash: 3605353152
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -5817,7 +5817,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4861187570593001422}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.2864397, y: 3.2864397, z: 3.2864397}
   m_ConstrainProportionsScale: 1
@@ -5826,7 +5826,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -729, y: 442.99997}
+  m_AnchoredPosition: {x: -729, y: 442.99994}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7667684981077624641
@@ -10737,7 +10737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3514165652
+  GlobalObjectIdHash: 3612888970
   InScenePlacedSourceGlobalObjectIdHash: 3605353152
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -10775,6 +10775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4869f8d8d3118fd49bc79a22ed081133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDataHandler: {fileID: 0}
   questHandlerObject: {fileID: 0}
   questPrompt:
     m_InternalValue:
@@ -11218,7 +11219,9 @@ MonoBehaviour:
   wheelPrompt: {fileID: 0}
   fuelPrompt: {fileID: 0}
   ammoPrompt: {fileID: 0}
+  fusePrompt: {fileID: 0}
   ballistaPrompts: {fileID: 0}
+  ballistaZoomPrompt: {fileID: 0}
   stationControlsPrompt: {fileID: 0}
   playerIsInRange: 0
   isInEnginePrompt: 0
@@ -11230,6 +11233,8 @@ MonoBehaviour:
   lookingAtDroppedFuel: 0
   lookingAtHatch: 0
   lookingAtEngine: 0
+  lookingAtFuseBox: 0
+  lookingAtFuseShelf: 0
   isInteracting: 0
 --- !u!95 &2913838846289421265
 Animator:
