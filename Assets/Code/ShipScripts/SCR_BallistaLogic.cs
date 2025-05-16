@@ -60,7 +60,6 @@ public class SCR_BallistaLogic : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(occupant.transform.name);
         if (occupant != null)
         {
         
