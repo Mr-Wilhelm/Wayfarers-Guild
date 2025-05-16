@@ -85,7 +85,7 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
             //return Scripty.ClientVelocity.Value;
 
             Transform t = gravitasBody.CurrentTransform;
-            Debug.Log(clientOnWheelStatus.clientOnWheel.Value + " Key 3");
+            //Debug.Log(clientOnWheelStatus.clientOnWheel.Value + " Key 3");
             if (!clientOnWheelStatus.clientOnWheel.Value)
             {
                 Vector3 velocity = Vector3.zero;
