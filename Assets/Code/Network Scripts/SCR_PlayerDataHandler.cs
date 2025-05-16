@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,7 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
 
     public NetworkVariable<float> shipMaxHealth = new NetworkVariable<float>(100);
     public NetworkVariable<float> shipHealthGlobal = new NetworkVariable<float>(100);
-    public NetworkVariable<float> playerMoney = new NetworkVariable<float>(200);
+    public NetworkVariable<float> playerMoney = new NetworkVariable<float>(200f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<float> shipArmour = new NetworkVariable<float>(0);
 
     public NetworkVariable<float> damageReduction = new NetworkVariable<float>();
@@ -29,17 +30,17 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     public float healthUpgradeIncrement = 10.0f;
     public float speedUpgradeIncrement = 15.0f;
 
-    public NetworkVariable<bool> SonarUpgradeBought = new NetworkVariable<bool>(false);
-    public NetworkVariable<bool> AmmoUpgradeBought = new NetworkVariable<bool>(false);
-    public NetworkVariable<bool> ScopeUpgradeBought = new NetworkVariable<bool>(false);
-    public NetworkVariable<bool> LightUpgradeBought = new NetworkVariable<bool>(false);
+    public NetworkVariable<bool> SonarUpgradeBought = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> AmmoUpgradeBought = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> ScopeUpgradeBought = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> LightUpgradeBought = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     //public NetworkVariable<TextMeshProUGUI> playerMoneyText = new NetworkVariable<TextMeshProUGUI>();
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-       
+
     }
     //disable and re enable the object so that it can get reloaded when the scene loads
     private void OnEnable()
@@ -54,11 +55,17 @@ public class SCR_PlayerDataHandler : NetworkBehaviour
     //Does stuff when the scene loads
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(IsServer)
+        if (IsServer)
         {
             damageReduction.Value = GetDamageReduction();
             shipMaxHealth.Value = GetMaxHealth();
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PurchaseUpgradeServerRpc(string upgradeName, float cost, ServerRpcParams rpcParams = default)
+    {
+        //if(playerMoney.Value)
     }
 
     public struct NetworkString : INetworkSerializeByMemcpy

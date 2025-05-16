@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using TMPro;
+using UnityEditor.ShaderKeywordFilter;
 
 public class SCR_Upgrades : NetworkBehaviour
 {
@@ -52,6 +53,29 @@ public class SCR_Upgrades : NetworkBehaviour
     [SerializeField]
     public TextMeshProUGUI repairCostText;
 
+    [Header("Upgrade Costs")]
+    [SerializeField]
+    private float healthCost = 100f;
+
+    [SerializeField]
+    private float armourCost = 100f;
+
+    [SerializeField]
+    private float speedCost = 50f;
+
+    [SerializeField]
+    private float lightCost = 50f;
+
+    [SerializeField]
+    private float sonarCost = 100f;
+
+    [SerializeField]
+    private float scopeCost = 100f;
+
+    [SerializeField]
+    private float ammoCost = 100f;
+
+
     private void Start()
     {
         uiManager = GameObject.Find("NewUICanvas").GetComponent<SCR_NewUiManager>();
@@ -71,6 +95,8 @@ public class SCR_Upgrades : NetworkBehaviour
         currentShipHealthText = GameObject.Find("CurrentShipHealthText").GetComponent<TextMeshProUGUI>();
         maxShipHealthText = GameObject.Find("ShipMaxHealthText").GetComponent<TextMeshProUGUI>();
         repairCostText = GameObject.Find("RepairCostText").GetComponent<TextMeshProUGUI>();
+
+        
     }
 
     private void Update()
@@ -124,63 +150,139 @@ public class SCR_Upgrades : NetworkBehaviour
 
     public void PurchaseSelectedUpgrade()
     {
+        Debug.Log("Money is: " + playerDataHandler.playerMoney.Value);
         if(playerDataHandler.playerMoney.Value >= upgradeCost)
         {
-            if(buttonUpgrade.isOneTimeUpgrade && buttonUpgrade.upgradeBought.Value == false)    //if its a one time upgrade and hasn't been bought
+            float chosenUpgradeCost = 0f;
+            if (buttonUpgrade.isOneTimeUpgrade && buttonUpgrade.upgradeBought.Value == false)    //if its a one time upgrade and hasn't been bought
             {
-                switch(buttonUpgrade.upgradeName)
+
+                switch (buttonUpgrade.upgradeName)
                 {
                     case "SonarUpgradeButton":
-                        Debug.Log("Sonar Upgrade Bought");
-                        playerDataHandler.SonarUpgradeBought.Value = true;
+                        if(playerDataHandler.playerMoney.Value >= sonarCost)
+                        {
+                            chosenUpgradeCost = sonarCost;
+                            SyncSonarServerRpc();
+                        }
                         break;
                     case "AmmoUpgradeButton":
-                        playerDataHandler.AmmoUpgradeBought.Value = true;
-                        Debug.Log("Ammo Upgrade Bought");
+                        if(playerDataHandler.playerMoney.Value >= ammoCost)
+                        {
+                            chosenUpgradeCost = ammoCost;
+                            SyncAmmoServerRpc();
+                        }
                         break;
                     case "ScopeUpgradeButton":
-                        playerDataHandler.ScopeUpgradeBought.Value = true;
-                        Debug.Log("Scope Upgrade Bought");
+                        if (playerDataHandler.playerMoney.Value >= scopeCost)
+                        {
+                            chosenUpgradeCost = scopeCost;
+                            SyncScopeServerRpc();
+                        }
                         break;
                     case "LightUpgradeButton":
-                        playerDataHandler.LightUpgradeBought.Value = true;
-                        Debug.Log("Light Upgrade Bought");
+                        if (playerDataHandler.playerMoney.Value >= lightCost)
+                        {
+                            chosenUpgradeCost = lightCost;
+                            SyncLightServerRpc();
+                        }
                         break;
                     default:
                         break;
                 }
-
-                playerDataHandler.playerMoney.Value -= upgradeCost;
-                buttonUpgrade.upgradeBought.Value = true;
-                Debug.Log("Upgrade Cost, " + upgradeCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
-
             }
             else if(!buttonUpgrade.isOneTimeUpgrade)    //if its not a one time upgrade and has bought less than three times
             {
                 if (buttonUpgrade.upgradeName == "ArmourUpgradeButton" && playerDataHandler.armourUpgradesBought < 3)
                 {
-                    playerDataHandler.playerMoney.Value -= upgradeCost;
-                    playerDataHandler.armourUpgradesBought += 1;
+                    if(playerDataHandler.playerMoney.Value >= armourCost)
+                    {
+                        chosenUpgradeCost = armourCost;
+                        SyncArmourServerRpc();
+                    }
+
                 }
                 else if(buttonUpgrade.upgradeName == "HealthUpgradeButton" && playerDataHandler.healthUpgradesBought < 3)
                 {
-                    playerDataHandler.playerMoney.Value -= upgradeCost;
-                    playerDataHandler.healthUpgradesBought += 1;
+                    if (playerDataHandler.playerMoney.Value >= healthCost)
+                    {
+                        chosenUpgradeCost = healthCost;
+                        SyncHealthServerRpc();
+                    }
                 }
                 else if(buttonUpgrade.upgradeName == "SpeedUpgradeButton" && playerDataHandler.speedUpgradesBought < 3)
                 {
-                    playerDataHandler.playerMoney.Value -= upgradeCost;
-                    playerDataHandler.speedUpgradesBought += 1;
+                    if (playerDataHandler.playerMoney.Value >= speedCost)
+                    {
+                        chosenUpgradeCost = speedCost;
+                        SyncSpeedServerRpc();
+                    }
                 }
             }
+
+            SyncMoneyCountServerRpc(chosenUpgradeCost);
         }
         else
         {
             Debug.Log("Did not purchase");
         }
     }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncSonarServerRpc()
+    {
+        Debug.Log("Sonar Upgrade Bought");
+        playerDataHandler.SonarUpgradeBought.Value = true;
+        Debug.Log("Sonar Upgrade Bought");
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncAmmoServerRpc()
+    {
+        Debug.Log("Ammo Upgrade Bought");
+        playerDataHandler.AmmoUpgradeBought.Value = true;
+        Debug.Log("Ammo Upgrade Bought");
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncScopeServerRpc()
+    {
+        Debug.Log("Scope Upgrade Bought");
+        playerDataHandler.ScopeUpgradeBought.Value = true;
+        Debug.Log("Scope Upgrade Bought");
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncLightServerRpc()
+    {
+        Debug.Log("Light Upgrade Bought");
+        playerDataHandler.LightUpgradeBought.Value = true;
+        Debug.Log("Light Upgrade Bought");
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncHealthServerRpc()
+    {
+        playerDataHandler.playerMoney.Value -= upgradeCost;
+        playerDataHandler.armourUpgradesBought += 1;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncArmourServerRpc()
+    {
+        playerDataHandler.playerMoney.Value -= upgradeCost;
+        playerDataHandler.healthUpgradesBought += 1;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncSpeedServerRpc()
+    {
+        playerDataHandler.playerMoney.Value -= upgradeCost;
+        playerDataHandler.speedUpgradesBought += 1;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SyncMoneyCountServerRpc(float selectCost)
+    {
+        playerDataHandler.playerMoney.Value -= selectCost;
+        buttonUpgrade.upgradeBought.Value = true;
+        Debug.Log("Upgrade Cost, " + selectCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
+    }
+
     public void PurchaseRepairs()
     {
         uiManager.RepairShip();
-    }    
+    }
 }
