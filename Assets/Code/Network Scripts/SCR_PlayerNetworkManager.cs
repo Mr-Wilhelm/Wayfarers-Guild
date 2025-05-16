@@ -19,6 +19,8 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
 
     [SerializeField] private Camera playerCamera;
 
+    [SerializeField] private AudioListener playerAudioListener;
+
     [SerializeField] GameObject Ship = null;
 
     [SerializeField] public GameObject CraigBodyMeshes;
@@ -121,6 +123,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             //gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
+            playerAudioListener.enabled = false;
             //int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
             //gameObject.layer = NonOwnerLayer;
         }
@@ -170,6 +173,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             //gameObject.GetComponent<GravitasBody>().enabled = false;
             //Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
+            playerAudioListener.enabled = false;
             //int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
             //gameObject.layer = NonOwnerLayer;
         }
@@ -238,6 +242,7 @@ public class SCR_PlayerNetworkManager : NetworkBehaviour
             //gameObject.GetComponent<GravitasBody>().enabled = false;
             Debug.Log(playerNameString + " is not owner, disabling movement");
             playerCamera.enabled = false;
+            playerAudioListener.enabled = false;
             //int NonOwnerLayer = LayerMask.NameToLayer("NonOwnerLayer");
             //gameObject.layer = NonOwnerLayer;
         }
