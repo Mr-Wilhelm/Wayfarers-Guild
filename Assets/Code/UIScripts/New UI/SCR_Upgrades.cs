@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using TMPro;
-using UnityEditor.ShaderKeywordFilter;
 
 public class SCR_Upgrades : NetworkBehaviour
 {
@@ -75,11 +74,26 @@ public class SCR_Upgrades : NetworkBehaviour
     [SerializeField]
     private float ammoCost = 100f;
 
+    private void Awake()
+    {
+        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        if (playerDataHandler == null )
+        {
+            Debug.LogError("No Player Data Handler Found!!!!!!");
+        }
+    }
 
+    public override void OnNetworkSpawn()
+    {
+        if(playerDataHandler == null)
+        {
+            playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        }
+    }
     private void Start()
     {
         uiManager = GameObject.Find("NewUICanvas").GetComponent<SCR_NewUiManager>();
-        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        
 
         buttonUpgrade = GameObject.Find("LightUpgradeButton").GetComponent<SCR_ButtonUpgrade>();
         imageToShow = GameObject.Find("Icon").GetComponent<Image>();
@@ -258,24 +272,28 @@ public class SCR_Upgrades : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void SyncHealthServerRpc()
     {
-        playerDataHandler.playerMoney.Value -= upgradeCost;
+        Debug.Log("Health Upgrade Bought");
         playerDataHandler.armourUpgradesBought += 1;
+        Debug.Log("Health Upgrade Bought");
     }
     [ServerRpc(RequireOwnership = false)]
     public void SyncArmourServerRpc()
     {
-        playerDataHandler.playerMoney.Value -= upgradeCost;
+        Debug.Log("Armour Upgrade Bought");
         playerDataHandler.healthUpgradesBought += 1;
+        Debug.Log("Armour Upgrade Bought");
     }
     [ServerRpc(RequireOwnership = false)]
     public void SyncSpeedServerRpc()
     {
-        playerDataHandler.playerMoney.Value -= upgradeCost;
+        Debug.Log("Speed Upgrade Bought");
         playerDataHandler.speedUpgradesBought += 1;
+        Debug.Log("Speed Upgrade Bought");
     }
     [ServerRpc(RequireOwnership = false)]
     public void SyncMoneyCountServerRpc(float selectCost)
     {
+        Debug.Log("Syncing Money");
         playerDataHandler.playerMoney.Value -= selectCost;
         buttonUpgrade.upgradeBought.Value = true;
         Debug.Log("Upgrade Cost, " + selectCost + "New Total amount of money is, " + playerDataHandler.playerMoney.Value);
