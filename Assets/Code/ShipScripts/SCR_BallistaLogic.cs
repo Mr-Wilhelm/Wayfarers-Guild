@@ -29,6 +29,8 @@ public class SCR_BallistaLogic : NetworkBehaviour
     public GameObject ballistaFirePoint;
     public GameObject ballistaBolt;
 
+    public GameObject airship;
+
     [Header("Audio source and clips")]
     public SCR_AudioHelper audioHelper;
 
@@ -36,6 +38,7 @@ public class SCR_BallistaLogic : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         audioHelper = GameObject.Find("AudioHelperOBJ").GetComponent<SCR_AudioHelper>();
+        airship = GameObject.Find("PRE-Airship");
     }
     public void setOccupant(Camera playerCam)
     {
@@ -62,21 +65,9 @@ public class SCR_BallistaLogic : NetworkBehaviour
     {
         if (occupant != null)
         {
-        
-           // ballista.transform.LookAt(occupant.transform.position + (-occupant.transform.forward * 30));
 
-            ballista.transform.forward = (occupant.transform.forward*-1);
-
-            //ballista.transform.localEulerAngles =  new Vector3(ballista.transform.localEulerAngles.x, occupant.transform.parent.localEulerAngles.y+270, ballista.transform.localEulerAngles.z);
-            if (ballista.transform.localEulerAngles.x < 180)
-            {
-                ballista.transform.localEulerAngles = new Vector3(0.5f, ballista.transform.localEulerAngles.y, 0);
-            }
-            else if (ballista.transform.localEulerAngles.x < 300)
-            {
-                ballista.transform.localEulerAngles = new Vector3(300, ballista.transform.localEulerAngles.y, 0);
-            }
-
+            ballista.transform.forward = (occupant.transform.forward * -1);
+            ballista.transform.localEulerAngles = new Vector3(ballista.transform.localEulerAngles.x, ballista.transform.localEulerAngles.y, 0);
             ballistaHousing.transform.localEulerAngles = new Vector3(0, ballista.transform.localEulerAngles.y, 0);
 
             if (Input.GetKeyDown(reloadKey))
