@@ -117,10 +117,10 @@ public class SCR_Enemy : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "MothStopZone" && readyToSpit)
-        {
-            ShootShip();
-        }
+        //if (other.gameObject.tag == "MothStopZone" && readyToSpit)
+        //{
+        //    ShootShip();
+        //}
         if(other.gameObject.tag == "Ship")
         {
             //other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
@@ -130,14 +130,14 @@ public class SCR_Enemy : MonoBehaviour
         }
     }
 
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "MothStopZone")
-        {
-            Debug.Log("Enabling movement again");
-            move = true;
-        }
-    }
+    //public void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "MothStopZone")
+    //    {
+    //        Debug.Log("Enabling movement again");
+    //        move = true;
+    //    }
+    //}
 
     private void ShootShip()
     {

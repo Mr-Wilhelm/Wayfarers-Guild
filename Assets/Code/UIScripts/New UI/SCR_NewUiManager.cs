@@ -158,6 +158,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     [SerializeField]
     private GameObject readyUpUI;
 
+    [SerializeField]
+    private SCR_NetworkedShipHealth shipHealthTracker;
+
     [Header("DDOL Objects")]
     [SerializeField]
     private SCR_PlayerDataHandler playerDataHandler;
@@ -348,7 +351,7 @@ public class SCR_NewUiManager : NetworkBehaviour
         questInfoObject.questStamp.enabled = false; //ITS THE FUCKING STAMP AGAIN ITS CAUSING ISSUES AGAIN AAAAHHHHHHHH
         Debug.Log("53");
 
-
+        shipHealthTracker = GetComponent<SCR_NetworkedShipHealth>();
 
         //has cargo quest with no people attached
         if (questHandler.hasCargoQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
@@ -379,8 +382,9 @@ public class SCR_NewUiManager : NetworkBehaviour
     }
     private void Update()
     {
+        Debug.Log("SHIP HEALTH IS " + shipHealthTracker.shipHealth.Value);
 
-        if(isHoveringSpoons || isInSpoons || isHoveringPort || isInPort)
+        if (isHoveringSpoons || isInSpoons || isHoveringPort || isInPort)
         {
             cloudBackground.color = new Color(0.75f, 0.75f, 0.75f);
             cityBackground.color = new Color(0.75f, 0.75f, 0.75f);
@@ -426,6 +430,8 @@ public class SCR_NewUiManager : NetworkBehaviour
         {
             StartCoroutine(ExitDialogueMode());
         }
+
+
     }
     private void OnPlayerMoneyChanged(float oldValue, float newValue)
     {
@@ -703,6 +709,7 @@ public class SCR_NewUiManager : NetworkBehaviour
             playerDataHandler.playerMoney.Value -= repairCost;
 
             playerDataHandler.shipHealthGlobal.Value = playerDataHandler.shipMaxHealth.Value;
+            shipHealthTracker.shipHealth.Value = playerDataHandler.shipMaxHealth.Value;
             repairCost = (playerDataHandler.shipMaxHealth.Value - playerDataHandler.shipHealthGlobal.Value);
         }
         else
