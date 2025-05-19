@@ -226,7 +226,7 @@ public class GameUIScript : NetworkBehaviour
         //assigning which player is looking at stuff. This should go first in update
         if (activePlayer == null)
         {
-            activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
+            activePlayer = GameObject.Find("Player_1")?.GetComponent<GravitasFirstPersonPlayerSubject>();
         }
 
         //check to see if the player is interacting
@@ -292,7 +292,7 @@ public class GameUIScript : NetworkBehaviour
                 }
                 else
                 {
-                    Debug.Log(lookingAtWheel + "Key 1");
+                    //Debug.Log(lookingAtWheel + "Key 1");
                     SetInteractPromptDebug(false, "295");
                     //interactPrompt.SetActive(false);
                 }
@@ -305,7 +305,7 @@ public class GameUIScript : NetworkBehaviour
         }
         else if (isInEnginePrompt && activePlayer.GetComponent<SCR_NewInteract>().objectBeingHeld == "Engine Food")
         {
-            Debug.Log("Show the prompt maybe?");
+            //Debug.Log("Show the prompt maybe?");
             if (playerIsInRange && lookingAtEngine)
             {
                 SetInteractPromptDebug(true, "310");
@@ -544,6 +544,6 @@ public class GameUIScript : NetworkBehaviour
     public void SetInteractPromptDebug(bool Value,string DebugMSG)
     {
         interactPrompt.SetActive(Value);
-        Debug.Log(Value +" "+ DebugMSG + " Key 1");
+        //Debug.Log(Value +" "+ DebugMSG + " Key 1");
     }
 }

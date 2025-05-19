@@ -93,11 +93,14 @@ public class SCR_ShipMovement : NetworkBehaviour
 
     private void Start()
     {
-        playerDataHandler = GameObject.Find("PlayerDataHandler").GetComponent<SCR_PlayerDataHandler>();
+        playerDataHandler = GameObject.Find("PlayerDataHandler")?.GetComponent<SCR_PlayerDataHandler>();
 
-        shipAccelerationIncrement = shipBaselineAccelIncrement.Value + (playerDataHandler.GetSpeedIncrease() * 4);
-        shipMaxSpeed.Value = shipBaselineMaxSpeed.Value + playerDataHandler.GetSpeedIncrease() * 10;
-        shipTurnSpeed.Value = shipBaselineTurnSpeed.Value + playerDataHandler.GetSpeedIncrease();
+        if (playerDataHandler != null)
+        {
+            shipAccelerationIncrement = shipBaselineAccelIncrement.Value + (playerDataHandler.GetSpeedIncrease() * 4);
+            shipMaxSpeed.Value = shipBaselineMaxSpeed.Value + playerDataHandler.GetSpeedIncrease() * 10;
+            shipTurnSpeed.Value = shipBaselineTurnSpeed.Value + playerDataHandler.GetSpeedIncrease();
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
