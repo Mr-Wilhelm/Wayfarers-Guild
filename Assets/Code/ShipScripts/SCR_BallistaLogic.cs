@@ -178,10 +178,16 @@ public class SCR_BallistaLogic : NetworkBehaviour
                     if (hitObj.gameObject.tag == "Huberto")
                     {
                         hitObj.GetComponent<SCR_HubertoLogic>().takeDamageServerRPC();
+                        Debug.Log("Hitting huberto");
+                    }
+                    else if(hitObj.gameObject.tag == "Enemy")
+                    {
+                        KillEnemyServerRPC(hitObj.NetworkObjectId);
+                        Debug.Log("Hitting Moth");
                     }
                     else
                     {
-                        KillEnemyServerRPC(hitObj.NetworkObjectId);
+                        Debug.Log("Hit non creature obj name: " + hitObj.gameObject.name);
                     }
                 }
                 else
