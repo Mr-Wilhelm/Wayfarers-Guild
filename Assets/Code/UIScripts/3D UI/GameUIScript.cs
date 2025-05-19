@@ -212,10 +212,8 @@ public class GameUIScript : NetworkBehaviour
         stationControlsPrompt = GameObject.Find("StationControlsPrompt");
         stationControlsPrompt.SetActive(false);
 
-        if (IsOwner)
-        {
-            activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
-        }
+
+
 
         //UI Prompt Function Calling
         StartCoroutine(ShowMovementControls());
@@ -226,7 +224,14 @@ public class GameUIScript : NetworkBehaviour
         //assigning which player is looking at stuff. This should go first in update
         if (activePlayer == null)
         {
-            activePlayer = GameObject.Find("Player_1")?.GetComponent<GravitasFirstPersonPlayerSubject>();
+            if (IsServer)
+            {
+                activePlayer = GameObject.Find("Player_0").GetComponent<GravitasFirstPersonPlayerSubject>();
+            }
+            else
+            {
+                activePlayer = GameObject.Find("Player_1").GetComponent<GravitasFirstPersonPlayerSubject>();
+            }
         }
 
         //check to see if the player is interacting
@@ -325,9 +330,11 @@ public class GameUIScript : NetworkBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            Debug.Log("Disabling Player");
             activePlayer.enabled = false;
-            Debug.Log("Player Disabled");
+            if(!IsServer)
+            {
+                activePlayer.GetComponent<SCR_ClientMovementInputs>().enabled = false;
+            }
 
             hasShownCompendium = true;
             gameAnimator.SetBool("showCompendium", true);
@@ -340,9 +347,11 @@ public class GameUIScript : NetworkBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        Debug.Log("Enabling Player");
         activePlayer.enabled = true;
-        Debug.Log("Player Enabled");
+        if (!IsServer)
+        {
+            activePlayer.GetComponent<SCR_ClientMovementInputs>().enabled = true;
+        }
 
         hasShownCompendium = false;
         gameAnimator.SetBool("showCompendium", false);
