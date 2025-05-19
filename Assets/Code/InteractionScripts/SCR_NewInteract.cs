@@ -435,6 +435,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
                         audioHelper.PlayAudioClipAcrossNetwork("OpenBook");
                         OpenBookGoBetweenServerRPC();
+                        fPress = false;
                     }
                     else
                     {
@@ -443,6 +444,7 @@ public class SCR_NewInteract : NetworkBehaviour
 
                         audioHelper.PlayAudioClipAcrossNetwork("CloseBook");
                         CloseBookGoBetweenServerRPC();
+                        fPress = false;
                     }
                 }
                 else if (hitInfo.collider.gameObject.CompareTag("FuseBox"))
