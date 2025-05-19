@@ -56,9 +56,13 @@ public class SCR_GravBridge : GravitasFirstPersonPlayerSubject
         else
         {
             float mouseInput = ClientInputValues.ClientInputMouseX.Value;
+            angleX = mouseInput;
 
             //This is where Horizontal Player rotation is handled,   Vertical Player rotation is handled locally in the script thats in ClientInputValues due to conflicts with networking and player controller packages
             Transform t = gravitasBody.CurrentTransform; // Reference to either the player or the player's proxy transform
+
+            mouseInput = angleX;
+
             t.rotation *= Quaternion.AngleAxis(mouseInput * clientTurnSpeed * Time.deltaTime, Vector3.up);
 
         }
