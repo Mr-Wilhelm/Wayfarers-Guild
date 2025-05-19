@@ -268,6 +268,11 @@ public class SCR_NewInteract : NetworkBehaviour
                         Debug.Log("Give back ballista bolt");
                         ballistaBoltMesh.SetActive(true);
                     }
+                    else if (objectBeingHeld == "Fuse")
+                    {
+                        Debug.Log("Give back fuse");
+                        fuseMesh.SetActive(true);
+                    }
                 }
                 //Debug.Log(interacting + "Key 1");
                 gameUI.HideBallistaControls();
@@ -357,7 +362,6 @@ public class SCR_NewInteract : NetworkBehaviour
                     Debug.Log("Interact with ballista hatch");
                     if (!ballista.GetComponent<SCR_BallistaLogic>().ballistaOccupied.Value)
                     {
-
                         ////TODO 
                         LockPlayerToBallistaServerRpc();
                         ///
@@ -373,10 +377,15 @@ public class SCR_NewInteract : NetworkBehaviour
                         }
                         ballistaBoltMesh.SetActive(false);
                         engineFoodMesh.SetActive(false);
+                        fuseMesh.SetActive(false);
                         ballista.GetComponent<SCR_BallistaLogic>().setOccupant(playerCam);
                         ballista.GetComponent<SCR_BallistaLogic>().currentPlayerOnBallistaID = gameObject.GetComponent<NetworkObject>().NetworkObjectId;
                         playerOnBallista = true;
                         playerScriptReference.playerOnBallista = true;
+                        if(!IsServer)
+                        {
+                            this.gameObject.GetComponent<SCR_ClientMovementInputs>().playerOnBallista = true;
+                        }
                         interacting = true;
                         fPress = false;
                         if (!hasUsedBallistaBefore)

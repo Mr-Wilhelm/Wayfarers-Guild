@@ -21,6 +21,8 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
     public NetworkVariable<float> ClientInputVertical = new NetworkVariable<float>();
     public NetworkVariable<float> ClientInputMouseX = new NetworkVariable<float>();
 
+    public bool playerOnBallista = false;
+
     SCR_GravBridge ServerGravBridge;
     // Update is called once per frame
     void Update()
@@ -89,6 +91,10 @@ public class SCR_ClientMovementInputs : NetworkBehaviour
 
                 angleX += -mouseInput.y * clientTurnspeed *Time.deltaTime;
                 angleX = Mathf.Clamp(angleX, -90, 90);
+                if (playerOnBallista)
+                {
+                    angleX = Mathf.Clamp(angleX, 0, 60);
+                }
                 playerCamera.transform.localRotation = Quaternion.Euler(angleX, 0, 0);
 
                 //Debug.Log(playerCamera.transform.localRotation + " Key 2");

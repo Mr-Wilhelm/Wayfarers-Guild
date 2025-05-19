@@ -67,7 +67,21 @@ public class SCR_BallistaLogic : NetworkBehaviour
         {
 
             ballista.transform.forward = (occupant.transform.forward * -1);
-            ballista.transform.localEulerAngles = new Vector3(ballista.transform.localEulerAngles.x, ballista.transform.localEulerAngles.y, 0);
+
+            if (ballista.transform.localEulerAngles.x < 180)
+            {
+                ballista.transform.localEulerAngles = new Vector3(0.5f, ballista.transform.localEulerAngles.y, 0);
+            }
+            else if (ballista.transform.localEulerAngles.x < 300)
+            {
+                ballista.transform.localEulerAngles = new Vector3(300, ballista.transform.localEulerAngles.y, 0);
+            }
+            else
+            {
+                ballista.transform.localEulerAngles = new Vector3(ballista.transform.localEulerAngles.x, ballista.transform.localEulerAngles.y, 0);
+            }
+
+            //ballista.transform.localEulerAngles = new Vector3(ballista.transform.localEulerAngles.x, ballista.transform.localEulerAngles.y, 0);
             ballistaHousing.transform.localEulerAngles = new Vector3(0, ballista.transform.localEulerAngles.y, 0);
 
             if (Input.GetKeyDown(reloadKey))
