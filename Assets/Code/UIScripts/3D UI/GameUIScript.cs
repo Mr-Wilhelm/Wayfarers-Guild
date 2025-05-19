@@ -325,7 +325,9 @@ public class GameUIScript : NetworkBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
+            Debug.Log("Disabling Player");
             activePlayer.enabled = false;
+            Debug.Log("Player Disabled");
 
             hasShownCompendium = true;
             gameAnimator.SetBool("showCompendium", true);
@@ -338,7 +340,9 @@ public class GameUIScript : NetworkBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        Debug.Log("Enabling Player");
         activePlayer.enabled = true;
+        Debug.Log("Player Enabled");
 
         hasShownCompendium = false;
         gameAnimator.SetBool("showCompendium", false);
