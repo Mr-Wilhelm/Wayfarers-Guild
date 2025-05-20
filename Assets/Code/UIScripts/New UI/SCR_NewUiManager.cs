@@ -359,6 +359,7 @@ public class SCR_NewUiManager : NetworkBehaviour
             questHandler.hasCargoQuest.Value = false;
             playerDataHandler.playerMoney.Value += 100;
         }
+        //has research quest from no one
         else if(questHandler.hasResearchQuest.Value == true && questHandler.hasJennyQuest.Value == false && questHandler.hasMatthewQuest.Value == false)
         {
             questHandler.hasResearchQuest.Value = false;
