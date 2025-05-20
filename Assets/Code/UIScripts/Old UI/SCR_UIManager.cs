@@ -67,8 +67,6 @@ public class SCR_UIManager : MonoBehaviour
         {
             sceneToLoad = "SCN_WIP_3DPathfinding";
         }
-
-        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnNetworkSceneLoaded;
     }
 
     void clientDidThings()
@@ -104,7 +102,9 @@ public class SCR_UIManager : MonoBehaviour
     private IEnumerator DelayedNetworkSceneLoad(string sceneName)
     {
         // Wait one frame to allow UI to update
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForEndOfFrame();
+
+        yield return new WaitForSeconds(0.5f);
 
         // Now load the scene
         NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
@@ -139,7 +139,18 @@ public class SCR_UIManager : MonoBehaviour
 
         }
 
+        StartCoroutine(DelayedStartClient());
+        //NetworkManager.Singleton.StartClient();
+    }
+
+    private IEnumerator DelayedStartClient()
+    {
         loadingScreen.SetActive(true);
+
+        // Allow UI to render for 1–2 frames
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForSecondsRealtime(0.5f); // Helps UI settle
+
         NetworkManager.Singleton.StartClient();
     }
 
