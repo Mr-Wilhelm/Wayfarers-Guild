@@ -6,7 +6,7 @@ using Unity.Netcode;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public class SCR_Enemy : MonoBehaviour
+public class SCR_Enemy : NetworkBehaviour
 {
     [SerializeField]
     private SCR_Pathfinding enemyPathFinder;
@@ -59,6 +59,7 @@ public class SCR_Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         moveTarget = GameObject.Find("MothTargetPoint");
         enemyPathFinder = GameObject.Find("pathfinding").GetComponent<SCR_Pathfinding>();
         rb = GetComponent<Rigidbody>();
@@ -72,6 +73,10 @@ public class SCR_Enemy : MonoBehaviour
     {
         if (!move) { return; }
         gameObject.transform.LookAt(moveTarget.transform.position);
+        if (!IsServer)
+        {
+            return;
+        }
         frames++;
 
         if(frames % frameOffset == 0)

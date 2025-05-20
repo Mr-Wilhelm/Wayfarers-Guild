@@ -4,11 +4,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SCR_Pathfinding : MonoBehaviour
+public class SCR_Pathfinding : NetworkBehaviour
 {
     /// <summary>
     /// Makes a 3d array (matrix) of structs, with a vector3 of their position.
@@ -98,6 +99,7 @@ public class SCR_Pathfinding : MonoBehaviour
     /// <param name="nodeSpacing"></param>
     private void PopulateWorld(float x, float y, float z)
     {
+        if (!IsServer) { enabled = false; }
         xLength = Mathf.FloorToInt(x / nodeSize);
         yLength = Mathf.FloorToInt(y / nodeSize);
         zLength = Mathf.FloorToInt(z / nodeSize);

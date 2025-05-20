@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Netcode;
 
 
-public class SCR_CraneMovement : MonoBehaviour
+public class SCR_CraneMovement : NetworkBehaviour
 {
     [SerializeField]
     private SCR_Pathfinding enemyPathFinder;
@@ -79,6 +79,8 @@ public class SCR_CraneMovement : MonoBehaviour
         if (!move) { return; }
         gameObject.transform.LookAt(moveTarget.transform.position);
         frames++;
+
+        if (IsServer) { enabled = false; }
 
         if (frames % frameOffset == 0)
         {
