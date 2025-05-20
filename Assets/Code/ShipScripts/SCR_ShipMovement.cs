@@ -109,12 +109,6 @@ public class SCR_ShipMovement : NetworkBehaviour
         controllingPlayer.Value = playerID;
     }    
 
-    //[ServerRpc(RequireOwnership = false)]
-    //private void updatePosServerRPC(Vector3 forceToAdd)
-    //{
-    //    updatePosClientRPC(forceToAdd);
-    //}
-
     [ServerRpc(RequireOwnership = false)]
     public void updateYawRotServerRPC(string LeftOrRight, ulong senderID)
     {
@@ -148,12 +142,6 @@ public class SCR_ShipMovement : NetworkBehaviour
         updateRotServerRPC(torque);
     }
 
-    //[ClientRpc]
-    //private void updatePosClientRPC(Vector3 newPos)
-    //{
-    //    //ship.transform.position = newPos;
-    //}
-
     [ServerRpc(RequireOwnership = false)]
     private void updateRotServerRPC(Vector3 newRot)
     {
@@ -173,50 +161,6 @@ public class SCR_ShipMovement : NetworkBehaviour
     {
         shipAcceleration.Value -= shipAccelerationIncrement;
     }
-
-    //private void AutoLevel()
-    //{
-    //    ulong playerID = controllingPlayer.Value;
-
-    //    if(playerID == ulong.MaxValue)
-    //    {
-    //        AutoLevelUsingServer();
-    //    }
-    //    else
-    //    {
-    //        AutoLevelWithPlayer(playerID);
-    //    }
-    //}
-
-    //private void AutoLevelWithPlayer(ulong playerID)
-    //{
-    //    // Roll Auto-level
-    //    if (ship.transform.rotation.eulerAngles.x < 2 || ship.transform.rotation.eulerAngles.x > 358)
-    //    {
-    //        //Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.x);
-    //    }
-    //    else if (ship.transform.rotation.eulerAngles.x < 180)
-    //    {
-    //        updateRollRotServerRPC("Left", controllingPlayer.Value);
-    //    }
-    //    else if (ship.transform.rotation.eulerAngles.x > 180)
-    //    {
-    //        updateRollRotServerRPC("Right", controllingPlayer.Value);
-    //    }
-    //    // Pitch Auto-level
-    //    if (ship.transform.rotation.eulerAngles.z < 2 || ship.transform.rotation.eulerAngles.z > 358)
-    //    {
-    //        //Debug.Log("SweetSpotBabeeeeeey : " + ship.transform.rotation.eulerAngles.z);
-    //    }
-    //    else if (ship.transform.rotation.eulerAngles.z < 180)
-    //    {
-    //        updatePitchRotServerRPC("Left", controllingPlayer.Value);
-    //    }
-    //    else if (ship.transform.rotation.eulerAngles.z > 180)
-    //    {
-    //        updatePitchRotServerRPC("Right", controllingPlayer.Value);
-    //    }
-    //}
 
     private void AutoLevelRoll()
     {

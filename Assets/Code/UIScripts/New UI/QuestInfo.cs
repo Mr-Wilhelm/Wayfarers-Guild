@@ -24,12 +24,12 @@ public class QuestInfo : MonoBehaviour
     public npcBroker targetNPC;
     public questTypes questType;
 
-    private void Start()
+    private void Awake()
     {
+        Debug.Log("Assigning quest stuff");
         questStamp = GameObject.Find("Stamp").GetComponent<Image>(); Debug.Log("STAMP FOUND");
         jennyImage = GameObject.Find("JennyImage").GetComponent<Image>(); Debug.Log("JENNY FOUND");
         deliveryImage = GameObject.Find("DeliveryImage").GetComponent<Image>(); Debug.Log("DELIVERY FOUND");
         researchImage = GameObject.Find("ResearchImage").GetComponent<Image>(); Debug.Log("RESEARCH FOUND");
-
     }
 }
