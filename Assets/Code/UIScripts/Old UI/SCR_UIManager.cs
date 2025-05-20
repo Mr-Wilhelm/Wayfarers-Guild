@@ -16,6 +16,7 @@ public class SCR_UIManager : MonoBehaviour
     [Header("ScreenStuffs")]
     [SerializeField]
     private GameObject titleScreen;
+    public GameObject loadingScreen;
 
     [SerializeField]
     private GameObject menuScreen;
@@ -52,11 +53,10 @@ public class SCR_UIManager : MonoBehaviour
         isOnTitleScreen = true;
         isOnMainMenuScreen = false;
 
-
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         unityTransport = GameObject.Find("NetworkManager").GetComponent<UnityTransport>();
         sceneToLoadFinderObj = GameObject.Find("LoadMainMenuOBJ");
-        sceneToLoad = sceneToLoadFinderObj.GetComponent<SCR_LoadedFromMainMenuCheck>().playSceneToLoad;
+        sceneToLoad = "SCN_DemoScene";
 
         //handler = GameObject.Find("SCR_PlayerDataHandler").gameObject.GetComponent<SCR_PlayerDataHandler>();
 
@@ -67,6 +67,8 @@ public class SCR_UIManager : MonoBehaviour
         {
             sceneToLoad = "SCN_WIP_3DPathfinding";
         }
+
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnNetworkSceneLoaded;
     }
 
     void clientDidThings()
@@ -86,6 +88,8 @@ public class SCR_UIManager : MonoBehaviour
         isOnMainMenuScreen = false; isOnTitleScreen = false;
         menuScreen.SetActive(false); titleScreen.SetActive(false);
 
+        loadingScreen.SetActive(true);
+
         //host set to 0.0.0.0, an open call.
         NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = "0.0.0.0";
 
@@ -93,8 +97,26 @@ public class SCR_UIManager : MonoBehaviour
 
         //handler.player1Name.Value = nameInputField.text;
 
-        NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
+        StartCoroutine(DelayedNetworkSceneLoad(sceneToLoad));
+        //.Singleton.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
     }
+
+    private IEnumerator DelayedNetworkSceneLoad(string sceneName)
+    {
+        // Wait one frame to allow UI to update
+        yield return new WaitForSeconds(0.01f);
+
+        // Now load the scene
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+
+    //IEnumerator LoadAsynchronously(string sceneName)
+    //{
+    //    AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+
+    //    loadingScreen.SetActive(true);
+    //    yield return null;
+    //}
 
     private void OnJoin()
     {
@@ -117,6 +139,7 @@ public class SCR_UIManager : MonoBehaviour
 
         }
 
+        loadingScreen.SetActive(true);
         NetworkManager.Singleton.StartClient();
     }
 
@@ -142,6 +165,22 @@ public class SCR_UIManager : MonoBehaviour
         }
 
         //unityTransport.ConnectionData.Address = IPAddress.text;
+    }
+
+    private void OnNetworkSceneLoaded(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    {
+        if (NetworkManager.Singleton.IsHost && clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            loadingScreen.SetActive(false);
+            Debug.Log("Host finished loading scene: " + sceneName);
+        }
+
+        // If you want to also hide it for clients once their load finishes:
+        if (NetworkManager.Singleton.IsClient && clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            loadingScreen.SetActive(false);
+            Debug.Log("Client finished loading scene: " + sceneName);
+        }
     }
 
 }
