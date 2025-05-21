@@ -30,7 +30,7 @@ public class SCR_HubertoLogic : MonoBehaviour
     [SerializeField]
     private Queue<Vector3> enemyPath = new Queue<Vector3>();
 
-    private float navTolerance = 2;
+    private float navTolerance = 50;
 
     private Rigidbody rb;
 
@@ -49,6 +49,9 @@ public class SCR_HubertoLogic : MonoBehaviour
 
     private Bounds worldSize;
 
+    [SerializeField]
+    private int seed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +60,11 @@ public class SCR_HubertoLogic : MonoBehaviour
         worldSize = new Bounds(new Vector3(enemyPathFinder.endPos.x / 2, enemyPathFinder.endPos.y / 2, enemyPathFinder.endPos.z / 2), new Vector3(enemyPathFinder.endPos.x / 2, enemyPathFinder.endPos.y / 2, enemyPathFinder.endPos.z / 2));
         animations = GetComponentInChildren<Animator>();
         unboostedSpeed = moveSpeed;
+
+        UnityEngine.Random.InitState(seed);
+
+        moveTarget = newPosition();
+
         if (!GetComponent<NetworkTransform>().IsServer)
         {
             enabled = false;
@@ -87,6 +95,7 @@ public class SCR_HubertoLogic : MonoBehaviour
         }
         else
         {
+            moveTarget = newPosition();
             if (moveTarget != new Vector3(-1, -1, -1))
             {
                 UpdatePath();
@@ -120,7 +129,7 @@ public class SCR_HubertoLogic : MonoBehaviour
     {
         for (var i = 0; i < 100; i++)
         {
-            Vector3 candidate = gameObject.transform.position + (Random.insideUnitSphere * wanderRadius);
+            Vector3 candidate = gameObject.transform.position + (UnityEngine.Random.insideUnitSphere * (wanderRadius*Random.Range(0.5f, 1f)));
 
             if (!Physics.CheckSphere(candidate, 10, layerMask) && worldSize.Contains(candidate))
             {

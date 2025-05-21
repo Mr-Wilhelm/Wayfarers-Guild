@@ -4884,15 +4884,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1a407ffebd1d545aba1b621d5f421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 45
+  moveSpeed: 70
   health: 3
   moveTarget: {x: 0, y: 0, z: 0}
-  wanderRadius: 500
+  wanderRadius: 5000
   currentDestination: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 4096
+  seed: 0
 --- !u!33 &4483687039979413511
 MeshFilter:
   m_ObjectHideFlags: 0
