@@ -72,6 +72,9 @@ public class SCR_CraneMovement : NetworkBehaviour
 
         startPosition = gameObject.transform.position;
         attackRadius = GetComponent<SphereCollider>();
+
+        UnityEngine.Random.InitState(Mathf.FloorToInt(transform.position.x + transform.position.y + transform.position.z));
+        frameOffset = UnityEngine.Random.Range(1, 6) * 30;
     }
 
     private void Update()
