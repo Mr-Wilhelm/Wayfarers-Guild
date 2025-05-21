@@ -77,6 +77,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3500460014136483016, guid: 1f1ca277324bb534bbbad397f6332914,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -3500460014136483016, guid: 1f1ca277324bb534bbbad397f6332914,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -3500460014136483016, guid: 1f1ca277324bb534bbbad397f6332914,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -3500460014136483016, guid: 1f1ca277324bb534bbbad397f6332914,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.4906712
       objectReference: {fileID: 0}
@@ -125,6 +140,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3500460014136483016, guid: 1f1ca277324bb534bbbad397f6332914,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1426909218293136887, guid: 1f1ca277324bb534bbbad397f6332914,
         type: 3}
       propertyPath: m_Animation
@@ -146,7 +166,7 @@ PrefabInstance:
     - target: {fileID: 4357118449180629203, guid: 1f1ca277324bb534bbbad397f6332914,
         type: 3}
       propertyPath: m_Name
-      value: Patricia
+      value: PRE_ENE_Patricia
       objectReference: {fileID: 0}
     - target: {fileID: 7094803087378205165, guid: 1f1ca277324bb534bbbad397f6332914,
         type: 3}
@@ -238,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3046465514
+  GlobalObjectIdHash: 324986305
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -259,16 +279,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c809d79824df24dbf6b99b0db01819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPathFinder: {fileID: 0}
+  moveTarget: {fileID: 0}
+  navTolerance: 2
+  rb: {fileID: 0}
   moveSpeed: 0
-  followRadius: 5
-  Ship: {fileID: 0}
-  navMesh: {fileID: 7339700474956312289}
-  followSphere: {fileID: 879585042856813166}
-  destroyCountdown: 0
-  destroyTimer: 20
-  isInRadius: 0
-  gameStarted: 0
-  enemySpawner: {fileID: 0}
+  currentDestination: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  frames: 0
+  frameOffset: 0
+  shipVariables: {fileID: 0}
+  damage: 5
+  move: 1
+  MothSpit: {fileID: 0}
+  readyToSpit: 1
+  spitCooldown: 5
 --- !u!195 &7339700474956312289
 NavMeshAgent:
   m_ObjectHideFlags: 0
