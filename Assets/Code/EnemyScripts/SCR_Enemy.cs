@@ -65,6 +65,8 @@ public class SCR_Enemy : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
 
         Debug.DrawLine(gameObject.transform.position, moveTarget.transform.position, Color.green, 1000f);
+        UnityEngine.Random.InitState(Mathf.FloorToInt(transform.position.x + transform.position.y + transform.position.z));
+        frameOffset = UnityEngine.Random.Range(1, 4) * 60;
 
         //UpdatePath();
     }
@@ -122,27 +124,27 @@ public class SCR_Enemy : NetworkBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        //if (other.gameObject.tag == "MothStopZone" && readyToSpit)
-        //{
-        //    ShootShip();
-        //}
-        if(other.gameObject.tag == "Ship")
+        if (other.gameObject.tag == "Ship" && readyToSpit)
         {
-            //other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
-
-            GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-damage);
-            Destroy(gameObject);
+            ShootShip();
         }
+        //if (other.gameObject.tag == "Ship")
+        //{
+        //    other.gameObject.GetComponent<SCR_ShipMovement>().shipHealth -= 1.0f;
+
+        //    GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-damage);
+        //    Destroy(gameObject);
+        //}
     }
 
-    //public void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.tag == "MothStopZone")
-    //    {
-    //        Debug.Log("Enabling movement again");
-    //        move = true;
-    //    }
-    //}
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "MothStopZone")
+        {
+            Debug.Log("Enabling movement again");
+            move = true;
+        }
+    }
 
     private void ShootShip()
     {

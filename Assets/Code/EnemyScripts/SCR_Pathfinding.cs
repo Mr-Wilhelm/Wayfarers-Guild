@@ -255,7 +255,6 @@ public class SCR_Pathfinding : NetworkBehaviour
             iterator++;
             if (iterator >= 10000)
             {
-                Debug.Log("Break at 1st while loop (essentially timed out while trying to search through nodes)");
                 iterator = 0;
                 break;
             }
