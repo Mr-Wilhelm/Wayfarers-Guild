@@ -37,7 +37,7 @@ public class SCR_MothProjectile : MonoBehaviour
             gameObject.GetComponent<MeshRenderer>().enabled = false;
             GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-projectileDamage);
             RaycastToShip(projectilePath);
-            Invoke(nameof(DespawnProjectile), 3.0f);
+            Invoke(nameof(DespawnProjectile), 0.1f);
         }
     }
 
