@@ -251,6 +251,11 @@ public class SCR_NewInteract : NetworkBehaviour
                 playerOnBallista = false;
                 //playerScriptReference.playerOnBallista = false;
 
+                if (!IsServer)
+                {
+                    this.gameObject.GetComponent<SCR_ClientMovementInputs>().playerOnBallista = false;
+                }
+
                 UpdateCanInteractBoolServerRpc(true);
 
                 interacting = false;
