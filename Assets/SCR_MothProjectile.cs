@@ -16,12 +16,13 @@ public class SCR_MothProjectile : MonoBehaviour
 
     private Vector3 mothPosition;
 
-    [SerializeField] float mothStopZoneRadius = 100.0f;
+    [SerializeField] float mothStopZoneRadius = 400.0f;
 
     public void MoveTowardsShip(GameObject moveTarget, Vector3 mothPos)
     {
         ship = moveTarget;
         mothPosition = mothPos;
+        Invoke(nameof(DespawnProjectile), 4f);
     }
 
     private void Update()
@@ -36,6 +37,7 @@ public class SCR_MothProjectile : MonoBehaviour
             Vector3 projectilePath = (gameObject.transform.position - mothPosition).normalized;
             gameObject.GetComponent<MeshRenderer>().enabled = false;
             GameObject.FindGameObjectWithTag("ShipHealth").GetComponent<SCR_NetworkedShipHealth>().changeHealth(-projectileDamage);
+            GameObject.Find("PRF_Outer_wilds").GetComponent<SCR_TerrainCollision>().CallScreenShakeRpc();
             RaycastToShip(projectilePath);
             Invoke(nameof(DespawnProjectile), 0.1f);
         }

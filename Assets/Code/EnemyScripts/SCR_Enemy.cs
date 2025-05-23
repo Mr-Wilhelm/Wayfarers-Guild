@@ -81,8 +81,9 @@ public class SCR_Enemy : NetworkBehaviour
         }
         frames++;
 
-        if(frames % frameOffset == 0)
+        if(frames - frameOffset == 0)
         {
+            frames = 0;
             UpdatePath();
         }
         if (enemyPath.Count > 0)   //if there are locations to move to
@@ -124,7 +125,7 @@ public class SCR_Enemy : NetworkBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Ship" && readyToSpit)
+        if (other.gameObject.tag == "MothStopZone" && readyToSpit)
         {
             ShootShip();
         }
