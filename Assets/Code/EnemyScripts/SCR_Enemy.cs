@@ -56,6 +56,9 @@ public class SCR_Enemy : NetworkBehaviour
     [SerializeField]
     private float spitCooldown = 5.0f;
 
+    [SerializeField]
+    private float activationRadius = 7000f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,8 +76,18 @@ public class SCR_Enemy : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!move) { return; }
-        gameObject.transform.LookAt(moveTarget.transform.position);
+        if (Vector3.Distance(gameObject.transform.position, moveTarget.transform.position) > activationRadius)
+        {
+            return;
+        }
+
+        if (!move) 
+        {
+            gameObject.transform.LookAt(moveTarget.transform.position);
+            return; 
+        }
+
+
         if (!IsServer)
         {
             return;
@@ -88,8 +101,10 @@ public class SCR_Enemy : NetworkBehaviour
         }
         if (enemyPath.Count > 0)   //if there are locations to move to
         {
+
             currentPos = gameObject.transform.position; //gets the current pos of the object
             currentDestination = enemyPath.Peek();  //sets the current destination to the first element in the Queue
+            gameObject.transform.LookAt(currentDestination);
             if (Vector3.Distance(currentPos, currentDestination) > navTolerance) //if the object is not at the current object
             {
                 gameObject.transform.position = Vector3.MoveTowards(currentPos, currentDestination, moveSpeed * Time.deltaTime);    //Move towards the first element in the list
